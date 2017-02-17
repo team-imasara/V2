@@ -7,12 +7,12 @@ using System.Threading;
 using Codeplex.Data;
 using System.Windows.Controls;
 using GFHelper.Models;
+using System.Windows.Threading;
 
 namespace GFHelper
 {
     class UIHelper
     {
-
         private InstanceManager im;
 
         public UIHelper(InstanceManager im)
@@ -158,7 +158,7 @@ namespace GFHelper
         {
             TextBlock texttime;
             TextBlock textname;
-        
+
             slot = (slot + 1) / 2;
             this.SetDevelopingTextBlock(slot, out textname, out texttime, isEquip);
 
@@ -175,7 +175,7 @@ namespace GFHelper
                 duration = Data.equipInfo[id].developDuration;
             }
             this.setTextBlockText(textname, name);
-            
+
             timer.AddTimerText(texttime, starttime, duration);
             timer.Start();
         }
@@ -195,9 +195,11 @@ namespace GFHelper
 
         public void setUserInfo()
         {
-            try {
+            try
+            {
                 UserInfo userInfo = im.data.userInfo;
-                im.mainWindow.Dispatcher.BeginInvoke(new Action(() => {
+                im.mainWindow.Dispatcher.BeginInvoke(new Action(() =>
+                {
                     //GridUserInfo
                     im.mainWindow.UserName.Text = userInfo.name;
                     im.mainWindow.UserLevel.Text = "Lv." + userInfo.level;
@@ -254,14 +256,150 @@ namespace GFHelper
 
                 }));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 im.logger.Log(e);
                 throw;
             }
         }
 
+//        public void setUserOperation()
+//        {
+//            im.mainWindow.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(
+//    () =>
+//    {
+//        int a = 0;
+//        foreach (var item in im.data.user_operationInfo)
+//        {
+//            switch (a)
+//            {
+//                case 0: { im.mainWindow.comboBoxOperation1.SelectedIndex = item.Value._operationId - 1; break; }
+//                case 1: { im.mainWindow.comboBoxOperation2.SelectedIndex = item.Value._operationId - 1; break; }
+//                case 2: { im.mainWindow.comboBoxOperation3.SelectedIndex = item.Value._operationId - 1; break; }
+//                case 3: { im.mainWindow.comboBoxOperation4.SelectedIndex = item.Value._operationId - 1; break; }
+//                default:
+//                    break;
+//            }
+//            a++;
 
+//        }
+
+//    }
+//)
+//);
+//        }
+
+
+        public void setUserOperationinfo()
+        {
+            im.mainWindow.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(
+    () =>
+    {
+        int a = 0;
+        foreach (var item in im.data.user_operationInfo)
+        {
+            switch (a)
+            {
+                case 0:
+                    {
+                        im.mainWindow.comboBoxOperationTeam1.SelectedIndex = item.Value._teamId - 1;
+                        im.mainWindow.comboBoxOperation1.SelectedIndex = item.Value._operationId - 1;
+                        im.mainWindow.operation_time1.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime));
+
+                        break;
+                    }
+                case 1:
+                    {
+                        im.mainWindow.comboBoxOperationTeam2.SelectedIndex = item.Value._teamId - 1;
+                        im.mainWindow.comboBoxOperation2.SelectedIndex = item.Value._operationId - 1;
+                        im.mainWindow.operation_time2.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime));
+                        break;
+                    }
+                case 2:
+                    {
+                        im.mainWindow.comboBoxOperationTeam3.SelectedIndex = item.Value._teamId - 1;
+                        im.mainWindow.comboBoxOperation3.SelectedIndex = item.Value._operationId - 1;
+                        im.mainWindow.operation_time3.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime));
+                        break;
+                    }
+                case 3:
+                    {
+                        im.mainWindow.comboBoxOperationTeam4.SelectedIndex = item.Value._teamId - 1;
+                        im.mainWindow.comboBoxOperation4.SelectedIndex = item.Value._operationId - 1;
+                        im.mainWindow.operation_time4.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime));
+                        break;
+                    }
+                default:
+                    break;
+            }
+            a++;
+
+        }
+
+    }
+)
+);
+        }
+
+
+//        public void setUserOperationteam()
+//        {
+//            im.mainWindow.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(
+//    () =>
+//    {
+//        int a = 0;
+//        foreach (var item in im.data.user_operationInfo)
+//        {
+//            switch (a)
+//            {
+//                case 0: { im.mainWindow.comboBoxOperationTeam1.SelectedIndex = item.Value._teamId - 1; break; }
+//                case 1: { im.mainWindow.comboBoxOperationTeam2.SelectedIndex = item.Value._teamId - 1; break; }
+//                case 2: { im.mainWindow.comboBoxOperationTeam3.SelectedIndex = item.Value._teamId - 1; break; }
+//                case 3: { im.mainWindow.comboBoxOperationTeam4.SelectedIndex = item.Value._teamId - 1; break; }
+//                default:
+//                    break;
+//            }
+//            a++;
+
+//        }
+
+//    }
+//)
+//);
+//        }
+        //public void operationinfocd()//委托修改UI控件
+        //{
+            
+        //    im.mainWindow.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(
+        //        () =>
+        //    {
+        //        int a = 0;
+        //        foreach (var item in im.data.user_operationInfo)
+        //        {
+        //            switch (a)
+        //            {
+        //                case 0: { im.mainWindow.operation_time1.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime));break; }
+        //                case 1: { im.mainWindow.operation_time2.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime)); break; }
+        //                case 2: { im.mainWindow.operation_time3.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime)); break; }
+        //                case 3: { im.mainWindow.operation_time4.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime)); break; }
+        //                default:
+        //                    break;
+        //            }
+        //            a++;
+        //            //item.Value._LastTime = item.Value._LastTime - c;
+        //        }
+
+        //        //im.mainWindow.operation_time1.Text = CommonHelper.formatDuration(Convert.ToInt32(im.data.user_operationInfo[0]._LastTime));
+        //        //im.mainWindow.operation_time2.Text = CommonHelper.formatDuration(Convert.ToInt32(im.data.user_operationInfo[1]._LastTime));
+        //        //im.mainWindow.operation_time3.Text = CommonHelper.formatDuration(Convert.ToInt32(im.data.user_operationInfo[2]._LastTime));
+        //        //im.mainWindow.operation_time4.Text = CommonHelper.formatDuration(Convert.ToInt32(im.data.user_operationInfo[3]._LastTime));
+
+        //    }
+        //    )
+        //    );
+
+
+        //}
 
 
     }

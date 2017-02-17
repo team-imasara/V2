@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 using System.IO;
 using System.Security.Cryptography;
 using System.Net;
-
+using System.Threading;
 
 namespace GFHelper
 {
@@ -27,6 +27,8 @@ namespace GFHelper
     public partial class MainWindow : Window
     {
         private InstanceManager im;
+
+        Thread countdown, CompleteMisson;
         public MainWindow()
         {
             InitializeComponent();
@@ -49,13 +51,31 @@ namespace GFHelper
                 im.logger.Log(e);
                 MessageBox.Show("GFHelper启动失败！错误原因: " + e.ToString());
             }
-
+            //倒计时线程
             
+
+            countdown = new Thread((new ThreadStart(() => im.backgroundthread.countdown())));//倒计时线程
+            countdown.SetApartmentState(ApartmentState.STA);
+            countdown.IsBackground = true;
+            countdown.Start();
+
+
+            CompleteMisson = new Thread((new ThreadStart(() => im.backgroundthread.CompleteMisson())));//倒计时线程
+            CompleteMisson.SetApartmentState(ApartmentState.STA);
+            CompleteMisson.IsBackground = true;
+            CompleteMisson.Start();
+
         }
 
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            countdown.Abort();
+            CompleteMisson.Abort();
+
+
+
+
             //im.listener.Shutdown();
         }
 
@@ -84,8 +104,14 @@ namespace GFHelper
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            if(im.baseAction.AutoLogin() == true)
-            im.uiHelper.setStatusBarText_InThread(String.Format( " 好像登陆成功的样子 sign = {0}", Models.SimpleInfo.sign));
+
+
+            im.data.tasklistadd(1);
+
+
+
+            //if (im.baseAction.AutoLogin() == true)
+            //im.uiHelper.setStatusBarText_InThread(String.Format( " 好像登陆成功的样子 sign = {0}", Models.SimpleInfo.sign));
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
@@ -107,7 +133,7 @@ namespace GFHelper
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            im.apioperation.StartOperation();
+            //im.apioperation.StartOperation();
         }
 
         private void listViewOperation_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -137,6 +163,8 @@ namespace GFHelper
 
 
 
+                //线程开放
+
 
             }
             //验证失败代码
@@ -147,9 +175,39 @@ namespace GFHelper
             }
         }
 
+        private void AutoOperationB_S1_Click(object sender, RoutedEventArgs e)
+        {
+            //开始后勤任务1
+            im.data.tasklistadd(3);
+
+        }
+
+        private void AutoOperationB_S2_Click(object sender, RoutedEventArgs e)
+        {
+            //开始后勤任务2
+            im.data.tasklistadd(4);
+        }
+
+        private void AutoOperationB_S3_Click(object sender, RoutedEventArgs e)
+        {
+            //开始后勤任务2
+            im.data.tasklistadd(5);
+        }
+
+        private void AutoOperationB_S4_Click(object sender, RoutedEventArgs e)
+        {
+            //开始后勤任务2
+            im.data.tasklistadd(6);
+        }
+
         private void count1s_Click(object sender, RoutedEventArgs e)
         {
-            im.countdown.countdown();
+            //    if (im.data.user_operationInfo[0]._LastTime > -1)
+            //    {
+            //        im.data.user_operationInfo[0]._LastTime = im.data.user_operationInfo[0]._LastTime - 1;
+            //    }
+            //    im.uiHelper.operationinfocd();
+            //}
         }
     }
 }

@@ -349,23 +349,12 @@ namespace GFHelper
 
                     im.mainWindow.Dispatcher.Invoke(() =>
                     {
-                        //im.autoOperationInfo.ReadAutoOperationInfo(Convert.ToInt32(item.team_id), Convert.ToInt32(item.operation_id), Convert.ToInt32(item.user_id), Convert.ToInt32(item.id), Convert.ToInt32(item.start_time));
-                        ////AutoOperationInfo ao = new AutoOperationInfo();
-                        ////im.autoOperationInfo = Convert.ToInt32(item.start_time) + im.autoOperationInfo.startTime - CommonHelper.ConvertDateTimeInt(DateTime.Now, true);
-                        ////im.autoOperation.AddTimerStartOperation(ao);
-
                         if (count == 0)
                         {
                             AutoOperationInfo ao = new AutoOperationInfo(im);
                             ao.ReadAutoOperationInfo(Convert.ToInt32(item.team_id), Convert.ToInt32(item.operation_id), Convert.ToInt32(item.user_id), Convert.ToInt32(item.id), Convert.ToInt32(item.start_time));
 
                             im.data.user_operationInfo.Add(0, ao);
-
-                            im.mainWindow.operation_time1.Text = CommonHelper.formatDuration(Convert.ToInt32(im.data.user_operationInfo[0]._LastTime));
-                            im.mainWindow.comboBoxOperation1.SelectedIndex = im.data.user_operationInfo[0]._operationId - 1;
-                            im.mainWindow.comboBoxOperationTeam1.SelectedIndex = im.data.user_operationInfo[0]._teamId - 1;
-
-
                         }
                         if (count == 1)
                         {
@@ -373,11 +362,6 @@ namespace GFHelper
                             ao.ReadAutoOperationInfo(Convert.ToInt32(item.team_id), Convert.ToInt32(item.operation_id), Convert.ToInt32(item.user_id), Convert.ToInt32(item.id), Convert.ToInt32(item.start_time));
 
                             im.data.user_operationInfo.Add(1, ao);
-                            im.mainWindow.operation_time2.Text = CommonHelper.formatDuration(Convert.ToInt32(im.data.user_operationInfo[1]._LastTime));
-
-                            im.mainWindow.comboBoxOperation2.SelectedIndex = im.data.user_operationInfo[1]._operationId - 1;
-                            im.mainWindow.comboBoxOperationTeam2.SelectedIndex = im.data.user_operationInfo[1]._teamId - 1;
-
                         }
 
                         if (count == 2)
@@ -386,11 +370,6 @@ namespace GFHelper
                             ao.ReadAutoOperationInfo(Convert.ToInt32(item.team_id), Convert.ToInt32(item.operation_id), Convert.ToInt32(item.user_id), Convert.ToInt32(item.id), Convert.ToInt32(item.start_time));
 
                             im.data.user_operationInfo.Add(2, ao);
-
-                            im.mainWindow.operation_time3.Text = CommonHelper.formatDuration(Convert.ToInt32(im.data.user_operationInfo[2]._LastTime));
-                            im.mainWindow.comboBoxOperation3.SelectedIndex = im.data.user_operationInfo[2]._operationId - 1;
-                            im.mainWindow.comboBoxOperationTeam3.SelectedIndex = im.data.user_operationInfo[2]._teamId - 1;
-
                         }
 
                         if (count == 3)
@@ -400,11 +379,6 @@ namespace GFHelper
                             ao.ReadAutoOperationInfo(Convert.ToInt32(item.team_id), Convert.ToInt32(item.operation_id), Convert.ToInt32(item.user_id), Convert.ToInt32(item.id), Convert.ToInt32(item.start_time));
 
                             im.data.user_operationInfo.Add(3, ao);
-
-                            im.mainWindow.operation_time4.Text = CommonHelper.formatDuration(Convert.ToInt32(im.data.user_operationInfo[3]._LastTime));
-                            im.mainWindow.comboBoxOperation4.SelectedIndex = im.data.user_operationInfo[3]._operationId - 1;
-                            im.mainWindow.comboBoxOperationTeam4.SelectedIndex = im.data.user_operationInfo[3]._teamId - 1;
-
                         }
                     }
                     );

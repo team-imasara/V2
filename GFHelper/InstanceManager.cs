@@ -18,11 +18,13 @@ namespace GFHelper
         public ServerHelper serverHelper;
 
         public Timer timer;
-        public CountDown countdown;
+        public BackgroundThread backgroundthread;
 
         public Data data;
         public DataHelper dataHelper;
         public MainWindow mainWindow;
+        
+
         public AutoOperation autoOperation;
         public Models.AutoOperationInfo autoOperationInfo;
         public Logger logger;
@@ -30,6 +32,7 @@ namespace GFHelper
         public DoPost.Login login;
         public EyLoginSoft eyLogin;
         public BaseAction baseAction;
+        
 
         public InstanceManager(MainWindow mainWindow)
         {
@@ -42,7 +45,7 @@ namespace GFHelper
             this.configManager = new ConfigManager(this);
 
             this.timer = new Timer(this);
-            this.countdown = new CountDown(this);
+            this.backgroundthread = new BackgroundThread(this);
 
             this.uiHelper = new UIHelper(this);
             this.serverHelper = new ServerHelper(this);
@@ -58,6 +61,8 @@ namespace GFHelper
             this.updateManager = new UpdateManager(this);
             this.login = new DoPost.Login(this);
             this.baseAction = new BaseAction(this);
+
+
         }
     }
 }

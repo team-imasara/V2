@@ -63,8 +63,19 @@ namespace GFHelper
 
             IDictionary<string, string> parameters = new Dictionary<string, string>();
             //DateTime time = System.DateTime.Now;
-            Models.SimpleInfo.reqid = CommonHelper.ConvertDateTimeInt(time);
-            parameters.Add("req_id", Models.SimpleInfo.reqid.ToString());//注意这是第一个时间戳，以后+1
+
+
+            if(Models.SimpleInfo.reqid == 0)
+            {
+                Models.SimpleInfo.reqid = CommonHelper.ConvertDateTimeInt(time);
+                parameters.Add("req_id", Models.SimpleInfo.reqid.ToString());//注意这是第一个时间戳，以后+1
+            }
+            //Models.SimpleInfo.reqid = CommonHelper.ConvertDateTimeInt(time);
+            else
+            {
+                parameters.Add("req_id", (++Models.SimpleInfo.reqid).ToString());//注意这是第一个时间戳，以后+1
+            }
+
 
             string data = StringBuilder_(parameters);
 
@@ -165,19 +176,27 @@ namespace GFHelper
             return result;
         }
 
-        public string StartOperation()
+        public string StartOperation(int team_id,int operation_id,int mission_id)
         {
-            string outdatacode = AuthCode.Encode(String.Format("{{\"team_id\":{0},\"operation_id\":{1},\"mission_id\":{2}}}", 1, 5, 1), Models.SimpleInfo.sign);
+            string outdatacode = AuthCode.Encode(String.Format("{{\"team_id\":{0},\"operation_id\":{1},\"mission_id\":{2}}}", team_id, operation_id, mission_id), Models.SimpleInfo.sign);
             string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", Models.SimpleInfo.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ++Models.SimpleInfo.reqid);
             im.logger.Log(requeststring);
             string result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.StartOperation, requeststring);//不需要解密
+            return result;
+        }
 
+        public string FinishOperation(int operationid)
+        {
+            string outdatacode = AuthCode.Encode(String.Format("{{\"operation_id\":{0}}}", operationid), Models.SimpleInfo.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", Models.SimpleInfo.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ++Models.SimpleInfo.reqid);
+            im.logger.Log(requeststring);
+            string result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.StartOperation, requeststring);//不需要解密
+            result = AuthCode.Decode(result, Models.SimpleInfo.sign);//解析解密
             return result;
 
 
+
         }
-
-
 
 
 

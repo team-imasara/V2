@@ -124,16 +124,17 @@ namespace GFHelper
 
     }
 
-    class CountDown
+    class BackgroundThread
     {
         private InstanceManager im;
-        public CountDown(InstanceManager im)
+        public BackgroundThread(InstanceManager im)
         {
 
             this.im = im;
         }
         public void countdown()//倒计时
         {
+            int a = 0;
             DateTime Now = DateTime.Now;
             double c;
             Thread.Sleep(1000);
@@ -153,121 +154,21 @@ namespace GFHelper
                 //        Task.RemoveAt(1);
                 //    }
                 //}
-
-                if (im.data.user_operationInfo[0]._LastTime > -1)
+                
+                foreach (var item in im.data.user_operationInfo)
                 {
-                    im.data.user_operationInfo[0]._LastTime = im.data.user_operationInfo[0]._LastTime - c;
 
-                    if (Convert.ToInt32(im.data.user_operationInfo[0]._LastTime) == 0)
+                    if(item.Value._LastTime > 0)
                     {
-
+                        item.Value._LastTime = item.Value._LastTime - c;
+                    }
+                    else
+                    {
+                        im.data.tasklistadd(7);
                     }
                 }
 
-                //if (variables.RT2 > -1)
-                //{
-                //    variables.RT2 = variables.RT2 - c;
 
-
-
-                //    if (Convert.ToInt32(variables.RT2) == 0)
-                //    {
-                //        taskadd(ReceiveLogistics);
-                //        taskadd(StartLogisticsTask2);
-                //    }
-                //}
-
-                //if (variables.RT3 > -1)
-                //{
-                //    variables.RT3 = variables.RT3 - c;
-
-                //    if (Convert.ToInt32(variables.RT3) == 0)
-                //    {
-                //        taskadd(ReceiveLogistics);
-                //        taskadd(StartLogisticsTask3);
-                //    }
-                //}
-
-                //if (variables.RT4 > -1)
-                //{
-
-                //    variables.RT4 = variables.RT4 - c;
-
-                //    if (Convert.ToInt32(variables.RT4) == 0)
-                //    {
-                //        taskadd(ReceiveLogistics);
-                //        taskadd(StartLogisticsTask4);
-                //    }
-
-                //}
-
-                //if (ShowerTime[0] > -1)
-                //{
-                //    ShowerTime[0] -= c;
-                //}
-                //if (ShowerTime[1] > -1)
-                //{
-                //    ShowerTime[1] -= c;
-                //}
-                //if (ShowerTime[2] > -1)
-                //{
-                //    ShowerTime[2] -= c;
-                //}
-                //if (ShowerTime[3] > -1)
-                //{
-                //    ShowerTime[3] -= c;
-                //}
-                //if (ShowerTime[4] > -1)
-                //{
-                //    ShowerTime[4] -= c;
-                //}
-                //if (ShowerTime[5] > -1)
-                //{
-                //    ShowerTime[5] -= c;
-                //}
-                //if (variables.BFIXT1 > -1)
-                //{
-                //    variables.BFIXT1 = variables.BFIXT1 - c;
-                //    if (Convert.ToInt32(variables.BFIXT1) == 0)
-                //    {
-                //        taskadd(Battle1);
-                //    }
-                //}
-
-                //if (variables.BFIXT2 > -1)
-                //{
-                //    variables.BFIXT2 -= c;
-                //    if (Convert.ToInt32(variables.BFIXT2) == 0)
-                //    {
-                //        taskadd(Battle2);
-                //    }
-                //}
-
-                //if (variables.BFIXT3 > -1)
-                //{
-                //    variables.BFIXT3 -= c;
-                //    if (Convert.ToInt32(variables.BFIXT3) == 0)
-                //    {
-                //        taskadd(Battle3);
-                //    }
-                //}
-
-                //if (variables.BFIXT4 > -1)
-                //{
-                //    variables.BFIXT4 -= c;
-                //    if (Convert.ToInt32(variables.BFIXT4) == 0)
-                //    {
-                //        taskadd(Battle4);
-                //    }
-                //}
-                //if (variables.AutoBattleTime > -1)
-                //{
-                //    variables.AutoBattleTime -= c;
-                //    if (Convert.ToInt32(variables.AutoBattleTime) == 0)
-                //    {
-                //        taskadd(AutoBattle);
-                //    }
-                //}
 
                 //this.SetText("label99", variables.AppState);
 
@@ -310,21 +211,532 @@ namespace GFHelper
                 //try
                 //{
 
+                im.uiHelper.setUserOperationinfo();
                 Thread.Sleep(1000);
-                //}
-                //catch (Exception ex)
-                //{
-                //    WriteLog.WriteError("计时器发生错误 : " + ex.Message);
-                //}
-
-                //finally
-                //{
-                //}
-
-                //sw.Reset();
-
             }
         }
+
+        public void CompleteMisson()
+        {
+            //if (variables.PprogramErrorBackToHome == true)
+            //{
+            //    //点游戏图标重进游戏
+            //    taskadd(BackToGame);
+            //    variables.PprogramErrorBackToHome = false;
+            //}
+
+
+            im.data.tasklist.Add(0);
+            while (true)
+            {
+
+                Thread.Sleep(100);
+                switch (im.data.tasklist[0])
+                {
+                    case 1://登陆
+                        {
+                            bool temp = im.baseAction.AutoLogin();
+                            if (temp == true)
+                                im.uiHelper.setStatusBarText_InThread(String.Format(" 好像登陆成功的样子 sign = {0}", Models.SimpleInfo.sign));
+
+
+
+
+
+                            im.data.tasklistremove();
+                            break;
+
+                        }
+
+                    case 2://readUserinfo
+                        {
+                            //im.baseAction.GetUserinfo();
+                            im.dataHelper.ReadUserInfo(im.apioperation.GetUserInfo());
+
+                            im.uiHelper.setUserInfo();
+                            //im.uiHelper.setUserOperation();
+                            //im.uiHelper.setUserOperationteam();
+
+
+                            //im.autoOperation.SetTeamInfo();
+                            //im.autoOperation.SetOperationInfo();
+                            im.data.tasklistremove();
+
+                            break;
+
+                        }
+
+
+                    case 3://后勤任务1开始
+                        { 
+                        int team_id,  operation_id;
+                            im.mainWindow.comboBoxOperationTeam1.Dispatcher.Invoke(new Action(delegate {
+                                im.mainWindow.comboBoxOperation1.Dispatcher.Invoke(new Action(delegate {
+                                    team_id = im.mainWindow.comboBoxOperationTeam1.SelectedIndex + 1;
+                                    operation_id = im.mainWindow.comboBoxOperation1.SelectedIndex + 1;
+                                    string temp = im.baseAction.startOperation(team_id, operation_id, Data.operationInfo[operation_id].campaign);
+                                    im.uiHelper.setStatusBarText_InThread(String.Format(" {0}", temp));
+                                    im.data.tasklistremove();
+                                    im.data.tasklistadd(2);
+
+                                    //这里写代码      
+                                }));//这里写代码      
+                            }));
+
+
+
+                            break;
+                        }
+
+                    case 4://后勤任务2开始
+                        {
+                            int team_id, operation_id;
+
+                            im.mainWindow.comboBoxOperationTeam2.Dispatcher.Invoke(new Action(delegate {
+                                im.mainWindow.comboBoxOperation2.Dispatcher.Invoke(new Action(delegate {
+                                    team_id = im.mainWindow.comboBoxOperationTeam2.SelectedIndex + 1;
+                                    operation_id = im.mainWindow.comboBoxOperation2.SelectedIndex + 1;
+                                    string temp = im.baseAction.startOperation(team_id, operation_id, Data.operationInfo[operation_id].campaign);
+                                    im.uiHelper.setStatusBarText_InThread(String.Format(" {0}", temp));
+                                    im.data.tasklistremove();
+                                    im.data.tasklistadd(2);
+
+                                    //这里写代码      
+                                }));//这里写代码      
+                            }));
+
+
+                            break;
+                        }
+
+                    case 5:
+                        {
+                            int team_id, operation_id;
+                            im.mainWindow.comboBoxOperationTeam3.Dispatcher.Invoke(new Action(delegate {
+                                im.mainWindow.comboBoxOperation3.Dispatcher.Invoke(new Action(delegate {
+                                    team_id = im.mainWindow.comboBoxOperationTeam3.SelectedIndex + 1;
+                                    operation_id = im.mainWindow.comboBoxOperation3.SelectedIndex + 1;
+                                    string temp = im.baseAction.startOperation(team_id, operation_id, Data.operationInfo[operation_id].campaign);
+                                    im.uiHelper.setStatusBarText_InThread(String.Format(" {0}", temp));
+                                    im.data.tasklistremove();
+                                    im.data.tasklistadd(2);
+
+                                    //这里写代码      
+                                }));//这里写代码      
+                            }));
+
+
+
+                            break;
+                        }
+
+
+
+                    case 6:
+                        {
+                            int team_id, operation_id;
+                            im.mainWindow.comboBoxOperationTeam4.Dispatcher.Invoke(new Action(delegate {
+                                im.mainWindow.comboBoxOperation4.Dispatcher.Invoke(new Action(delegate {
+                                    team_id = im.mainWindow.comboBoxOperationTeam4.SelectedIndex + 1;
+                                    operation_id = im.mainWindow.comboBoxOperation4.SelectedIndex + 1;
+                                    string temp = im.baseAction.startOperation(team_id, operation_id, Data.operationInfo[operation_id].campaign);
+                                    im.uiHelper.setStatusBarText_InThread(String.Format(" {0}", temp));
+                                    im.data.tasklistremove();
+                                    im.data.tasklistadd(2);
+
+                                    //这里写代码      
+                                }));//这里写代码      
+                            }));
+
+
+
+                            break;
+                        }
+
+
+                    case 7://接收任务
+                        {
+                            foreach (var item in im.data.user_operationInfo)
+                            {
+
+                                if (item.Value._LastTime < 0)
+                                {
+                                    //api操作发包接收后勤
+                                    im.apioperation.FinishOperation(item.Value._operationId);
+                                    im.data.tasklistremove();
+                                    im.data.tasklistadd(2);
+                                    return;
+                                }
+                                else
+                                {
+
+                                }
+                            }
+
+
+                            break;
+                        }
+                        //    case "12":
+                        //        {
+
+                        //            if ((variables.RT1 > 0 && variables.RT1 < 10) || (variables.RT2 > 0 && variables.RT2 < 10) || (variables.RT3 > 0 && variables.RT3 < 10) || (variables.RT4 > 0 && variables.RT4 < 10))
+                        //            {
+                        //                taskadd(WaitForLogistics);
+                        //                taskremove();
+                        //                taskadd(Battle1);//泛型练级1
+                        //            }
+                        //            else
+                        //            {
+                        //                if (variables.Battletask1.Used == false)
+                        //                {
+                        //                    SetText("label23", "战斗任务1");
+                        //                    taskremove();
+                        //                }
+                        //                else
+                        //                {
+
+                        //                    Temptextbox = textBox12;
+                        //                    variables.temptaskNo = 1;
+
+                        //                    if (variables.Battletask1.TaskName == "魔方行动E4")
+                        //                    {
+                        //                        SetText("label23", variables.Battletask1.TaskName);
+                        //                    }
+                        //                    else
+                        //                    {
+
+                        //                        SetText("label23", variables.Battletask1.TaskName + "练级");
+                        //                    }
+
+
+                        //                    time.ChoseThebattle(dmae, mouse, variables.Battletask1.TaskName, variables.Battletask1.TaskMianTeam, variables.Battletask1.TaskSupportTeam, variables.Battletask1.ChoinceToFix, variables.Battletask1.ChoinceToSupply, variables.Battletask1.FixMaxTime, variables.Battletask1.FixMintime, variables.Battletask1.FixMaxPercentage, variables.Battletask1.FixMinPercentage, variables.Battletask1.TaskType, variables.Battletask1.SetMap);
+                        //                    taskremove();
+
+                        //                    if (variables.Battletask1.ChangeGun == true) { variables.ChangeGunBattleTask = 1; taskadd(variables.ChangeGun); }
+
+
+                        //                    if (variables.NeedToFix == true) { Task.Insert(0, Fix); }
+                        //                    else//-----循环间隔
+                        //                    {
+                        //                        Random ran = new Random();
+                        //                        int temp0 = ran.Next(0, Battletask1.RoundInterval);
+                        //                        variables.BFIXT1 = temp0 + 1;
+                        //                        ran = null;
+                        //                    }
+
+
+
+                        //                    SetText("textBox5", (Int32.Parse(textBox5.Text) + 1).ToString());
+
+
+
+                        //                }
+
+                        //            }
+                        //            if (Battletask1.Used == false) { mouse.BindWindowS(dmae, 0); }
+                        //            if (Battletask1.BattleLoopUnLockWindows == false) { mouse.BindWindowS(dmae, 0); }
+                        //            break;
+                        //        }
+
+                        //    case "13":
+                        //        {
+
+                        //            if ((variables.RT1 > 0 && variables.RT1 < 10) || (variables.RT2 > 0 && variables.RT2 < 10) || (variables.RT3 > 0 && variables.RT3 < 10) || (variables.RT4 > 0 && variables.RT4 < 10))
+                        //            {
+                        //                taskadd(WaitForLogistics);
+                        //                taskremove();
+                        //                taskadd(Battle2);//泛型练级2
+                        //            }
+                        //            else
+                        //            {
+                        //                if (variables.Battletask2.Used == false)
+                        //                {
+                        //                    SetText("label24", "战斗任务2");
+                        //                    taskremove();
+                        //                }
+                        //                else
+                        //                {
+
+
+                        //                    Temptextbox = textBox14;
+                        //                    variables.temptaskNo = 2;
+
+                        //                    if (variables.Battletask2.TaskName == "魔方行动E4")
+                        //                    {
+                        //                        SetText("label24", variables.Battletask2.TaskName);
+                        //                    }
+                        //                    else
+                        //                    {
+
+                        //                        SetText("label24", variables.Battletask2.TaskName + "练级");
+                        //                    }
+
+
+                        //                    SetText("label24", variables.Battletask2.TaskName + "练级");
+
+                        //                    time.ChoseThebattle(dmae, mouse, variables.Battletask2.TaskName, variables.Battletask2.TaskMianTeam, variables.Battletask2.TaskSupportTeam, variables.Battletask2.ChoinceToFix, variables.Battletask2.ChoinceToSupply, variables.Battletask2.FixMaxTime, variables.Battletask2.FixMintime, variables.Battletask2.FixMaxPercentage, variables.Battletask2.FixMinPercentage, variables.Battletask2.TaskType, Battletask2.SetMap);
+                        //                    SetText("textBox13", (Int32.Parse(textBox13.Text) + 1).ToString());
+                        //                    taskremove();
+
+                        //                    if (variables.Battletask2.ChangeGun == true) { variables.ChangeGunBattleTask = 2; taskadd(variables.ChangeGun); }
+
+                        //                    if (variables.NeedToFix == true) { Task.Insert(0, Fix); }
+                        //                    else
+                        //                    {
+                        //                        Random ran = new Random();
+                        //                        int temp0 = ran.Next(0, Battletask2.RoundInterval);
+                        //                        variables.BFIXT2 = temp0 + 1;
+                        //                        ran = null;
+                        //                    }
+
+                        //                }
+
+                        //            }
+                        //            if (Battletask2.Used == false) { mouse.BindWindowS(dmae, 0); }
+                        //            if (Battletask2.BattleLoopUnLockWindows == false) { mouse.BindWindowS(dmae, 0); }
+                        //            break;
+                        //        }
+                        //    case "14":
+                        //        {
+
+                        //            if ((variables.RT1 > 0 && variables.RT1 < 10) || (variables.RT2 > 0 && variables.RT2 < 10) || (variables.RT3 > 0 && variables.RT3 < 10) || (variables.RT4 > 0 && variables.RT4 < 10))
+                        //            {
+                        //                taskadd(WaitForLogistics);
+                        //                taskremove();
+                        //                taskadd(Battle3);//泛型练级3
+                        //            }
+                        //            else
+                        //            {
+                        //                if (variables.Battletask3.Used == false)
+                        //                {
+                        //                    SetText("label25", "战斗任务3");
+                        //                    taskremove();
+                        //                }
+                        //                else
+                        //                {
+
+
+                        //                    Temptextbox = textBox15;
+                        //                    variables.temptaskNo = 3;
+
+
+                        //                    if (variables.Battletask3.TaskName == "魔方行动E4")
+                        //                    {
+                        //                        SetText("label25", variables.Battletask3.TaskName);
+                        //                    }
+                        //                    else
+                        //                    {
+
+                        //                        SetText("label25", variables.Battletask3.TaskName + "练级");
+                        //                    }
+
+
+
+
+                        //                    time.ChoseThebattle(dmae, mouse, variables.Battletask3.TaskName, variables.Battletask3.TaskMianTeam, variables.Battletask3.TaskSupportTeam, variables.Battletask3.ChoinceToFix, variables.Battletask3.ChoinceToSupply, variables.Battletask3.FixMaxTime, variables.Battletask3.FixMintime, variables.Battletask3.FixMaxPercentage, variables.Battletask3.FixMinPercentage, variables.Battletask3.TaskType, Battletask3.SetMap);
+                        //                    SetText("textBox16", (Int32.Parse(textBox16.Text) + 1).ToString());
+                        //                    taskremove();
+
+                        //                    if (variables.Battletask3.ChangeGun == true) { variables.ChangeGunBattleTask = 3; taskadd(variables.ChangeGun); }
+
+                        //                    if (variables.NeedToFix == true) { Task.Insert(0, Fix); }
+                        //                    else
+                        //                    {
+                        //                        Random ran = new Random();
+                        //                        int temp0 = ran.Next(0, Battletask3.RoundInterval);
+                        //                        variables.BFIXT3 = temp0 + 1;
+                        //                        ran = null;
+                        //                    }
+
+                        //                }
+
+                        //            }
+                        //            if (Battletask3.Used == false) { mouse.BindWindowS(dmae, 0); }
+                        //            if (Battletask3.BattleLoopUnLockWindows == false) { mouse.BindWindowS(dmae, 0); }
+                        //            break;
+                        //        }
+                        //    case "15":
+                        //        {
+
+                        //            if ((variables.RT1 > 0 && variables.RT1 < 10) || (variables.RT2 > 0 && variables.RT2 < 10) || (variables.RT3 > 0 && variables.RT3 < 10) || (variables.RT4 > 0 && variables.RT4 < 10))
+                        //            {
+                        //                taskadd(WaitForLogistics);
+                        //                taskremove();
+                        //                taskadd(Battle4);//泛型练级4
+                        //            }
+                        //            else
+                        //            {
+                        //                if (variables.Battletask4.Used == false)
+                        //                {
+                        //                    SetText("label26", "战斗任务4");
+                        //                    taskremove();
+                        //                }
+                        //                else
+                        //                {
+
+                        //                    Temptextbox = textBox17;
+                        //                    variables.temptaskNo = 4;
+
+                        //                    if (variables.Battletask4.TaskName == "魔方行动E4")
+                        //                    {
+                        //                        SetText("label26", variables.Battletask4.TaskName);
+                        //                    }
+                        //                    else
+                        //                    {
+
+                        //                        SetText("label26", variables.Battletask4.TaskName + "练级");
+                        //                    }
+
+
+
+                        //                    time.ChoseThebattle(dmae, mouse, variables.Battletask4.TaskName, variables.Battletask4.TaskMianTeam, variables.Battletask4.TaskSupportTeam, variables.Battletask4.ChoinceToFix, variables.Battletask4.ChoinceToSupply, variables.Battletask4.FixMaxTime, variables.Battletask4.FixMintime, variables.Battletask4.FixMaxPercentage, variables.Battletask4.FixMinPercentage, variables.Battletask4.TaskType, Battletask4.SetMap);
+                        //                    SetText("textBox18", (Int32.Parse(textBox18.Text) + 1).ToString());
+                        //                    taskremove();
+
+                        //                    if (variables.Battletask4.ChangeGun == true) { variables.ChangeGunBattleTask = 4; taskadd(variables.ChangeGun); }
+
+                        //                    if (variables.NeedToFix == true) { Task.Insert(0, Fix); }
+                        //                    else
+                        //                    {
+                        //                        Random ran = new Random();
+                        //                        int temp0 = ran.Next(0, Battletask4.RoundInterval);
+                        //                        variables.BFIXT4 = temp0 + 1;
+                        //                        ran = null;
+                        //                    }
+
+                        //                }
+
+                        //            }
+                        //            if (Battletask4.Used == false) { mouse.BindWindowS(dmae, 0); }
+                        //            if (Battletask4.BattleLoopUnLockWindows == false) { mouse.BindWindowS(dmae, 0); }
+                        //            break;
+                        //        }
+
+                        //    case "16":
+                        //        {
+
+                        //            if ((variables.RT1 > 0 && variables.RT1 < 10) || (variables.RT2 > 0 && variables.RT2 < 10) || (variables.RT3 > 0 && variables.RT3 < 10) || (variables.RT4 > 0 && variables.RT4 < 10))
+                        //            {
+                        //                taskadd(WaitForLogistics);
+                        //                taskremove();
+                        //                taskadd(AutoBattle);//自律作战
+                        //            }
+                        //            else
+                        //            {
+
+                        //                Temptextbox = textBox19;
+                        //                variables.temptaskNo = 5;
+                        //                variables.AutoBattleTime = time.AutoBattle(dmae, mouse, Settings.Default.AutoMap, Settings.Default.AutoTeam1, Settings.Default.AutoTeam2, Settings.Default.AutoTeam3, Settings.Default.AutoTeam4);
+                        //                SetText("textBox20", (Int32.Parse(textBox20.Text) + 1).ToString());
+                        //                taskremove();
+
+                        //            }
+                        //            mouse.BindWindowS(dmae, 0);
+                        //            break;
+                        //        }
+                        //    case "94"://回到游戏
+                        //        {
+
+                        //            break;
+                        //        }
+                        //    case "95"://1-2换枪
+                        //        {
+
+                        //            if ((variables.RT1 > 0 && variables.RT1 < 10) || (variables.RT2 > 0 && variables.RT2 < 10) || (variables.RT3 > 0 && variables.RT3 < 10) || (variables.RT4 > 0 && variables.RT4 < 10))
+                        //            {
+                        //                taskadd(WaitForLogistics);
+                        //                taskremove();
+                        //                taskadd(ChangeGun);//1-2换枪
+                        //            }
+                        //            else
+                        //            {
+
+                        //                //1-2换枪代码
+                        //                switch (variables.ChangeGunBattleTask)
+                        //                {
+                        //                    case 1: { time.ChangeGun(dmae, mouse, Battletask1.TaskMianTeam, 1, 2, 3, 4, 5); break; }
+                        //                    case 2: { time.ChangeGun(dmae, mouse, Battletask2.TaskMianTeam, 1, 2, 3, 4, 5); break; }
+                        //                    case 3: { time.ChangeGun(dmae, mouse, Battletask3.TaskMianTeam, 1, 2, 3, 4, 5); break; }
+                        //                    case 4: { time.ChangeGun(dmae, mouse, Battletask4.TaskMianTeam, 1, 2, 3, 4, 5); break; }
+
+                        //                    default:
+                        //                        break;
+                        //                }
+
+                        //                taskremove();
+
+                        //            }
+                        //            mouse.BindWindowS(dmae, 0);
+                        //            break;
+                        //        }
+
+                        //    case "96"://拆除
+                        //        {
+
+                        //            if ((variables.RT1 > 0 && variables.RT1 < 10) || (variables.RT2 > 0 && variables.RT2 < 10) || (variables.RT3 > 0 && variables.RT3 < 10) || (variables.RT4 > 0 && variables.RT4 < 10))
+                        //            {
+                        //                taskadd(WaitForLogistics);
+                        //                taskremove();
+                        //                taskadd(variables.Dismantlement);//拆枪
+                        //            }
+                        //            else
+                        //            {
+
+                        //                //拆枪代码
+                        //                time.DismantlementGun(dmae, mouse, DismantlementGunCount);
+                        //                taskremove();
+
+                        //            }
+                        //            mouse.BindWindowS(dmae, 0);
+                        //            break;
+                        //        }
+
+                        //    case "97":
+                        //        {
+
+                        //            if ((variables.RT1 > 0 && variables.RT1 < 10) || (variables.RT2 > 0 && variables.RT2 < 10) || (variables.RT3 > 0 && variables.RT3 < 10) || (variables.RT4 > 0 && variables.RT4 < 10))
+                        //            {
+                        //                taskadd(WaitForLogistics);
+                        //                taskremove();
+                        //                taskadd(Fix);
+                        //            }
+                        //            else
+                        //            {
+                        //                switch (variables.temptaskNo)
+                        //                {
+                        //                    case 1: { variables.BFIXT1 = time.Fix(dmae, mouse, ref ShowerTime, variables.Battletask1.FixType, variables.Battletask1.FixMaxTime, variables.Battletask1.FixMintime, Battletask1.FixMinPercentage, Battletask1.FixMaxPercentage, ref Temptextbox, Battletask1.RoundInterval); break; }
+                        //                    case 2: { variables.BFIXT2 = time.Fix(dmae, mouse, ref ShowerTime, variables.Battletask2.FixType, variables.Battletask2.FixMaxTime, variables.Battletask2.FixMintime, Battletask2.FixMinPercentage, Battletask2.FixMaxPercentage, ref Temptextbox, Battletask2.RoundInterval); break; }
+                        //                    case 3: { variables.BFIXT3 = time.Fix(dmae, mouse, ref ShowerTime, variables.Battletask3.FixType, variables.Battletask3.FixMaxTime, variables.Battletask3.FixMintime, Battletask3.FixMinPercentage, Battletask3.FixMaxPercentage, ref Temptextbox, Battletask3.RoundInterval); break; }
+                        //                    case 4: { variables.BFIXT4 = time.Fix(dmae, mouse, ref ShowerTime, variables.Battletask4.FixType, variables.Battletask4.FixMaxTime, variables.Battletask4.FixMintime, Battletask4.FixMinPercentage, Battletask4.FixMaxPercentage, ref Temptextbox, Battletask4.RoundInterval); break; }
+
+                        //                    default:
+                        //                        break;
+                        //                }
+
+
+                        //                taskremove();
+
+                        //            }
+                        //            mouse.BindWindowS(dmae, 0);
+                        //            break;
+                        //        }
+
+
+                        //    case "98":
+                        //        {
+                        //            Thread.Sleep(10000);
+                        //            taskremove();
+                        //            break;
+                        //        }
+                        //}
+                }
+        }
+
+
+
+
+
+    }
     }
 
 
