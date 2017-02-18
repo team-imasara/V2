@@ -120,6 +120,16 @@ namespace GFHelper
             return result;
         }
 
+        public string attendance()//api = index/index
+        {
+            DateTime time = DateTime.Now;
+            string outdatacode = AuthCode.Encode(Models.SimpleInfo.sign, Models.SimpleInfo.sign);
+            string requeststring = String.Format("uid={0}&signcode={1}&req_id={2}", Models.SimpleInfo.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ++Models.SimpleInfo.reqid);
+            im.logger.Log(requeststring);
+            string result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.GetUserInfo, requeststring);//不需要解密 返回的是签到当月信息奖励
+            return result;
+        }
+
         public void ifNewMail()
         {
             string outdatacode = AuthCode.Encode(Models.SimpleInfo.sign, Models.SimpleInfo.sign);//用自身作为密匙把自身加密
@@ -190,8 +200,8 @@ namespace GFHelper
             string outdatacode = AuthCode.Encode(String.Format("{{\"operation_id\":{0}}}", operationid), Models.SimpleInfo.sign);
             string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", Models.SimpleInfo.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ++Models.SimpleInfo.reqid);
             im.logger.Log(requeststring);
-            string result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.StartOperation, requeststring);//不需要解密
-            result = AuthCode.Decode(result, Models.SimpleInfo.sign);//解析解密
+            string result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.FinishOperation, requeststring);//不需要解密
+            //result = AuthCode.Decode(result, Models.SimpleInfo.sign);//解析解密
             return result;
 
 

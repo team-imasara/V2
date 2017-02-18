@@ -241,7 +241,7 @@ namespace GFHelper
 
                 dynamic jsonobj = DynamicJson.Parse(jsondata);
                 dynamic userdata = jsonobj.user_info;
-
+                dynamic userrecord = jsonobj.user_record;
                 //UserInfo userInfo = Data.userInfo;
 
                 //user_info
@@ -268,6 +268,37 @@ namespace GFHelper
                 im.data.userInfo.lastBpRecoverTime = Convert.ToInt32(userdata.last_bp_recover_time);
                 im.data.userInfo.monthlyCardExpirationGem = Convert.ToInt32(userdata.monthlycard1_end_time);
                 im.data.userInfo.monthlyCardExpirationRes = Convert.ToInt32(userdata.monthlycard2_end_time);
+
+
+
+
+                //              "user_record": 
+
+                im.data.userInfo.mission_campaign = Convert.ToInt32(userrecord.mission_campaign);
+                im.data.userInfo.special_mission_campaign = userrecord.special_mission_campaign;
+                im.data.userInfo.attendance_type1_day = Convert.ToInt32(userrecord.attendance_type1_day);
+                im.data.userInfo.attendance_type1_time = Convert.ToInt32(userrecord.attendance_type1_time);
+                im.data.userInfo.attendance_type2_day = Convert.ToInt32(userrecord.attendance_type2_day);
+                im.data.userInfo.attendance_type2_time = Convert.ToInt32(userrecord.attendance_type2_time);
+                im.data.userInfo.develop_lowrank_count = Convert.ToInt32(userrecord.develop_lowrank_count);
+                im.data.userInfo.special_develop_lowrank_count = Convert.ToInt32(userrecord.special_develop_lowrank_count);
+                im.data.userInfo.get_gift_ids = Convert.ToInt32(userrecord.get_gift_ids);
+                im.data.userInfo.spend_point =userrecord.spend_point;
+                im.data.userInfo.gem_mall_ids = userrecord.gem_mall_ids;
+                im.data.userInfo.seven_attendance_days = Convert.ToInt32(userrecord.seven_attendance_days);
+                im.data.userInfo.last_bp_buy_time = Convert.ToInt32(userrecord.last_bp_buy_time);
+                im.data.userInfo.bp_buy_count = Convert.ToInt32(userrecord.bp_buy_count);
+                im.data.userInfo.new_developgun_count = Convert.ToInt32(userrecord.new_developgun_count);
+                im.data.userInfo.buyitem1_developgun_count = userrecord.buyitem1_developgun_count;
+                im.data.userInfo.buyitem1_specialdevelopgun_count = userrecord.buyitem1_specialdevelopgun_count;
+                im.data.userInfo.buyitem1_num = Convert.ToInt32(userrecord.buyitem1_num);
+                im.data.userInfo.last_developgun_time = Convert.ToInt32(userrecord.last_developgun_time);
+                im.data.userInfo.last_specialdevelopgun_time = Convert.ToInt32(userrecord.last_specialdevelopgun_time);
+                im.data.userInfo.furniture_classes = Convert.ToInt32(userrecord.furniture_classes);
+                im.data.userInfo.adjutant = userrecord.adjutant;
+
+
+
 
                 //gun_collect
                 string guncollect = userdata.gun_collect;
@@ -342,11 +373,6 @@ namespace GFHelper
                 im.data.user_operationInfo.Clear();
                 foreach (var item in jsonobj.operation_act_info)
                 {
-
-
-
-
-
                     im.mainWindow.Dispatcher.Invoke(() =>
                     {
                         if (count == 0)

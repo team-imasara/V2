@@ -34,6 +34,15 @@ namespace GFHelper
             im.dataHelper.ReadUserInfo(im.apioperation.GetUserInfo());
             im.uiHelper.setUserInfo();
             im.autoOperation.SetTeamInfo();
+
+            //加零点签到判断
+            //如果当前时间戳大于    "user_record":   "attendance_type1_time": 1487520000,则签到
+            if (CommonHelper.ConvertDateTimeInt(time)> im.data.userInfo.attendance_type1_time)
+            {
+                im.uiHelper.setStatusBarText_InThread(String.Format(" 开始签到"));
+                im.apioperation.attendance();
+            }
+
             //加零点签到判断
             //加邮件判断
             //加后勤结束判断
@@ -47,21 +56,27 @@ namespace GFHelper
             im.apioperation.GetMailList();
             im.uiHelper.setStatusBarText_InThread(String.Format(" 回复资源"));
             im.apioperation.RecoverResource();
-            //加后勤结束判断
-            //如果有后勤结束则发包接收后勤
-            foreach (var item in Data.operationInfo)
+
+
+            //-----------------加后勤结束判断
+            int a = 0;
+            foreach (var item in im.data.user_operationInfo)
             {
-                //im.mainWindow.Dispatcher.Invoke(() =>
-                //{
-                //    AutoOperationInfo ao = new AutoOperationInfo(Convert.ToInt32(item.team_id), Convert.ToInt32(item.operation_id));
-                //    ao.LastTime = Convert.ToInt32(item.start_time) + ao.LastTime - CommonHelper.ConvertDateTimeInt(DateTime.Now, true);
-                //    im.autoOperation.AddTimerStartOperation(ao);
-                //});
-                //Models.AutoOperationInfo ao = new Models.AutoOperationInfo(Convert.ToInt32(item.team_id), Convert.ToInt32(item.operation_id));
 
+                if (item.Value._LastTime == -1)
+                {
+                    a = 1;
+                    im.data.tasklistadd(7);
+                }
+                else
+                {
 
-
+                }
             }
+            if (a==1)
+            im.data.tasklistadd(2);//getuserinfo
+            //----------------如果有后勤结束则发包接收后勤
+
 
 
 
@@ -78,25 +93,71 @@ namespace GFHelper
             return true;
         }
 
+        public string _startOperation()//通用版user_operationInfo里只要有就发送开始后勤post
+        {
+            foreach (var item in im.data.user_operationInfo)
+            {
+                if (item.Value._LastTime == -1)
+                {
+                    string resurt = im.apioperation.StartOperation(item.Value._teamId, item.Value._operationId, item.Value.MissionId);
+
+                    if (resurt == "1")
+                    {
+                        return "1";
+                    }
+                    else
+                    {
+                        resurt = string.Format("出现未知错误 : {0}", resurt);
+                        return resurt;
+                    }
+
+                }
+                else
+                {
+
+                }
+
+            }
+            return "出现未知错误";
+        }
+
         public string startOperation(int team_id, int operation_id, int mission_id)
         {
-            string resurt = im.apioperation.StartOperation(team_id,operation_id, mission_id);
+            string resurt = im.apioperation.StartOperation(team_id, operation_id, mission_id);
 
-            if(resurt == "1")
+            if (resurt == "1")
             {
-                return "执行后勤任务成功";
+                return "1";
             }
             else
             {
                 resurt = string.Format("出现未知错误 : {0}", resurt);
                 return resurt;
             }
-
-
-
         }
+        public string finishOperation()
+        {
+            foreach (var item in im.data.user_operationInfo)
+            {
+                if (item.Value._LastTime < 0)
+                {
+                    //api操作发包接收后勤
+                    string result = im.apioperation.FinishOperation(item.Value._operationId);
+                    //加后勤成功判断if()
+                    im.data.tasklistremove();
+                    im.data.tasklistadd(2);
 
 
+                    return "";
+                }
+                else
+                {
 
+                }
+            }
+
+
+            return "";
+        }
     }
 }

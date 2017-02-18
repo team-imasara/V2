@@ -45,6 +45,30 @@ namespace GFHelper.Models
         public string userId;
         public int maxUpgradeSlot;
 
+        //user_record
+        public int mission_campaign;
+        public string special_mission_campaign;
+        public int attendance_type1_day;
+        public int attendance_type1_time;
+        public int attendance_type2_day;
+        public int attendance_type2_time;
+        public int develop_lowrank_count;
+        public int special_develop_lowrank_count;
+        public int get_gift_ids;
+        public string spend_point;
+        public string gem_mall_ids;
+        public int seven_attendance_days;
+        public int last_bp_buy_time;
+        public int bp_buy_count;
+        public int new_developgun_count;
+        public string buyitem1_developgun_count;
+        public string buyitem1_specialdevelopgun_count;
+        public int buyitem1_num;
+        public int last_developgun_time;
+        public int last_specialdevelopgun_time;
+        public int furniture_classes;
+        public string adjutant;
+
         public List<GunWithUserInfo> gunWithUserID = new List<GunWithUserInfo>();
         public Dictionary<int, int> item = new Dictionary<int, int>();
         public SortedDictionary<int, Dictionary<int, GunWithUserInfo>> teamInfo = new SortedDictionary<int, Dictionary<int, GunWithUserInfo>>();

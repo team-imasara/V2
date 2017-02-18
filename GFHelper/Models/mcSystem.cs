@@ -35,7 +35,7 @@ namespace GFHelper.Models
             SimpleInfo.UserMcCode = SimpleInfo.UserMcCode.Insert(0, "a");
 
 
-
+            im.uiHelper.setStatusBarText_InThread("开始验证");
             int ret0 = im.eyLogin.UserLogin(SimpleInfo.UserMcCode, "a123456789", version, im.eyLogin.GetMachineCode());
 
             if (ret0 == 0)

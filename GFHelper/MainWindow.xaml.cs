@@ -52,26 +52,21 @@ namespace GFHelper
                 MessageBox.Show("GFHelper启动失败！错误原因: " + e.ToString());
             }
             //倒计时线程
-            
-
-            countdown = new Thread((new ThreadStart(() => im.backgroundthread.countdown())));//倒计时线程
-            countdown.SetApartmentState(ApartmentState.STA);
-            countdown.IsBackground = true;
-            countdown.Start();
-
-
-            CompleteMisson = new Thread((new ThreadStart(() => im.backgroundthread.CompleteMisson())));//倒计时线程
-            CompleteMisson.SetApartmentState(ApartmentState.STA);
-            CompleteMisson.IsBackground = true;
-            CompleteMisson.Start();
 
         }
 
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            countdown.Abort();
-            CompleteMisson.Abort();
+            try
+            {
+                countdown.Abort();
+                CompleteMisson.Abort();
+            }
+            catch (Exception)
+            { 
+            }
+
 
 
 
@@ -102,10 +97,10 @@ namespace GFHelper
             im.autoOperation.autoOperation = (bool)checkBoxAutoOperation.IsChecked;
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        private void Button_Click_2(object sender, RoutedEventArgs e)//登陆按钮
         {
 
-
+            im.mainWindow.Login.IsEnabled = false;
             im.data.tasklistadd(1);
 
 
@@ -150,21 +145,32 @@ namespace GFHelper
 
         }
 
-        private void CheckT_Click(object sender, RoutedEventArgs e)
+        private void CheckT_Click(object sender, RoutedEventArgs e)//初始化按钮
         {
+            im.mainWindow.CheckT.IsEnabled = false;
+
 
             Models.SimpleInfo.UserMcCode = im.eyLogin.GetMachineCode();
             if (im.mcsystem.checkT() == true)
             {
-                this.im.uiHelper.setStatusBarText_InThread(" 初始化好像成功了");
+                this.im.uiHelper.setStatusBarText_InThread(" 验证通过允许使用");
                 //控件开放
-
+                im.mainWindow.Login.IsEnabled = true;
 
 
 
 
                 //线程开放
+                countdown = new Thread((new ThreadStart(() => im.backgroundthread.countdown())));//倒计时线程
+                countdown.SetApartmentState(ApartmentState.STA);
+                countdown.IsBackground = true;
+                countdown.Start();
 
+
+                CompleteMisson = new Thread((new ThreadStart(() => im.backgroundthread.CompleteMisson())));//倒计时线程
+                CompleteMisson.SetApartmentState(ApartmentState.STA);
+                CompleteMisson.IsBackground = true;
+                CompleteMisson.Start();
 
             }
             //验证失败代码
@@ -172,6 +178,7 @@ namespace GFHelper
             {
                 MessageBox.Show("这是一个随时停止维护的脚本，仅限GFH群内成员交流学习使用。禁止传播，请各位且用且珍惜。");
                 MessageBox.Show(string.Format("验证失败，请联系作者添加权限:{0}", Models.SimpleInfo.UserMcCode));
+                im.mainWindow.CheckT.IsEnabled = true;
             }
         }
 
@@ -200,14 +207,6 @@ namespace GFHelper
             im.data.tasklistadd(6);
         }
 
-        private void count1s_Click(object sender, RoutedEventArgs e)
-        {
-            //    if (im.data.user_operationInfo[0]._LastTime > -1)
-            //    {
-            //        im.data.user_operationInfo[0]._LastTime = im.data.user_operationInfo[0]._LastTime - 1;
-            //    }
-            //    im.uiHelper.operationinfocd();
-            //}
-        }
+
     }
 }

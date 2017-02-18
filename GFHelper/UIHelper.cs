@@ -193,7 +193,7 @@ namespace GFHelper
             this.setTextBlockText(texttime, CommonHelper.formatDuration(0));
         }
 
-        public void setUserInfo()
+        public void setUserInfo()//ui更新
         {
             try
             {
@@ -290,7 +290,7 @@ namespace GFHelper
 //        }
 
 
-        public void setUserOperationinfo()
+        public void setUserOperationinfo()//每一秒刷新一次
         {
             im.mainWindow.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(
     () =>
@@ -304,6 +304,11 @@ namespace GFHelper
                     {
                         im.mainWindow.comboBoxOperationTeam1.SelectedIndex = item.Value._teamId - 1;
                         im.mainWindow.comboBoxOperation1.SelectedIndex = item.Value._operationId - 1;
+                        if(item.Value._LastTime == -1)
+                        {
+                            im.mainWindow.operation_time1.Text = "完成";
+                        }
+                        else
                         im.mainWindow.operation_time1.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime));
 
                         break;
@@ -312,21 +317,36 @@ namespace GFHelper
                     {
                         im.mainWindow.comboBoxOperationTeam2.SelectedIndex = item.Value._teamId - 1;
                         im.mainWindow.comboBoxOperation2.SelectedIndex = item.Value._operationId - 1;
-                        im.mainWindow.operation_time2.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime));
+                        if (item.Value._LastTime == -1)
+                        {
+                            im.mainWindow.operation_time2.Text = "完成";
+                        }
+                        else
+                            im.mainWindow.operation_time2.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime));
                         break;
                     }
                 case 2:
                     {
                         im.mainWindow.comboBoxOperationTeam3.SelectedIndex = item.Value._teamId - 1;
                         im.mainWindow.comboBoxOperation3.SelectedIndex = item.Value._operationId - 1;
-                        im.mainWindow.operation_time3.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime));
+                        if (item.Value._LastTime == -1)
+                        {
+                            im.mainWindow.operation_time3.Text = "完成";
+                        }
+                        else
+                            im.mainWindow.operation_time3.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime));
                         break;
                     }
                 case 3:
                     {
                         im.mainWindow.comboBoxOperationTeam4.SelectedIndex = item.Value._teamId - 1;
                         im.mainWindow.comboBoxOperation4.SelectedIndex = item.Value._operationId - 1;
-                        im.mainWindow.operation_time4.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime));
+                        if (item.Value._LastTime == -1)
+                        {
+                            im.mainWindow.operation_time4.Text = "完成";
+                        }
+                        else
+                            im.mainWindow.operation_time4.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime));
                         break;
                     }
                 default:

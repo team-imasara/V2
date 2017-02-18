@@ -164,7 +164,17 @@ namespace GFHelper
                     }
                     else
                     {
-                        im.data.tasklistadd(7);
+                        if (item.Value._LastTime <= 0 && item.Value._LastTime > -1)
+                        {
+                            im.data.tasklistadd(7);
+                            im.data.tasklistadd(8);
+                        }
+                        else
+                        {
+                            item.Value._LastTime = -1;
+                        }
+
+
                     }
                 }
 
@@ -251,9 +261,11 @@ namespace GFHelper
                     case 2://readUserinfo
                         {
                             //im.baseAction.GetUserinfo();
+                            im.uiHelper.setStatusBarText_InThread(String.Format(" 获取userinfo"));
                             im.dataHelper.ReadUserInfo(im.apioperation.GetUserInfo());
 
                             im.uiHelper.setUserInfo();
+
                             //im.uiHelper.setUserOperation();
                             //im.uiHelper.setUserOperationteam();
 
@@ -276,9 +288,9 @@ namespace GFHelper
                                     operation_id = im.mainWindow.comboBoxOperation1.SelectedIndex + 1;
                                     string temp = im.baseAction.startOperation(team_id, operation_id, Data.operationInfo[operation_id].campaign);
                                     im.uiHelper.setStatusBarText_InThread(String.Format(" {0}", temp));
-                                    im.data.tasklistremove();
-                                    im.data.tasklistadd(2);
 
+                                    im.data.tasklistadd(2);
+                                    im.data.tasklistremove();
                                     //这里写代码      
                                 }));//这里写代码      
                             }));
@@ -298,9 +310,9 @@ namespace GFHelper
                                     operation_id = im.mainWindow.comboBoxOperation2.SelectedIndex + 1;
                                     string temp = im.baseAction.startOperation(team_id, operation_id, Data.operationInfo[operation_id].campaign);
                                     im.uiHelper.setStatusBarText_InThread(String.Format(" {0}", temp));
-                                    im.data.tasklistremove();
-                                    im.data.tasklistadd(2);
 
+                                    im.data.tasklistadd(2);
+                                    im.data.tasklistremove();
                                     //这里写代码      
                                 }));//这里写代码      
                             }));
@@ -318,9 +330,9 @@ namespace GFHelper
                                     operation_id = im.mainWindow.comboBoxOperation3.SelectedIndex + 1;
                                     string temp = im.baseAction.startOperation(team_id, operation_id, Data.operationInfo[operation_id].campaign);
                                     im.uiHelper.setStatusBarText_InThread(String.Format(" {0}", temp));
-                                    im.data.tasklistremove();
-                                    im.data.tasklistadd(2);
 
+                                    im.data.tasklistadd(2);
+                                    im.data.tasklistremove();
                                     //这里写代码      
                                 }));//这里写代码      
                             }));
@@ -341,9 +353,9 @@ namespace GFHelper
                                     operation_id = im.mainWindow.comboBoxOperation4.SelectedIndex + 1;
                                     string temp = im.baseAction.startOperation(team_id, operation_id, Data.operationInfo[operation_id].campaign);
                                     im.uiHelper.setStatusBarText_InThread(String.Format(" {0}", temp));
-                                    im.data.tasklistremove();
-                                    im.data.tasklistadd(2);
 
+                                    im.data.tasklistadd(2);
+                                    im.data.tasklistremove();
                                     //这里写代码      
                                 }));//这里写代码      
                             }));
@@ -356,22 +368,23 @@ namespace GFHelper
 
                     case 7://接收任务
                         {
-                            foreach (var item in im.data.user_operationInfo)
-                            {
+                            string temp = im.baseAction.finishOperation();
+                            if (temp == "1")
+                                im.uiHelper.setStatusBarText_InThread(String.Format(" 接收后勤任务成功"));
 
-                                if (item.Value._LastTime < 0)
-                                {
-                                    //api操作发包接收后勤
-                                    im.apioperation.FinishOperation(item.Value._operationId);
-                                    im.data.tasklistremove();
-                                    im.data.tasklistadd(2);
-                                    return;
-                                }
-                                else
-                                {
 
-                                }
-                            }
+
+                            im.data.tasklistremove();
+                            break;
+                        }
+                    case 8://开始任务通用
+                        {
+                            string temp = im.baseAction._startOperation();
+                            if (temp == "1")
+                                im.uiHelper.setStatusBarText_InThread(String.Format(" 接收后勤任务成功"));
+
+                            im.data.tasklistadd(2);
+                            im.data.tasklistremove();
 
 
                             break;
