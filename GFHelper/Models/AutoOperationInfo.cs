@@ -37,6 +37,7 @@ namespace GFHelper.Models
             this._userId = userid;
             this._teamId = teamid;
             this._startTime = starttime;
+            Set_durationTime();
             //SetDefaultLastTime();
             SetLastTime();
 
@@ -48,6 +49,12 @@ namespace GFHelper.Models
             this.startTime = Data.operationInfo[_operationId].duration;
         }
 
+        public void Set_durationTime()//设置剩余的时间
+        {
+            this._durationTime = Data.operationInfo[_operationId].duration;
+
+
+        }
         public void SetLastTime()//设置剩余的时间
         {
             DateTime time = System.DateTime.Now;
@@ -72,6 +79,9 @@ namespace GFHelper.Models
                 return Data.operationInfo[this._id].name;
             }
         }
+
+
+
         public string OperationName//关卡名字
         {
             get
@@ -140,6 +150,9 @@ namespace GFHelper.Models
         private int _startTime;
 
         public double _LastTime;
+
+        public int _durationTime;
+
         public int _endTime;
 
 

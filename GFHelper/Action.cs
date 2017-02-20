@@ -65,6 +65,7 @@ namespace GFHelper
 
                 if (item.Value._LastTime == -1)
                 {
+                    im.uiHelper.setStatusBarText_InThread(String.Format(" 开始接收后勤任务"));
                     a = 1;
                     im.data.tasklistadd(7);
                 }
@@ -93,7 +94,7 @@ namespace GFHelper
             return true;
         }
 
-        public string _startOperation()//通用版user_operationInfo里只要有就发送开始后勤post
+        public string autostartOperation()//通用版user_operationInfo里只要有就发送开始后勤post
         {
             foreach (var item in im.data.user_operationInfo)
             {
@@ -135,19 +136,17 @@ namespace GFHelper
                 return resurt;
             }
         }
+
         public string finishOperation()
         {
             foreach (var item in im.data.user_operationInfo)
             {
                 if (item.Value._LastTime < 0)
                 {
+                    im.uiHelper.setStatusBarText_InThread(String.Format(" 开始接收后勤任务"));
                     //api操作发包接收后勤
                     string result = im.apioperation.FinishOperation(item.Value._operationId);
                     //加后勤成功判断if()
-                    im.data.tasklistremove();
-                    im.data.tasklistadd(2);
-
-
                     return "";
                 }
                 else
@@ -159,5 +158,33 @@ namespace GFHelper
 
             return "";
         }
+
+        public string autofinishOperation()
+        {
+
+            foreach (var item in im.data.user_operationInfo)
+            {
+                if (item.Value._LastTime == -1)
+                {
+                    im.uiHelper.setStatusBarText_InThread(String.Format(" 开始接收后勤任务"));
+                    //api操作发包接收后勤
+                    //string result = im.apioperation.FinishOperation(item.Value._operationId);
+                    while (im.apioperation.FinishOperation(item.Value._operationId) =="")
+                    {
+
+                    }
+                    //加后勤成功判断if()
+                    return "";
+                }
+
+            }
+
+
+            return "";
+        }
+
+
+
+
     }
 }

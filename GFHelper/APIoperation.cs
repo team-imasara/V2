@@ -146,7 +146,7 @@ namespace GFHelper
             parameters.Add("a", "bannerEvent");
             string data = StringBuilder_(parameters);
             string result = im.serverHelper.DoPost("http://adr.transit.gf.ppgame.com/index.php", data.ToString());
-            Newtonsoft.Json.Linq.JObject obj = (Newtonsoft.Json.Linq.JObject)Newtonsoft.Json.JsonConvert.DeserializeObject(AuthCode.Decode(result, Models.SimpleInfo.sign));
+            //Newtonsoft.Json.Linq.JObject obj = (Newtonsoft.Json.Linq.JObject)Newtonsoft.Json.JsonConvert.DeserializeObject(AuthCode.Decode(result, Models.SimpleInfo.sign));
         }
 
         public void GetMallStaticTables()

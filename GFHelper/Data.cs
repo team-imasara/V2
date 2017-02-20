@@ -34,16 +34,15 @@ namespace GFHelper
 
         public bool tasklistremove()
         {
-            if (im.data.tasklist[0] != 0)
+            if(im.data.tasklist.Count == 1)
             {
                 im.data.tasklist.Add(0);
                 im.data.tasklist.RemoveAt(0);
             }
             else
             {
-
+                im.data.tasklist.RemoveAt(0);
             }
-
             return true;
         }
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using GFHelper.Models;
 using System.Threading;
+using System.Windows;
 
 namespace GFHelper
 {
@@ -157,25 +158,44 @@ namespace GFHelper
                 
                 foreach (var item in im.data.user_operationInfo)
                 {
-
-                    if(item.Value._LastTime > 0)
+                    if (CommonHelper.ConvertDateTimeInt(Now) > (item.Value.startTime + item.Value._durationTime+5))//+5s
                     {
-                        item.Value._LastTime = item.Value._LastTime - c;
-                    }
-                    else
-                    {
-                        if (item.Value._LastTime <= 0 && item.Value._LastTime > -1)
+                        if (item.Value._durationTime == 0)//除去重复添加928BUG
                         {
-                            im.data.tasklistadd(7);
-                            im.data.tasklistadd(8);
+                            ;
                         }
                         else
                         {
-                            item.Value._LastTime = -1;
+                            item.Value._durationTime = 0;
+                            im.data.tasklistadd(9);
+                            im.data.tasklistadd(8);
+                            im.data.tasklistadd(2);
                         }
-
-
                     }
+                    if (item.Value._LastTime >= 0)
+                    {
+                        item.Value._LastTime = item.Value._LastTime - 1;
+                    }
+                    //if(item.Value._LastTime > 0)
+                    //{
+                    //    item.Value._LastTime = item.Value._LastTime - c;
+                    //}
+                    //else
+                    //{
+                    //    if (item.Value._LastTime <= 0 && item.Value._LastTime > -1)
+                    //    {
+                    //        item.Value._LastTime = -1;
+                    //        im.data.tasklistadd(7);
+                    //        im.data.tasklistadd(8);
+
+                    //    }
+                    //    else
+                    //    {
+
+                    //    }
+
+
+                    //}
                 }
 
 
@@ -264,7 +284,7 @@ namespace GFHelper
                             im.uiHelper.setStatusBarText_InThread(String.Format(" 获取userinfo"));
                             im.dataHelper.ReadUserInfo(im.apioperation.GetUserInfo());
 
-                            im.uiHelper.setUserInfo();
+                            im.uiHelper.setUserInfo();//ui
 
                             //im.uiHelper.setUserOperation();
                             //im.uiHelper.setUserOperationteam();
@@ -372,20 +392,33 @@ namespace GFHelper
                             if (temp == "1")
                                 im.uiHelper.setStatusBarText_InThread(String.Format(" 接收后勤任务成功"));
 
-
+                            else
+                                MessageBox.Show("接收后勤任务失败");
 
                             im.data.tasklistremove();
                             break;
                         }
+
                     case 8://开始任务通用
                         {
-                            string temp = im.baseAction._startOperation();
+                            im.uiHelper.setStatusBarText_InThread(String.Format(" 开始执行后勤任务"));
+                            string temp = im.baseAction.autostartOperation();
                             if (temp == "1")
-                                im.uiHelper.setStatusBarText_InThread(String.Format(" 接收后勤任务成功"));
+                                im.uiHelper.setStatusBarText_InThread(String.Format(" 执行后勤任务成功"));
 
-                            im.data.tasklistadd(2);
+
                             im.data.tasklistremove();
 
+
+                            break;
+                        }
+
+                    case 9://接收任务
+                        {
+                            string temp = im.baseAction.autofinishOperation();
+
+                                im.uiHelper.setStatusBarText_InThread(String.Format(" 接收后勤任务成功"));
+                            im.data.tasklistremove();
 
                             break;
                         }
