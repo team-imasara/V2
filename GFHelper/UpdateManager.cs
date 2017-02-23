@@ -22,38 +22,38 @@ namespace GFHelper
         {
             return !File.Exists("catchdata") || (im.configManager.getConfigBool("autoupdate") && (dataVersion != im.configManager.getConfigString("dataversion")));
         }
-        public void UpdateCatchData()
-        {
-            filename = String.Format("catchdata_{0}.dat", im.serverHelper.getDataVersion());
+        //public void UpdateCatchData()
+        //{
+        //    filename = String.Format("catchdata_{0}.dat", im.serverHelper.getDataVersion());
             
-            string url = baseurl + filename;
-            WebClient wc = new WebClient();
-            wc.DownloadProgressChanged += DownloadProgress;
-            wc.DownloadFileCompleted += Complete;
-            wc.DownloadFileAsync(new Uri(url), filename);
-        }
+        //    string url = baseurl + filename;
+        //    WebClient wc = new WebClient();
+        //    wc.DownloadProgressChanged += DownloadProgress;
+        //    wc.DownloadFileCompleted += Complete;
+        //    wc.DownloadFileAsync(new Uri(url), filename);
+        //}
 
-        private void Complete(object sender, AsyncCompletedEventArgs e)
-        {
-            try
-            {
-                GZipStream gzs = new GZipStream(new FileStream(filename, FileMode.Open), CompressionMode.Decompress);
-                FileStream c = new FileStream("catchdata", FileMode.Create);
-                gzs.CopyTo(c);
-                im.uiHelper.setStatusBarText_InThread(String.Format("catchdata已更新至版本{0}", im.serverHelper.getDataVersion()));
-                im.configManager.SetConfig("dataversion", im.serverHelper.getDataVersion());
-                c.Close();
-                gzs.Close();
-                File.Delete(filename);
-                im.dataHelper.StartReadCatchData();
-            }
-            catch(Exception ex)
-            {
-                im.uiHelper.setStatusBarText_InThread(String.Format("更新失败!错误原因: {0}", ex.Message));
-                im.listener.Shutdown();
-            }
+        //private void Complete(object sender, AsyncCompletedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        GZipStream gzs = new GZipStream(new FileStream(filename, FileMode.Open), CompressionMode.Decompress);
+        //        FileStream c = new FileStream("catchdata", FileMode.Create);
+        //        gzs.CopyTo(c);
+        //        im.uiHelper.setStatusBarText_InThread(String.Format("catchdata已更新至版本{0}", im.serverHelper.getDataVersion()));
+        //        im.configManager.SetConfig("dataversion", im.serverHelper.getDataVersion());
+        //        c.Close();
+        //        gzs.Close();
+        //        File.Delete(filename);
+        //        im.dataHelper.StartReadCatchData();
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        im.uiHelper.setStatusBarText_InThread(String.Format("更新失败!错误原因: {0}", ex.Message));
+        //        im.listener.Shutdown();
+        //    }
             
-        }
+        //}
 
         private void DownloadProgress(object sender, DownloadProgressChangedEventArgs e)
         {

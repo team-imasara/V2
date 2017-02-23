@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GFHelper"
         mc:Ignorable="d"
-        Title="GFHelper" Height="483" Width="960"
+        Title="少女前线-暗" Height="483" Width="960"
         ResizeMode="CanMinimize" Closing="Window_Closing">
 
     <Grid Name="mainGird" Margin="-3,0,3,1">
@@ -83,10 +83,12 @@
                 <Grid Background="#FFE5E5E5" Margin="-6,0,-2,-2">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="235*"/>
+                            <ColumnDefinition Width="14*"/>
+                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="201*"/>
                             <ColumnDefinition Width="721*"/>
                         </Grid.ColumnDefinitions>
-                        <ScrollViewer Grid.ColumnSpan="2">
+                        <ScrollViewer Grid.ColumnSpan="4">
                             <Grid x:Name ="gridFactory" HorizontalAlignment="Left" Height="1046" VerticalAlignment="Top" Width="954">
                                 <GroupBox x:Name="groupBox2" Header="建造槽1" HorizontalAlignment="Left" Height="102" Margin="24,21,0,0" VerticalAlignment="Top" Width="912">
                                     <Grid HorizontalAlignment="Left" Height="81" Margin="-3,-5,-6,0" VerticalAlignment="Top" Width="909">
@@ -146,7 +148,7 @@
             <TabItem Header="战斗" Margin="71,4,-75,-6" Visibility="Hidden">
                 <Grid Background="#FFE5E5E5" Margin="-5,0,-6,-3"/>
             </TabItem>
-            <TabItem Header="后勤" Name ="TabItemOperation" HorizontalAlignment="Left" Width="43" Margin="703,4,-703,-4">
+            <TabItem Header="后勤" Name ="TabItemOperation" HorizontalAlignment="Left" Width="43" Margin="703,4,-703,-4" IsEnabled="False" Visibility="Hidden">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="218*"/>

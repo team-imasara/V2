@@ -29,9 +29,27 @@ namespace GFHelper
             im.uiHelper.setStatusBarText_InThread(String.Format(" 游戏登陆中"));
             im.apioperation.GetDigitalUid();
 
-            //获取UserInfo
             im.uiHelper.setStatusBarText_InThread(String.Format(" 获取userinfo"));
-            im.dataHelper.ReadUserInfo(im.apioperation.GetUserInfo());
+            int a = 0;
+            lock (im.user_operationInfoLocker)//锁
+            {
+                im.dataHelper.ReadUserInfo(im.apioperation.GetUserInfo());
+                //-----------------加后勤结束判断
+                foreach (var item in im.data.user_operationInfo)
+                {
+                    if (item.Value._LastTime == -1)
+                    {
+                        im.data.tasklistadd(7);//getuserinfo
+                    }
+                }
+                if (a == 1)
+                {
+                    im.data.tasklistadd(2);//getuserinfo
+                }
+                Models.SimpleInfo.LoginStartOperation = true;
+            }
+            //----------------如果有后勤结束则发包接收后勤
+
             im.uiHelper.setUserInfo();
             im.autoOperation.SetTeamInfo();
 
@@ -58,25 +76,7 @@ namespace GFHelper
             im.apioperation.RecoverResource();
 
 
-            //-----------------加后勤结束判断
-            int a = 0;
-            foreach (var item in im.data.user_operationInfo)
-            {
 
-                if (item.Value._LastTime == -1)
-                {
-                    im.uiHelper.setStatusBarText_InThread(String.Format(" 开始接收后勤任务"));
-                    a = 1;
-                    im.data.tasklistadd(7);
-                }
-                else
-                {
-
-                }
-            }
-            if (a==1)
-            im.data.tasklistadd(2);//getuserinfo
-            //----------------如果有后勤结束则发包接收后勤
 
 
 
@@ -96,14 +96,23 @@ namespace GFHelper
 
         public string autostartOperation()//通用版user_operationInfo里只要有就发送开始后勤post
         {
+            DateTime now = new DateTime();
             foreach (var item in im.data.user_operationInfo)
             {
-                if (item.Value._LastTime == -1)
+                now = DateTime.Now;
+                if (CommonHelper.ConvertDateTimeInt(now) > (item.Value.startTime + item.Value._durationTime ))
                 {
                     string resurt = im.apioperation.StartOperation(item.Value._teamId, item.Value._operationId, item.Value.MissionId);
 
                     if (resurt == "1")
                     {
+                        lock (im.user_operationInfoLocker)//锁
+                        {
+                            item.Value.reSet();
+                            //int temp = CommonHelper.ConvertDateTimeInt(time);
+                        }
+
+
                         return "1";
                     }
                     else
@@ -137,7 +146,7 @@ namespace GFHelper
             }
         }
 
-        public string finishOperation()
+        public string LoginfinishOperation()
         {
             foreach (var item in im.data.user_operationInfo)
             {

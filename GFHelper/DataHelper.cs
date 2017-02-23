@@ -29,12 +29,11 @@ namespace GFHelper
                 if (im.dataHelper.ReadCatchData())
                 {
                     im.autoOperation.SetOperationInfo();
-                    im.autoOperation.StartRefresh();
+                    //im.autoOperation.StartRefresh();
                 }
                 else
                 {
                     im.uiHelper.setStatusBarText_InThread("catchdata读取失败！请检查相关文件！");
-                    im.listener.Shutdown();
                 }
 
 
@@ -373,12 +372,32 @@ namespace GFHelper
                 im.data.user_operationInfo.Clear();
                 foreach (var item in jsonobj.operation_act_info)
                 {
+                    try
+                    {
+                        foreach (var UIitem in im.data.UIauto_operationInfo)
+                        {
+                            if (UIitem.Value._operationId == item.operation_id)
+                            {
+                                UIitem.Value._LastTime = item.start_time + Data.operationInfo[item.operation_id].duration - DateTime.Now;
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+
+
                     im.mainWindow.Dispatcher.Invoke(() =>
                     {
                         if (count == 0)
                         {
                             AutoOperationInfo ao = new AutoOperationInfo(im);
                             ao.ReadAutoOperationInfo(Convert.ToInt32(item.team_id), Convert.ToInt32(item.operation_id), Convert.ToInt32(item.user_id), Convert.ToInt32(item.id), Convert.ToInt32(item.start_time));
+
+
+
 
                             im.data.user_operationInfo.Add(0, ao);
                         }

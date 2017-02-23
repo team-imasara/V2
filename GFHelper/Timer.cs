@@ -155,48 +155,45 @@ namespace GFHelper
                 //        Task.RemoveAt(1);
                 //    }
                 //}
-                
-                foreach (var item in im.data.user_operationInfo)
+
+
+
+                lock (im.user_operationInfoLocker)//锁
                 {
-                    if (CommonHelper.ConvertDateTimeInt(Now) > (item.Value.startTime + item.Value._durationTime+5))//+5s
+                    foreach (var item in im.data.user_operationInfo)
                     {
-                        if (item.Value._durationTime == 0)//除去重复添加928BUG
+                        if (CommonHelper.ConvertDateTimeInt(Now) > (item.Value.startTime + item.Value._durationTime + Models.SimpleInfo.autoStartOperationRandomDelay))//+5s
                         {
-                            ;
+                            if (item.Value._durationTime == 0)//除去重复添加928BUG
+                            {
+                                ;
+                            }
+                            else
+                            {
+                                a = 1;
+                                item.Value._durationTime = 0;
+                                im.data.tasklistadd(9);
+
+                                im.data.tasklistadd(8);
+
+                            }
                         }
-                        else
+                        if (item.Value._LastTime >= 0)
                         {
-                            item.Value._durationTime = 0;
-                            im.data.tasklistadd(9);
-                            im.data.tasklistadd(8);
-                            im.data.tasklistadd(2);
+                            item.Value.SetLastTime();//获取剩余时间
                         }
                     }
-                    if (item.Value._LastTime >= 0)
-                    {
-                        item.Value._LastTime = item.Value._LastTime - 1;
-                    }
-                    //if(item.Value._LastTime > 0)
-                    //{
-                    //    item.Value._LastTime = item.Value._LastTime - c;
-                    //}
-                    //else
-                    //{
-                    //    if (item.Value._LastTime <= 0 && item.Value._LastTime > -1)
-                    //    {
-                    //        item.Value._LastTime = -1;
-                    //        im.data.tasklistadd(7);
-                    //        im.data.tasklistadd(8);
-
-                    //    }
-                    //    else
-                    //    {
-
-                    //    }
-
-
-                    //}
                 }
+
+
+                if (a == 1)
+                {
+                    //im.data.tasklistadd(2);//getuserinfo
+                    Models.SimpleInfo.LoginStartOperation = true;
+                    a = 0;
+                }
+
+
 
 
 
@@ -293,7 +290,7 @@ namespace GFHelper
                             //im.autoOperation.SetTeamInfo();
                             //im.autoOperation.SetOperationInfo();
                             im.data.tasklistremove();
-
+                            im.uiHelper.setStatusBarText_InThread(String.Format(" 获取userinfo成功"));
                             break;
 
                         }
@@ -388,7 +385,7 @@ namespace GFHelper
 
                     case 7://接收任务
                         {
-                            string temp = im.baseAction.finishOperation();
+                            string temp = im.baseAction.LoginfinishOperation();
                             if (temp == "1")
                                 im.uiHelper.setStatusBarText_InThread(String.Format(" 接收后勤任务成功"));
 

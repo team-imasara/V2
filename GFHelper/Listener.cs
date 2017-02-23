@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Nekoxy;
+//using Nekoxy;
 using System.Windows.Controls;
 using Codeplex.Data;
 using System.Windows.Threading;
@@ -30,175 +30,175 @@ namespace GFHelper
             token = "";
         }
 
-        ~Listener()
-        {
-            HttpProxy.Shutdown();
-        }
+        //~Listener()
+        //{
+        //    HttpProxy.Shutdown();
+        //}
 
-        public void Shutdown()
-        {
-            HttpProxy.Shutdown();
-        }
+        //public void Shutdown()
+        //{
+        //    HttpProxy.Shutdown();
+        //}
 
-        public bool startProxy(int port)
-        {
-            
-            try
-            {
-                HttpProxy.Shutdown();
+        //public bool startProxy(int port)
+        //{
 
-                HttpProxy.AfterSessionComplete += (obj) => Task.Run(() => { WaitForServerDownload(obj); });
-                //HttpProxy.AfterSessionComplete += (obj) => Task.Run(() => { processData(obj); });
-                HttpProxy.Startup(port, false, false);
-            }
-            catch (Exception)
-            {
-                im.uiHelper.setStatusBarText(String.Format("端口{0}已被占用！请尝试更换端口！", port));
-                return false;
-            }
+        //    try
+        //    {
+        //        HttpProxy.Shutdown();
 
-            string proxyaddr = String.Format("{0}:{1}", im.serverHelper.GetLocalAddress(), port);
+        //        HttpProxy.AfterSessionComplete += (obj) => Task.Run(() => { WaitForServerDownload(obj); });
+        //        //HttpProxy.AfterSessionComplete += (obj) => Task.Run(() => { processData(obj); });
+        //        HttpProxy.Startup(port, false, false);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        im.uiHelper.setStatusBarText(String.Format("端口{0}已被占用！请尝试更换端口！", port));
+        //        return false;
+        //    }
 
-                im.uiHelper.setStatusBarText(String.Format("代理在{0}上开启成功，等待连接……", proxyaddr));
-                return true;
+        //    string proxyaddr = String.Format("{0}:{1}", im.serverHelper.GetLocalAddress(), port);
 
-
-        }
+        //    im.uiHelper.setStatusBarText(String.Format("代理在{0}上开启成功，等待连接……", proxyaddr));
+        //    return true;
 
 
-        private void WaitForServerDownload(Session o)
-        {
-            if (SimpleInfo.isServerLoaded) return;
-            string servercontent = o.Response.BodyAsString;
-            if (servercontent.Split('\n')[0].Contains("<?xml"))
-            {
-                if (im.serverHelper.ReadServerInfo(servercontent))
-                {
-                    if (im.updateManager.CheckUpdate(im.serverHelper.getDataVersion()))
-                    {
-                        im.uiHelper.setStatusBarText_InThread("更新catchdata...");
-                        im.updateManager.UpdateCatchData();
-                    }
-                    else
-                        im.dataHelper.StartReadCatchData();
-
-                    string message = String.Format("服务器列表读取成功，已添加{0}个服务器", im.serverHelper.GetServerNumber());
-                    im.uiHelper.setStatusBarText_InThread(message);
+        //}
 
 
+        //private void WaitForServerDownload(Session o)
+        //{
+        //    if (SimpleInfo.isServerLoaded) return;
+        //    string servercontent = o.Response.BodyAsString;
+        //    if (servercontent.Split('\n')[0].Contains("<?xml"))
+        //    {
+        //        if (im.serverHelper.ReadServerInfo(servercontent))
+        //        {
+        //            if (im.updateManager.CheckUpdate(im.serverHelper.getDataVersion()))
+        //            {
+        //                im.uiHelper.setStatusBarText_InThread("更新catchdata...");
+        //                im.updateManager.UpdateCatchData();
+        //            }
+        //            else
+        //                im.dataHelper.StartReadCatchData();
 
-                    HttpProxy.AfterSessionComplete += (obj) => Task.Run(() => { processData(obj); });
-                    SimpleInfo.isServerLoaded = true;
-                }
-
-            }
-
-        }
-
-        private void processData(Session obj)
-        {
-            string host = obj.Request.Headers.Host;
-            KeyValuePair<string, string> server = im.serverHelper.GetServerFromDictionary(host);
-
-            if (server.Key == "" && server.Value == "") return;
-
-            string api = obj.Request.RequestLine.URI.Substring(server.Key.Length - ("http://" + host).Length);
-            im.logger.Log(api);
-            switch (api)
-            {
-                case RequestUrls.GetVersion:
-                    //TODO:目录下catchdata版本检测
-                    break;
-                case RequestUrls.GetDigitalUid:
-                    {
-                        string data = obj.Response.BodyAsString;
-                        string decoded = AuthCode.Decode(data, "yundoudou");
-                        im.logger.Log(decoded);
-                        dynamic jsonobj = DynamicJson.Parse(decoded);
-                        token = jsonobj.sign;
-                        uid = jsonobj.uid;
-
-                        //wtf?
-                        Models.SimpleInfo.sign = token;
-                        Models.SimpleInfo.uid = uid;
-
-                        im.uiHelper.setStatusBarText_InThread(String.Format("已登录服务器: {0}，uid: {2}", server.Value, token, uid));
-                        Models.SimpleInfo.host = server.Key;
-                        break;
-                    }
+        //            string message = String.Format("服务器列表读取成功，已添加{0}个服务器", im.serverHelper.GetServerNumber());
+        //            im.uiHelper.setStatusBarText_InThread(message);
 
 
-                case RequestUrls.GetServerTime://同步服务器时间
-                    {
-                        if (String.IsNullOrEmpty(token) || String.IsNullOrEmpty(uid))
-                        {
-                            im.uiHelper.setStatusBarText_InThread("未获取到token！请重新登录游戏以使本工具正常工作！");
-                            break;
-                        }
-                        if (String.IsNullOrEmpty(token)) break;
-                        string decoded = AuthCode.Decode(obj.Response.BodyAsString, token);
-                        dynamic jsonobj = DynamicJson.Parse(decoded);
 
-                        im.logger.Log("Server: " + jsonobj.now + " \nClient: " + CommonHelper.ConvertDateTimeInt(DateTime.Now));
-                        SimpleInfo.timeoffset = Convert.ToInt32(jsonobj.now) - CommonHelper.ConvertDateTimeInt(DateTime.Now);//server = local + offset
-                        im.logger.Log("Set timeoffset: " + SimpleInfo.timeoffset);
-                        break;
-                    }
+        //            HttpProxy.AfterSessionComplete += (obj) => Task.Run(() => { processData(obj); });
+        //            SimpleInfo.isServerLoaded = true;
+        //        }
+
+        //    }
+
+        //}
+
+        //private void processData(Session obj)
+        //{
+        //    string host = obj.Request.Headers.Host;
+        //    KeyValuePair<string, string> server = im.serverHelper.GetServerFromDictionary(host);
+
+        //    if (server.Key == "" && server.Value == "") return;
+
+        //    string api = obj.Request.RequestLine.URI.Substring(server.Key.Length - ("http://" + host).Length);
+        //    im.logger.Log(api);
+        //    switch (api)
+        //    {
+        //        case RequestUrls.GetVersion:
+        //            //TODO:目录下catchdata版本检测
+        //            break;
+        //        case RequestUrls.GetDigitalUid:
+        //            {
+        //                string data = obj.Response.BodyAsString;
+        //                string decoded = AuthCode.Decode(data, "yundoudou");
+        //                im.logger.Log(decoded);
+        //                dynamic jsonobj = DynamicJson.Parse(decoded);
+        //                token = jsonobj.sign;
+        //                uid = jsonobj.uid;
+
+        //                //wtf?
+        //                Models.SimpleInfo.sign = token;
+        //                Models.SimpleInfo.uid = uid;
+
+        //                im.uiHelper.setStatusBarText_InThread(String.Format("已登录服务器: {0}，uid: {2}", server.Value, token, uid));
+        //                Models.SimpleInfo.host = server.Key;
+        //                break;
+        //            }
 
 
-                default:
-                    {
-                        if (String.IsNullOrEmpty(token) || String.IsNullOrEmpty(uid))
-                        {
-                            im.logger.Log(api);
-                            im.uiHelper.setStatusBarText_InThread("未获取到token！请重新登录游戏以使本工具正常工作！");
-                        }
-                        else
-                        {
-                            try {
-                                StringBuilder sb = new StringBuilder();
-                                sb.Append("api: " + api + '\n');
-                                NameValueCollection clientdata = new NameValueCollection();
-                                string serverdata = AuthCode.Decode(obj.Response.BodyAsString, token);
-                                im.logger.Log("Serverdata: " + serverdata);
-                                if (String.IsNullOrEmpty(serverdata))//没有加密
-                                    serverdata = obj.Response.BodyAsString;
+        //        case RequestUrls.GetServerTime://同步服务器时间
+        //            {
+        //                if (String.IsNullOrEmpty(token) || String.IsNullOrEmpty(uid))
+        //                {
+        //                    im.uiHelper.setStatusBarText_InThread("未获取到token！请重新登录游戏以使本工具正常工作！");
+        //                    break;
+        //                }
+        //                if (String.IsNullOrEmpty(token)) break;
+        //                string decoded = AuthCode.Decode(obj.Response.BodyAsString, token);
+        //                dynamic jsonobj = DynamicJson.Parse(decoded);
 
-                                if (!String.IsNullOrEmpty(obj.Request.BodyAsString))
-                                {
+        //                im.logger.Log("Server: " + jsonobj.now + " \nClient: " + CommonHelper.ConvertDateTimeInt(DateTime.Now));
+        //                SimpleInfo.timeoffset = Convert.ToInt32(jsonobj.now) - CommonHelper.ConvertDateTimeInt(DateTime.Now);//server = local + offset
+        //                im.logger.Log("Set timeoffset: " + SimpleInfo.timeoffset);
+        //                break;
+        //            }
 
-                                    clientdata = HttpUtility.ParseQueryString(obj.Request.BodyAsString);
-                                    sb.Append("RawClientData: " + clientdata + '\n');
-                                    if (clientdata.AllKeys.Contains("outdatacode"))
-                                    {
-                                        clientdata["outdatacode"] = AuthCode.Decode(clientdata["outdatacode"], token);
-                                        im.logger.Log("outdatacode: " + clientdata["outdatacode"]);
-                                        sb.Append("client: " + clientdata["outdatacode"] + '\n');
 
-                                    }
-                                    else
-                                        clientdata["outdatacode"] = "[]";
+        //        default:
+        //            {
+        //                if (String.IsNullOrEmpty(token) || String.IsNullOrEmpty(uid))
+        //                {
+        //                    im.logger.Log(api);
+        //                    im.uiHelper.setStatusBarText_InThread("未获取到token！请重新登录游戏以使本工具正常工作！");
+        //                }
+        //                else
+        //                {
+        //                    try {
+        //                        StringBuilder sb = new StringBuilder();
+        //                        sb.Append("api: " + api + '\n');
+        //                        NameValueCollection clientdata = new NameValueCollection();
+        //                        string serverdata = AuthCode.Decode(obj.Response.BodyAsString, token);
+        //                        im.logger.Log("Serverdata: " + serverdata);
+        //                        if (String.IsNullOrEmpty(serverdata))//没有加密
+        //                            serverdata = obj.Response.BodyAsString;
 
-                                    sb.Append("server: " + serverdata);
-                                    im.logger.Log(sb.ToString());
+        //                        if (!String.IsNullOrEmpty(obj.Request.BodyAsString))
+        //                        {
 
-                                    SimpleInfo.reqid = Convert.ToInt32(clientdata["req_id"]);
-                                }
+        //                            clientdata = HttpUtility.ParseQueryString(obj.Request.BodyAsString);
+        //                            sb.Append("RawClientData: " + clientdata + '\n');
+        //                            if (clientdata.AllKeys.Contains("outdatacode"))
+        //                            {
+        //                                clientdata["outdatacode"] = AuthCode.Decode(clientdata["outdatacode"], token);
+        //                                im.logger.Log("outdatacode: " + clientdata["outdatacode"]);
+        //                                sb.Append("client: " + clientdata["outdatacode"] + '\n');
 
-                                if(serverdata.Length < 100)
-                                im.logger.Log("Serverdata: " + serverdata);
-                                processMainData(api, clientdata, serverdata);
-                            }
-                            catch (Exception e)
-                            {
-                                im.logger.Log(e);
-                            }
-                        }
-                        break;
-                    }
+        //                            }
+        //                            else
+        //                                clientdata["outdatacode"] = "[]";
 
-            }
-        }
+        //                            sb.Append("server: " + serverdata);
+        //                            im.logger.Log(sb.ToString());
+
+        //                            SimpleInfo.reqid = Convert.ToInt32(clientdata["req_id"]);
+        //                        }
+
+        //                        if(serverdata.Length < 100)
+        //                        im.logger.Log("Serverdata: " + serverdata);
+        //                        processMainData(api, clientdata, serverdata);
+        //                    }
+        //                    catch (Exception e)
+        //                    {
+        //                        im.logger.Log(e);
+        //                    }
+        //                }
+        //                break;
+        //            }
+
+        //    }
+        //}
 
 
         public void processMainData(string api, NameValueCollection client, string server)

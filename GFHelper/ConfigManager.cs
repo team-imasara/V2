@@ -179,7 +179,7 @@ namespace GFHelper
 
                 Models.SimpleInfo.androidid = this.im.configManager.getConfigString("androidid").ToUpper();
                 Models.SimpleInfo.mac = this.im.configManager.getConfigString("mac");
-
+                Models.SimpleInfo.autoStartOperationRandomDelay = this.im.configManager.getConfigInt("autostartoperationrandomdelay");
 
                 Models.SimpleInfo.GameAdd = "http://s" + Models.SimpleInfo.worldid + ".gw.gf.ppgame.com/index.php/100" + Models.SimpleInfo.worldid + "/";
 

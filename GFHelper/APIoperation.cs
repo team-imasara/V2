@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Codeplex.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -50,11 +51,23 @@ namespace GFHelper
 
             string data =  StringBuilder_(parameters);
 
-            string result = im.serverHelper.DoPost(RequestUrls.LoginFirstUrl, data.ToString());
+
             //response = ServerHelper.dop(Request,Urls.LoginFirstUrl, parameters, encoding);
-            Newtonsoft.Json.Linq.JObject obj = (Newtonsoft.Json.Linq.JObject)Newtonsoft.Json.JsonConvert.DeserializeObject(result);//解析JSON串
-            Models.SimpleInfo.access_token = obj["access_token"].ToString();
-            Models.SimpleInfo.openid = obj["openid"].ToString();
+            //Newtonsoft.Json.Linq.JObject obj = (Newtonsoft.Json.Linq.JObject)Newtonsoft.Json.JsonConvert.DeserializeObject(result);//解析JSON串
+            string result = "";
+
+            while (string.IsNullOrEmpty(result)==true)
+            {
+                result = im.serverHelper.DoPost(RequestUrls.LoginFirstUrl, data.ToString());
+                var jsonobj = DynamicJson.Parse(result); //讲道理，我真不想写了
+
+                Models.SimpleInfo.access_token = jsonobj.access_token.ToString();
+                Models.SimpleInfo.openid = jsonobj.openid.ToString();
+            }
+
+
+
+
             return true;
         }
 
@@ -102,11 +115,21 @@ namespace GFHelper
 
             string data = StringBuilder_(parameters);
 
-            string result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.GetDigitalUid, data.ToString());
+            string result = "";
+            //var jsonobj = DynamicJson.Parse(result);
+            while (string.IsNullOrEmpty(result)== true )
+            {
+                result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.GetDigitalUid, data.ToString());
+                var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, "yundoudou")); //讲道理，我真不想写了
+                Models.SimpleInfo.sign = jsonobj.sign.ToString();
+                Models.SimpleInfo.uid = jsonobj.uid.ToString();
+            }
 
-            Newtonsoft.Json.Linq.JObject obj = (Newtonsoft.Json.Linq.JObject)Newtonsoft.Json.JsonConvert.DeserializeObject(AuthCode.Decode(result, "yundoudou"));//解析JSON串
-            Models.SimpleInfo.sign = obj["sign"].ToString();
-            Models.SimpleInfo.uid = obj["uid"].ToString();
+
+
+
+
+
             return true;
         }
 
@@ -135,8 +158,17 @@ namespace GFHelper
             string outdatacode = AuthCode.Encode(Models.SimpleInfo.sign, Models.SimpleInfo.sign);//用自身作为密匙把自身加密
             string requeststring = String.Format("uid={0}&signcode={1}&req_id={2}", Models.SimpleInfo.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ++Models.SimpleInfo.reqid);
             im.logger.Log(requeststring);
-            string result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.CheckNewMail, requeststring);
-            Newtonsoft.Json.Linq.JObject obj = (Newtonsoft.Json.Linq.JObject)Newtonsoft.Json.JsonConvert.DeserializeObject(AuthCode.Decode(result, Models.SimpleInfo.sign));
+
+            string result = "";
+            //var jsonobj = DynamicJson.Parse(result);
+            while (string.IsNullOrEmpty(result) == true)
+            {
+                result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.CheckNewMail, requeststring);
+                var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, Models.SimpleInfo.sign));
+            }
+
+
+
         }
 
         public void GetBannerEvent()//获取左下角小广告
@@ -154,8 +186,21 @@ namespace GFHelper
             string outdatacode = AuthCode.Encode(Models.SimpleInfo.sign, Models.SimpleInfo.sign);//用自身作为密匙把自身加密
             string requeststring = String.Format("uid={0}&signcode={1}&req_id={2}", Models.SimpleInfo.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ++Models.SimpleInfo.reqid);
             im.logger.Log(requeststring);
-            string result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.MallStaticTables, requeststring);
-            Newtonsoft.Json.Linq.JObject obj = (Newtonsoft.Json.Linq.JObject)Newtonsoft.Json.JsonConvert.DeserializeObject(AuthCode.Decode(result, Models.SimpleInfo.sign));
+
+            //Newtonsoft.Json.Linq.JObject obj = null;
+
+            string result = "";
+            //var jsonobj = DynamicJson.Parse(result);
+
+            while (string.IsNullOrEmpty(result) == true)
+            {
+                result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.MallStaticTables, requeststring);
+                var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, Models.SimpleInfo.sign));
+
+            }
+
+
+
         }
 
         public void GetMailList()
@@ -182,7 +227,7 @@ namespace GFHelper
             string requeststring = String.Format("uid={0}&signcode={1}&req_id={2}", Models.SimpleInfo.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ++Models.SimpleInfo.reqid);
             im.logger.Log(requeststring);
             string result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.RecoverResource, requeststring);
-            Newtonsoft.Json.Linq.JObject obj = (Newtonsoft.Json.Linq.JObject)Newtonsoft.Json.JsonConvert.DeserializeObject(AuthCode.Decode(result, Models.SimpleInfo.sign));
+            //Newtonsoft.Json.Linq.JObject obj = (Newtonsoft.Json.Linq.JObject)Newtonsoft.Json.JsonConvert.DeserializeObject(AuthCode.Decode(result, Models.SimpleInfo.sign));
             return result;
         }
 
@@ -191,8 +236,19 @@ namespace GFHelper
             string outdatacode = AuthCode.Encode(String.Format("{{\"team_id\":{0},\"operation_id\":{1},\"mission_id\":{2}}}", team_id, operation_id, mission_id), Models.SimpleInfo.sign);
             string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", Models.SimpleInfo.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ++Models.SimpleInfo.reqid);
             im.logger.Log(requeststring);
-            string result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.StartOperation, requeststring);//不需要解密
+
+            string result = "";
+
+            while (result != "1")
+            {
+                result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.StartOperation, requeststring);
+            }
+
+            //result = AuthCode.Decode(result, Models.SimpleInfo.sign);//解析解密
             return result;
+
+
+
         }
 
         public string FinishOperation(int operationid)
@@ -200,7 +256,14 @@ namespace GFHelper
             string outdatacode = AuthCode.Encode(String.Format("{{\"operation_id\":{0}}}", operationid), Models.SimpleInfo.sign);
             string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", Models.SimpleInfo.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ++Models.SimpleInfo.reqid);
             im.logger.Log(requeststring);
-            string result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.FinishOperation, requeststring);//不需要解密
+
+            string result="";
+
+            while (string.IsNullOrEmpty(result)==true)
+            {
+                result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.FinishOperation, requeststring);//不需要解密
+            }
+
             //result = AuthCode.Decode(result, Models.SimpleInfo.sign);//解析解密
             return result;
 

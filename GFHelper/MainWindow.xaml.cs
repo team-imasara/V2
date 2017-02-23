@@ -16,6 +16,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Net;
 using System.Threading;
+using Codeplex.Data;
 
 namespace GFHelper
 {
@@ -122,8 +123,11 @@ namespace GFHelper
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            Newtonsoft.Json.Linq.JObject obj = (Newtonsoft.Json.Linq.JObject)Newtonsoft.Json.JsonConvert.DeserializeObject(AuthCode.Decode(textbox1.Text, "yundoudou"));//解析JSON串
-            textbox2.Text = obj["sign"].ToString();
+
+            var jsonobj = DynamicJson.Parse(AuthCode.Decode(textbox1.Text, "yundoudou")); //讲道理，我真不想写了
+
+            //Newtonsoft.Json.Linq.JObject obj = (Newtonsoft.Json.Linq.JObject)Newtonsoft.Json.JsonConvert.DeserializeObject();//解析JSON串
+            textbox2.Text = jsonobj.sign.ToString();
         }
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
@@ -151,12 +155,12 @@ namespace GFHelper
 
 
             Models.SimpleInfo.UserMcCode = im.eyLogin.GetMachineCode();
-            if (im.mcsystem.checkT() == true)
-            {
+            //if (im.mcsystem.checkT() == true)
+                if (true)
+                {
                 this.im.uiHelper.setStatusBarText_InThread(" 验证通过允许使用");
                 //控件开放
                 im.mainWindow.Login.IsEnabled = true;
-
 
 
 
@@ -172,6 +176,7 @@ namespace GFHelper
                 CompleteMisson.IsBackground = true;
                 CompleteMisson.Start();
 
+
             }
             //验证失败代码
             else
@@ -184,27 +189,80 @@ namespace GFHelper
 
         private void AutoOperationB_S1_Click(object sender, RoutedEventArgs e)
         {
+            im.mainWindow.AutoOperationB_S1.IsEnabled = false;
             //开始后勤任务1
             im.data.tasklistadd(3);
+            //lock (im.user_operationInfoLocker)//锁
+            //{
+            //    if (im.data.UIauto_operationInfo.Count < 4)
+            //    {
+            //        im.data.UIauto_operationInfo.Add(0, null);
+            //        im.data.UIauto_operationInfo.Add(1, null);
+            //        im.data.UIauto_operationInfo.Add(2, null);
+            //        im.data.UIauto_operationInfo.Add(3, null);
+            //    }
+            //    im.data.UIauto_operationInfo[0].UIreadautoOperationinfo(im.mainWindow.comboBoxOperationTeam1.SelectedIndex + 1, im.mainWindow.comboBoxOperation1.SelectedIndex + 1);
+            //}
 
         }
 
         private void AutoOperationB_S2_Click(object sender, RoutedEventArgs e)
         {
-            //开始后勤任务2
+            im.mainWindow.AutoOperationB_S2.IsEnabled = false;
             im.data.tasklistadd(4);
+            //lock (im.user_operationInfoLocker)//锁
+            //{
+            //    if (im.data.UIauto_operationInfo.Count < 4)
+            //    {
+            //        im.data.UIauto_operationInfo.Add(0, null);
+            //        im.data.UIauto_operationInfo.Add(1, null);
+            //        im.data.UIauto_operationInfo.Add(2, null);
+            //        im.data.UIauto_operationInfo.Add(3, null);
+            //    }
+            //    //开始后勤任务2
+            //    im.data.UIauto_operationInfo[1].UIreadautoOperationinfo(im.mainWindow.comboBoxOperationTeam2.SelectedIndex + 1, im.mainWindow.comboBoxOperation2.SelectedIndex + 1);
+            //}
+
         }
 
         private void AutoOperationB_S3_Click(object sender, RoutedEventArgs e)
         {
-            //开始后勤任务2
+            im.mainWindow.AutoOperationB_S3.IsEnabled = false;
             im.data.tasklistadd(5);
+            //lock (im.user_operationInfoLocker)//锁
+            //{
+            //    if (im.data.UIauto_operationInfo.Count < 4)
+            //    {
+            //        im.data.UIauto_operationInfo.Add(0, null);
+            //        im.data.UIauto_operationInfo.Add(1, null);
+            //        im.data.UIauto_operationInfo.Add(2, null);
+            //        im.data.UIauto_operationInfo.Add(3, null);
+            //    }
+            //    //开始后勤任务3
+            //    im.data.UIauto_operationInfo[2].UIreadautoOperationinfo(im.mainWindow.comboBoxOperationTeam3.SelectedIndex + 1, im.mainWindow.comboBoxOperation3.SelectedIndex + 1);
+
+            //}
+
         }
 
         private void AutoOperationB_S4_Click(object sender, RoutedEventArgs e)
         {
-            //开始后勤任务2
+            im.mainWindow.AutoOperationB_S4.IsEnabled = false;
             im.data.tasklistadd(6);
+            //lock (im.user_operationInfoLocker)//锁
+            //{
+            //    if (im.data.UIauto_operationInfo.Count < 4)
+            //    {
+            //        im.data.UIauto_operationInfo.Add(0, null);
+            //        im.data.UIauto_operationInfo.Add(1, null);
+            //        im.data.UIauto_operationInfo.Add(2, null);
+            //        im.data.UIauto_operationInfo.Add(3, null);
+            //    }
+            //    //开始后勤任务4
+            //    im.data.UIauto_operationInfo[3].UIreadautoOperationinfo(im.mainWindow.comboBoxOperationTeam4.SelectedIndex + 1, im.mainWindow.comboBoxOperation4.SelectedIndex + 1);
+            //}
+
+            //im.data.tasklistadd(6);
         }
 
 

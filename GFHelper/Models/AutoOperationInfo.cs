@@ -42,7 +42,16 @@ namespace GFHelper.Models
             SetLastTime();
 
         }
+        public void reSet()
+        {
+            DateTime time = System.DateTime.Now;
+            this._startTime = CommonHelper.ConvertDateTimeInt(DateTime.Now);
+            //this.startTime = CommonHelper.ConvertDateTimeInt(DateTime.Now);
+            this._LastTime = Data.operationInfo[this._operationId].duration;
+            this.SetLastTime();
+            this.Set_durationTime();
 
+        }
 
         public void SetDefaultLastTime()
         {
@@ -123,7 +132,7 @@ namespace GFHelper.Models
             set
             {
                 this._startTime = value;
-                this._textLastTime.Text = CommonHelper.formatDuration(value);
+                //this._textLastTime.Text = CommonHelper.formatDuration(value);
             }
         }
 

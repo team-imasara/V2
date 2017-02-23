@@ -36,14 +36,8 @@
     <OutputPath>bin\4.5\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ionic.Zip">
-      <HintPath>..\GFHelper\bin\Debug\Ionic.Zip.dll</HintPath>
-    </Reference>
     <Reference Include="log4net">
       <HintPath>..\GFHelper\bin\Debug\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="Nekoxy">
-      <HintPath>..\GFHelper\bin\Debug\Nekoxy.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\GFHelper\bin\Debug\Newtonsoft.Json.dll</HintPath>

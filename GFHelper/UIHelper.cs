@@ -209,16 +209,6 @@ namespace GFHelper
                     im.mainWindow.textmre.Text = userInfo.mre.ToString();
                     im.mainWindow.textmp.Text = userInfo.mp.ToString();
                     im.mainWindow.textpart.Text = userInfo.part.ToString();
-
-
-
-
-
-
-
-
-
-
                     //items
                     //讲道理，难看
                     try
@@ -306,7 +296,7 @@ namespace GFHelper
                         im.mainWindow.comboBoxOperation1.SelectedIndex = item.Value._operationId - 1;
                         if(item.Value._LastTime == -1)
                         {
-                            im.mainWindow.operation_time1.Text = "完成";
+                            im.mainWindow.operation_time1.Text = "   完成";
                         }
                         else
                         im.mainWindow.operation_time1.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime));
@@ -319,7 +309,7 @@ namespace GFHelper
                         im.mainWindow.comboBoxOperation2.SelectedIndex = item.Value._operationId - 1;
                         if (item.Value._LastTime == -1)
                         {
-                            im.mainWindow.operation_time2.Text = "完成";
+                            im.mainWindow.operation_time2.Text = "   完成";
                         }
                         else
                             im.mainWindow.operation_time2.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime));
@@ -331,7 +321,7 @@ namespace GFHelper
                         im.mainWindow.comboBoxOperation3.SelectedIndex = item.Value._operationId - 1;
                         if (item.Value._LastTime == -1)
                         {
-                            im.mainWindow.operation_time3.Text = "完成";
+                            im.mainWindow.operation_time3.Text = "   完成";
                         }
                         else
                             im.mainWindow.operation_time3.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime));
@@ -343,7 +333,7 @@ namespace GFHelper
                         im.mainWindow.comboBoxOperation4.SelectedIndex = item.Value._operationId - 1;
                         if (item.Value._LastTime == -1)
                         {
-                            im.mainWindow.operation_time4.Text = "完成";
+                            im.mainWindow.operation_time4.Text = "   完成";
                         }
                         else
                             im.mainWindow.operation_time4.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime));

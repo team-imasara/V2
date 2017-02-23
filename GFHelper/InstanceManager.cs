@@ -32,7 +32,8 @@ namespace GFHelper
         public DoPost.Login login;
         public EyLoginSoft eyLogin;
         public BaseAction baseAction;
-        
+
+        public object user_operationInfoLocker;//添加一个对象作为锁
 
         public InstanceManager(MainWindow mainWindow)
         {
@@ -62,7 +63,7 @@ namespace GFHelper
             this.login = new DoPost.Login(this);
             this.baseAction = new BaseAction(this);
 
-
+            this.user_operationInfoLocker = new object();
         }
     }
 }

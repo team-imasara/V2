@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿//using Newtonsoft.Json;
+//using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -47,8 +47,8 @@ namespace GFHelper.DoPost
 
             StreamReader sr = new StreamReader(response.GetResponseStream());//创建一个stream读取流 //获取响应的字符串流   
             string html = sr.ReadToEnd();
-            Newtonsoft.Json.Linq.JObject obj;
-            obj = (JObject)JsonConvert.DeserializeObject(AuthCode.Decode(html, "yundoudou"));//
+
+
             //---------Index_version = "Index/version";//获取当前时间戳，获取换日时间戳，数据版本 客户端版本 星期几 end------------------
 
             System.Threading.Thread.Sleep(5000);
@@ -76,9 +76,13 @@ namespace GFHelper.DoPost
             sr = new StreamReader(response.GetResponseStream());//创建一个stream读取流 //获取响应的字符串流   
             html = sr.ReadToEnd();   //从头读到尾，放到字符串html  
 
-            obj = (JObject)JsonConvert.DeserializeObject(AuthCode.Decode(html, "yundoudou"));//解析JSON串
-            Models.SimpleInfo.sign = obj["sign"].ToString();
-            Models.SimpleInfo.uid = obj["uid"].ToString();
+            //obj = (JObject)JsonConvert.DeserializeObject(AuthCode.Decode(html, "yundoudou"));//解析JSON串
+
+            var jsonobj = Codeplex.Data.DynamicJson.Parse(html); //讲道理，我真不想写了
+
+
+            Models.SimpleInfo.sign = jsonobj.sign.ToString();
+            Models.SimpleInfo.uid = jsonobj.uid.ToString();
             //---------GetDigitalUid end------------------
 
             ////------------------获取user_info start------------------

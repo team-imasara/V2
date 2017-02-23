@@ -31,5 +31,7 @@ namespace GFHelper.Models
         public static bool isServerLoaded = false;
         public static int reqid = 0;
         public static int timeoffset = 0;
+        public static bool LoginStartOperation = false;//登陆后是否自动后勤
+        public static int autoStartOperationRandomDelay = 0;
     }
 }
