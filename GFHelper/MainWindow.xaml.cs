@@ -155,8 +155,8 @@ namespace GFHelper
 
 
             Models.SimpleInfo.UserMcCode = im.eyLogin.GetMachineCode();
-            //if (im.mcsystem.checkT() == true)
-                if (true)
+            if (im.mcsystem.checkT() == true)
+                //if (true)
                 {
                 this.im.uiHelper.setStatusBarText_InThread(" 验证通过允许使用");
                 //控件开放
@@ -165,7 +165,7 @@ namespace GFHelper
 
 
                 //线程开放
-                countdown = new Thread((new ThreadStart(() => im.backgroundthread.countdown())));//倒计时线程
+                countdown = new Thread((new ThreadStart(() => im.backgroundthread.UIupdate())));//倒计时线程
                 countdown.SetApartmentState(ApartmentState.STA);
                 countdown.IsBackground = true;
                 countdown.Start();

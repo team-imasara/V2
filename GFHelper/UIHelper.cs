@@ -299,7 +299,11 @@ namespace GFHelper
                             im.mainWindow.operation_time1.Text = "   完成";
                         }
                         else
-                        im.mainWindow.operation_time1.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime));
+                        {
+                            im.mainWindow.operation_time1.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime));
+                            im.mainWindow.AutoOperationB_S1.IsEnabled = false;
+                        }
+
 
                         break;
                     }
@@ -312,7 +316,11 @@ namespace GFHelper
                             im.mainWindow.operation_time2.Text = "   完成";
                         }
                         else
+                        {
                             im.mainWindow.operation_time2.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime));
+                            im.mainWindow.AutoOperationB_S2.IsEnabled = false;
+                        }
+
                         break;
                     }
                 case 2:
@@ -324,7 +332,11 @@ namespace GFHelper
                             im.mainWindow.operation_time3.Text = "   完成";
                         }
                         else
+                        {
+                            im.mainWindow.AutoOperationB_S3.IsEnabled = false;
                             im.mainWindow.operation_time3.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime));
+                        }
+
                         break;
                     }
                 case 3:
@@ -336,7 +348,11 @@ namespace GFHelper
                             im.mainWindow.operation_time4.Text = "   完成";
                         }
                         else
+                        {
                             im.mainWindow.operation_time4.Text = CommonHelper.formatDuration(Convert.ToInt32(item.Value._LastTime));
+                            im.mainWindow.AutoOperationB_S4.IsEnabled = false;
+                        }
+
                         break;
                     }
                 default:
@@ -350,6 +366,7 @@ namespace GFHelper
 )
 );
         }
+
 
 
 //        public void setUserOperationteam()

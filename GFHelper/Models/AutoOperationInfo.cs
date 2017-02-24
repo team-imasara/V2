@@ -37,6 +37,7 @@ namespace GFHelper.Models
             this._userId = userid;
             this._teamId = teamid;
             this._startTime = starttime;
+            this.needStartOperation = false;
             Set_durationTime();
             //SetDefaultLastTime();
             SetLastTime();
@@ -66,12 +67,17 @@ namespace GFHelper.Models
         }
         public void SetLastTime()//设置剩余的时间
         {
-            DateTime time = System.DateTime.Now;
-            int temp = CommonHelper.ConvertDateTimeInt(time);
+            int temp = CommonHelper.ConvertDateTimeInt(DateTime.Now);
             this._LastTime = _startTime + Data.operationInfo[_operationId].duration - temp;
+
             if(this._LastTime < 0)
             {
                 this._LastTime = -1;
+                needStartOperation = true;
+            }
+            else
+            {
+                this.needStartOperation = false;
             }
 
 
@@ -156,13 +162,17 @@ namespace GFHelper.Models
 
         private TextBlock _textLastTime;
 
+
+
         private int _startTime;
 
         public double _LastTime;
 
         public int _durationTime;
 
-        public int _endTime;
+        
+
+        public bool needStartOperation;
 
 
 

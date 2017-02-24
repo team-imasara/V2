@@ -370,68 +370,51 @@ namespace GFHelper
                 //operation_act_info
                 int count = 0;
                 im.data.user_operationInfo.Clear();
-                foreach (var item in jsonobj.operation_act_info)
+
+                lock (im.user_operationInfoLocker)
                 {
-                    try
+                    foreach (var item in jsonobj.operation_act_info)
                     {
-                        foreach (var UIitem in im.data.UIauto_operationInfo)
+                        im.mainWindow.Dispatcher.Invoke(() =>
                         {
-                            if (UIitem.Value._operationId == item.operation_id)
+                            if (count == 0)
                             {
-                                UIitem.Value._LastTime = item.start_time + Data.operationInfo[item.operation_id].duration - DateTime.Now;
+                                AutoOperationInfo ao = new AutoOperationInfo(im);
+                                ao.ReadAutoOperationInfo(Convert.ToInt32(item.team_id), Convert.ToInt32(item.operation_id), Convert.ToInt32(item.user_id), Convert.ToInt32(item.id), Convert.ToInt32(item.start_time));
+
+
+
+
+                                im.data.user_operationInfo.Add(0, ao);
+                            }
+                            if (count == 1)
+                            {
+                                AutoOperationInfo ao = new AutoOperationInfo(im);
+                                ao.ReadAutoOperationInfo(Convert.ToInt32(item.team_id), Convert.ToInt32(item.operation_id), Convert.ToInt32(item.user_id), Convert.ToInt32(item.id), Convert.ToInt32(item.start_time));
+
+                                im.data.user_operationInfo.Add(1, ao);
+                            }
+
+                            if (count == 2)
+                            {
+                                AutoOperationInfo ao = new AutoOperationInfo(im);
+                                ao.ReadAutoOperationInfo(Convert.ToInt32(item.team_id), Convert.ToInt32(item.operation_id), Convert.ToInt32(item.user_id), Convert.ToInt32(item.id), Convert.ToInt32(item.start_time));
+
+                                im.data.user_operationInfo.Add(2, ao);
+                            }
+
+                            if (count == 3)
+                            {
+
+                                AutoOperationInfo ao = new AutoOperationInfo(im);
+                                ao.ReadAutoOperationInfo(Convert.ToInt32(item.team_id), Convert.ToInt32(item.operation_id), Convert.ToInt32(item.user_id), Convert.ToInt32(item.id), Convert.ToInt32(item.start_time));
+
+                                im.data.user_operationInfo.Add(3, ao);
                             }
                         }
+                        );
+                        count++;
                     }
-                    catch (Exception)
-                    {
-
-                        throw;
-                    }
-
-
-                    im.mainWindow.Dispatcher.Invoke(() =>
-                    {
-                        if (count == 0)
-                        {
-                            AutoOperationInfo ao = new AutoOperationInfo(im);
-                            ao.ReadAutoOperationInfo(Convert.ToInt32(item.team_id), Convert.ToInt32(item.operation_id), Convert.ToInt32(item.user_id), Convert.ToInt32(item.id), Convert.ToInt32(item.start_time));
-
-
-
-
-                            im.data.user_operationInfo.Add(0, ao);
-                        }
-                        if (count == 1)
-                        {
-                            AutoOperationInfo ao = new AutoOperationInfo(im);
-                            ao.ReadAutoOperationInfo(Convert.ToInt32(item.team_id), Convert.ToInt32(item.operation_id), Convert.ToInt32(item.user_id), Convert.ToInt32(item.id), Convert.ToInt32(item.start_time));
-
-                            im.data.user_operationInfo.Add(1, ao);
-                        }
-
-                        if (count == 2)
-                        {
-                            AutoOperationInfo ao = new AutoOperationInfo(im);
-                            ao.ReadAutoOperationInfo(Convert.ToInt32(item.team_id), Convert.ToInt32(item.operation_id), Convert.ToInt32(item.user_id), Convert.ToInt32(item.id), Convert.ToInt32(item.start_time));
-
-                            im.data.user_operationInfo.Add(2, ao);
-                        }
-
-                        if (count == 3)
-                        {
-
-                            AutoOperationInfo ao = new AutoOperationInfo(im);
-                            ao.ReadAutoOperationInfo(Convert.ToInt32(item.team_id), Convert.ToInt32(item.operation_id), Convert.ToInt32(item.user_id), Convert.ToInt32(item.id), Convert.ToInt32(item.start_time));
-
-                            im.data.user_operationInfo.Add(3, ao);
-                        }
-                    }
-                    );
-
-                    count++;
-
-
-
                 }
 
                 //develop_equip_act_info
