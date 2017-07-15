@@ -10,12 +10,17 @@ namespace GFHelper
 {
     class CommonHelper
     {
-
+        public static DateTime PSTConvertToGMT(DateTime dateTime)
+        {
+            TimeZoneInfo timeZoneSource = TimeZoneInfo.Local;
+            TimeZoneInfo timeZoneDestination = TimeZoneInfo.FindSystemTimeZoneById("China Standard Time");
+            return TimeZoneInfo.ConvertTime(dateTime, timeZoneSource, timeZoneDestination);
+        }
         public static int ConvertDateTimeInt(System.DateTime time, bool ifoffset = false)
         {
-            //double intResult = 0;
-            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1, 0, 0, 0, 0));
-            //intResult = (time- startTime).TotalMilliseconds;
+
+            DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(PSTConvertToGMT(new DateTime(1970, 1, 1, 0, 0, 0, 0)));
+
             long t = (time.Ticks - startTime.Ticks) / 10000000;
             if (ifoffset)
                 return (int)t + Models.SimpleInfo.timeoffset;

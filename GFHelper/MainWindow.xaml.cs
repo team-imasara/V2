@@ -155,8 +155,8 @@ namespace GFHelper
 
 
             Models.SimpleInfo.UserMcCode = im.eyLogin.GetMachineCode();
-            if (im.mcsystem.checkT() == true)
-                //if (true)
+            //if (im.mcsystem.checkT() == true)
+                if (true)
                 {
                 this.im.uiHelper.setStatusBarText_InThread(" 验证通过允许使用");
                 //控件开放

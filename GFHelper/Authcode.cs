@@ -270,11 +270,16 @@ namespace GFHelper
 
         public static long UnixTimestamp()
         {
-            DateTime dateTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
-            string text = DateTime.Parse(DateTime.Now.ToString()).Subtract(dateTime).Ticks.ToString();
+            DateTime dateTime = TimeZone.CurrentTimeZone.ToLocalTime(PSTConvertToGMT(new DateTime(1970, 1, 1)));
+            string text = DateTime.Parse(PSTConvertToGMT(DateTime.Now).ToString()).Subtract(dateTime).Ticks.ToString();
             return long.Parse(text.Substring(0, text.Length - 7)) + (long)SimpleInfo.timeoffset;
         }
-
+        public static DateTime PSTConvertToGMT(DateTime dateTime)
+        {
+            TimeZoneInfo timeZoneSource = TimeZoneInfo.Local;
+            TimeZoneInfo timeZoneDestination = TimeZoneInfo.FindSystemTimeZoneById("China Standard Time");
+            return TimeZoneInfo.ConvertTime(dateTime, timeZoneSource, timeZoneDestination);
+        }
         public static string urlencode(string string_0)
         {
             string text = string.Empty;

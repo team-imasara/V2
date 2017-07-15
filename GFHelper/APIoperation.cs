@@ -76,19 +76,7 @@ namespace GFHelper
 
             IDictionary<string, string> parameters = new Dictionary<string, string>();
             //DateTime time = System.DateTime.Now;
-
-
-            if(Models.SimpleInfo.reqid == 0)
-            {
-                Models.SimpleInfo.reqid = CommonHelper.ConvertDateTimeInt(time);
-                parameters.Add("req_id", Models.SimpleInfo.reqid.ToString());//注意这是第一个时间戳，以后+1
-            }
-            //Models.SimpleInfo.reqid = CommonHelper.ConvertDateTimeInt(time);
-            else
-            {
-                parameters.Add("req_id", (++Models.SimpleInfo.reqid).ToString());//注意这是第一个时间戳，以后+1
-            }
-
+            parameters.Add("", "");//注意这是第一个时间戳，以后+1
 
             string data = StringBuilder_(parameters);
 
@@ -111,7 +99,6 @@ namespace GFHelper
             parameters.Add("idfa", "");
             parameters.Add("androidid", Models.SimpleInfo.androidid);
             parameters.Add("mac", Models.SimpleInfo.mac);
-            parameters.Add("req_id", Models.SimpleInfo.reqid.ToString());//
 
             string data = StringBuilder_(parameters);
 
@@ -135,9 +122,10 @@ namespace GFHelper
 
         public string GetUserInfo()//api = index/index
         {
-            DateTime time = DateTime.Now;
+            DateTime time = CommonHelper.PSTConvertToGMT(DateTime.Now);
+
             string outdatacode = AuthCode.Encode("{\"time\":" + CommonHelper.ConvertDateTimeInt(time).ToString() + "}", Models.SimpleInfo.sign);
-            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", Models.SimpleInfo.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ++Models.SimpleInfo.reqid);
+            string requeststring = String.Format("uid={0}&outdatacode={1}", Models.SimpleInfo.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
             im.logger.Log(requeststring);
             string result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.GetUserInfo, requeststring);
             return result;
