@@ -57,13 +57,13 @@ namespace GFHelper
 
         public static int GetValue(int order, int[] Methed)
         {
-            order = CommonHelper.Clamp(order, 0, Methed.Length - 1);
+            //order = CommonHelper.Clamp(order, 0, Methed.Length - 1);
             return Methed[order];
         }
 
         public static float GetValue(int order, float[] Methed)
         {
-            order = CommonHelper.Clamp(order, 0, Methed.Length - 1);
+            //order = CommonHelper.Clamp(order, 0, Methed.Length - 1);
             return Methed[order];
         }
     }

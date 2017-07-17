@@ -113,40 +113,35 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Action.cs" />
-    <Compile Include="APIoperation.cs" />
-    <Compile Include="AuthCode.cs" />
-    <Compile Include="AutoOperation.cs" />
-    <Compile Include="CommonHelper.cs" />
-    <Compile Include="ConfigManager.cs" />
-    <Compile Include="Data.cs" />
-    <Compile Include="DataHelper.cs" />
-    <Compile Include="DoPost\Login.cs" />
+    <Compile Include="Programe\AuthCode.cs" />
+    <Compile Include="BackgroundThread.cs" />
+    <Compile Include="CatchData\Auto_Mission_Info.cs" />
+    <Compile Include="CatchData\CatchDataSummery.cs" />
+    <Compile Include="CatchData\Equip_Exp_Info.cs" />
+    <Compile Include="CatchData\Equip_Info.cs" />
+    <Compile Include="CatchData\Gun_Info.cs" />
+    <Compile Include="CatchData\Gun_Type_Info.cs" />
+    <Compile Include="CatchData\Kalina_Favor_Info.cs" />
     <Compile Include="InstanceManager.cs" />
     <Compile Include="Logger.cs" />
-    <Compile Include="Models\AutoOperationInfo.cs" />
-    <Compile Include="Models\CommonModels.cs" />
-    <Compile Include="Models\EffectGridType.cs" />
-    <Compile Include="Models\EffectType.cs" />
-    <Compile Include="Models\EquipInfo.cs" />
-    <Compile Include="Models\GunInfo.cs" />
-    <Compile Include="Models\GunType.cs" />
-    <Compile Include="Models\GunWithUserInfo.cs" />
-    <Compile Include="Models\OperationInfo.cs" />
-    <Compile Include="Models\Platform.cs" />
-    <Compile Include="Models\ServerInfo.cs" />
-    <Compile Include="Models\mcSystem.cs" />
-    <Compile Include="SimpleInfo.cs" />
-    <Compile Include="Models\TimerDelegate.cs" />
-    <Compile Include="Models\UserInfo.cs" />
+    <Compile Include="Programe\CommonHelp.cs" />
+    <Compile Include="Programe\ACTION.cs" />
+    <Compile Include="Programe\ConfigManager.cs" />
+    <Compile Include="Programe\POST.cs" />
+    <Compile Include="Programe\ProgrameData.cs" />
+    <Compile Include="Programe\RequestUrls.cs" />
+    <Compile Include="Programe\TaskList.cs" />
+    <Compile Include="Programe\UIHelp.cs" />
     <Compile Include="Ratio.cs" />
-    <Compile Include="Timer.cs" />
-    <Compile Include="UIHelper.cs" />
-    <Compile Include="Listener.cs" />
-    <Compile Include="RequestUrls.cs" />
-    <Compile Include="ServerHelper.cs" />
-    <Compile Include="UpdateManager.cs" />
-    <Compile Include="XXTEA.cs" />
+    <Compile Include="CatchData\OperationInfo.cs" />
+    <Compile Include="UserData\Equip_With_User_Info.cs" />
+    <Compile Include="UserData\Friend_With_User_Info.cs" />
+    <Compile Include="UserData\Gun_With_User_Info.cs" />
+    <Compile Include="UserData\Item_With_User_Info.cs" />
+    <Compile Include="UserData\Kalina_With_User_Info.cs" />
+    <Compile Include="UserData\Operation_Act_Info.cs" />
+    <Compile Include="UserData\UserDataSummery.cs" />
+    <Compile Include="UserData\User_Info.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -155,8 +150,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Authcode_Old.cs" />
-    <Compile Include="DynamicJson.cs" />
+    <Compile Include="Programe\DynamicJson.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -188,8 +182,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="WhatYouNeed\catchdata" />
-    <None Include="WhatYouNeed\config.cfg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -208,10 +200,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icon.ico" />
-    <Resource Include="WhatYouNeed\icon.ico" />
-    <Content Include="WhatYouNeed\log4net.dll" />
-    <Content Include="WhatYouNeed\Nekoxy.dll" />
-    <Content Include="WhatYouNeed\TrotiNet.dll" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="EyLogin">

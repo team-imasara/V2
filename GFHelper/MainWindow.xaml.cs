@@ -17,7 +17,7 @@ using System.Security.Cryptography;
 using System.Net;
 using System.Threading;
 using Codeplex.Data;
-
+using GFHelper.Programe;
 namespace GFHelper
 {
     /// <summary>
@@ -39,18 +39,15 @@ namespace GFHelper
                 //加载配置文件
 
                 im.configManager.setConfig();
+                im.catchdatasummery.ReadCatchData();
+                //im.logger.Log("GFHelper启动");
 
-                im.logger.Log("GFHelper启动");
-                im.dataHelper.StartReadCatchData();
-                //int port = im.configManager.getConfigInt("port");
-                //if (port <= 0) port = 8888;
-                //im.listener.startProxy(port);
 
             }
             catch (Exception e)
             {
-                im.logger.Log(e);
-                MessageBox.Show("GFHelper启动失败！错误原因: " + e.ToString());
+                //im.logger.Log(e);
+                //MessageBox.Show("GFHelper启动失败！错误原因: " + e.ToString());
             }
             //倒计时线程
 
@@ -68,11 +65,6 @@ namespace GFHelper
             { 
             }
 
-
-
-
-
-            //im.listener.Shutdown();
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
@@ -89,22 +81,22 @@ namespace GFHelper
                 MessageBox.Show("添加失败！请检查你的选择！");
                 //return;
             }
-            im.autoOperation.Start(comboBoxOperationTeam.SelectedIndex + 1, comboBoxOperation.SelectedIndex + 1);
+            //im.autoOperation.Start(comboBoxOperationTeam.SelectedIndex + 1, comboBoxOperation.SelectedIndex + 1);
         }
 
         private void checkBox_Checked(object sender, RoutedEventArgs e)
         {
-            im.logger.Log(checkBoxAutoOperation.IsChecked);
-            im.autoOperation.autoOperation = (bool)checkBoxAutoOperation.IsChecked;
+            //im.logger.Log(checkBoxAutoOperation.IsChecked);
+            //im.autoOperation.autoOperation = (bool)checkBoxAutoOperation.IsChecked;
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)//登陆按钮
         {
 
             im.mainWindow.Login.IsEnabled = false;
-            im.data.tasklistadd(1);
-
-
+            //im.TaskList.Add(TaskList.Login);
+            im.action.AutoLogin();
+            //if (im.baseAction.AutoLogin() == true)
 
             //if (im.baseAction.AutoLogin() == true)
             //im.uiHelper.setStatusBarText_InThread(String.Format( " 好像登陆成功的样子 sign = {0}", Models.SimpleInfo.sign));
@@ -118,7 +110,7 @@ namespace GFHelper
 
         private void getuserinfo_Click(object sender, RoutedEventArgs e)
         {
-            im.baseAction.GetUserinfo();
+            //im.baseAction.GetUserinfo();
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
@@ -126,7 +118,7 @@ namespace GFHelper
 
             var jsonobj = DynamicJson.Parse(AuthCode.Decode(textbox1.Text, "yundoudou")); //讲道理，我真不想写了
 
-            //Newtonsoft.Json.Linq.JObject obj = (Newtonsoft.Json.Linq.JObject)Newtonsoft.Json.JsonConvert.DeserializeObject();//解析JSON串
+
             textbox2.Text = jsonobj.sign.ToString();
         }
 
@@ -153,19 +145,25 @@ namespace GFHelper
         {
             im.mainWindow.CheckT.IsEnabled = false;
 
+            //检查本地CatchData是否最新
+            //if (CommonHelp.CheckCatchDataVersion(im.post.Index_version()) == false)
+            //{
+            //    //清空catchdata
+            //    //下载最新的catchdata
+            //    //读取
+            //}
 
-            Models.SimpleInfo.UserMcCode = im.eyLogin.GetMachineCode();
-            //if (im.mcsystem.checkT() == true)
-                if (true)
-                {
-                this.im.uiHelper.setStatusBarText_InThread(" 验证通过允许使用");
+
+            if (CommonHelp.checkT(im.eyLogin))
+            {
+                this.im.uihelp.setStatusBarText_InThread(" 验证通过允许使用");
                 //控件开放
                 im.mainWindow.Login.IsEnabled = true;
 
 
 
                 //线程开放
-                countdown = new Thread((new ThreadStart(() => im.backgroundthread.UIupdate())));//倒计时线程
+                countdown = new Thread((new ThreadStart(() => im.backgroundthread.CountDown())));//倒计时线程
                 countdown.SetApartmentState(ApartmentState.STA);
                 countdown.IsBackground = true;
                 countdown.Start();
@@ -181,17 +179,15 @@ namespace GFHelper
             //验证失败代码
             else
             {
-                MessageBox.Show("这是一个随时停止维护的脚本，仅限GFH群内成员交流学习使用。禁止传播，请各位且用且珍惜。");
-                MessageBox.Show(string.Format("验证失败，请联系作者添加权限:{0}", Models.SimpleInfo.UserMcCode));
-                im.mainWindow.CheckT.IsEnabled = true;
+
             }
         }
 
         private void AutoOperationB_S1_Click(object sender, RoutedEventArgs e)
         {
             im.mainWindow.AutoOperationB_S1.IsEnabled = false;
-            //开始后勤任务1
-            im.data.tasklistadd(3);
+            ////开始后勤任务1
+            //im.taskList.tasklistadd(3);
             //lock (im.user_operationInfoLocker)//锁
             //{
             //    if (im.data.UIauto_operationInfo.Count < 4)
@@ -209,7 +205,7 @@ namespace GFHelper
         private void AutoOperationB_S2_Click(object sender, RoutedEventArgs e)
         {
             im.mainWindow.AutoOperationB_S2.IsEnabled = false;
-            im.data.tasklistadd(4);
+            //im.data.tasklistadd(4);
             //lock (im.user_operationInfoLocker)//锁
             //{
             //    if (im.data.UIauto_operationInfo.Count < 4)
@@ -228,7 +224,7 @@ namespace GFHelper
         private void AutoOperationB_S3_Click(object sender, RoutedEventArgs e)
         {
             im.mainWindow.AutoOperationB_S3.IsEnabled = false;
-            im.data.tasklistadd(5);
+            //im.data.tasklistadd(5);
             //lock (im.user_operationInfoLocker)//锁
             //{
             //    if (im.data.UIauto_operationInfo.Count < 4)
@@ -248,7 +244,7 @@ namespace GFHelper
         private void AutoOperationB_S4_Click(object sender, RoutedEventArgs e)
         {
             im.mainWindow.AutoOperationB_S4.IsEnabled = false;
-            im.data.tasklistadd(6);
+            //im.data.tasklistadd(6);
             //lock (im.user_operationInfoLocker)//锁
             //{
             //    if (im.data.UIauto_operationInfo.Count < 4)
