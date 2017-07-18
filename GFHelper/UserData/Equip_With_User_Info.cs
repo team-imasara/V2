@@ -30,6 +30,6 @@ namespace GFHelper.UserData
         public int bullet_number_up;
         public int adjust_count;
         public int is_locked;
-        public int last_adjust;
+        public string last_adjust;
     }
 }

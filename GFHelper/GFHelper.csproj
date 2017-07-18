@@ -132,6 +132,8 @@
     <Compile Include="Programe\RequestUrls.cs" />
     <Compile Include="Programe\TaskList.cs" />
     <Compile Include="Programe\UIHelp.cs" />
+    <Compile Include="UserData\MailList.cs" />
+    <Compile Include="UserData\User_Record.cs" />
     <Compile Include="Ratio.cs" />
     <Compile Include="CatchData\OperationInfo.cs" />
     <Compile Include="UserData\Equip_With_User_Info.cs" />

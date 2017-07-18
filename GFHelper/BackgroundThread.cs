@@ -84,37 +84,37 @@ namespace GFHelper
                     switch (im.TaskList.ElementAt(0).TaskNumber)
                     {
 
-                        //case 1:
-                        //    {
-                        //        ////登陆
-                        //        //bool temp = im.baseAction.AutoLogin();
-                        //        //if (temp == true)
-                        //        //    im.uiHelper.setStatusBarText_InThread(String.Format(" 好像登陆成功的样子 sign = {0}", Models.SimpleInfo.sign));
+                        case 1:
+                            {
+                                //登陆
+                                bool temp = im.action.AutoLogin();
+                                if (temp == true)
+                                    im.uihelp.setStatusBarText_InThread(String.Format(" 好像登陆成功的样子 sign = {0}", Programe.ProgrameData.sign));
 
-                        //        //im.taskList.taskremove();
-                        //        //break;
-
-                        //    }
-
-                        //case 2://readUserinfo
-                        //    {
-                                ////im.baseAction.GetUserinfo();
-                                //im.uiHelper.setStatusBarText_InThread(String.Format(" 获取userinfo"));
-                                //im.dataHelper.ReadUserInfo(im.apioperation.GetUserInfo());
-
-                                //im.uiHelper.setUserInfo();//ui
-
-                                ////im.uiHelper.setUserOperation();
-                                ////im.uiHelper.setUserOperationteam();
-
-
-                                ////im.autoOperation.SetTeamInfo();
-                                ////im.autoOperation.SetOperationInfo();
-                                //im.taskList.taskremove();
-                                //im.uiHelper.setStatusBarText_InThread(String.Format(" 获取userinfo成功"));
-                                //break;
+                                im.TaskList.RemoveAt(0);
+                                break;
 
                             }
+
+                            //case 2://readUserinfo
+                            //    {
+                            ////im.baseAction.GetUserinfo();
+                            //im.uiHelper.setStatusBarText_InThread(String.Format(" 获取userinfo"));
+                            //im.dataHelper.ReadUserInfo(im.apioperation.GetUserInfo());
+
+                            //im.uiHelper.setUserInfo();//ui
+
+                            ////im.uiHelper.setUserOperation();
+                            ////im.uiHelper.setUserOperationteam();
+
+
+                            ////im.autoOperation.SetTeamInfo();
+                            ////im.autoOperation.SetOperationInfo();
+                            //im.taskList.taskremove();
+                            //im.uiHelper.setStatusBarText_InThread(String.Format(" 获取userinfo成功"));
+                            //break;
+
+                    }
 
 
                         //case 3://后勤任务1开始

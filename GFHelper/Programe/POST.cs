@@ -224,131 +224,182 @@ namespace GFHelper.Programe
 
 
 
-        //public string attendance()//api = index/index
-        //{
-        //    DateTime time = DateTime.Now;
-        //    string outdatacode = AuthCode.Encode(Models.SimpleInfo.sign, Models.SimpleInfo.sign);
-        //    string requeststring = String.Format("uid={0}&signcode={1}&req_id={2}", Models.SimpleInfo.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ++Models.SimpleInfo.reqid);
-        //    im.logger.Log(requeststring);
-        //    string result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.GetUserInfo, requeststring);//不需要解密 返回的是签到当月信息奖励
-        //    return result;
-        //}
+        public string attendance()//api = index/index
+        {
 
-        //public void ifNewMail()
-        //{
-        //    string outdatacode = AuthCode.Encode(Models.SimpleInfo.sign, Models.SimpleInfo.sign);//用自身作为密匙把自身加密
-        //    string requeststring = String.Format("uid={0}&signcode={1}", Models.SimpleInfo.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
-        //    im.logger.Log(requeststring);
+            string outdatacode = AuthCode.Encode(ProgrameData.sign, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&signcode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string result = "";
+            while (string.IsNullOrEmpty(result) == true)
+            {
+                result = DoPost(ProgrameData.GameAdd + RequestUrls.GetAttendance, requeststring);//不需要解密 返回的是签到当月信息奖励
+                //var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, ProgrameData.sign));
+            }
+            return result;
+        }
 
-        //    string result = "";
-        //    //var jsonobj = DynamicJson.Parse(result);
-        //    while (string.IsNullOrEmpty(result) == true)
-        //    {
-        //        result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.CheckNewMail, requeststring);
-        //        var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, Models.SimpleInfo.sign));
-        //    }
+        public string ifNewMail()
+        {
+            string outdatacode = AuthCode.Encode(ProgrameData.sign, ProgrameData.sign);//用自身作为密匙把自身加密
+            string requeststring = String.Format("uid={0}&signcode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string result = "";
+            while (string.IsNullOrEmpty(result) == true)
+            {
+                result = DoPost(ProgrameData.GameAdd + RequestUrls.CheckNewMail, requeststring);
+                result = AuthCode.Decode(result, ProgrameData.sign);
+            }
+            return result;
+        }
 
+        public void GetBannerEvent()//获取左下角小广告
+        {
+            IDictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("c", "game");
+            parameters.Add("a", "bannerEvent");
+            string data = StringBuilder_(parameters);
+            string result = DoPost("http://adr.transit.gf.ppgame.com/index.php", data.ToString());
+                   }
 
+        public void GetMallStaticTables()
+        {
+            string outdatacode = AuthCode.Encode(ProgrameData.sign, ProgrameData.sign);//用自身作为密匙把自身加密
+            string requeststring = String.Format("uid={0}&signcode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
 
-        //}
+            string result = "";
+            while (string.IsNullOrEmpty(result) == true)
+            {
+                result = DoPost(ProgrameData.GameAdd + RequestUrls.MallStaticTables, requeststring);
+                var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, ProgrameData.sign));
+            }
+        }
 
-        //public void GetBannerEvent()//获取左下角小广告
-        //{
-        //    IDictionary<string, string> parameters = new Dictionary<string, string>();
-        //    parameters.Add("c", "game");
-        //    parameters.Add("a", "bannerEvent");
-        //    string data = StringBuilder_(parameters);
-        //    string result = im.serverHelper.DoPost("http://adr.transit.gf.ppgame.com/index.php", data.ToString());
-        //    //Newtonsoft.Json.Linq.JObject obj = (Newtonsoft.Json.Linq.JObject)Newtonsoft.Json.JsonConvert.DeserializeObject(AuthCode.Decode(result, Models.SimpleInfo.sign));
-        //}
+        public string GetMailList()
+        {
+            var obj = new
+            {
+                startid = 0,
+                ignore_time = 1,
+            };
 
-        //public void GetMallStaticTables()
-        //{
-        //    string outdatacode = AuthCode.Encode(Models.SimpleInfo.sign, Models.SimpleInfo.sign);//用自身作为密匙把自身加密
-        //    string requeststring = String.Format("uid={0}&signcode={1}", Models.SimpleInfo.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
-        //    im.logger.Log(requeststring);
-
-        //    //Newtonsoft.Json.Linq.JObject obj = null;
-
-        //    string result = "";
-        //    //var jsonobj = DynamicJson.Parse(result);
-
-        //    while (string.IsNullOrEmpty(result) == true)
-        //    {
-        //        result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.MallStaticTables, requeststring);
-        //        var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, Models.SimpleInfo.sign));
-
-        //    }
-
-
-
-        //}
-
-        //public void GetMailList()
-        //{
-        //    var obj = new
-        //    {
-        //        startid = 0,
-        //        ignore_time = 1,
-        //    };
-
-        //    string data = Codeplex.Data.DynamicJson.Serialize(obj);
+            string outdatacode = DynamicJson.Serialize(obj);
 
 
-        //    string outdatacode = AuthCode.Encode(data, Models.SimpleInfo.sign);//用自身作为密匙把自身加密
-        //    string requeststring = String.Format("uid={0}&outdatacode={1}", Models.SimpleInfo.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
-        //    im.logger.Log(requeststring);
-        //    string result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.GetMailList, requeststring);
-        //    result = AuthCode.Decode(result, Models.SimpleInfo.sign);//解析JSON串
-        //}
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);//用自身作为密匙把自身加密
+            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
 
-        //public string RecoverResource()//恢复资源
-        //{
-        //    string outdatacode = AuthCode.Encode(Models.SimpleInfo.sign, Models.SimpleInfo.sign);//用自身作为密匙把自身加密
-        //    string requeststring = String.Format("uid={0}&signcode={1}", Models.SimpleInfo.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
-        //    im.logger.Log(requeststring);
-        //    string result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.RecoverResource, requeststring);
-        //    return result;
-        //}
+            string result = "";
+            while (string.IsNullOrEmpty(result) == true)
+            {
+                result = DoPost(ProgrameData.GameAdd + RequestUrls.GetMailList, requeststring);
+                result = AuthCode.Decode(result, ProgrameData.sign);
+            }
 
-        //public string StartOperation(int team_id, int operation_id)
-        //{
-        //    string outdatacode = AuthCode.Encode(String.Format("{{\"team_id\":{0},\"operation_id\":{1}}}", team_id, operation_id), Models.SimpleInfo.sign);
-        //    string requeststring = String.Format("uid={0}&outdatacode={1}", Models.SimpleInfo.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
-        //    im.logger.Log(requeststring);
+            return result;//未json化
+        }
 
-        //    string result = "";
+        public string GetOneMail(int mailwith_user_id)
+        {
 
-        //    while (result != "1")
-        //    {
-        //        result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.StartOperation, requeststring);
-        //    }
+            string outdatacode = "{\"mail_with_user_id\":" + mailwith_user_id.ToString() +"}";
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);//用自身作为密匙把自身加密
+            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
 
-        //    return result;
+            string result = "";
+            while (string.IsNullOrEmpty(result) == true)
+            {
+                result = DoPost(ProgrameData.GameAdd + RequestUrls.GetOneMail, requeststring);
 
+            }
+            result = AuthCode.Decode(result, ProgrameData.sign);
+            return result;
+        }
+        public string GetMailResource(int mailwith_user_id)
+        {
 
+            string outdatacode = "{\"mail_with_user_id\":" + mailwith_user_id.ToString() + "}";
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);//用自身作为密匙把自身加密
+            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
 
-        //}
+            string result = "";
+            while (string.IsNullOrEmpty(result) == true)
+            {
+                result = DoPost(ProgrameData.GameAdd + RequestUrls.GetMailResource, requeststring);
 
-        //public string FinishOperation(int operationid)
-        //{
-        //    string outdatacode = AuthCode.Encode(String.Format("{{\"operation_id\":{0}}}", operationid), Models.SimpleInfo.sign);
-        //    string requeststring = String.Format("uid={0}&outdatacode={1}", Models.SimpleInfo.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
-        //    im.logger.Log(requeststring);
-
-        //    string result = "";
-
-        //    while (string.IsNullOrEmpty(result) == true)
-        //    {
-        //        result = im.serverHelper.DoPost(Models.SimpleInfo.GameAdd + RequestUrls.FinishOperation, requeststring);//不需要解密
-        //    }
-
-        //    //result = AuthCode.Decode(result, Models.SimpleInfo.sign);//解析解密
-        //    return result;
+            }
+            result = AuthCode.Decode(result, ProgrameData.sign);
+            return result;
+        }
 
 
 
-        //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public string RecoverResource()//恢复资源
+        {
+            string outdatacode = AuthCode.Encode(ProgrameData.sign, ProgrameData.sign);//用自身作为密匙把自身加密
+            string requeststring = String.Format("uid={0}&signcode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+
+            string result = "";
+            while (string.IsNullOrEmpty(result) == true)
+            {
+                result = DoPost(ProgrameData.GameAdd + RequestUrls.RecoverResource, requeststring);
+                var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, ProgrameData.sign));
+            }
+            return result;
+        }
+
+        public string StartOperation(int teamid, int operation_id)
+        {
+            string outdatacode = AuthCode.Encode(String.Format("{{\"teamid\":{0},\"operation_id\":{1}}}", teamid, operation_id), ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+
+            string result = "";
+            int count = 0;
+            while (result != "1")
+            {
+                result = DoPost(ProgrameData.GameAdd + RequestUrls.StartOperation, requeststring);
+                if(count++ == 10)
+                {
+                    break;
+                }
+            }
+            return result;
+
+        }
+
+        public string FinishOperation(int operationid)
+        {
+            string outdatacode = AuthCode.Encode(String.Format("{{\"operationid\":{0}}}", operationid), ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+
+
+            string result = "";
+            while (string.IsNullOrEmpty(result) == true)
+            {
+                result = DoPost(ProgrameData.GameAdd + RequestUrls.FinishOperation, requeststring);//不需要解密
+                result = AuthCode.Decode(result, ProgrameData.sign);//解析解密
+            }
+            return result;
+
+
+
+        }
 
 
 

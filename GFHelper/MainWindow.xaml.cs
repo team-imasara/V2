@@ -94,8 +94,8 @@ namespace GFHelper
         {
 
             im.mainWindow.Login.IsEnabled = false;
-            //im.TaskList.Add(TaskList.Login);
-            im.action.AutoLogin();
+            im.TaskList.Add(TaskList.Login);
+            //im.action.AutoLogin();
             //if (im.baseAction.AutoLogin() == true)
 
             //if (im.baseAction.AutoLogin() == true)

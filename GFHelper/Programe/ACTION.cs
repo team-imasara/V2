@@ -33,8 +33,8 @@ namespace GFHelper.Programe
             im.uihelp.setStatusBarText_InThread(String.Format(" 获取userinfo"));
             string result = im.post.GetUserInfo();
             var jsonobj = DynamicJson.Parse(result); //讲道理，我真不想写了
-            im.userdatasummery.ReadUserData_user_info(jsonobj);
-            im.userdatasummery.ReadUserData_item_with_user_info(jsonobj);
+            im.userdatasummery.ReadUserData(jsonobj);
+
 
             im.uihelp.setUserInfo();
 
@@ -58,33 +58,67 @@ namespace GFHelper.Programe
             //}
             ////----------------如果有后勤结束则发包接收后勤
 
-            //im.uiHelper.setUserInfo();
             //im.autoOperation.SetTeamInfo();
 
-            ////加零点签到判断
-            ////如果当前时间戳大于    "user_record":   "attendance_type1_time": 1487520000,则签到
-            //if (CommonHelper.ConvertDateTimeInt(DateTime.Now) > im.data.userInfo.attendance_type1_time)
-            //{
-            //    im.uihelp.setStatusBarText_InThread(String.Format(" 开始签到"));
-            //    im.apioperation.attendance();
-            //}
-
+            //加零点签到判断
+            //如果当前时间戳大于    "user_record":   "attendance_type1_time": 1487520000,则签到
+            if (CommonHelp.ConvertDateTimeInt(DateTime.Now) > im.userdatasummery.user_record.attendance_type1_time)
+            {
+                im.uihelp.setStatusBarText_InThread(String.Format(" 开始签到"));
+                im.post.attendance();
+            }
             ////加零点签到判断
             ////加邮件判断
             ////加后勤结束判断
-            //im.uihelp.setStatusBarText_InThread(String.Format(" 查询是否有新邮件"));
-            //im.apioperation.ifNewMail();
-            //im.uihelp.setStatusBarText_InThread(String.Format(" 获取左下角小广告"));
-            //im.apioperation.GetBannerEvent();
-            //im.uihelp.setStatusBarText_InThread(String.Format(" 获取商店信息"));
-            //im.apioperation.GetMallStaticTables();
-            //im.uihelp.setStatusBarText_InThread(String.Format(" 获取邮箱列表"));
-            //im.apioperation.GetMailList();
-            //im.uihelp.setStatusBarText_InThread(String.Format(" 回复资源"));
-            //im.apioperation.RecoverResource();
+
+            im.uihelp.setStatusBarText_InThread(String.Format(" 获取左下角小广告"));
+            im.post.GetBannerEvent();
+
+
+            im.uihelp.setStatusBarText_InThread(String.Format(" 获取商店信息"));
+            im.post.GetMallStaticTables();
+
+
+            im.uihelp.setStatusBarText_InThread(String.Format(" 查询是否有新邮件"));
+            Mail();
+
+
+
+
+            im.uihelp.setStatusBarText_InThread(String.Format(" 回复资源"));
+            im.post.RecoverResource();
 
             return true;
         }
+
+        /// <summary>
+        /// Mail只处理签到信息
+        /// </summary>
+        public void Mail()
+        {
+            im.uihelp.setStatusBarText_InThread(String.Format(" 查询是否有新邮件"));
+            var jsonobj = DynamicJson.Parse(im.post.ifNewMail());
+
+            if (jsonobj.if_new_mail == true)
+            {
+                //如果有 就发送
+                im.userdatasummery.ReadMailList(im.post.GetMailList());
+                //根据是否有邮件签到
+                //type 5 可能是签到
+                if(im.userdatasummery.NeedDailyAttendance() != -1)//不等于-1表示需要签到并且返回mailwith_user_id
+                {
+                    im.post.GetOneMail(im.userdatasummery.NeedDailyAttendance());
+                    im.post.GetMailResource(im.userdatasummery.NeedDailyAttendance());
+                }
+
+
+
+            }
+
+
+        }
+
+
 
         //public bool GetUserinfo()
         //{

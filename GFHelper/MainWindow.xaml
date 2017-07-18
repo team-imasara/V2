@@ -45,24 +45,24 @@
                         <TextBlock x:Name="UserName" Height="38" TextWrapping="Wrap" Text="指挥官名称" Margin="0,0,47,-3" FontSize="24" VerticalAlignment="Bottom" TextAlignment="Right"/>
                         <TextBlock x:Name="UserLevel" Height="18" Margin="146,0,-8,3" TextWrapping="Wrap" Text="等级" VerticalAlignment="Bottom" TextAlignment="Left"/>
                     </Grid>
-                    <GroupBox x:Name="groupBox" Header="枪娘总信息" HorizontalAlignment="Left" Height="96" Margin="21,56,0,0" VerticalAlignment="Top" Width="237">
+                    <GroupBox x:Name="groupBox" Header="枪娘总信息" HorizontalAlignment="Left" Height="96" Margin="21,56,0,0" VerticalAlignment="Top" Width="161">
                         <Grid HorizontalAlignment="Left" Height="164" Margin="-6,0,-6,-6" VerticalAlignment="Top" Width="237">
-                            <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Height="16" Margin="10,10,0,0" TextWrapping="Wrap" Text="战术人形拥有数: " VerticalAlignment="Top" Width="96" TextAlignment="Right"/>
-                            <TextBlock x:Name="textBlock1_Copy" HorizontalAlignment="Left" Height="16" Margin="10,31,0,0" TextWrapping="Wrap" Text="梯队待命数: " VerticalAlignment="Top" Width="96" TextAlignment="Right"/>
-                            <TextBlock x:Name="textBlock1_Copy1" HorizontalAlignment="Left" Height="16" Margin="10,52,0,0" TextWrapping="Wrap" Text="图鉴解锁率: " VerticalAlignment="Top" Width="96" TextAlignment="Right"/>
-                            <TextBlock x:Name="textGunNum" HorizontalAlignment="Left" Height="14" Margin="117,10,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="110"/>
-                            <TextBlock x:Name="textUnlockRatio" HorizontalAlignment="Left" Height="14" Margin="117,52,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="110"/>
-                            <TextBlock x:Name="textTeamNum" HorizontalAlignment="Left" Height="14" Margin="117,31,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="110"/>
+                            <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Height="16" Margin="10,10,0,0" TextWrapping="Wrap" Text="战术人形拥有数: " VerticalAlignment="Top" Width="96"/>
+                            <TextBlock x:Name="textBlock1_Copy" HorizontalAlignment="Left" Height="16" Margin="10,31,0,0" TextWrapping="Wrap" Text="梯队待命数: " VerticalAlignment="Top" Width="96"/>
+                            <TextBlock x:Name="textBlock1_Copy1" HorizontalAlignment="Left" Height="16" Margin="10,52,0,0" TextWrapping="Wrap" Text="图鉴解锁率: " VerticalAlignment="Top" Width="96"/>
+                            <TextBlock x:Name="textGunNum" HorizontalAlignment="Left" Height="14" Margin="100,10,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="110"/>
+                            <TextBlock x:Name="textUnlockRatio" HorizontalAlignment="Left" Height="14" Margin="100,52,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="110"/>
+                            <TextBlock x:Name="textTeamNum" HorizontalAlignment="Left" Height="14" Margin="100,31,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="110"/>
                         </Grid>
                     </GroupBox>
-                    <GroupBox x:Name="groupBox1" Header="工厂信息" HorizontalAlignment="Left" Height="96" Margin="282,56,0,0" VerticalAlignment="Top" Width="222">
-                        <Grid HorizontalAlignment="Left" Height="86" Margin="-6" VerticalAlignment="Top" Width="222">
-                            <TextBlock x:Name="textBlock1_Copy2" HorizontalAlignment="Left" Height="16" Margin="10,16,0,0" TextWrapping="Wrap" Text="建造位置数: " VerticalAlignment="Top" Width="96" TextAlignment="Right"/>
-                            <TextBlock x:Name="textBlock1_Copy3" HorizontalAlignment="Left" Height="16" Margin="6,37,0,0" TextWrapping="Wrap" Text="修理位置数:" VerticalAlignment="Top" Width="96" TextAlignment="Right"/>
-                            <TextBlock x:Name="textBlock1_Copy4" HorizontalAlignment="Left" Height="16" Margin="10,58,0,0" TextWrapping="Wrap" Text="训练位置数: " VerticalAlignment="Top" Width="96" TextAlignment="Right"/>
-                            <TextBlock x:Name="textDevelopSlot" HorizontalAlignment="Left" Height="14" Margin="111,16,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="110"/>
-                            <TextBlock x:Name="textUpgradeSlot" HorizontalAlignment="Left" Height="14" Margin="111,58,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="110"/>
-                            <TextBlock x:Name="textFixSlot" HorizontalAlignment="Left" Height="14" Margin="111,37,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="110"/>
+                    <GroupBox x:Name="groupBox1" Header="工厂信息" HorizontalAlignment="Left" Height="96" Margin="185,56,0,0" VerticalAlignment="Top" Width="141">
+                        <Grid HorizontalAlignment="Left" Height="86" Margin="12,-6,-105,-6" VerticalAlignment="Top" Width="222">
+                            <TextBlock x:Name="textBlock1_Copy2" HorizontalAlignment="Left" Height="16" Margin="10,16,0,0" TextWrapping="Wrap" Text="建造位置数: " VerticalAlignment="Top" Width="96"/>
+                            <TextBlock x:Name="textBlock1_Copy3" HorizontalAlignment="Left" Height="16" Margin="9,37,0,0" TextWrapping="Wrap" Text="修理位置数:" VerticalAlignment="Top" Width="96"/>
+                            <TextBlock x:Name="textBlock1_Copy4" HorizontalAlignment="Left" Height="16" Margin="10,58,0,0" TextWrapping="Wrap" Text="训练位置数: " VerticalAlignment="Top" Width="96"/>
+                            <TextBlock x:Name="textDevelopSlot" HorizontalAlignment="Left" Height="14" Margin="80,16,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="110"/>
+                            <TextBlock x:Name="textUpgradeSlot" HorizontalAlignment="Left" Height="14" Margin="80,58,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="110"/>
+                            <TextBlock x:Name="textFixSlot" HorizontalAlignment="Left" Height="14" Margin="80,37,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="110"/>
                         </Grid>
                     </GroupBox>
                     <Button x:Name="Login" Content="登陆" HorizontalAlignment="Left" Margin="75,328,0,0" VerticalAlignment="Top" Width="50" Click="Button_Click_2" IsEnabled="False" Height="50"/>
@@ -74,6 +74,30 @@
                     <TextBox x:Name="textbox2" HorizontalAlignment="Left" Height="23" Margin="446,268,0,0" TextWrapping="Wrap" Text="singn" VerticalAlignment="Top" Width="120"/>
                     <Button Content="后勤test" HorizontalAlignment="Left" Margin="21,219,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_4"/>
                     <Button x:Name="CheckT" Content="初始化" HorizontalAlignment="Left" Margin="20,328,0,0" VerticalAlignment="Top" Width="50" Click="CheckT_Click" Height="50"/>
+                    <GroupBox x:Name="groupBox5" Header="格琳娜信息" HorizontalAlignment="Left" Height="96" Margin="328,56,0,0" VerticalAlignment="Top" Width="113">
+                        <Grid HorizontalAlignment="Left" Height="86" Margin="9,-6,-45,-6" VerticalAlignment="Top" Width="137">
+                            <TextBlock x:Name="textBlock4" HorizontalAlignment="Left" Height="16" Margin="10,16,0,0" TextWrapping="Wrap" Text="等级 " VerticalAlignment="Top" Width="40"/>
+                            <TextBlock x:Name="textBlock5" HorizontalAlignment="Left" Height="16" Margin="10,37,0,0" TextWrapping="Wrap" Text="好感度:" VerticalAlignment="Top" Width="40"/>
+                            <TextBlock x:Name="textDevelopSlot1" HorizontalAlignment="Left" Height="14" Margin="55,16,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="55"/>
+                            <TextBlock x:Name="textFixSlot1" HorizontalAlignment="Left" Height="14" Margin="55,37,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="55"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox x:Name="groupBox6" Header="装备总信息" HorizontalAlignment="Left" Height="96" Margin="444,56,0,0" VerticalAlignment="Top" Width="145">
+                        <Grid HorizontalAlignment="Left" Height="164" Margin="-6,0,-6,-6" VerticalAlignment="Top" Width="237">
+                            <TextBlock x:Name="textBlock6" HorizontalAlignment="Left" Height="16" Margin="10,10,0,0" TextWrapping="Wrap" Text="装备拥有数: " VerticalAlignment="Top" Width="65"/>
+                            <TextBlock x:Name="textBlock1_Copy5" HorizontalAlignment="Left" Height="16" Margin="10,31,0,0" TextWrapping="Wrap" Text="五级装备数: " VerticalAlignment="Top" Width="65"/>
+                            <TextBlock x:Name="textEquipNum" HorizontalAlignment="Left" Height="14" Margin="80,10,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="60"/>
+                            <TextBlock x:Name="textEquipRank5Num1" HorizontalAlignment="Left" Height="14" Margin="80,31,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="37"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox x:Name="groupBox7" Header="好友总信息" HorizontalAlignment="Left" Height="96" Margin="592,56,0,0" VerticalAlignment="Top" Width="124">
+                        <Grid HorizontalAlignment="Left" Height="164" Margin="-6,0,-6,-6" VerticalAlignment="Top" Width="237">
+                            <TextBlock x:Name="textBlock7" HorizontalAlignment="Left" Height="16" Margin="10,10,0,0" TextWrapping="Wrap" Text="好友拥有数: " VerticalAlignment="Top" Width="65"/>
+                            <TextBlock x:Name="textBlock1_Copy6" HorizontalAlignment="Left" Height="16" Margin="10,31,0,0" TextWrapping="Wrap" Text="平均等级: " VerticalAlignment="Top" Width="65"/>
+                            <TextBlock x:Name="textFriendNum" HorizontalAlignment="Left" Height="14" Margin="80,10,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="37"/>
+                            <TextBlock x:Name="textFriendLv" HorizontalAlignment="Left" Height="14" Margin="80,31,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="37"/>
+                        </Grid>
+                    </GroupBox>
                 </Grid>
             </TabItem>
             <TabItem Header="梯队" Margin="127,4,-131,-3" Visibility="Hidden">
