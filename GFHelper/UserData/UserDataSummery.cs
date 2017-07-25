@@ -19,13 +19,18 @@ namespace GFHelper.UserData
         public User_Info user_info = new User_Info();
         public Dictionary<int, Operation_Act_Info> operation_act_info = new Dictionary<int, Operation_Act_Info>();
         public Kalina_With_User_Info kalina_with_user_info = new Kalina_With_User_Info();
-        public Dictionary<int, Gun_With_User_Info> gun_with_user_info = new Dictionary<int, Gun_With_User_Info>();
+        public Dictionary<int, Gun_With_User_Info> gun_with_user_info = new Dictionary<int, Gun_With_User_Info>();//所有的枪
         public Dictionary<int, Friend_With_User_Info> friend_with_user_info = new Dictionary<int, Friend_With_User_Info>();
         public Dictionary<int, Equip_With_User_Info> equip_with_user_info = new Dictionary<int, Equip_With_User_Info>();
         public Dictionary<int, Item_With_User_Info> item_with_user_info = new Dictionary<int, Item_With_User_Info>();
         public User_Record user_record = new User_Record();
         public Dictionary<int, MailList> maillist = new Dictionary<int, MailList>();
+        public int Dorm_Rest_Friend_Build_Coin_Count;
 
+        /// <summary>
+        /// team_info,int key 就是一个梯队
+        /// </summary>
+        public Dictionary<int, Dictionary<int,Gun_With_User_Info>> team_info = new Dictionary<int, Dictionary<int,Gun_With_User_Info>>();//没读一次user_info都需要刷新
 
         public int FriendLv;
         public int Rank5EquipmentN;
@@ -40,6 +45,8 @@ namespace GFHelper.UserData
             this.equip_with_user_info.Clear();
             this.user_record = new User_Record();
             this.maillist.Clear();
+            EmptyOperation_Act_Info();
+
         }
 
         public bool ReadUserData_user_info(dynamic jsonobj)
@@ -120,8 +127,14 @@ namespace GFHelper.UserData
             }
             catch (Exception e)
             {
-                MessageBox.Show("读取UserData_user_info遇到错误");
-                MessageBox.Show(e.ToString());
+
+                im.mainWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("读取UserData_user_info遇到错误");
+                    MessageBox.Show(e.ToString());
+                });
+
+
                 return false;
             }
 
@@ -150,8 +163,12 @@ namespace GFHelper.UserData
             }
             catch (Exception e)
             {
-                MessageBox.Show("读取UserData_operation_act_info遇到错误");
-                MessageBox.Show(e.ToString());
+                im.mainWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("读取UserData_operation_act_info遇到错误");
+                    MessageBox.Show(e.ToString());
+                });
+
                 return false;
             }
 
@@ -176,8 +193,12 @@ namespace GFHelper.UserData
             }
             catch (Exception e)
             {
-                MessageBox.Show("读取UserData_kalina_with_user_info遇到错误");
-                MessageBox.Show(e.ToString());
+                im.mainWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("读取UserData_kalina_with_user_info遇到错误");
+                    MessageBox.Show(e.ToString());
+                });
+
                 return false;
             }
 
@@ -231,8 +252,12 @@ namespace GFHelper.UserData
             }
             catch (Exception e)
             {
-                MessageBox.Show("读取UserData_gun_with_user_info遇到错误");
-                MessageBox.Show(e.ToString());
+                im.mainWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("读取UserData_gun_with_user_info遇到错误");
+                    MessageBox.Show(e.ToString());
+                });
+
                 return false;
             }
 
@@ -263,8 +288,12 @@ namespace GFHelper.UserData
             }
             catch (Exception e)
             {
-                MessageBox.Show("读取UserData_friend_with_user_info遇到错误");
-                MessageBox.Show(e.ToString());
+                im.mainWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("读取UserData_friend_with_user_info遇到错误");
+                    MessageBox.Show(e.ToString());
+                });
+
                 return false;
             }
 
@@ -312,8 +341,12 @@ namespace GFHelper.UserData
             }
             catch (Exception e)
             {
-                MessageBox.Show("读取UserData_equip_with_user_info遇到错误");
-                MessageBox.Show(e.ToString());
+                im.mainWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("读取UserData_equip_with_user_info遇到错误");
+                    MessageBox.Show(e.ToString());
+                });
+
                 return false;
             }
             return true;
@@ -334,8 +367,12 @@ namespace GFHelper.UserData
             }
             catch (Exception e)
             {
-                MessageBox.Show("读取UserData_item_with_user_info遇到错误");
-                MessageBox.Show(e.ToString());
+                im.mainWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("读取UserData_item_with_user_info遇到错误");
+                    MessageBox.Show(e.ToString());
+                });
+
                 return false;
             }
             return true;
@@ -367,13 +404,18 @@ namespace GFHelper.UserData
                 user_record.buyitem1_num = Convert.ToInt32(jsonobj.user_record.buyitem1_num);
                 user_record.last_developgun_time = Convert.ToInt32(jsonobj.user_record.last_developgun_time);
                 user_record.last_specialdevelopgun_time = Convert.ToInt32(jsonobj.user_record.last_specialdevelopgun_time);
-                user_record.furniture_classes = Convert.ToInt32(jsonobj.user_record.furniture_classes);
+                user_record.furniture_classes = jsonobj.user_record.furniture_classes.ToString();
                 user_record.adjutant = jsonobj.user_record.adjutant.ToString();
             }
             catch (Exception e)
             {
-                MessageBox.Show("读取UserData_user_record遇到错误");
-                MessageBox.Show(e.ToString());
+
+                im.mainWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("读取UserData_user_record遇到错误");
+                    MessageBox.Show(e.ToString());
+                });
+
                 return false;
             }
             return true;
@@ -419,8 +461,13 @@ namespace GFHelper.UserData
             }
             catch (Exception e)
             {
-                MessageBox.Show("读取UserData_maillist遇到错误");
-                MessageBox.Show(e.ToString());
+                im.mainWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("读取UserData_maillist遇到错误");
+                    MessageBox.Show(e.ToString());
+                });
+
+
                 return false;
             }
             return true;
@@ -429,6 +476,7 @@ namespace GFHelper.UserData
         public bool ReadUserData(dynamic jsonobj)
         {
             ClearUserData();
+            Dorm_Rest_Friend_Build_Coin_Count = -1;
             try
             {
                 ReadUserData_user_info(jsonobj);
@@ -439,6 +487,17 @@ namespace GFHelper.UserData
                 ReadUserData_equip_with_user_info(jsonobj);
                 ReadUserData_item_with_user_info(jsonobj);
                 ReadUserData_user_record(jsonobj);
+                Dorm_Rest_Friend_Build_Coin_Count = Convert.ToInt32(jsonobj.dorm_rest_friend_build_coin_count);
+
+                //如果operation_act_info不为空 则需要更新 自动后勤
+                UpdateOperation_Act_Info();
+                SetTeamInfo();
+
+                //设置一些开光
+                im.auto_summery.NeedAuto_Click_Girls_In_Dorm = true;
+
+                //ui更新
+                im.uihelp.SetTeamInfo_In_Operation();
 
                 Rank5EquipmentN = GetRank5Equipment();
                 FriendLv = GetFriendLv();
@@ -450,6 +509,36 @@ namespace GFHelper.UserData
             return true;
         }
 
+        public void SetTeamInfo()
+        {
+            team_info.Clear();
+            try
+            {
+                for(int i = 1; i <= user_info.maxteam; i++)
+                {
+                    //一个小队一个小队寻找
+                    Dictionary<int,Gun_With_User_Info> Dic_gwui = new Dictionary<int,Gun_With_User_Info>();
+                    foreach (var item in gun_with_user_info)
+                    {
+
+                        if (item.Value.team_id == i)
+                        {
+                            //Dictionary<int, List<Gun_With_User_Info>>
+                            //应该是一个小队5只手枪入列
+                            Gun_With_User_Info gwui = new Gun_With_User_Info();
+                            gwui = item.Value;
+                            Dic_gwui.Add(gwui.location, gwui);
+                        }
+                    }
+                    team_info.Add(i, Dic_gwui);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("建立梯队列表出现错误");
+                MessageBox.Show(e.ToString());
+            }
+        }
 
         public int GetRank5Equipment()
         {
@@ -481,8 +570,10 @@ namespace GFHelper.UserData
         public int GetFriendLv()
         {
             int count = 0, lv = 0;
+            if (friend_with_user_info.Count == 0) return lv;
             try
             {
+
                 foreach (var item in friend_with_user_info)
                 {
                     count = count + item.Value.lv;
@@ -490,13 +581,69 @@ namespace GFHelper.UserData
                 lv = ((int)((double)count / (double)friend_with_user_info.Count));
                 return lv;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                MessageBox.Show("计算好友平均等级出错");
+                MessageBox.Show(e.ToString());
                 return 0;
             }
             
 
         }
+
+        public int GetBatteryNum()
+        {
+            try
+            {
+                foreach (var item in item_with_user_info)
+                {
+                    if (item.Value.item_id == 506) return item.Value.number;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("解析电池数量出错");
+                MessageBox.Show(e.ToString());
+
+            }
+            return 0;
+        }
+        public int GetFurniture_CoinNum()
+        {
+            try
+            {
+                foreach (var item in item_with_user_info)
+                {
+                    if (item.Value.item_id == 41) return item.Value.number;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("解析采购币数量出错");
+                MessageBox.Show(e.ToString());
+
+            }
+            return 0;
+        }
+        public int GetExchange_CoinNum()
+        {
+            try
+            {
+                foreach (var item in item_with_user_info)
+                {
+                    if (item.Value.item_id == 42) return item.Value.number;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("解析兑换卷数量出错");
+                MessageBox.Show(e.ToString());
+
+            }
+            return 0;
+        }
+
+
 
         public void ReadMailList(string result)
         {
@@ -510,12 +657,72 @@ namespace GFHelper.UserData
             {
                 if (Convert.ToInt32(item.Value.type) == 5)
                 {
+                    return item.Key;
+                }
+            }
+            return -1;
+        }
+
+
+        public int NeedDailyGift_Kalina()
+        {
+            foreach (var item in im.userdatasummery.maillist)
+            {
+                if (Convert.ToInt32(item.Value.type) == 1)
+                {
                     return item.Value.id;
                 }
             }
             return -1;
         }
 
+        //更新自动后勤信息
+        public void UpdateOperation_Act_Info()
+        {
+            //没有后勤任务信息，不需要更新
+            if (operation_act_info.Count == 0) return;
+            int count = 0;
+            foreach (var item in operation_act_info)
+            {
+                im.Dic_auto_operation_act[count++] =item.Value;
+            }
+        }
+
+        public void EmptyOperation_Act_Info()
+        {
+            im.Dic_auto_operation_act.Clear();
+            //4个后勤任务
+            for (int x = 0; x < 4; x++)
+            {
+                Operation_Act_Info auto_operation_act = new Operation_Act_Info();
+                im.Dic_auto_operation_act.Add(im.Dic_auto_operation_act.Count, auto_operation_act);
+            }
+
+        }
+
+
+        public string FindGunName_GunId(int gun_id)
+        {
+
+            //在catchdata里找对应的枪
+            try
+            {
+                foreach (var k in im.catchdatasummery.gun_info)
+                {
+                    if (gun_id == k.Value.id)
+                    {
+                        return k.Value.en_name;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("寻找人形名字出错");
+                MessageBox.Show(e.ToString());
+            }
+
+            return "";
+        }
     }
 
 

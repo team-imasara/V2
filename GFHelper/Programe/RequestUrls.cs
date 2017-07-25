@@ -79,5 +79,14 @@ public class RequestUrls
     public const string Withdraw = "Mission/withdrawTeam";
     public const string DevelopLog = "Gun/developLog";
     public const string EquipDevelopLog = "Equip/developLog";
+    public const string ClickKalina = "Dorm/kalinaFavor";
+    public const string Dorm_Receive_Favor = "Dorm/receive_favor";
+
+    public const string Dorm_Info = "Friend/dormInfo";
+    public const string Visit_Friend_Build = "Friend/visit";
+    public const string Get_Friend_Build_Coin = "Dorm/get_build_coin";
+
+    public const string Get_Battaries = "Dorm/get_build_coin";
+
 }
 

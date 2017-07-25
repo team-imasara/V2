@@ -1,13 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GFHelper.Programe
 {
     public class ProgrameData
     {
+        InstanceManager im;
+        ProgrameData(InstanceManager im)
+        {
+            this.im = im;
+        }
         public static string UserMcCode;
         public static string client_ip;
         public static string accountid;
@@ -39,5 +49,8 @@ namespace GFHelper.Programe
 
 
         public static int timeoffset;
+
+        //UI设置
+
     }
 }

@@ -37,10 +37,12 @@ namespace GFHelper
             {
                 this.im = new InstanceManager(this);
                 //加载配置文件
-
+                //检查catchdata
+                AppUpdate();
                 im.configManager.setConfig();
-                im.catchdatasummery.ReadCatchData();
                 //im.logger.Log("GFHelper启动");
+
+
 
 
             }
@@ -53,7 +55,28 @@ namespace GFHelper
 
         }
 
+        public void AppUpdate()
+        {
 
+            var updater = FSLib.App.SimpleUpdater.Updater.Instance;
+
+            //当检查发生错误时,这个事件会触发
+            updater.Error += new EventHandler(updater_Error);
+
+            //找到更新的事件.但在此实例中,找到更新会自动进行处理,所以这里并不需要操作
+            //updater.UpdatesFound += new EventHandler(updater_UpdatesFound);
+
+            //开始检查更新-这是最简单的模式.请现在 assemblyInfo.cs 中配置更新地址,参见对应的文件.
+            FSLib.App.SimpleUpdater.Updater.CheckUpdateSimple();
+
+
+
+        }
+        static void updater_Error(object sender, EventArgs e)
+        {
+            var updater = sender as FSLib.App.SimpleUpdater.Updater;
+            MessageBox.Show("错误,请告诉作者他的服务器宕机了");
+        }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             try
@@ -74,15 +97,6 @@ namespace GFHelper
 
 
 
-        private void button_Click_1(object sender, RoutedEventArgs e)
-        { 
-            if(comboBoxOperationTeam.SelectedIndex == -1 || comboBoxOperation.SelectedIndex == -1)
-            {
-                MessageBox.Show("添加失败！请检查你的选择！");
-                //return;
-            }
-            //im.autoOperation.Start(comboBoxOperationTeam.SelectedIndex + 1, comboBoxOperation.SelectedIndex + 1);
-        }
 
         private void checkBox_Checked(object sender, RoutedEventArgs e)
         {
@@ -138,24 +152,31 @@ namespace GFHelper
 
         private void comboBoxOperation1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            try
+            {
+
+                im.Dic_auto_operation_act[0].operation_id = im.catchdatasummery.operation_info[im.mainWindow.comboBoxOperation1.SelectedIndex].id;
+            }
+            catch (Exception)
+            {
+
+            }
 
         }
 
         private void CheckT_Click(object sender, RoutedEventArgs e)//初始化按钮
         {
-            im.mainWindow.CheckT.IsEnabled = false;
+
+
+
 
             //检查本地CatchData是否最新
-            //if (CommonHelp.CheckCatchDataVersion(im.post.Index_version()) == false)
+            im.action.CheckCatchData();
+
+
+            //if (CommonHelp.checkT(im.eyLogin))
             //{
-            //    //清空catchdata
-            //    //下载最新的catchdata
-            //    //读取
-            //}
-
-
-            if (CommonHelp.checkT(im.eyLogin))
-            {
+            if (true) { 
                 this.im.uihelp.setStatusBarText_InThread(" 验证通过允许使用");
                 //控件开放
                 im.mainWindow.Login.IsEnabled = true;
@@ -185,80 +206,179 @@ namespace GFHelper
 
         private void AutoOperationB_S1_Click(object sender, RoutedEventArgs e)
         {
-            im.mainWindow.AutoOperationB_S1.IsEnabled = false;
-            ////开始后勤任务1
-            //im.taskList.tasklistadd(3);
-            //lock (im.user_operationInfoLocker)//锁
-            //{
-            //    if (im.data.UIauto_operationInfo.Count < 4)
-            //    {
-            //        im.data.UIauto_operationInfo.Add(0, null);
-            //        im.data.UIauto_operationInfo.Add(1, null);
-            //        im.data.UIauto_operationInfo.Add(2, null);
-            //        im.data.UIauto_operationInfo.Add(3, null);
-            //    }
-            //    im.data.UIauto_operationInfo[0].UIreadautoOperationinfo(im.mainWindow.comboBoxOperationTeam1.SelectedIndex + 1, im.mainWindow.comboBoxOperation1.SelectedIndex + 1);
-            //}
+            im.action.UI_Button_Start_Finish_Operation_Act(im.mainWindow.AutoOperationB_S1, 0);
 
         }
 
         private void AutoOperationB_S2_Click(object sender, RoutedEventArgs e)
         {
-            im.mainWindow.AutoOperationB_S2.IsEnabled = false;
-            //im.data.tasklistadd(4);
-            //lock (im.user_operationInfoLocker)//锁
-            //{
-            //    if (im.data.UIauto_operationInfo.Count < 4)
-            //    {
-            //        im.data.UIauto_operationInfo.Add(0, null);
-            //        im.data.UIauto_operationInfo.Add(1, null);
-            //        im.data.UIauto_operationInfo.Add(2, null);
-            //        im.data.UIauto_operationInfo.Add(3, null);
-            //    }
-            //    //开始后勤任务2
-            //    im.data.UIauto_operationInfo[1].UIreadautoOperationinfo(im.mainWindow.comboBoxOperationTeam2.SelectedIndex + 1, im.mainWindow.comboBoxOperation2.SelectedIndex + 1);
-            //}
+            im.action.UI_Button_Start_Finish_Operation_Act(im.mainWindow.AutoOperationB_S2, 1);
 
         }
 
         private void AutoOperationB_S3_Click(object sender, RoutedEventArgs e)
         {
-            im.mainWindow.AutoOperationB_S3.IsEnabled = false;
-            //im.data.tasklistadd(5);
-            //lock (im.user_operationInfoLocker)//锁
-            //{
-            //    if (im.data.UIauto_operationInfo.Count < 4)
-            //    {
-            //        im.data.UIauto_operationInfo.Add(0, null);
-            //        im.data.UIauto_operationInfo.Add(1, null);
-            //        im.data.UIauto_operationInfo.Add(2, null);
-            //        im.data.UIauto_operationInfo.Add(3, null);
-            //    }
-            //    //开始后勤任务3
-            //    im.data.UIauto_operationInfo[2].UIreadautoOperationinfo(im.mainWindow.comboBoxOperationTeam3.SelectedIndex + 1, im.mainWindow.comboBoxOperation3.SelectedIndex + 1);
+            im.action.UI_Button_Start_Finish_Operation_Act(im.mainWindow.AutoOperationB_S3, 2);
 
-            //}
+        }
 
+
+
+        private void AutoOperation_CheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            if (im.mainWindow.AutoOperation_CheckBox.IsChecked == true)
+            {
+                im.auto_summery.NeedAuto_Loop_Operation_Act = true;
+
+            }
+            else
+            {
+                im.auto_summery.NeedAuto_Loop_Operation_Act = false;
+            }
+        }
+
+        private void comboBoxOperationTeam1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                im.Dic_auto_operation_act[0].team_id = im.userdatasummery.team_info[im.mainWindow.comboBoxOperationTeam1.SelectedIndex + 1][1].team_id;
+            }
+            catch (Exception)
+            {
+
+            }
+
+        }
+
+        private void comboBoxOperationTeam2_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                im.Dic_auto_operation_act[1].team_id = im.userdatasummery.team_info[im.mainWindow.comboBoxOperationTeam2.SelectedIndex + 1][1].team_id;
+            }
+            catch (Exception)
+            {
+
+            }
+
+        }
+
+        private void comboBoxOperationTeam3_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                im.Dic_auto_operation_act[2].team_id = im.userdatasummery.team_info[im.mainWindow.comboBoxOperationTeam3.SelectedIndex + 1][1].team_id;
+            }
+            catch (Exception)
+            {
+
+            }
+
+        }
+
+        private void comboBoxOperationTeam4_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                im.Dic_auto_operation_act[3].team_id = im.userdatasummery.team_info[im.mainWindow.comboBoxOperationTeam4.SelectedIndex + 1][1].team_id;
+            }
+            catch (Exception)
+            {
+
+            }
+
+        }
+
+        private void comboBoxOperation2_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                im.Dic_auto_operation_act[1].operation_id = im.catchdatasummery.operation_info[im.mainWindow.comboBoxOperation2.SelectedIndex].id;
+            }
+            catch (Exception)
+            {
+
+            }
+
+
+        }
+
+        private void comboBoxOperation3_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                im.Dic_auto_operation_act[2].operation_id = im.catchdatasummery.operation_info[im.mainWindow.comboBoxOperation3.SelectedIndex].id;
+            }
+            catch (Exception)
+            {
+
+            }
+
+        }
+
+        private void comboBoxOperation4_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                im.Dic_auto_operation_act[3].operation_id = im.catchdatasummery.operation_info[im.mainWindow.comboBoxOperation4.SelectedIndex].id;
+            }
+            catch (Exception)
+            {
+
+
+            }
+
+        }
+
+
+
+        private void Label_MouseDown_1(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                if (UIHelp.ShowTeamID < im.userdatasummery.team_info.Count)
+                {
+                    UIHelp.ShowTeamID++;
+                    im.uihelp.setTeamInfo_In_Formation();
+                }
+            }
+            catch (Exception e0)
+            {
+                MessageBox.Show("UI更新梯队信息出错");
+                MessageBox.Show(e0.ToString());
+            }
+        }
+
+        private void Label_MouseDown_2(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                if (UIHelp.ShowTeamID >= 2)
+                {
+                    UIHelp.ShowTeamID--;
+                    im.uihelp.setTeamInfo_In_Formation();
+                }
+            }
+            catch (Exception e0)
+            {
+                MessageBox.Show("UI更新梯队信息出错");
+                MessageBox.Show(e0.ToString());
+            }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            im.TaskList.Add(TaskList.Get_Battary_Friend);
+        }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            im.TaskList.Add(TaskList.Get_Battary_Friend);
         }
 
         private void AutoOperationB_S4_Click(object sender, RoutedEventArgs e)
         {
-            im.mainWindow.AutoOperationB_S4.IsEnabled = false;
-            //im.data.tasklistadd(6);
-            //lock (im.user_operationInfoLocker)//锁
-            //{
-            //    if (im.data.UIauto_operationInfo.Count < 4)
-            //    {
-            //        im.data.UIauto_operationInfo.Add(0, null);
-            //        im.data.UIauto_operationInfo.Add(1, null);
-            //        im.data.UIauto_operationInfo.Add(2, null);
-            //        im.data.UIauto_operationInfo.Add(3, null);
-            //    }
-            //    //开始后勤任务4
-            //    im.data.UIauto_operationInfo[3].UIreadautoOperationinfo(im.mainWindow.comboBoxOperationTeam4.SelectedIndex + 1, im.mainWindow.comboBoxOperation4.SelectedIndex + 1);
-            //}
-
-            //im.data.tasklistadd(6);
+            im.action.UI_Button_Start_Finish_Operation_Act(im.mainWindow.AutoOperationB_S4, 3);
         }
 
 

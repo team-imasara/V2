@@ -30,7 +30,7 @@ namespace GFHelper.UserData
         public int buyitem1_num;
         public int last_developgun_time;
         public int last_specialdevelopgun_time;
-        public int furniture_classes;
+        public string furniture_classes;
         public string adjutant;
 
     }

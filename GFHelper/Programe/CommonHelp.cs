@@ -41,7 +41,15 @@ namespace GFHelper.Programe
 
             return false;
         }
-
+        public static string formatDuration(int duration)
+        {
+            int h, m, s;
+            h = duration / 3600;
+            m = duration / 60 % 60;
+            s = duration % 60;
+            string result = String.Format("{0:D2}:{1:D2}:{2:D2}", h, m, s);
+            return result;
+        }
         public static bool checkT(EyLoginSoft eyLogin)
         {
 
@@ -75,5 +83,6 @@ namespace GFHelper.Programe
                 return false;
             }
         }
+
     }
 }

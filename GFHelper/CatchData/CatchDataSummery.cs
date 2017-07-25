@@ -211,6 +211,7 @@ namespace GFHelper.CatchData
                     int.TryParse(item.id, out gi.id);
 
                     gi.name = item.name.ToString();
+                    gi.en_name = item.en_name.ToString();
                     gi.introduce = item.introduce.ToString();
                     gi.en_introduce = item.en_introduce.ToString();
                     gi.code = item.code.ToString();
@@ -455,7 +456,7 @@ namespace GFHelper.CatchData
 
         public bool ReadCatchData()
         {
-            string catchdatafile = "catchdata" + "_" + "1097"; /*ProgrameData.CatchDataVersion;//catchdata_版本号*/
+            string catchdatafile = "catchdata.json"; /*ProgrameData.CatchDataVersion;//catchdata_版本号*/
             string jsondata;
 
             if (File.Exists(catchdatafile) == false)
@@ -487,6 +488,20 @@ namespace GFHelper.CatchData
             {
                 return false;
             }
+            
+            //设置ui信息 如后勤
+            try
+            {
+                im.uihelp.SetOperationInfo();
+            }
+            catch (Exception e )
+            {
+                MessageBox.Show("UI设置出错");
+                MessageBox.Show(e.ToString());
+
+            }
+
+
             return true;
         }
     }

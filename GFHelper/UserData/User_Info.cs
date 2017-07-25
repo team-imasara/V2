@@ -55,7 +55,7 @@ namespace GFHelper.UserData
 
         public int last_dorm_material_change_time1;
         public int last_dorm_material_change_time2;
-        public int material_available_num1;
+        public int material_available_num1;//这是电池
         public int material_available_num2;
         public int dorm_max_score;
 

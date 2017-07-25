@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GFHelper</RootNamespace>
     <AssemblyName>少女前线-暗</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -89,8 +89,12 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>WhatYouNeed\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="AuthCode, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\AuthCode.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleUpdater">
+      <HintPath>Resources\SimpleUpdater.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -124,6 +128,7 @@
     <Compile Include="CatchData\Kalina_Favor_Info.cs" />
     <Compile Include="InstanceManager.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="Programe\Auto\AutoSummery.cs" />
     <Compile Include="Programe\CommonHelp.cs" />
     <Compile Include="Programe\ACTION.cs" />
     <Compile Include="Programe\ConfigManager.cs" />
@@ -214,6 +219,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

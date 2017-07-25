@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GFHelper.CatchData
 {
-    public class Operation_Info
+    public class  Operation_Info
     {
         public int id;
         public int campaign;

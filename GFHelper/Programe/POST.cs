@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GFHelper.Programe
 {
@@ -297,7 +298,7 @@ namespace GFHelper.Programe
             return result;//未json化
         }
 
-        public string GetOneMail(int mailwith_user_id)
+        public string GetOneMail_Type1(int mailwith_user_id)
         {
 
             string outdatacode = "{\"mail_with_user_id\":" + mailwith_user_id.ToString() +"}";
@@ -313,10 +314,43 @@ namespace GFHelper.Programe
             result = AuthCode.Decode(result, ProgrameData.sign);
             return result;
         }
-        public string GetMailResource(int mailwith_user_id)
+
+        public string GetMailResource_Type1(int mailwith_user_id)
         {
 
             string outdatacode = "{\"mail_with_user_id\":" + mailwith_user_id.ToString() + "}";
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);//用自身作为密匙把自身加密
+            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+
+            string result = "";
+            while (string.IsNullOrEmpty(result) == true)
+            {
+                result = DoPost(ProgrameData.GameAdd + RequestUrls.GetMailResource, requeststring);
+
+            }
+            result = AuthCode.Decode(result, ProgrameData.sign);
+            return result;
+        }
+
+        public string GetOneMail_Type2(int mailwith_user_id)
+        {
+
+            string outdatacode = "{\"mailwith_user_id\":" + mailwith_user_id.ToString() + "}";
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);//用自身作为密匙把自身加密
+            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+
+            string result = "";
+
+            result = DoPost(ProgrameData.GameAdd + RequestUrls.GetOneMail, requeststring);
+
+            //result = AuthCode.Decode(result, ProgrameData.sign);
+            return result;
+        }
+
+        public string GetMailResource_Type2(int mailwith_user_id)
+        {
+
+            string outdatacode = "{\"mailwith_user_id\":" + mailwith_user_id.ToString() + "}";
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);//用自身作为密匙把自身加密
             string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
 
@@ -366,7 +400,11 @@ namespace GFHelper.Programe
 
         public string StartOperation(int teamid, int operation_id)
         {
-            string outdatacode = AuthCode.Encode(String.Format("{{\"teamid\":{0},\"operation_id\":{1}}}", teamid, operation_id), ProgrameData.sign);
+            //{\"team_id\":1,\"operation_id\":5}
+            //string outdatacode = String.Format("{\"team_id\":{0},\"operation_id\":{1}}", teamid, operation_id);
+            string outdatacode = "";
+            outdatacode = "{\"team_id\":" + teamid.ToString() + "," + "\"operation_id\":" + operation_id.ToString() + "}";
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
             string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
 
             string result = "";
@@ -378,14 +416,17 @@ namespace GFHelper.Programe
                 {
                     break;
                 }
-            }
+            }//result = 1
             return result;
 
         }
 
         public string FinishOperation(int operationid)
         {
-            string outdatacode = AuthCode.Encode(String.Format("{{\"operationid\":{0}}}", operationid), ProgrameData.sign);
+            //{\"operation_id\":5}
+            string outdatacode = "";
+            outdatacode = "{\"operation_id\":" + operationid.ToString() + "}";
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
             string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
 
 
@@ -397,7 +438,29 @@ namespace GFHelper.Programe
             }
             return result;
 
+            //"{\"item_id\":\"\",\"big_success\":0}"
 
+        }
+
+
+
+        public string AbortOperation(int operationid)
+        {
+            //{\"operation_id\":5}
+            string outdatacode = "";
+            outdatacode = "{\"operation_id\":" + operationid.ToString() + "}";
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+
+
+            string result = "";
+            while (string.IsNullOrEmpty(result) == true)
+            {
+                result = DoPost(ProgrameData.GameAdd + RequestUrls.AbortOperation, requeststring);//不需要解密
+            }
+            return result;
+
+            //"{\"item_id\":\"\",\"big_success\":0}"
 
         }
 
@@ -405,25 +468,121 @@ namespace GFHelper.Programe
 
 
 
+        public string Click_kalinaFavor()
+        {
+            string outdatacode = AuthCode.Encode(ProgrameData.sign, ProgrameData.sign);//用自身作为密匙把自身加密
+            string requeststring = String.Format("uid={0}&signcode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+
+            string result = "";
+            while (string.IsNullOrEmpty(result) == true)
+            {
+                result = DoPost(ProgrameData.GameAdd + RequestUrls.ClickKalina, requeststring);
+            }
+            return result;
+        }
+
+        public string Click_Get_Material()
+        {
+            string outdatacode = AuthCode.Encode(ProgrameData.sign, ProgrameData.sign);//用自身作为密匙把自身加密
+            string requeststring = String.Format("uid={0}&signcode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+
+            string result = "";
+            while (string.IsNullOrEmpty(result) == true)
+            {
+                result = DoPost(ProgrameData.GameAdd + RequestUrls.ClickKalina, requeststring);
+            }
+            return result;
+
+
+        }
+
+        public int Receive_Favor_Girls_IN_Dorm(int dorm_id,int gun_with_user_id)
+        {
+            string outdatacode = "{\"dorm_id\":" + dorm_id.ToString() + "," + "\"gun_with_user_id\":" + gun_with_user_id.ToString() + "}";
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+
+            string result = "";
+            while (string.IsNullOrEmpty(result) == true)
+            {
+                result = DoPost(ProgrameData.GameAdd + RequestUrls.Dorm_Receive_Favor, requeststring);
+
+            }
+            var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, ProgrameData.sign));
+            try
+            {
+                return Convert.ToInt32(jsonobj.favor_click.ToString());
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("少女好感度上升出错");
+                MessageBox.Show(e.ToString());
+                return -1;
+            }
 
 
 
+        }
 
+        public int Get_Friend_BattaryNum(int f_userid)
+        {
+            System.Threading.Thread.Sleep(5000);
+            string outdatacode = "{\"f_userid\":" + f_userid.ToString() + "}";
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
 
+            string result = "";
+            while (string.IsNullOrEmpty(result) == true)
+            {
+                result = DoPost(ProgrameData.GameAdd + RequestUrls.Visit_Friend_Build, requeststring);
 
+            }
+            var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, ProgrameData.sign));
+            try
+            {
+                return Convert.ToInt32(jsonobj.build_coin_flag.ToString());
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("查看好友电池出错");
+                MessageBox.Show(e.ToString());
+                return -1;
+            }
+        }
 
+        public bool Get_Friend_Battary(int v_user_id,int dorm_id, int num)
+        {
+            System.Threading.Thread.Sleep(5000);
+            string outdatacode = "{\"v_user_id\":" + v_user_id.ToString() + "," + "\"dorm_id\":" + dorm_id.ToString() + "}";
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
 
+            string result = "";
+            while (string.IsNullOrEmpty(result) == true)
+            {
+                result = DoPost(ProgrameData.GameAdd + RequestUrls.Get_Friend_Build_Coin, requeststring);
 
+            }
+            var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, ProgrameData.sign));
+            try
+            {
+                //如果和预想的num一样则返回true
+                if (Convert.ToInt32(jsonobj.build_coin) == num) return true;
+                else
+                {
+                    //一些报错处理
+                    return false;
+                }
+                
 
-
-
-
-
-
-
-
-
-
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("获取好友电池出错");
+                MessageBox.Show(e.ToString());
+                return false;
+            }
+        }
 
 
 

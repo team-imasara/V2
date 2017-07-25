@@ -10,6 +10,7 @@ namespace GFHelper.CatchData
     {
         public int id;
         public string name;
+        public string en_name;
         public string introduce;
         public string en_introduce;
         public string code;
