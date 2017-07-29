@@ -307,18 +307,24 @@ namespace GFHelper.Programe
             im.mainWindow.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(
     () =>
     {
-        int a = 0;
-        foreach (var item 
-        in im.Dic_auto_operation_act)
+        //int a = 0;
+        //foreach (var item in im.Dic_auto_operation_act)
+        //{
+        //    //if (item.Value.id == 0) continue;
+
+        //    a++;
+
+        //}
+
+        for (int k = 0; k < 4; k++)
         {
-            //if (item.Value.id == 0) continue;
-            switch (a)
+            switch (k)
             {
                 case 0:
                     {
-                        im.mainWindow.comboBoxOperationTeam1.SelectedIndex = item.Value.team_id - 1;
-                        im.mainWindow.comboBoxOperation1.SelectedIndex = item.Value.operation_id - 1;
-                        if (item.Value.remaining_time <= 0)
+                        im.mainWindow.comboBoxOperationTeam1.SelectedIndex = im.Dic_auto_operation_act[k].team_id - 1;
+                        im.mainWindow.comboBoxOperation1.SelectedIndex = im.Dic_auto_operation_act[k].operation_id - 1;
+                        if (im.Dic_auto_operation_act[k].remaining_time <= 0)
                         {
                             im.mainWindow.operation_time1.Text = "   完成";
                             im.mainWindow.AutoOperationB_S1.Content = "任务开始";
@@ -328,7 +334,7 @@ namespace GFHelper.Programe
                         }
                         else
                         {
-                            im.mainWindow.operation_time1.Text = CommonHelp.formatDuration(Convert.ToInt32(item.Value.remaining_time));
+                            im.mainWindow.operation_time1.Text = CommonHelp.formatDuration(Convert.ToInt32(im.Dic_auto_operation_act[k].remaining_time));
 
                             im.mainWindow.comboBoxOperationTeam1.IsEnabled = false;
                             im.mainWindow.comboBoxOperation1.IsEnabled = false;
@@ -340,9 +346,9 @@ namespace GFHelper.Programe
                     }
                 case 1:
                     {
-                        im.mainWindow.comboBoxOperationTeam2.SelectedIndex = item.Value.team_id - 1;
-                        im.mainWindow.comboBoxOperation2.SelectedIndex = item.Value.operation_id - 1;
-                        if (item.Value.remaining_time <=0)
+                        im.mainWindow.comboBoxOperationTeam2.SelectedIndex = im.Dic_auto_operation_act[k].team_id - 1;
+                        im.mainWindow.comboBoxOperation2.SelectedIndex = im.Dic_auto_operation_act[k].operation_id - 1;
+                        if (im.Dic_auto_operation_act[k].remaining_time <= 0)
                         {
                             im.mainWindow.operation_time2.Text = "   完成";
                             im.mainWindow.AutoOperationB_S2.Content = "任务开始";
@@ -351,7 +357,7 @@ namespace GFHelper.Programe
                         }
                         else
                         {
-                            im.mainWindow.operation_time2.Text = CommonHelp.formatDuration(Convert.ToInt32(item.Value.remaining_time));
+                            im.mainWindow.operation_time2.Text = CommonHelp.formatDuration(Convert.ToInt32(im.Dic_auto_operation_act[k].remaining_time));
                             im.mainWindow.AutoOperationB_S2.Content = "任务终止";
                             im.mainWindow.comboBoxOperationTeam2.IsEnabled = false;
                             im.mainWindow.comboBoxOperation2.IsEnabled = false;
@@ -361,9 +367,9 @@ namespace GFHelper.Programe
                     }
                 case 2:
                     {
-                        im.mainWindow.comboBoxOperationTeam3.SelectedIndex = item.Value.team_id - 1;
-                        im.mainWindow.comboBoxOperation3.SelectedIndex = item.Value.operation_id - 1;
-                        if (item.Value.remaining_time <=0)
+                        im.mainWindow.comboBoxOperationTeam3.SelectedIndex = im.Dic_auto_operation_act[k].team_id - 1;
+                        im.mainWindow.comboBoxOperation3.SelectedIndex = im.Dic_auto_operation_act[k].operation_id - 1;
+                        if (im.Dic_auto_operation_act[k].remaining_time <= 0)
                         {
                             im.mainWindow.operation_time3.Text = "   完成";
                             im.mainWindow.AutoOperationB_S3.Content = "任务开始";
@@ -375,17 +381,17 @@ namespace GFHelper.Programe
                             im.mainWindow.AutoOperationB_S3.Content = "任务终止";
                             im.mainWindow.comboBoxOperationTeam3.IsEnabled = false;
                             im.mainWindow.comboBoxOperation3.IsEnabled = false;
-                            im.mainWindow.operation_time3.Text = CommonHelp.formatDuration(Convert.ToInt32(item.Value.remaining_time));
+                            im.mainWindow.operation_time3.Text = CommonHelp.formatDuration(Convert.ToInt32(im.Dic_auto_operation_act[k].remaining_time));
                         }
 
                         break;
                     }
                 case 3:
                     {
-                        im.mainWindow.comboBoxOperationTeam4.SelectedIndex = item.Value.team_id - 1;
-                        im.mainWindow.comboBoxOperation4.SelectedIndex = item.Value.operation_id - 1;
+                        im.mainWindow.comboBoxOperationTeam4.SelectedIndex = im.Dic_auto_operation_act[k].team_id - 1;
+                        im.mainWindow.comboBoxOperation4.SelectedIndex = im.Dic_auto_operation_act[k].operation_id - 1;
 
-                        if (item.Value.remaining_time <= 0)
+                        if (im.Dic_auto_operation_act[k].remaining_time <= 0)
                         {
                             im.mainWindow.operation_time4.Text = "   完成";
                             im.mainWindow.AutoOperationB_S4.Content = "任务开始";
@@ -394,7 +400,7 @@ namespace GFHelper.Programe
                         }
                         else
                         {
-                            im.mainWindow.operation_time4.Text = CommonHelp.formatDuration(Convert.ToInt32(item.Value.remaining_time));
+                            im.mainWindow.operation_time4.Text = CommonHelp.formatDuration(Convert.ToInt32(im.Dic_auto_operation_act[k].remaining_time));
                             im.mainWindow.AutoOperationB_S4.Content = "任务终止";
                             im.mainWindow.comboBoxOperationTeam4.IsEnabled = false;
                             im.mainWindow.comboBoxOperation4.IsEnabled = false;
@@ -405,11 +411,10 @@ namespace GFHelper.Programe
                 default:
                     break;
             }
-            a++;
 
         }
 
-        if(im.mainWindow.AutoOperation_CheckBox.IsChecked == false)
+        if (im.mainWindow.AutoOperation_CheckBox.IsChecked == false)
         {
             im.mainWindow.AutoOperationB_S1.IsEnabled = true;
             im.mainWindow.AutoOperationB_S2.IsEnabled = true;
@@ -423,7 +428,7 @@ namespace GFHelper.Programe
             im.mainWindow.AutoOperationB_S3.IsEnabled = false;
             im.mainWindow.AutoOperationB_S4.IsEnabled = false;
         }
-        im.uihelp.MainWindowTitle();
+        //im.uihelp.MainWindowTitle();
     }
 )
 );

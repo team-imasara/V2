@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using EyLogin;
+using System.IO;
+
 namespace GFHelper.Programe
 {
     class CommonHelp
@@ -85,4 +87,6 @@ namespace GFHelper.Programe
         }
 
     }
+
+
 }

@@ -172,14 +172,12 @@ namespace GFHelper
 
             //检查本地CatchData是否最新
             im.action.CheckCatchData();
-
-
             //if (CommonHelp.checkT(im.eyLogin))
             //{
             if (true) { 
                 this.im.uihelp.setStatusBarText_InThread(" 验证通过允许使用");
                 //控件开放
-                im.mainWindow.Login.IsEnabled = true;
+                //im.mainWindow.Login.IsEnabled = true;
 
 
 

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GFHelper</RootNamespace>
     <AssemblyName>少女前线-暗</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -129,11 +129,12 @@
     <Compile Include="InstanceManager.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Programe\Auto\AutoSummery.cs" />
-    <Compile Include="Programe\CommonHelp.cs" />
+    <Compile Include="Programe\ProgramePro\CommonHelp.cs" />
     <Compile Include="Programe\ACTION.cs" />
     <Compile Include="Programe\ConfigManager.cs" />
     <Compile Include="Programe\POST.cs" />
     <Compile Include="Programe\ProgrameData.cs" />
+    <Compile Include="Programe\ProgramePro\WriteLog.cs" />
     <Compile Include="Programe\RequestUrls.cs" />
     <Compile Include="Programe\TaskList.cs" />
     <Compile Include="Programe\UIHelp.cs" />

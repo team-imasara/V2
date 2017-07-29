@@ -300,7 +300,7 @@ namespace GFHelper.Programe
 
         public string GetOneMail_Type1(int mailwith_user_id)
         {
-
+            System.Threading.Thread.Sleep(2500);
             string outdatacode = "{\"mail_with_user_id\":" + mailwith_user_id.ToString() +"}";
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);//用自身作为密匙把自身加密
             string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
@@ -317,7 +317,7 @@ namespace GFHelper.Programe
 
         public string GetMailResource_Type1(int mailwith_user_id)
         {
-
+            System.Threading.Thread.Sleep(2500);
             string outdatacode = "{\"mail_with_user_id\":" + mailwith_user_id.ToString() + "}";
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);//用自身作为密匙把自身加密
             string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));

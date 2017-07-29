@@ -110,21 +110,41 @@ namespace GFHelper.Programe
                 im.userdatasummery.ReadMailList(im.post.GetMailList());
                 //根据是否有邮件签到
                 //type 5 可能是签到
-                while(im.userdatasummery.NeedDailyAttendance() != -1)//不等于-1表示需要签到并且返回mailwith_user_id type = 5是 签到
+                int x = 0;
+                while (im.userdatasummery.maillist.Count > 0)
                 {
-                    int mailwith_user_id = im.userdatasummery.maillist[im.userdatasummery.NeedDailyAttendance()].id;
+
+                    int mailwith_user_id = im.userdatasummery.maillist[x].id;
+                    im.uihelp.setStatusBarText_InThread(String.Format(" 开始接收邮件 邮件ID: {0} ,邮件剩余数量 : {1} 线程延迟2.5秒",im.userdatasummery.maillist[x].id,im.userdatasummery.maillist.Count));
                     im.post.GetOneMail_Type1(mailwith_user_id);
-                    if (im.post.GetMailResource_Type1(mailwith_user_id) == "[null]")
+                    im.uihelp.setStatusBarText_InThread(String.Format(" 邮件ID: {0} 接收成功 ,邮件剩余数量 : {1} 线程延迟2.5秒", im.userdatasummery.maillist[x].id, im.userdatasummery.maillist.Count));
+                    if (im.post.GetMailResource_Type1(mailwith_user_id) != "")
                     {
-                        im.userdatasummery.maillist.Remove(im.userdatasummery.NeedDailyAttendance());
+
+                        im.userdatasummery.maillist.Remove(x);
+                        x++;
                     }
+
+
                 }
 
-                if (im.userdatasummery.NeedDailyGift_Kalina() != -1)//不等于-1表示需要签到并且返回mailwith_user_id type =1 是格琳娜
-                {
-                    im.post.GetOneMail_Type2(im.userdatasummery.NeedDailyGift_Kalina());
-                    im.post.GetMailResource_Type2(im.userdatasummery.NeedDailyGift_Kalina());
-                }
+
+
+                //while(im.userdatasummery.NeedDailyAttendance() != -1)//不等于-1表示需要签到并且返回mailwith_user_id type = 5是 签到
+                //{
+                //    int mailwith_user_id = im.userdatasummery.maillist[im.userdatasummery.NeedDailyAttendance()].id;
+                //    im.post.GetOneMail_Type1(mailwith_user_id);
+                //    if (im.post.GetMailResource_Type1(mailwith_user_id) == "[null]")
+                //    {
+                //        im.userdatasummery.maillist.Remove(im.userdatasummery.NeedDailyAttendance());
+                //    }
+                //}
+
+                //if (im.userdatasummery.NeedDailyGift_Kalina() != -1)//不等于-1表示需要签到并且返回mailwith_user_id type =1 是格琳娜
+                //{
+                //    im.post.GetOneMail_Type2(im.userdatasummery.NeedDailyGift_Kalina());
+                //    im.post.GetMailResource_Type2(im.userdatasummery.NeedDailyGift_Kalina());
+                //}
 
             }
 
@@ -490,7 +510,7 @@ namespace GFHelper.Programe
                     {
                         im.post.Get_Friend_Battary(item.Value.f_userid, 0, Friend_BattaryNum);
                         im.userdatasummery.Dorm_Rest_Friend_Build_Coin_Count--;
-                        //  log MessageBox.Show(String.Format(" 获取好友 {0} 宿舍的电池 数目: {1} ", item.Value.name.ToString(), Friend_BattaryNum));
+                        Programe.ProgramePro.WriteLog.Log(String.Format(" 获取好友 {0} 宿舍的电池 数目: {1} ", item.Value.name.ToString(), Friend_BattaryNum));
                     }
 
                     if (LoopTime == im.userdatasummery.friend_with_user_info.Count) BattaryNum--;
@@ -520,6 +540,7 @@ namespace GFHelper.Programe
         public void CheckCatchData()
         {
             //删除文件夹下的catchdata文件
+            im.mainWindow.CheckT.IsEnabled = false;
             DeleteFile("catchdata");
 
             //检查catchdata版本
@@ -565,7 +586,7 @@ namespace GFHelper.Programe
 
             DeleteFile("catchdata");
             im.catchdatasummery.ReadCatchData();
-            im.mainWindow.CheckT.IsEnabled = false;
+            im.mainWindow.Login.IsEnabled = true;
 
         }
         static void UnzipDataAndSave(string dataFilePath, int dataVersion, string saveFile = "catchdata.json")

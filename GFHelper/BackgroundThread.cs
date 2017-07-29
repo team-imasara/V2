@@ -42,17 +42,17 @@ namespace GFHelper
 
 
                 //需要改 在auto那里新建auto_summery 里写入此方法
-                foreach (var item in im.Dic_auto_operation_act)
-                {
-                    if (item.Value.id == 0) continue;
-                    item.Value.Time_Operate(im.catchdatasummery.operation_info[item.Value.operation_id-1].duration);
-                }
+                //foreach (var item in im.Dic_auto_operation_act)
+                //{
+                //    if (item.Value.id == 0) continue;
+                //    item.Value.Time_Operate(im.catchdatasummery.operation_info[item.Value.operation_id-1].duration);
+                //}
 
-                //一些自动循环任务 后勤
-                im.auto_summery.Auto_Act_Summery();
+                ////一些自动循环任务 后勤
+                //im.auto_summery.Auto_Act_Summery();
 
-                im.uihelp.setUI_User_Operation_info();
-                Thread.Sleep(500);
+                //im.uihelp.setUI_User_Operation_info();
+                Thread.Sleep(200);
 
             }
         }
