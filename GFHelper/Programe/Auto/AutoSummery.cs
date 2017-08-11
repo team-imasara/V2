@@ -20,8 +20,9 @@ namespace GFHelper.Programe.Auto
         public bool NeedAuto_Click_Girls_In_Dorm = true;//这些都需要 read userinfo 重置
         public bool Time3AddGetFriendBattery = true;//3点收电池  不需要read userinfo重置
         public bool Time15AddGetFriendBattery = true;
+        public bool Time11AddGetMineBattery = true;
+        public bool Time17AddGetFriendBattery = true;
         //卡琳娜可点击数
-
 
         public void Auto_Loop_Start_Finish_Operation_Act()
         {
@@ -161,7 +162,7 @@ namespace GFHelper.Programe.Auto
         }
 
         //好友电池
-        public void Auto_Get_Battary_Friend()
+        public void Auto_Get_Battary()
         {
             DateTime BeijingTimeNow = CommonHelp.PSTConvertToGMT(DateTime.Now);
             //如果12点过了则添加Settings.Default.GetFriendBattleryDelayM
@@ -178,7 +179,7 @@ namespace GFHelper.Programe.Auto
                     Time3AddGetFriendBattery = true;
             }
 
-            //15点
+            //11点
             if (BeijingTimeNow.Hour * 60 + BeijingTimeNow.Minute == (60 * 15 + 1) && Time15AddGetFriendBattery == true)
             {
                 im.TaskList.Add(TaskList.Get_Battary_Friend);
@@ -191,7 +192,72 @@ namespace GFHelper.Programe.Auto
                     Time3AddGetFriendBattery = true;
             }
 
+            if(BeijingTimeNow.Hour * 60 + BeijingTimeNow.Minute == (60 * 11 + 1) && Time11AddGetMineBattery == true)
+            {
+                im.TaskList.Add(TaskList.Get_Dorm_Info);
+                im.TaskList.Add(TaskList.Get_Battary_Mine);
+                Time11AddGetMineBattery = false;
+            }
+            else
+            {
+                if (BeijingTimeNow.Hour * 60 + BeijingTimeNow.Minute != 60 * 11 + 1)
+                    Time11AddGetMineBattery = true;
+            }
 
+            //17点
+            if (BeijingTimeNow.Hour * 60 + BeijingTimeNow.Minute == (60 * 17 + 1) && Time17AddGetFriendBattery == true)
+            {
+
+                im.TaskList.Add(TaskList.Get_Dorm_Info);
+                im.TaskList.Add(TaskList.Get_Battary_Mine);
+                Time17AddGetFriendBattery = false;
+            }
+            else
+            {
+                if (BeijingTimeNow.Hour * 60 + BeijingTimeNow.Minute != 60 * 17 + 1)
+                    Time17AddGetFriendBattery = true;
+            }
+        }
+
+
+        public void Auto_Start_Trial()
+        {
+
+            if (im.userdatasummery.user_info.bp >= 5)
+            {
+                im.TaskList.Add(TaskList.Start_Trial);
+                im.userdatasummery.user_info.bp -= 5;
+            }
+        }
+
+        public void BP_Recover()
+        {
+            if (im.userdatasummery.user_info.bp >= 6)
+            {
+                return;
+            }
+
+
+            if ((im.userdatasummery.user_info.last_bp_recover_time + 7200+600) < (CommonHelp.ConvertDateTime_China_Int(DateTime.Now)))//600是延迟10分钟
+            {
+                //如果上次恢复时间到现在当前时间差距大于两个小时 则 发送请求 
+                im.TaskList.Add(TaskList.GetRecoverBp);
+                im.userdatasummery.user_info.last_bp_recover_time = CommonHelp.ConvertDateTime_China_Int(DateTime.Now);
+            }
+
+        }
+
+        /// <summary>
+        /// 每日零点刷新
+        /// </summary>
+        public void DailyReFlash()
+        {
+            if (CommonHelp.ConvertDateTime_China_Int(DateTime.Now) > ProgrameData.tomorrow_zero+600)//600是延迟10分钟
+            {
+                ProgrameData.tomorrow_zero = 2101948800;
+                im.TaskList.Add(TaskList.Login);
+            }
+            return;
         }
 
         //总的循环
@@ -205,11 +271,17 @@ namespace GFHelper.Programe.Auto
                 Auto_Click_Kalina();
                 Auto_Click_Girls_In_Dorm();
                 //好友电池
-                Auto_Get_Battary_Friend();
+                Auto_Get_Battary();
+                //无限防御模式
+                Auto_Start_Trial();
+                //动能点数恢复
+                BP_Recover();
+                //每日零点刷新
+                DailyReFlash();
             }
-
-
         }
+
+
         
 
 

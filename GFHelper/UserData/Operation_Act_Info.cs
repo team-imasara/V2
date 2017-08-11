@@ -9,6 +9,8 @@ namespace GFHelper.UserData
 {
     public class Operation_Act_Info
     {
+        public int key;//表示当前字段在字典里的键位
+
         public int id;
         public int operation_id;
         public int user_id;
@@ -24,7 +26,7 @@ namespace GFHelper.UserData
             {
                 if (string.IsNullOrEmpty(id.ToString())==false)
                 {
-                    remaining_time = start_time + operation_time - Programe.CommonHelp.ConvertDateTimeInt(DateTime.Now);
+                    remaining_time = start_time + operation_time - Programe.CommonHelp.ConvertDateTime_China_Int(DateTime.Now);
                 }
             }
             catch (Exception e)

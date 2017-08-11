@@ -15,7 +15,6 @@ namespace GFHelper
     class InstanceManager
     {
 
-        public EyLoginSoft eyLogin;
         public MainWindow mainWindow;
         public UIHelp uihelp;
         public ACTION action;
@@ -37,7 +36,7 @@ namespace GFHelper
 
         public InstanceManager(MainWindow mainWindow)
         {
-            this.eyLogin = new EyLoginSoft();
+
             this.mainWindow = mainWindow;
             this.backgroundthread = new BackgroundThread(this);
             this.uihelp = new UIHelp(this);

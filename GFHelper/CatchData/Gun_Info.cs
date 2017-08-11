@@ -43,7 +43,7 @@ namespace GFHelper.CatchData
 
         public List<int> effect_grid_pos = new List<int>();
         public Dictionary<int, List<int>> effect_grid_effect = new Dictionary<int, List<int>>();//
-
+        //public int[] effect_grid_effect = new int[8];
         public int skill1;
         public int skill2;
         public int repel_probability;

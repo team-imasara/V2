@@ -166,39 +166,47 @@ namespace GFHelper
 
         private void CheckT_Click(object sender, RoutedEventArgs e)//初始化按钮
         {
+            im.mainWindow.CheckT.IsEnabled = false;
+
+            ProgrameData.CatchDataVersion = im.post.Index_version();
+            CommonHelp ch = new CommonHelp();
+            var t = new Task<bool>(ch.checkT);
+            t.Start();
+            t.ContinueWith(p =>
+            {
+                MessageBox.Show("验证完毕 开始下载 catchdata. rsult = " + p.Result.ToString());
+                testcheck(p.Result);
+                im.catchdatasummery.ReadCatchData();
+                im.mainWindow.Login.IsEnabled = true;
+                t.Dispose();
+            }
+            );
 
 
 
+            var k = new Task(ch.CheckCatchData);
+            k.Start();
+        }
 
-            //检查本地CatchData是否最新
-            im.action.CheckCatchData();
-            //if (CommonHelp.checkT(im.eyLogin))
-            //{
-            if (true) { 
+        public void testcheck(bool result)
+        {
+            if (result)
+            {
                 this.im.uihelp.setStatusBarText_InThread(" 验证通过允许使用");
-                //控件开放
-                //im.mainWindow.Login.IsEnabled = true;
-
-
-
                 //线程开放
                 countdown = new Thread((new ThreadStart(() => im.backgroundthread.CountDown())));//倒计时线程
                 countdown.SetApartmentState(ApartmentState.STA);
                 countdown.IsBackground = true;
                 countdown.Start();
-
-
                 CompleteMisson = new Thread((new ThreadStart(() => im.backgroundthread.CompleteMisson())));//倒计时线程
                 CompleteMisson.SetApartmentState(ApartmentState.STA);
                 CompleteMisson.IsBackground = true;
                 CompleteMisson.Start();
-
-
             }
             //验证失败代码
             else
             {
-
+                
             }
         }
 
@@ -370,6 +378,12 @@ namespace GFHelper
         }
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            im.TaskList.Add(TaskList.Get_Dorm_Info);
+            im.TaskList.Add(TaskList.Get_Battary_Mine);
+        }
+
+        private void Button_Click_6(object sender, RoutedEventArgs e)
         {
             im.TaskList.Add(TaskList.Get_Battary_Friend);
         }

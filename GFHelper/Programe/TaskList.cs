@@ -45,6 +45,10 @@ namespace GFHelper.Programe
         public static TaskListInfo Click_Kalina = new TaskListInfo("格琳娜好感上升", 21);
         public static TaskListInfo Click_Girls_In_Dorm = new TaskListInfo("宿舍少女好感上升", 22);
         public static TaskListInfo Get_Battary_Friend = new TaskListInfo("获取好友电池", 23);
+        public static TaskListInfo Get_Battary_Mine = new TaskListInfo("获取自己电池", 24);
+        public static TaskListInfo Get_Dorm_Info = new TaskListInfo("获取自己宿舍信息", 25);
+        public static TaskListInfo Start_Trial = new TaskListInfo("无限防御", 31);
+        public static TaskListInfo GetRecoverBp = new TaskListInfo("获取BP点数", 32);
 
     }
 }

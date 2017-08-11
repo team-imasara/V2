@@ -113,6 +113,9 @@ namespace GFHelper.Programe
                 var jsonobj = DynamicJson.Parse(result); //讲道理，我真不想写了
 
                 catchdataversion = Convert.ToInt32(jsonobj.data_version);
+                ProgrameData.CatchDataVersion = Convert.ToInt32(jsonobj.data_version);
+                ProgrameData.tomorrow_zero = Convert.ToInt32(jsonobj.tomorrow_zero);
+                ProgrameData.weekday = Convert.ToInt32(jsonobj.weekday);
             }
             return catchdataversion;
         }
@@ -146,7 +149,7 @@ namespace GFHelper.Programe
         public string GetUserInfo()//api = index/index
         {
 
-            string outdatacode = AuthCode.Encode("{\"time\":" +  CommonHelp.ConvertDateTimeInt(DateTime.Now).ToString() + "}", ProgrameData.sign);
+            string outdatacode = AuthCode.Encode("{\"time\":" +  CommonHelp.ConvertDateTime_China_Int(DateTime.Now).ToString() + "}", ProgrameData.sign);
             string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
             string result = "";
 
@@ -398,7 +401,7 @@ namespace GFHelper.Programe
             return result;
         }
 
-        public string StartOperation(int teamid, int operation_id)
+        public bool StartOperation(int teamid, int operation_id)
         {
             //{\"team_id\":1,\"operation_id\":5}
             //string outdatacode = String.Format("{\"team_id\":{0},\"operation_id\":{1}}", teamid, operation_id);
@@ -414,14 +417,14 @@ namespace GFHelper.Programe
                 result = DoPost(ProgrameData.GameAdd + RequestUrls.StartOperation, requeststring);
                 if(count++ == 10)
                 {
-                    break;
+                    return false;
                 }
             }//result = 1
-            return result;
+            return true;
 
         }
 
-        public string FinishOperation(int operationid)
+        public bool FinishOperation(int operationid)
         {
             //{\"operation_id\":5}
             string outdatacode = "";
@@ -429,18 +432,14 @@ namespace GFHelper.Programe
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
             string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
 
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.FinishOperation, requeststring);//不需要解密
 
-            string result = "";
-            while (string.IsNullOrEmpty(result) == true)
-            {
-                result = DoPost(ProgrameData.GameAdd + RequestUrls.FinishOperation, requeststring);//不需要解密
-                result = AuthCode.Decode(result, ProgrameData.sign);//解析解密
+            return ProgramePro.ResultPro.Finish_Operation_ResultPro(result);
+
             }
-            return result;
+
 
             //"{\"item_id\":\"\",\"big_success\":0}"
-
-        }
 
 
 
@@ -584,14 +583,54 @@ namespace GFHelper.Programe
             }
         }
 
+        public bool StartTrial(string teamids)
+        {
+            string outdatacode = "";
+            outdatacode = "{\"team_ids\":" + "\""+ teamids.ToString() + "\""+"," + "\"battle_team\":" + teamids.ToString() + "}";
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
 
 
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.StartTrial, requeststring);
 
+            return ProgramePro.ResultPro.StartTrial_ResultPro(result);
 
+         }
 
+        public bool EndTrial(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.EndTrial, requeststring);
 
+            return ProgramePro.ResultPro.EndTrial_ResultPro(result);
 
+        }
 
+        public string GetFriend_DormInfo()
+        {
+            string outdatacode = AuthCode.Encode(ProgrameData.sign, ProgrameData.sign);//用自身作为密匙把自身加密
+            string requeststring = String.Format("uid={0}&signcode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.Dorm_Info, requeststring);
+            return ProgramePro.ResultPro.GetFriend_DormInfo(result);
+        }
+
+        public bool Get_Build_Coin(string v_user_id,string dorm_id)
+        {
+            //{"v_user_id":"54634","dorm_id":1}
+            string outdatacode = "{\"v_user_id\":" + "\""+v_user_id +"\""+ "," + "\"dorm_id\":" + dorm_id + "}";
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.Get_Friend_Build_Coin, requeststring);
+            return ProgramePro.ResultPro.Get_Friend_Build_Coin(result);
+        }
+        public string GetRecoverBP()
+        {
+            string outdatacode = AuthCode.Encode(ProgrameData.sign, ProgrameData.sign);//用自身作为密匙把自身加密
+            string requeststring = String.Format("uid={0}&signcode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.RecoverBp, requeststring);
+            return ProgramePro.ResultPro.Get_RecoverBP(result);
+        }
 
 
 

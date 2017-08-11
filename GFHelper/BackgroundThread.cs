@@ -23,35 +23,25 @@ namespace GFHelper
         {
             DateTime Now = DateTime.Now;
 
-            Single c;
+
             Thread.Sleep(200);
 
             while (true)
             {
-                c = Convert.ToInt32((DateTime.Now - Now).TotalMilliseconds / 1000);
-
-
-
-
-
-                //foreach(var item in im.data.user_operationInfo)
-                //{
-                //    item.Value.SetLastTime();
-                //}
-                //im.uiHelper.setUI_User_Operation_info();
-
+                //到点自动退出程序
+                Programe.CommonHelp.StopTime();
 
                 //需要改 在auto那里新建auto_summery 里写入此方法
-                //foreach (var item in im.Dic_auto_operation_act)
-                //{
-                //    if (item.Value.id == 0) continue;
-                //    item.Value.Time_Operate(im.catchdatasummery.operation_info[item.Value.operation_id-1].duration);
-                //}
+                foreach (var item in im.Dic_auto_operation_act)
+                {
+                    if (item.Value.id == 0) continue;
+                    item.Value.Time_Operate(im.catchdatasummery.operation_info[item.Value.operation_id - 1].duration);
+                }
 
-                ////一些自动循环任务 后勤
-                //im.auto_summery.Auto_Act_Summery();
+                //一些自动循环任务 后勤
+                im.auto_summery.Auto_Act_Summery();
 
-                //im.uihelp.setUI_User_Operation_info();
+                im.uihelp.setUI_User_info();
                 Thread.Sleep(200);
 
             }
@@ -124,25 +114,21 @@ namespace GFHelper
                                 im.action.Start_Loop_Operation_Act(im.Dic_auto_operation_act[0]);
 
                                 im.TaskList.RemoveAt(0);
-                                im.TaskList.Add(Programe.TaskList.GetuserInfo);
+                                //im.TaskList.Add(Programe.TaskList.GetuserInfo);
                                 break;
                             }
                         case 12:
                             {
                                 im.action.Start_Loop_Operation_Act(im.Dic_auto_operation_act[1]);
-                                //im.uihelp.setStatusBarText_InThread(String.Format(" 后勤任务结束2"));
-                                //im.post.FinishOperation(im.Dic_auto_operation_act[1].operation_id);
-                                //im.uihelp.setStatusBarText_InThread(String.Format(" 后勤任务开始2"));
-                                //im.post.StartOperation(im.Dic_auto_operation_act[1].team_id, im.Dic_auto_operation_act[1].operation_id);
                                 im.TaskList.RemoveAt(0);
-                                im.TaskList.Add(Programe.TaskList.GetuserInfo);
+                                //im.TaskList.Add(Programe.TaskList.GetuserInfo);
                                 break;
                             }
                         case 13:
                             {
                                 im.action.Start_Loop_Operation_Act(im.Dic_auto_operation_act[2]);
                                 im.TaskList.RemoveAt(0);
-                                im.TaskList.Add(Programe.TaskList.GetuserInfo);
+                                //im.TaskList.Add(Programe.TaskList.GetuserInfo);
                                 break;
                             }
                         case 14:
@@ -150,7 +136,7 @@ namespace GFHelper
                                 im.action.Start_Loop_Operation_Act(im.Dic_auto_operation_act[3]);
 
                                 im.TaskList.RemoveAt(0);
-                                im.TaskList.Add(Programe.TaskList.GetuserInfo);
+                                //im.TaskList.Add(Programe.TaskList.GetuserInfo);
                                 break;
                             }
                         case 15:
@@ -158,7 +144,7 @@ namespace GFHelper
                                 im.action.Abort_Operation_Act(im.Dic_auto_operation_act[0]);
 
                                 im.TaskList.RemoveAt(0);
-                                im.TaskList.Add(Programe.TaskList.GetuserInfo);
+                                //im.TaskList.Add(Programe.TaskList.GetuserInfo);
                                 break;
                             }
 
@@ -167,7 +153,7 @@ namespace GFHelper
                                 im.action.Abort_Operation_Act(im.Dic_auto_operation_act[1]);
 
                                 im.TaskList.RemoveAt(0);
-                                im.TaskList.Add(Programe.TaskList.GetuserInfo);
+                                //im.TaskList.Add(Programe.TaskList.GetuserInfo);
                                 break;
                             }
 
@@ -176,7 +162,7 @@ namespace GFHelper
                                 im.action.Abort_Operation_Act(im.Dic_auto_operation_act[2]);
 
                                 im.TaskList.RemoveAt(0);
-                                im.TaskList.Add(Programe.TaskList.GetuserInfo);
+                                //im.TaskList.Add(Programe.TaskList.GetuserInfo);
                                 break;
                             }
 
@@ -185,7 +171,7 @@ namespace GFHelper
                                 im.action.Abort_Operation_Act(im.Dic_auto_operation_act[3]);
 
                                 im.TaskList.RemoveAt(0);
-                                im.TaskList.Add(Programe.TaskList.GetuserInfo);
+                                //im.TaskList.Add(Programe.TaskList.GetuserInfo);
                                 break;
                             }
 
@@ -207,9 +193,40 @@ namespace GFHelper
                             {
                                 im.action.Visit_Friend_Dorm_Info();
                                 im.TaskList.RemoveAt(0);
-                                im.TaskList.Add(Programe.TaskList.GetuserInfo);
                                 break;
                             }
+                        case 24:
+                            {
+                                im.action.Get_Build_Coin();
+                                im.TaskList.RemoveAt(0);
+                                break;
+                            }
+                        case 25:
+                            {
+                                im.action.Get_Dorm_Info();
+                                im.TaskList.RemoveAt(0);
+                                break;
+                            }
+
+                        case 31:
+                            {
+                                im.action.Auto_Start_Trial();
+                                im.TaskList.RemoveAt(0);
+                                //处理结尾 BP的回复时间
+                                //getuserinfo 不能用太卡了只能手动处理
+                                break;
+                            }
+                        case 32:
+                            {
+                                im.action.GetRecoverBP();
+                                im.TaskList.RemoveAt(0);
+                                //处理结尾 BP的回复时间
+                                //getuserinfo 不能用太卡了只能手动处理
+                                break;
+                            }
+
+
+
                             //case 2://readUserinfo
                             //    {
                             ////im.baseAction.GetUserinfo();

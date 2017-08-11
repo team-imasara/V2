@@ -34,10 +34,15 @@ namespace GFHelper.Programe
 
 
         public static int CatchDataVersion;
-        public static bool isServerLoaded = false;
+        public static int tomorrow_zero;//用于零时刷新 北京时间0点
+        public static int weekday;//会用于模拟战
 
 
+        public static bool AutoDefenseTrialBattleF;
+        public static int AutoDefenseTrialBattleT;
 
+        public static string StopTime_string;
+        public static DateTime StopTime_datetime;
 
 
 

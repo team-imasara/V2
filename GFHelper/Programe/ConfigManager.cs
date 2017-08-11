@@ -54,7 +54,7 @@ namespace GFHelper
                     ++linenum;
                     if (String.IsNullOrEmpty(line) || line[0] == '#') continue;//注释
                     string[] c = line.Split('=');
-                    config.Add(linenum, new ConfigNode(c[0].Trim().ToLower(), c[1].Trim().ToLower()));
+                    config.Add(linenum, new ConfigNode(c[0].Trim(), c[1].Trim().ToLower()));
                 }
 
                 maxline = con.Length;
@@ -169,7 +169,7 @@ namespace GFHelper
                     ProgrameData.platform = "android";
 
                 ProgrameData.channelid = this.im.configManager.getConfigString("channelid").ToUpper();
-                ProgrameData.worldid = this.im.configManager.getConfigString("worldid");
+                ProgrameData.worldid = this.im.configManager.getConfigString("worldId");
                 ProgrameData.accountid = this.im.configManager.getConfigString("accountid");
                 System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
                 ProgrameData.password = BitConverter.ToString(md5.ComputeHash(UTF8Encoding.Default.GetBytes(this.im.configManager.getConfigString("password"))));
@@ -178,6 +178,20 @@ namespace GFHelper
 
                 ProgrameData.androidid = this.im.configManager.getConfigString("androidid").ToUpper();
                 ProgrameData.mac = this.im.configManager.getConfigString("mac");
+
+                ProgrameData.AutoDefenseTrialBattleF = this.im.configManager.getConfigBool("AutoDefenseTrialBattleF");
+                ProgrameData.AutoDefenseTrialBattleT = this.im.configManager.getConfigInt("AutoDefenseTrialBattleT");
+                ProgrameData.StopTime_string = this.im.configManager.getConfigString("StopTime");
+                if(ProgrameData.StopTime_string.ToLower() == "null")
+                {
+                    //ProgrameData.StopTime_datetime = "";
+                }
+                else
+                {
+                    IFormatProvider format = new System.Globalization.CultureInfo("zh-CN");
+                    ProgrameData.StopTime_datetime = DateTime.ParseExact(ProgrameData.StopTime_string,"yyyyMMddHHmmss", format);
+                }
+
 
                 ProgrameData.GameAdd = "http://s" + ProgrameData.worldid + ".gw.gf.ppgame.com/index.php/100" + ProgrameData.worldid + "/";
 

@@ -64,7 +64,7 @@ namespace GFHelper.Programe
 
             //加零点签到判断
             //如果当前时间戳大于    "user_record":   "attendance_type1_time": 1487520000,则签到
-            if (CommonHelp.ConvertDateTimeInt(DateTime.Now) > im.userdatasummery.user_record.attendance_type1_time)
+            if (CommonHelp.ConvertDateTime_China_Int(DateTime.Now) > im.userdatasummery.user_record.attendance_type1_time)
             {
                 im.uihelp.setStatusBarText_InThread(String.Format(" 开始签到"));
                 im.post.attendance();
@@ -174,7 +174,7 @@ namespace GFHelper.Programe
         //    foreach (var item in im.data.user_operationInfo)
         //    {
         //        now = DateTime.Now;
-        //        if (CommonHelper.ConvertDateTimeInt(now) > (item.Value.startTime + item.Value._durationTime))
+        //        if (CommonHelper.ConvertDateTime_China_Int(now) > (item.Value.startTime + item.Value._durationTime))
         //        {
         //            string resurt = im.apioperation.StartOperation(item.Value._teamId, item.Value._operationId);
 
@@ -183,7 +183,7 @@ namespace GFHelper.Programe
         //                lock (im.user_operationInfoLocker)//锁
         //                {
         //                    item.Value.reSet();
-        //                    //int temp = CommonHelper.ConvertDateTimeInt(time);
+        //                    //int temp = CommonHelper.ConvertDateTime_China_Int(time);
         //                }
 
 
@@ -300,9 +300,24 @@ namespace GFHelper.Programe
             if (Out == true) return;
             //im.Dic_auto_operation_act[0]
             im.uihelp.setStatusBarText_InThread(String.Format(" 第 {0} 梯队后勤任务结束 ", operation_act_info.team_id));
-            im.post.FinishOperation(operation_act_info.operation_id);
+
+            if (im.post.FinishOperation(operation_act_info.operation_id) == false)
+            {
+                //错误处理
+
+            }
+
             im.uihelp.setStatusBarText_InThread(String.Format(" 第 {0} 梯队后勤任务开始 ", operation_act_info.team_id));
-            im.post.StartOperation(operation_act_info.team_id, operation_act_info.operation_id);
+
+            if(im.post.StartOperation(operation_act_info.team_id, operation_act_info.operation_id) == false)
+            {
+                //错误返回处理
+            }
+            else
+            {
+                //正确返回处理 更改时间
+                im.Dic_auto_operation_act[operation_act_info.key].start_time = CommonHelp.ConvertDateTime_China_Int(DateTime.Now);
+            }
 
         }
 
@@ -518,95 +533,96 @@ namespace GFHelper.Programe
             }
         }
 
-        public void Get_Friend_Dorm_Info(int v_user_id,int dorm_id)
+        public void Auto_Start_Trial()
         {
+            //开始模拟作战无线防御
+            //uid 
+            //outdatacode = {"team_ids":"7","battle_team":7}
+            //req_id
+            //url = Mission/startTrial
+            if (ProgrameData.AutoDefenseTrialBattleF == false) return;
+            string gunid = im.userdatasummery.team_info[ProgrameData.AutoDefenseTrialBattleT][1].id.ToString();
 
+            im.uihelp.setStatusBarText_InThread(String.Format(" BP点数 高于5 开始无限防御模式"));
 
-
-        }
-
-        public void DeleteFile(string str)
-        {
-            DirectoryInfo path = new DirectoryInfo(Directory.GetCurrentDirectory());
-            FileInfo[] files = path.GetFiles("*.*");
-            //取得所有文件，然后判断文件名是否以"xxx-"开头
-            for (int i = 0; i < files.Count(); i++)
+            if (im.post.StartTrial(ProgrameData.AutoDefenseTrialBattleT.ToString()) == false)
             {
-                if (files[i].Name == str+".json") continue;
-                if (files[i].Name.Substring(0, 9) == str)
-                    files[i].Delete();
-            }
-        }
-        public void CheckCatchData()
-        {
-            //删除文件夹下的catchdata文件
-            im.mainWindow.CheckT.IsEnabled = false;
-            DeleteFile("catchdata");
+                //发送失败的处理
 
-            //检查catchdata版本
-            ProgrameData.CatchDataVersion = im.post.Index_version();
-            string catchdataAdd = AC.EncryptTool.GetCryptoFileName(ProgrameData.CatchDataVersion.ToString());
-            string url = "http://rescnf.gf.ppgame.com/data/" + catchdataAdd;
-
-            //下载
-            using (WebClient client = new WebClient())
-            {
-                client.DownloadFileAsync(new Uri(url), Path.GetFileName("catchdata.dat"));
-                client.DownloadProgressChanged += client_DownloadProgressChanged;
-                client.DownloadFileCompleted += client_DownloadFileCompleted;
             }
 
+            im.uihelp.setStatusBarText_InThread(String.Format(" 结束防御模式"));
+            System.Threading.Thread.Sleep(5000);
 
-        }
-        private void DownLoadNewCatchData(object sender, EventArgs e)
-        {
-            string abc = AC.EncryptTool.GetCryptoFileName("1098");
-            string url = "http://rescnf.gf.ppgame.com/data/" + abc;
+            //序列化
+            Random random = new Random();
+            string outdatacode = "{\"if_win\":0,\"battle_guns\":{\"" + /*人形ID 预定P7*/ gunid + "\":{\"life\":32,\"dps\":0}},\"skill_cd\":" + /*146上下浮动*/random.Next(145, 150).ToString() + ",\"battle_damage\":{\"enemy_effect_client\":22644}}";
 
-
-            using (WebClient client = new WebClient())
+            if (im.post.EndTrial(outdatacode) == false)
             {
-                client.DownloadFileAsync(new Uri(url), Path.GetFileName("catchdata.dat"));
-                client.DownloadProgressChanged += client_DownloadProgressChanged;
-                client.DownloadFileCompleted += client_DownloadFileCompleted;
+                //发送失败的处理
             }
         }
-        void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+
+        public void GetRecoverBP()
         {
-            im.uihelp.setStatusBarText_InThread(string.Format("当前接收到{0}字节，文件大小总共{1}字节", e.BytesReceived, e.TotalBytesToReceive));
-        }
-        void client_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
-        {
-            if (e.Cancelled)
+            im.uihelp.setStatusBarText_InThread(String.Format(" 动能点数恢复"));
+            string result = im.post.GetRecoverBP();
+
+            if(result != "")
             {
-                MessageBox.Show("文件下载被取消", "提示");
+                var jsonobj = DynamicJson.Parse(result);
+                im.userdatasummery.Read_BP_Info(jsonobj);
             }
-            MessageBox.Show("catchdata文件下载成功", "提示");
-            UnzipDataAndSave("catchdata.dat",ProgrameData.CatchDataVersion);
 
-            DeleteFile("catchdata");
-            im.catchdatasummery.ReadCatchData();
-            im.mainWindow.Login.IsEnabled = true;
 
         }
-        static void UnzipDataAndSave(string dataFilePath, int dataVersion, string saveFile = "catchdata.json")
+
+        public void Get_Build_Coin()
         {
-            byte[] buffer = new byte[0x400];
-            StringBuilder builder = new StringBuilder();
-            using (Stream stream = new FileStream(dataFilePath, FileMode.Open))
+            try
             {
-                CryptoStream baseInputStream = new CryptoStream(stream, AC.EncryptTool.GetDecryptorServiceProvider(dataVersion), CryptoStreamMode.Read);
-                using (Stream stream3 = new GZipStream(baseInputStream, CompressionMode.Decompress))
+                if (im.userdatasummery.dorm_with_user_info.current_build_coin <= 0) return;
+                //开始获得
+                im.userdatasummery.dorm_with_user_info.current_build_coin = 0;
+                if (im.post.Get_Build_Coin(im.userdatasummery.dorm_with_user_info.info.user_id, im.userdatasummery.dorm_with_user_info.info.dorm_id))
                 {
-                    //StreamReader reader = new StreamReader(stream3, Encoding.UTF8);
-                    FileStream fs = new FileStream(saveFile, FileMode.OpenOrCreate);
-                    stream3.CopyTo(fs);
-                    fs.Close();
-                    stream3.Close();
+                    //成功的处理把开关guanbi
                 }
-                stream.Close();
+                else
+                {
+                    //错误的处理
+                }
+
+            }
+            catch (Exception)
+            {
+                return;
             }
         }
+
+        public void Get_Dorm_Info()
+        {
+            try
+            {
+                string result = im.post.GetFriend_DormInfo();
+                if(result != "")
+                {
+                    var jsonobj = DynamicJson.Parse(result);
+                    im.userdatasummery.ReadDormData(jsonobj);
+                }
+
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
+
+
+
+
+
 
 
     }

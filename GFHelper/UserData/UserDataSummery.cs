@@ -25,6 +25,7 @@ namespace GFHelper.UserData
         public Dictionary<int, Item_With_User_Info> item_with_user_info = new Dictionary<int, Item_With_User_Info>();
         public User_Record user_record = new User_Record();
         public Dictionary<int, MailList> maillist = new Dictionary<int, MailList>();
+        public Dorm_With_User_Info dorm_with_user_info = new Dorm_With_User_Info();
         public int Dorm_Rest_Friend_Build_Coin_Count;
 
         /// <summary>
@@ -151,6 +152,7 @@ namespace GFHelper.UserData
                 {
                     Operation_Act_Info oai = new Operation_Act_Info();
 
+                    oai.key = operation_act_info.Count;
                     oai.id = Convert.ToInt32(item.id);
                     oai.operation_id = Convert.ToInt32(item.operation_id);
                     oai.user_id = Convert.ToInt32(item.user_id);
@@ -473,6 +475,70 @@ namespace GFHelper.UserData
             return true;
         }
 
+
+
+        /// <summary>
+        /// ReadDormData 不在 getuserinfo API接口上。 
+        /// 需要单独 api接口 Friend/dormInfo
+        /// </summary>
+        /// <param name="jsonobj"></param>
+        /// <returns></returns>
+        public bool ReadDormData(dynamic jsonobj)
+        {
+            dorm_with_user_info = null;
+            dorm_with_user_info = new Dorm_With_User_Info();
+            try
+            {
+                dorm_with_user_info.info.dorm_id = jsonobj.info.dorm_id.ToString();
+                dorm_with_user_info.info.praise_num = jsonobj.info.praise_num.ToString();
+                dorm_with_user_info.info.user_id = jsonobj.info.user_id.ToString();
+                dorm_with_user_info.info.visit_num = jsonobj.info.visit_num.ToString();
+                dorm_with_user_info.current_build_coin = Convert.ToInt32(jsonobj.current_build_coin);
+                dorm_with_user_info.build_coin_flag = Convert.ToInt32(jsonobj.build_coin_flag);
+            }
+            catch (Exception e)
+            {
+
+                im.mainWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("读取DormData遇到错误");
+                    MessageBox.Show(e.ToString());
+                });
+
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 获取BP信息
+        /// </summary>
+        /// <param name="jsonobj"></param>
+        /// <returns></returns>
+        public bool Read_BP_Info(dynamic jsonobj)
+        {
+            
+            try
+            {
+                user_info.bp += Convert.ToInt32(jsonobj.recover_bp);
+                user_info.last_bp_recover_time = Convert.ToInt32(jsonobj.last_bp_recover_time);
+            }
+            catch (Exception e)
+            {
+
+                im.mainWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("读取BP_Info遇到错误");
+                    MessageBox.Show(e.ToString());
+                });
+
+                return false;
+            }
+            return true;
+        }
+
+
+
         public bool ReadUserData(dynamic jsonobj)
         {
             ClearUserData();
@@ -508,6 +574,8 @@ namespace GFHelper.UserData
             }
             return true;
         }
+
+
 
         public void SetTeamInfo()
         {

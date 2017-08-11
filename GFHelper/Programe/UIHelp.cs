@@ -271,6 +271,7 @@ namespace GFHelper.Programe
         /// <summary>
         /// 设置后勤信息
         /// </summary>
+        /// 
         public void SetOperationInfo()//设置后勤信息
         {
             im.mainWindow.Dispatcher.Invoke(() =>
@@ -287,7 +288,7 @@ namespace GFHelper.Programe
                 {
                     var item = im.catchdatasummery.operation_info[i];
                     string itemtext;
-                    itemtext = String.Format("{0}({1}-{2})", item.name, (int)((item.id - 1) / 4), (int)((item.id - 1) % 4) + 1);
+                    itemtext = String.Format("{0}({1}-{2})",item.name, (int)((item.id - 1) / 4), (int)((item.id - 1) % 4) + 1);
 
                     im.uihelp.addComboBoxText(im.mainWindow.comboBoxOperation1, itemtext);
                     im.uihelp.addComboBoxText(im.mainWindow.comboBoxOperation2, itemtext);
@@ -299,24 +300,30 @@ namespace GFHelper.Programe
 
         }
 
+        //设置BP回复点数的时间
+        public void SetBPTime_Recover()
+        {
+            if ((CommonHelp.ConvertDateTime_China_Int(DateTime.Now) - im.userdatasummery.user_info.last_bp_recover_time) > 7200) return;
+
+            im.mainWindow.BP_RecoverTime.Content = CommonHelp.formatDuration((CommonHelp.ConvertDateTime_China_Int(DateTime.Now) - im.userdatasummery.user_info.last_bp_recover_time)).ToString();
+
+
+        }
+
         /// <summary>
         /// 后勤控件处理 梯队 任务 框 和按钮
         /// </summary>
-        public void setUI_User_Operation_info()//每一秒刷新一次
+        public void setUI_User_info()//每一秒刷新一次
         {
             im.mainWindow.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(
     () =>
     {
-        //int a = 0;
-        //foreach (var item in im.Dic_auto_operation_act)
-        //{
-        //    //if (item.Value.id == 0) continue;
-
-        //    a++;
-
-        //}
-
-        for (int k = 0; k < 4; k++)
+        //基础动能超导动能
+        im.mainWindow.textBPnum.Text = im.userdatasummery.user_info.bp.ToString();
+        im.mainWindow.textBP_PayNUM.Text = im.userdatasummery.user_info.bp_pay.ToString();
+        //动能点数倒数时间
+        SetBPTime_Recover();
+        for(int k = 0; k < 4; k++)
         {
             switch (k)
             {
@@ -428,11 +435,13 @@ namespace GFHelper.Programe
             im.mainWindow.AutoOperationB_S3.IsEnabled = false;
             im.mainWindow.AutoOperationB_S4.IsEnabled = false;
         }
-        //im.uihelp.MainWindowTitle();
+        im.uihelp.MainWindowTitle();
     }
 )
 );
         }
+
+
 
         public void setTeamInfo_In_Formation()
         {
