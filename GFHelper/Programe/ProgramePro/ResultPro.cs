@@ -1,13 +1,35 @@
-﻿using System;
+﻿using Codeplex.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GFHelper.Programe.ProgramePro
 {
     public class ResultPro
     {
+        public static string Eat_Equip_ResultPro(string result)
+        {
+            //如果是网络错误 如连接超时 另外考虑
+            try
+            {
+                result = AuthCode.Decode(result, ProgrameData.sign);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("解析结果错误");
+                MessageBox.Show(e.ToString());
+                return result;
+            }
+
+            //字符串检查
+            if (result.Contains("equip_add_exp")) return result;
+
+            return result;
+        }
+
         public static bool Finish_Operation_ResultPro(string result)
         {
             //如果是网络错误 如连接超时 另外考虑
@@ -109,6 +131,33 @@ namespace GFHelper.Programe.ProgramePro
             //字符串检查
             if (result.Contains("recover_bp")) return result;
             if (result.Contains("last_bp_recover_time")) return result;
+            return "";
+        }
+
+        public static string Get_Mail_Content(string result)
+        {
+            try
+            {
+                result = AuthCode.Decode(result, ProgrameData.sign);
+            }
+            catch (Exception e)
+            {
+                return "";
+            }
+            //序列化
+
+            //字符串检查
+            if (result.Contains("title"))
+            {
+                var jsonobj = DynamicJson.Parse(result);
+
+                string title = Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(CommonHelp.UnicodeToString(jsonobj.title.ToString()));
+                string content = Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(CommonHelp.UnicodeToString(jsonobj.content.ToString()));
+
+                result ="标题 : " + title+" 内容 :" +content;
+
+                return result;
+            }
             return "";
         }
     }

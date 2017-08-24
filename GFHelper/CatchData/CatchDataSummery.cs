@@ -417,7 +417,10 @@ namespace GFHelper.CatchData
 
                     oi.id = Convert.ToInt32(item.id);
                     oi.campaign = Convert.ToInt32(item.campaign);
-                    oi.name = item.name.ToString();
+
+                    //这个name需要解析
+                    oi.name = Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(item.name.ToString());
+
                     oi.description = item.description.ToString();
                     oi.duration = Convert.ToInt32(item.duration);
                     oi.mp = Convert.ToInt32(item.mp);

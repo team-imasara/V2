@@ -14,6 +14,7 @@ namespace GFHelper.Programe.ProgramePro
         {
             this.im = im;
         }
+
         private static StreamWriter streamWriter; //写文件  
 
         public static void Log(string message)

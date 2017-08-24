@@ -90,5 +90,7 @@ public class RequestUrls
 
     public const string Get_Battaries = "Dorm/get_build_coin";
 
+    public const string Eat_Equip = "Equip/eatEquip";
+
 }
 

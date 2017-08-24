@@ -82,7 +82,7 @@ namespace GFHelper.Programe
             {
                 MessageBox.Show("验证网络连接失败!");
                 MessageBox.Show("机器码 : " + ProgrameData.UserMcCode);
-                MessageBox.Show(eyLogin.GetLastMessages());
+                MessageBox.Show(UnicodeToString(eyLogin.GetLastMessages()));
                 return false;
             }
 
@@ -192,6 +192,37 @@ namespace GFHelper.Programe
             }
 
         }
+
+
+        /// <summary>    
+        /// Unicode字符串转为正常字符串    
+        /// </summary>    
+        /// <param name="srcText"></param>    
+        /// <returns></returns>    
+        public static string UnicodeToString(string srcText)
+        {
+            if (srcText.Contains("\\") == false) return srcText;
+            string dst = "";
+            string src = srcText;
+            int len = srcText.Length / 6;
+            for (int i = 0; i <= len - 1; i++)
+            {
+                string str = "";
+                str = src.Substring(0, 6).Substring(2);
+                src = src.Substring(6);
+                byte[] bytes = new byte[2];
+                bytes[1] = byte.Parse(int.Parse(str.Substring(0, 2), System.Globalization.NumberStyles.HexNumber).ToString());
+                bytes[0] = byte.Parse(int.Parse(str.Substring(2, 2), System.Globalization.NumberStyles.HexNumber).ToString());
+                dst += Encoding.Unicode.GetString(bytes);
+            }
+            return dst;
+        }
+
+
+
+
+
+
     }
 
 

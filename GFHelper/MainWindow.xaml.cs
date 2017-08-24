@@ -170,22 +170,31 @@ namespace GFHelper
 
             ProgrameData.CatchDataVersion = im.post.Index_version();
             CommonHelp ch = new CommonHelp();
-            var t = new Task<bool>(ch.checkT);
-            t.Start();
-            t.ContinueWith(p =>
-            {
-                MessageBox.Show("验证完毕 开始下载 catchdata. rsult = " + p.Result.ToString());
-                testcheck(p.Result);
-                im.catchdatasummery.ReadCatchData();
-                im.mainWindow.Login.IsEnabled = true;
-                t.Dispose();
-            }
-            );
+
+            //ch.checkT();
+            ch.CheckCatchData();
+            im.catchdatasummery.ReadCatchData();
+            testcheck(true);
+            im.mainWindow.Login.IsEnabled = true;
+            //var t = new Task<bool>(ch.checkT);
+            //t.Start();
+            //t.ContinueWith(p =>
+            //{
+            //    MessageBox.Show("验证完毕 开始下载 catchdata. rsult = " + p.Result.ToString());
+            //    var k = new Task(ch.CheckCatchData);
+            //    k.Start();
+
+
+            //    testcheck(p.Result);
+
+
+            //    t.Dispose();
+            //}
+            //);
 
 
 
-            var k = new Task(ch.CheckCatchData);
-            k.Start();
+
         }
 
         public void testcheck(bool result)
@@ -379,8 +388,7 @@ namespace GFHelper
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            im.TaskList.Add(TaskList.Get_Dorm_Info);
-            im.TaskList.Add(TaskList.Get_Battary_Mine);
+            im.action.Eat_Equip();
         }
 
         private void Button_Click_6(object sender, RoutedEventArgs e)

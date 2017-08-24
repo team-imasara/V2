@@ -117,6 +117,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Programe\TextRes\asset_textes.cs" />
     <Compile Include="Window\DownLoadP.xaml.cs">
       <DependentUpon>DownLoadP.xaml</DependentUpon>
     </Compile>
@@ -130,7 +131,6 @@
     <Compile Include="CatchData\Gun_Type_Info.cs" />
     <Compile Include="CatchData\Kalina_Favor_Info.cs" />
     <Compile Include="InstanceManager.cs" />
-    <Compile Include="Logger.cs" />
     <Compile Include="Programe\Auto\AutoSummery.cs" />
     <Compile Include="Programe\ProgramePro\CommonHelp.cs" />
     <Compile Include="Programe\ACTION.cs" />
@@ -191,9 +191,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -103,7 +103,7 @@ namespace GFHelper.Programe
         {
             im.uihelp.setStatusBarText_InThread(String.Format(" 查询是否有新邮件"));
             var jsonobj = DynamicJson.Parse(im.post.ifNewMail());
-
+            string result;
             if (jsonobj.if_new_mail == true)
             {
                 //如果有 就发送
@@ -116,11 +116,12 @@ namespace GFHelper.Programe
 
                     int mailwith_user_id = im.userdatasummery.maillist[x].id;
                     im.uihelp.setStatusBarText_InThread(String.Format(" 开始接收邮件 邮件ID: {0} ,邮件剩余数量 : {1} 线程延迟2.5秒",im.userdatasummery.maillist[x].id,im.userdatasummery.maillist.Count));
-                    im.post.GetOneMail_Type1(mailwith_user_id);
+                    result = im.post.GetOneMail_Type1(mailwith_user_id);
+                    result = ProgramePro.ResultPro.Get_Mail_Content(result);
+                    ProgramePro.WriteLog.Log(string.Format("邮件记录 : {0}", result));
                     im.uihelp.setStatusBarText_InThread(String.Format(" 邮件ID: {0} 接收成功 ,邮件剩余数量 : {1} 线程延迟2.5秒", im.userdatasummery.maillist[x].id, im.userdatasummery.maillist.Count));
                     if (im.post.GetMailResource_Type1(mailwith_user_id) != "")
                     {
-
                         im.userdatasummery.maillist.Remove(x);
                         x++;
                     }
@@ -619,7 +620,26 @@ namespace GFHelper.Programe
             }
         }
 
+        public void Eat_Equip()
+        {
+            //判断是否满仓
+            //选取需要升级的枪
+            //选取狗粮
+            //发送请求
+            //装备存量-
+            //删除装备
+            //经验++
+            var obj = new
+            {
+                equip_with_user_id = im.userdatasummery.equip_with_user_info[0].id.ToString(),
 
+                food = new[] { im.userdatasummery.equip_with_user_info[1].id.ToString(), im.userdatasummery.equip_with_user_info[2].id.ToString() }
+            };
+            var jsonStringFromObj = DynamicJson.Serialize(obj);
+            string abc = jsonStringFromObj.ToString();
+
+
+        }
 
 
 

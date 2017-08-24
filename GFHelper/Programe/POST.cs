@@ -314,7 +314,6 @@ namespace GFHelper.Programe
                 result = DoPost(ProgrameData.GameAdd + RequestUrls.GetOneMail, requeststring);
 
             }
-            result = AuthCode.Decode(result, ProgrameData.sign);
             return result;
         }
 
@@ -632,7 +631,16 @@ namespace GFHelper.Programe
             return ProgramePro.ResultPro.Get_RecoverBP(result);
         }
 
+        public string Eat_Equip(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.Eat_Equip, requeststring);
 
+            return ProgramePro.ResultPro.Eat_Equip_ResultPro(result);
+
+            return "";
+        }
 
 
     }
