@@ -42,6 +42,8 @@ namespace GFHelper
                 im.configManager.setConfig();
                 //im.logger.Log("GFHelper启动");
 
+                //初始化练级地图信息
+
 
 
 
@@ -168,33 +170,30 @@ namespace GFHelper
         {
             im.mainWindow.CheckT.IsEnabled = false;
 
-            ProgrameData.CatchDataVersion = im.post.Index_version();
-            CommonHelp ch = new CommonHelp();
+            var getIndex_version = new Task<int>(im.post.Index_version);
+            var CheckT = new Task<bool>(CommonHelp.checkT);
+            var CCD = new Task<bool>(CommonHelp.CheckCatchData);
+            getIndex_version.ContinueWith(p =>
+            {
+                im.uihelp.setStatusBarText_InThread(String.Format(" 获取时间信息完成"));
+                CCD.Start();
+            });
+            CheckT.ContinueWith(p =>
+            {
+                im.uihelp.setStatusBarText_InThread(String.Format(" 验证授权完成"));
+                //testcheck(CheckT.Result);
+                testcheck(true);
+            });
 
-            //ch.checkT();
-            ch.CheckCatchData();
-            im.catchdatasummery.ReadCatchData();
-            testcheck(true);
+            CCD.ContinueWith(p =>
+            {
+                im.uihelp.setStatusBarText_InThread(String.Format(" 下载catchdata完成"));
+                im.catchdatasummery.ReadCatchData();
+            });
+            im.uihelp.setStatusBarText_InThread(String.Format(" 开始初始化"));
+            getIndex_version.Start();
+            CheckT.Start();
             im.mainWindow.Login.IsEnabled = true;
-            //var t = new Task<bool>(ch.checkT);
-            //t.Start();
-            //t.ContinueWith(p =>
-            //{
-            //    MessageBox.Show("验证完毕 开始下载 catchdata. rsult = " + p.Result.ToString());
-            //    var k = new Task(ch.CheckCatchData);
-            //    k.Start();
-
-
-            //    testcheck(p.Result);
-
-
-            //    t.Dispose();
-            //}
-            //);
-
-
-
-
         }
 
         public void testcheck(bool result)
@@ -215,7 +214,7 @@ namespace GFHelper
             //验证失败代码
             else
             {
-                
+                Environment.Exit(0);
             }
         }
 
@@ -388,12 +387,62 @@ namespace GFHelper
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            im.action.Eat_Equip();
+            int num = 0;
+            foreach (var item in im.userdatasummery.team_info[6])
+            {
+                num += item.Value.teamId + item.Value.life + item.Value.gun_exp;
+            }
+            int result = num + im.userdatasummery.user_info.experience;
+            MessageBox.Show(result.ToString());
+            //int i = 0;
+
+            //for (; i < im.userdatasummery.gun_with_user_info.Count; i++)
+            //{
+            //    if (im.userdatasummery.gun_with_user_info[i].teamId == 7)
+            //    {
+            //        im.userdatasummery.gun_with_user_info[i].UpdateData();
+            //        im.userdatasummery.gun_with_user_info[i].GetPoint(true);
+            //    }
+            //}
         }
 
         private void Button_Click_6(object sender, RoutedEventArgs e)
         {
             im.TaskList.Add(TaskList.Get_Battary_Friend);
+        }
+
+        private void Button_Click_7(object sender, RoutedEventArgs e)
+        {
+            int mvp;
+            Programe.Auto.UserBattleTaskInfo ubti = new Programe.Auto.UserBattleTaskInfo();
+            Programe.Auto.Battle_Gun_Info[] gun = new Programe.Auto.Battle_Gun_Info[5];
+            //枪的效能 总效能
+            for (int i = 1; i <= 5; i++)
+            {
+                if(im.userdatasummery.team_info[Task1MT.SelectedIndex + 1].ContainsKey(i) == true)
+                {
+                    Programe.Auto.Battle_Gun_Info temp = new Programe.Auto.Battle_Gun_Info();
+                    temp.id = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][i].id;
+                    temp.life = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][i].life;
+                    gun[i-1] = temp;
+                }
+            }
+            ubti.skill_cd = Convert.ToInt32(im.mainWindow.Task1TeamE.Text);
+            //mvp
+            if (GUN1_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][1].gun_id;
+            if (GUN2_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][2].gun_id;
+            if (GUN3_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][3].gun_id;
+            if (GUN4_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][4].gun_id;
+            if (GUN5_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][5].gun_id;
+            ubti.Build_info(Task1Map.SelectedIndex,Task1MT.SelectedIndex+1,Task1ST1.SelectedIndex+1, gun,123);
+
+            im.dic_userbattletaskinfo.Add(0, ubti);
+            im.TaskList.Add(Programe.TaskList.TaskBattle_1);
+        }
+
+        private void Task1MT_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            im.uihelp.setTeamInfo_In_Formation();
         }
 
         private void AutoOperationB_S4_Click(object sender, RoutedEventArgs e)

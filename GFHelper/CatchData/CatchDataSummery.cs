@@ -7,36 +7,141 @@ using System.Threading.Tasks;
 using System.IO;
 using Codeplex.Data;
 using System.Windows;
+using GFHelper.Programe.ProgramePro.APK;
 
 namespace GFHelper.CatchData
 {
     class CatchDataSummery
     {
         public InstanceManager im;
+        public CatchDataFunc.Game_Config_Info_Func Game_Config_info_Func;
 
         public CatchDataSummery(InstanceManager im)
         {
             this.im = im;
+
         }
 
         public Dictionary<int, Auto_Mission_Info> auto_mission_info = new Dictionary<int, Auto_Mission_Info>();
+        public Dictionary<int, Fairy_Type_Info> fairy_type_info = new Dictionary<int, Fairy_Type_Info>();
+        public Dictionary<int, Fairy_Info> fairy_info = new Dictionary<int, CatchData.Fairy_Info>();
         public Dictionary<int, Equip_Exp_Info> equip_exp_info = new Dictionary<int, Equip_Exp_Info>();
         public Dictionary<int, Equip_Info> equip_info = new Dictionary<int, Equip_Info>();
         public Dictionary<int, Gun_Info> gun_info = new Dictionary<int, Gun_Info>();
-        public Dictionary<int, Gun_Type_Info> gun_type_info = new Dictionary<int, Gun_Type_Info>();
+        public static Dictionary<GunType, Gun_Type_Info> gun_type_info = new Dictionary<GunType, Gun_Type_Info>();
         public Dictionary<int, Kalina_Favor_Info> kalina_favor_info = new Dictionary<int, Kalina_Favor_Info>();
         public Dictionary<int, Operation_Info> operation_info = new Dictionary<int, Operation_Info>();
+
+        public static Dictionary<int, Game_Config_Info> game_config_info = new Dictionary<int, Game_Config_Info>();
+
+
+        public static Dictionary<GunType, Dictionary<string, float>> dictGunBaseAttri = new Dictionary<GunType, Dictionary<string, float>>();
+        // Token: 0x040011F7 RID: 4599
+        public static Dictionary<Attri, float> dictMinAttribute = new Dictionary<Attri, float>();
 
 
         public void ClearCatchData()
         {
             this.auto_mission_info.Clear();
+            this.fairy_type_info.Clear();
+            this.fairy_info.Clear();
             this.equip_exp_info.Clear();
             this.equip_info.Clear();
             this.gun_info.Clear();
-            this.gun_type_info.Clear();
+            //this.gun_type_info.Clear();
             this.kalina_favor_info.Clear();
             this.operation_info.Clear();
+            //this.game_config_info.Clear();
+        }
+
+        public bool ReadCatchData_fairy_type_info(dynamic jsonobj)
+        {
+            try
+            {
+                foreach (var item in jsonobj.fairy_type_info)
+                {
+                    Fairy_Type_Info fti = new Fairy_Type_Info();
+                    fti.id = Convert.ToInt32(item.id);
+                    fti.name = item.name.ToString();
+                    fairy_type_info.Add(fairy_type_info.Count, fti);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("读取CatchData_fairy_type_info遇到错误");
+                MessageBox.Show(e.ToString());
+                return false;
+            }
+            return true;
+        }
+
+        public bool ReadCatchData_Fairy_Info(dynamic jsonobj)
+        {
+            try
+            {
+                foreach (var item in jsonobj.fairy_info)
+                {
+                    Fairy_Info fi = new Fairy_Info();
+
+                    fi.id = Convert.ToInt32(item.id);
+                    fi.name = item.name.ToString();
+                    fi.code=item.code.ToString();
+                    fi.description=item.description.ToString();
+                    fi.introduce=item.introduce.ToString();
+                    fi.type = Convert.ToInt32(item.type);
+                    fi.pow = Convert.ToInt32(item.pow);
+                    fi.hit = Convert.ToInt32(item.hit);
+                    fi.baseHit = fi.hit;
+                    fi.dodge = Convert.ToInt32(item.dodge);
+                    fi.baseDodge = fi.dodge;
+                    fi.armor = Convert.ToInt32(item.armor);
+                    fi.baseArmor = fi.armor;
+                    fi.critical_harm_rate = Convert.ToInt32(item.critical_harm_rate);
+                    fi.baseCritDamage = fi.critical_harm_rate;
+                    fi.grow = Convert.ToInt32(item.grow);
+                    //public Dictionary<int, float> proportion = new Dictionary<int, float>();
+                    //1:0.4,2:0.5,3:0.6,4:0.8,5:1
+                    foreach (var x in item.proportion.Split(','))
+                    {
+                        //1:0.4
+                        string[] data = new string[2];
+                        data = x.Split(':');
+                        fi.proportion.Add(Convert.ToInt32(data[0]),float.Parse(data[1]));
+                    }
+                    fi.skill_id = item.skill_id;
+                    fi.quality_exp = Convert.ToInt32(item.quality_exp);
+                    //public Dictionary<int, float> quality_need_number = new Dictionary<int, float>();
+                    //1:0,2:100,3:500,4:1500,5:3000
+                    foreach (var x in item.quality_need_number.Split(','))
+                    {
+                        string[] data = new string[2];
+                        data = x.Split(':');
+                        fi.quality_need_number.Add(Convert.ToInt32(data[0]), Int32.Parse(data[1]));
+                    }
+
+                    fi.develop_duration = Convert.ToInt32(item.develop_duration);
+                    fi.retiremp = Convert.ToInt32(item.retiremp);
+                    fi.retireammo = Convert.ToInt32(item.retireammo);
+                    fi.retiremre = Convert.ToInt32(item.retiremre);
+                    fi.retirepart = Convert.ToInt32(item.retirepart);
+                    fi.powerup_mp = Convert.ToInt32(item.powerup_mp);
+                    fi.powerup_ammo = Convert.ToInt32(item.powerup_ammo);
+                    fi.powerup_mre = Convert.ToInt32(item.powerup_mre);
+                    fi.powerup_part = Convert.ToInt32(item.powerup_part);
+                    fi.armor_piercing = Convert.ToInt32(item.armor_piercing);
+                    fi.category = Convert.ToInt32(item.category);
+                    fi.ai = Convert.ToInt32(item.ai);
+
+
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("读取CatchDdat_Fairy_Info遇到错误");
+                MessageBox.Show(e.ToString());
+                return false;
+            }
+            return true;
         }
 
         public bool ReadCatchData_auto_mission_info(dynamic jsonobj)
@@ -174,14 +279,15 @@ namespace GFHelper.CatchData
                     double.TryParse(item.powerup_mre, out ei.powerup_mre);
                     double.TryParse(item.powerup_part, out ei.powerup_part);
                     double.TryParse(item.exclusive_rate, out ei.exclusive_rate);
-                    
-                    foreach (var x in item.bonus_type.Split(','))
-                    {
-                        if (String.IsNullOrEmpty(x)) continue;
-                        //x -> hit:5
-                        string[] sArray = x.Split(':');
-                        ei.bonus_type.Add(sArray[0].ToString(), Convert.ToInt32(sArray[1]));
-                    }
+
+                    ei.bonus_type = item.bonus_type.ToString();
+                    //foreach (var x in item.bonus_type.Split(','))
+                    //{
+                    //    if (String.IsNullOrEmpty(x)) continue;
+                    //    //x -> hit:5
+                    //    string[] sArray = x.Split(':');
+                    //    ei.bonus_type.Add(sArray[0].ToString(), Convert.ToInt32(sArray[1]));
+                    //}
 
                     int.TryParse(item.skill, out ei.skill);
                     int.TryParse(item.max_level, out ei.max_level);
@@ -216,34 +322,46 @@ namespace GFHelper.CatchData
                     gi.en_introduce = item.en_introduce.ToString();
                     gi.code = item.code.ToString();
 
+                    string type = item.type;
 
-                    int.TryParse(item.type, out gi.type);
+
+                    gi.type =(GunType) Enum.Parse(typeof(GunType), type);
+
+                    //int.TryParse(item.type, out gi.type);
                     int.TryParse(item.rank, out gi.rank);
                     int.TryParse(item.max_equip, out gi.max_equip);
-                    int.TryParse(item.ratio_life, out gi.ratio_life);
+                    float.TryParse(item.ratio_life, out gi.ratio_life);
+                    gi.ratioLife = gi.ratio_life;
                     int.TryParse(item.ratio_armor, out gi.ratio_armor);
                     int.TryParse(item.baseammo, out gi.baseammo);
                     int.TryParse(item.basemre, out gi.basemre);
                     int.TryParse(item.ammo_add_withnumber, out gi.ammo_add_withnumber);
                     int.TryParse(item.mre_add_withnumber, out gi.mre_add_withnumber);
                     int.TryParse(item.ratio_pow, out gi.ratio_pow);
+                    gi.ratioPow = gi.ratio_pow;
                     int.TryParse(item.ratio_hit, out gi.ratio_hit);
                     int.TryParse(item.ratio_dodge, out gi.ratio_dodge);
+                    gi.ratioDodge = gi.ratio_dodge;
                     int.TryParse(item.ratio_range, out gi.ratio_range);
                     int.TryParse(item.ratio_speed, out gi.ratio_speed);
+                    gi.ratioSpeed = gi.ratio_speed;
                     int.TryParse(item.ratio_rate, out gi.ratio_rate);
+                    gi.ratioRate = gi.ratio_rate;
                     int.TryParse(item.armor_piercing, out gi.armor_piercing);
+                    gi.armorPiercing = gi.armor_piercing;
                     int.TryParse(item.crit, out gi.crit);
+                    gi.ratioCrit = gi.crit;
                     int.TryParse(item.retiremp, out gi.retiremp);
                     int.TryParse(item.retireammo, out gi.retireammo);
                     int.TryParse(item.retiremre, out gi.retiremre);
                     int.TryParse(item.retirepart, out gi.retirepart);
-                    int.TryParse(item.eat_ratio, out gi.eat_ratio);
+                    float.TryParse(item.eat_ratio, out gi.eat_ratio);
+                    gi.eatRatio = gi.eat_ratio;
                     int.TryParse(item.develop_duration, out gi.develop_duration);
                     gi.dialogue = item.dialogue.ToString();
                     int.TryParse(item.effect_grid_center, out gi.effect_grid_center);
                     int.TryParse(item.effect_guntype, out gi.effect_guntype);
-
+                    gi.ratioHit = gi.ratio_hit;
                     foreach (var x in item.effect_grid_pos.Split(','))
                     {
                         if (String.IsNullOrEmpty(x)) continue;
@@ -363,18 +481,18 @@ namespace GFHelper.CatchData
                     
                     gti.id = Convert.ToInt32(item.id);
                     gti.name = item.name.ToString();
-                    gti.basic_attribute_life =Convert.ToDouble(item.basic_attribute_life);
-                    gti.basic_attribute_pow = Convert.ToDouble(item.basic_attribute_pow);
-                    gti.basic_attribute_rate = Convert.ToDouble(item.basic_attribute_rate);
-                    gti.basic_attribute_speed = Convert.ToDouble(item.basic_attribute_speed);
-                    gti.basic_attribute_hit = Convert.ToDouble(item.basic_attribute_hit);
-                    gti.basic_attribute_dodge = Convert.ToDouble(item.basic_attribute_dodge);
-                    gti.basic_attribute_armor = Convert.ToDouble(item.basic_attribute_armor);
-                    gti.mp_fix_ratio = Convert.ToDouble(item.mp_fix_ratio);
-                    gti.part_fix_ratio = Convert.ToDouble(item.part_fix_ratio);
-                    gti.fix_time_ratio = Convert.ToDouble(item.fix_time_ratio);
+                    gti.data.Add("basic_attribute_life",float.Parse(item.basic_attribute_life));
+                    gti.data.Add("basic_attribute_pow", float.Parse(item.basic_attribute_pow));
+                    gti.data.Add("basic_attribute_rate",  float.Parse(item.basic_attribute_rate));
+                    gti.data.Add("basic_attribute_speed",  float.Parse(item.basic_attribute_speed));
+                    gti.data.Add("basic_attribute_hit",  float.Parse(item.basic_attribute_hit));
+                    gti.data.Add("basic_attribute_dodge",  float.Parse(item.basic_attribute_dodge));
+                    gti.data.Add("basic_attribute_armor",  float.Parse(item.basic_attribute_armor));
+                    gti.data.Add("mp_fix_ratio",  float.Parse(item.mp_fix_ratio));
+                    gti.data.Add("part_fix_ratio",  float.Parse(item.part_fix_ratio));
+                    gti.data.Add("fix_time_ratio",  float.Parse(item.fix_time_ratio));
 
-                    gun_type_info.Add(gti.id - 1, gti);
+                    gun_type_info.Add((GunType)Enum.Parse(typeof(GunType), gti.id.ToString()), gti);
                 }
             }
             catch (Exception e)
@@ -456,9 +574,79 @@ namespace GFHelper.CatchData
             return true;
         }
 
+        public bool ReadCatchData_game_config_info(dynamic jsonobj)
+        {
+            try
+            {
+                foreach (var item in jsonobj.game_config_info)
+                {
+                    Game_Config_Info gci = new Game_Config_Info();
+
+                    gci.parameter_name = item.parameter_name.ToString();
+                    gci.parameter_type = item.parameter_type.ToString();
+                    gci.client_require = item.client_require.ToString();
+
+                    string temp_parameter_value = item.parameter_value.ToString();
+                    gci.parameter_value_String = temp_parameter_value;
+                    if (temp_parameter_value.Contains(','))
+                    {
+                        //有逗号
+                        if (temp_parameter_value.Contains(':'))
+                        {
+                            //有逗号也有名字 string[0]名字 string[1]值
+                            foreach (var x in temp_parameter_value.Split(','))
+                            {
+                                if (String.IsNullOrEmpty(x)) continue;
+                                string[] value = new string[2];
+                                int i = 0;
+                                foreach (var y in x.Split(':'))
+                                {
+                                    value[i] = y.ToString();
+                                    i++;
+                                }
+                                gci.parameter_value.Add(gci.parameter_value.Count, value);
+                            }
+                        }
+                        else
+                        {
+                            //只有逗号没有冒号
+                            foreach (var x in temp_parameter_value.Split(','))
+                            {
+                                if (String.IsNullOrEmpty(x)) continue;
+                                string[] value = new string[1];
+                                value[0] = x.ToString();
+                                gci.parameter_value.Add(gci.parameter_value.Count, value);
+                            }
+                        }
+
+
+                    }
+                    else
+                    {
+                        //没有逗号 只有一个值
+                        string[] value = new string[1];
+                        value[0] = temp_parameter_value;
+                        gci.parameter_value.Add(gci.parameter_value.Count, value);
+                    }
+
+                    game_config_info.Add(game_config_info.Count, gci);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("读取CatchData_game_config_info遇到错误");
+                MessageBox.Show(e.ToString());
+                return false;
+            }
+            return true;
+
+
+
+        }
 
         public bool ReadCatchData()
         {
+
             string catchdatafile = "catchdata.json"; /*ProgrameData.CatchDataVersion;//catchdata_版本号*/
             string jsondata;
 
@@ -474,6 +662,9 @@ namespace GFHelper.CatchData
 
                 var jsonobj = DynamicJson.Parse(jsondata); //讲道理，我真不想写了
 
+                ReadCatchData_fairy_type_info(jsonobj);
+                ReadCatchData_Fairy_Info(jsonobj);
+
                 ReadCatchData_auto_mission_info(jsonobj);
                 ReadCatchData_equip_exp_info(jsonobj);
                 ReadCatchData_equip_info(jsonobj);
@@ -481,7 +672,7 @@ namespace GFHelper.CatchData
                 ReadCatchData_gun_type_info(jsonobj);
                 ReadCatchData_kalina_favor_info(jsonobj);
                 ReadCatchData_operation_info(jsonobj);
-
+                ReadCatchData_game_config_info(jsonobj);
             }
             catch (IOException e)
             {
@@ -496,6 +687,7 @@ namespace GFHelper.CatchData
             try
             {
                 im.uihelp.SetOperationInfo();
+                im.uihelp.SetEquipType();
             }
             catch (Exception e )
             {
@@ -507,11 +699,34 @@ namespace GFHelper.CatchData
 
             return true;
         }
+
+        public enum Attri
+        {
+            // Token: 0x04001214 RID: 4628
+            pow,
+            // Token: 0x04001215 RID: 4629
+            hit,
+            // Token: 0x04001216 RID: 4630
+            dodge,
+            // Token: 0x04001217 RID: 4631
+            speed,
+            // Token: 0x04001218 RID: 4632
+            rate,
+            // Token: 0x04001219 RID: 4633
+            critical_harm_rate,
+            // Token: 0x0400121A RID: 4634
+            critical_percent,
+            // Token: 0x0400121B RID: 4635
+            armor_piercing,
+            // Token: 0x0400121C RID: 4636
+            armor
+        }
     }
 
 
 
 
+    // Token: 0x02000232 RID: 562
 
 }
 

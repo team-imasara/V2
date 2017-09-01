@@ -180,7 +180,7 @@ namespace GFHelper.Programe
 
                     //item_with_user_info
                     im.mainWindow.textEquipNum.Text = String.Format("{0}/{1}", im.userdatasummery.equip_with_user_info.Count, im.userdatasummery.user_info.maxequip);
-                    im.mainWindow.textEquipRank5Num1.Text = im.userdatasummery.Rank5EquipmentN.ToString();
+                    im.mainWindow.textEquipRank5Num1.Text = im.userdatasummery.equip_with_user_info_Rank5.Count.ToString();
 
                     //friend_with_user_info
                     im.mainWindow.textFriendNum.Text = String.Format("{0}/50", im.userdatasummery.friend_with_user_info.Count);
@@ -220,6 +220,8 @@ namespace GFHelper.Programe
                 im.mainWindow.comboBoxOperationTeam2.Items.Clear();
                 im.mainWindow.comboBoxOperationTeam3.Items.Clear();
                 im.mainWindow.comboBoxOperationTeam4.Items.Clear();
+                im.mainWindow.Task1MT.Items.Clear();
+                im.mainWindow.Task1ST1.Items.Clear();
             });
             try
             {
@@ -251,6 +253,8 @@ namespace GFHelper.Programe
                         im.uihelp.addComboBoxText(im.mainWindow.comboBoxOperationTeam2, itemtext);
                         im.uihelp.addComboBoxText(im.mainWindow.comboBoxOperationTeam3, itemtext);
                         im.uihelp.addComboBoxText(im.mainWindow.comboBoxOperationTeam4, itemtext);
+                        im.uihelp.addComboBoxText(im.mainWindow.Task1MT, itemtext);
+                        im.uihelp.addComboBoxText(im.mainWindow.Task1ST1, itemtext);
                     }
                 });
 
@@ -296,8 +300,33 @@ namespace GFHelper.Programe
                     im.uihelp.addComboBoxText(im.mainWindow.comboBoxOperation4, itemtext);
             }
             });
+        }
 
 
+        public void SetEquipType()//设置装备信息
+        {
+            im.mainWindow.Dispatcher.Invoke(() =>
+            {
+                im.mainWindow.UpgradeEquipType.Items.Clear();
+
+            });
+
+            im.mainWindow.Dispatcher.Invoke(() =>
+            {
+                string itemtext="";
+                for(int i = 1; i <= 20; i++)
+                {
+                    foreach (var item in im.catchdatasummery.equip_info)
+                    {
+                        if (i == item.Value.type && item.Value.rank ==5)
+                        {
+                            itemtext = Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(item.Value.name);
+                            im.uihelp.addComboBoxText(im.mainWindow.UpgradeEquipType, itemtext);
+                            break;
+                        }
+                    }
+                }
+            });
         }
 
         //设置BP回复点数的时间
@@ -540,9 +569,64 @@ namespace GFHelper.Programe
                 }
             });
 
+            try
+            {
+                im.mainWindow.Dispatcher.Invoke(() =>
+                {
+                    if(im.userdatasummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1].ContainsKey(1))
+                    {
+                        im.mainWindow.GUN_1_name.Content = Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(im.userdatasummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1][1].gun_id).ToString());
+                    }
+                    else
+                    {
+                        im.mainWindow.GUN_1_name.Content = "";
+                    }
+                    if (im.userdatasummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1].ContainsKey(2))
+                    {
+                        im.mainWindow.GUN_2_name.Content = Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(im.userdatasummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1][2].gun_id).ToString());
+                    }
+                    else
+                    {
+                        im.mainWindow.GUN_2_name.Content = "";
+                    }
+                    if (im.userdatasummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1].ContainsKey(3))
+                    {
+                        im.mainWindow.GUN_3_name.Content = Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(im.userdatasummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1][3].gun_id).ToString());
 
+                    }
+                    else
+                    {
+                        im.mainWindow.GUN_3_name.Content = "";
+                    }
+                    if (im.userdatasummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1].ContainsKey(4))
+                    {
+                        im.mainWindow.GUN_4_name.Content = Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(im.userdatasummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1][4].gun_id).ToString());
 
-        }
+                    }
+                    else
+                    {
+                        im.mainWindow.GUN_4_name.Content = "";
+                    }
+                    if (im.userdatasummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1].ContainsKey(5))
+                    {
+                        im.mainWindow.GUN_5_name.Content = Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(im.userdatasummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1][5].gun_id).ToString());
+                    }
+                    else
+                    {
+                        im.mainWindow.GUN_5_name.Content = "";
+                    }
+
+                });
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+
+            }
+
+                //这里是练级信息
+
+            }
 
         public void setTeamName_In_Formation()
         {

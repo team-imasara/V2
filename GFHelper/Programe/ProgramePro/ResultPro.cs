@@ -10,7 +10,7 @@ namespace GFHelper.Programe.ProgramePro
 {
     public class ResultPro
     {
-        public static string Eat_Equip_ResultPro(string result)
+        public static bool Abort_Mission_ResultPro(string result)
         {
             //如果是网络错误 如连接超时 另外考虑
             try
@@ -21,13 +21,128 @@ namespace GFHelper.Programe.ProgramePro
             {
                 MessageBox.Show("解析结果错误");
                 MessageBox.Show(e.ToString());
-                return result;
+            }
+            //字符串检查
+            if (result.Contains("mission_lose_result") && result.Contains("turn") && result.Contains("enemydie_num") )
+            {
+                return true;
+            }
+            return false;
+        }
+
+
+        public static bool WithDraw_Team_ResultPro(string result)
+        {
+            //如果是网络错误 如连接超时 另外考虑
+            try
+            {
+                result = AuthCode.Decode(result, ProgrameData.sign);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("解析结果错误");
+                MessageBox.Show(e.ToString());
+            }
+            //字符串检查
+            if (result.Contains("spot_id") && result.Contains("boss_hp"))
+            {
+                return true;
+            }
+            return false;
+        }
+
+
+
+        public static bool Battle_Finish_ResultPro(string result)
+        {
+            //如果是网络错误 如连接超时 另外考虑
+            try
+            {
+                result = AuthCode.Decode(result, ProgrameData.sign);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("解析结果错误");
+                MessageBox.Show(e.ToString());
+            }
+            //字符串检查
+            if (result.Contains("user_exp") && result.Contains("fairy_exp") && result.Contains("battle_rank") && result.Contains("free_exp"))
+            {
+                return true;
+            }
+            return false;
+        }
+
+
+        public static bool Team_Move_ResultPro(string result)
+        {
+
+            //如果是网络错误 如连接超时 另外考虑
+            try
+            {
+                result = AuthCode.Decode(result, ProgrameData.sign);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("解析结果错误");
+                MessageBox.Show(e.ToString());
+            }
+            //字符串检查
+            if (result.Contains("spot_id") && result.Contains("fairy_skill_return"))
+            {
+                return true;
+            }
+            return false;
+        }
+
+
+        public static bool Start_Mission_ResultPro(string result)
+        {
+            //如果是网络错误 如连接超时 另外考虑
+            try
+            {
+                result = AuthCode.Decode(result, ProgrameData.sign);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("解析结果错误");
+                MessageBox.Show(e.ToString());
+            }
+            //字符串检查
+            if (result.Contains("spot_id") && result.Contains("boss_hp"))
+            {
+                return true;
+            }
+            return false;
+        }
+
+
+
+        public static bool Eat_Equip_ResultPro(ref string result)
+        {
+            //如果是网络错误 如连接超时 另外考虑
+            try
+            {
+                result = AuthCode.Decode(result, ProgrameData.sign);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("解析结果错误");
+                MessageBox.Show(e.ToString());
             }
 
             //字符串检查
-            if (result.Contains("equip_add_exp")) return result;
+            if (result.Contains("equip_add_exp"))
+            {
+                var jsonobj = DynamicJson.Parse(result);
 
-            return result;
+                 result = jsonobj.equip_add_exp.ToString();
+                return true;
+            }
+
+
+
+            return false;
         }
 
         public static bool Finish_Operation_ResultPro(string result)

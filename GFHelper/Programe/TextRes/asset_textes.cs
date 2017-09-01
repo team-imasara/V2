@@ -32,6 +32,8 @@ namespace GFHelper.Programe.TextRes
         private static string dailyfilename = "textRes\\daily.csv";
         private static string achievementfilename = "textRes\\achievement.csv";
         private static string weeklyfilename = "textRes\\weekly.csv";
+        private static string equipfilename = "textRes\\equip.csv";
+        private static string gunfilename = "textRes\\gun.csv";
         private static Dictionary<int, ConfigNode> csvdata = new Dictionary<int, ConfigNode>();
         private int maxline = 0;
 
@@ -51,7 +53,8 @@ namespace GFHelper.Programe.TextRes
                 ReadCsv(dailyfilename, ref csvdata);
                 ReadCsv(achievementfilename, ref csvdata);
                 ReadCsv(weeklyfilename, ref csvdata);
-
+                ReadCsv(equipfilename, ref csvdata);
+                ReadCsv(gunfilename, ref csvdata);
             }
             catch (Exception e)
             {

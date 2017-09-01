@@ -23,6 +23,8 @@ namespace GFHelper.Programe
         public static string accountid;
         public static string password;
 
+        public static int req_id;
+        public static bool catchdataF = false;
         public static string GameAdd;//游戏服务器地址...N个服
         public static string platform;
         public static string worldid;

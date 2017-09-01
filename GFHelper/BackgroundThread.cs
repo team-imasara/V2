@@ -42,7 +42,7 @@ namespace GFHelper
                 im.auto_summery.Auto_Act_Summery();
 
                 im.uihelp.setUI_User_info();
-                Thread.Sleep(200);
+                Thread.Sleep(1000);
 
             }
         }
@@ -224,8 +224,38 @@ namespace GFHelper
                                 //getuserinfo 不能用太卡了只能手动处理
                                 break;
                             }
+                        case 41:
+                            {
+                                //练级任务1
+                                im.battle_loop.BattleLOOP(im.dic_userbattletaskinfo[0]);
 
+                                im.TaskList.RemoveAt(0);
+                                break;
+                            }
+                        case 42:
+                            {
+                                //练级任务1
+                                im.battle_loop.BattleLOOP(im.dic_userbattletaskinfo[1]);
 
+                                im.TaskList.RemoveAt(0);
+                                break;
+                            }
+                        case 43:
+                            {
+                                //练级任务1
+                                im.battle_loop.BattleLOOP(im.dic_userbattletaskinfo[2]);
+
+                                im.TaskList.RemoveAt(0);
+                                break;
+                            }
+                        case 44:
+                            {
+                                //练级任务1
+                                im.battle_loop.BattleLOOP(im.dic_userbattletaskinfo[3]);
+
+                                im.TaskList.RemoveAt(0);
+                                break;
+                            }
 
                             //case 2://readUserinfo
                             //    {

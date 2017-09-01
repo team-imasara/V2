@@ -14,16 +14,18 @@ namespace GFHelper.CatchData
         public string introduce;
         public string en_introduce;
         public string code;
-        public int type;
+
         public int rank;
         public int max_equip;
-        public int ratio_life;
+        public float ratio_life;
+        public float ratioLife;
         public int ratio_armor;
         public int baseammo;
         public int basemre;
         public int ammo_add_withnumber;
         public int mre_add_withnumber;
         public int ratio_pow;
+        public int ratioPow;
         public int ratio_hit;
         public int ratio_dodge;
         public int ratio_range;
@@ -35,7 +37,8 @@ namespace GFHelper.CatchData
         public int retireammo;
         public int retiremre;
         public int retirepart;
-        public int eat_ratio;
+        public float eat_ratio;
+        public float eatRatio;
         public int develop_duration;
         public string dialogue;
         public int effect_grid_center;
@@ -62,8 +65,22 @@ namespace GFHelper.CatchData
         public int is_additional;
         public int launch_time;
 
+        public int ratioRate;
+        public int maxAddRate;
 
+        public int ratioHit;
 
+        public int armorPiercing;
+        // Token: 0x040017DE RID: 6110
+        public int ratioArmor;
+
+        public int ratioCrit;
+        // Token: 0x040017E0 RID: 6112
+        public int ratioDodge;
+
+        // Token: 0x040017E2 RID: 6114
+        public int ratioSpeed;
+        public Programe.ProgramePro.APK.GunType type;
         //public int Compare(GunInfo x, GunInfo y)
         //{
         //    return (x.id - y.id);

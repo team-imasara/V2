@@ -50,5 +50,12 @@ namespace GFHelper.Programe
         public static TaskListInfo Start_Trial = new TaskListInfo("无限防御", 31);
         public static TaskListInfo GetRecoverBp = new TaskListInfo("获取BP点数", 32);
 
+
+        public static TaskListInfo TaskBattle_1 = new TaskListInfo("练级任务1", 41);
+        public static TaskListInfo TaskBattle_2 = new TaskListInfo("练级任务2", 42);
+        public static TaskListInfo TaskBattle_3 = new TaskListInfo("练级任务3", 43);
+        public static TaskListInfo TaskBattle_4 = new TaskListInfo("练级任务4", 44);
+
+
     }
 }

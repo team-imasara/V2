@@ -19,6 +19,8 @@ namespace GFHelper.UserData
         public int lv;
         public int maxequip;
 
+        public int experience;
+
         public int maxgun;
         public int maxteam;
         public int max_build_slot;

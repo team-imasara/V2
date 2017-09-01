@@ -15,8 +15,9 @@ namespace GFHelper.Programe
 {
     class CommonHelp
     {
-        public static EyLoginSoft eyLogin = new EyLoginSoft();
-        public static DownLoadP dlp = new DownLoadP();
+
+
+
         public static DateTime PSTConvertToGMT(DateTime dateTime)
         {
             TimeZoneInfo timeZoneSource = TimeZoneInfo.Local;
@@ -25,23 +26,32 @@ namespace GFHelper.Programe
         }
         public static int ConvertDateTime_China_Int(DateTime time, bool ifoffset = false)
         {
-            TimeZoneInfo timeZoneSource = TimeZoneInfo.Local;
-            TimeZoneInfo timeZoneDestination = TimeZoneInfo.FindSystemTimeZoneById("China Standard Time");
-            time = TimeZoneInfo.ConvertTime(time, timeZoneSource, timeZoneDestination);
+            try
+            {
+                TimeZoneInfo timeZoneSource = TimeZoneInfo.Local;
+                TimeZoneInfo timeZoneDestination = TimeZoneInfo.FindSystemTimeZoneById("China Standard Time");
+                time = TimeZoneInfo.ConvertTime(time, timeZoneSource, timeZoneDestination);
 
 
-            DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(PSTConvertToGMT(new DateTime(1970, 1, 1, 0, 0, 0, 0)));
+                DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(PSTConvertToGMT(new DateTime(1970, 1, 1, 0, 0, 0, 0)));
 
-            long t = (time.Ticks - startTime.Ticks) / 10000000;
-            if (ifoffset)
-                return (int)t + ProgrameData.timeoffset;
-            else
-                return (int)t;
+                long t = (time.Ticks - startTime.Ticks) / 10000000;
+                if (ifoffset)
+                    return (int)t + ProgrameData.timeoffset;
+                else
+                    return (int)t;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                throw;
+            }
+
         }
 
         public static bool CheckCatchDataVersion(int Ncatchdatversion)
         {
-            if(Ncatchdatversion == ProgrameData.CatchDataVersion)
+            if (Ncatchdatversion == ProgrameData.CatchDataVersion)
             {
                 return true;
             }
@@ -58,33 +68,44 @@ namespace GFHelper.Programe
             return result;
         }
 
-        
 
-        public bool checkT()
+
+        public static bool checkT()
         {
-            string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();//获取主版本号     
+            return true;
+            try
+            {
+                EyLoginSoft eyLogin = new EyLoginSoft();
+                string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();//获取主版本号     
 
-            eyLogin.SetAppKey("D5FA256E997E4E728DCEC4FB5111ACDF"); // 设置程序秘钥~一定要设置,否则无法正常使用控件
-            ProgrameData.UserMcCode = eyLogin.GetMachineCode();
-            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-            ProgrameData.UserMcCode = BitConverter.ToString(md5.ComputeHash(UTF8Encoding.Default.GetBytes(ProgrameData.UserMcCode)), 4, 8);
-            ProgrameData.UserMcCode = ProgrameData.UserMcCode.Replace("-", "");
-            ProgrameData.UserMcCode = ProgrameData.UserMcCode.ToLower();
-            ProgrameData.UserMcCode = ProgrameData.UserMcCode.Remove(0, 1);
-            ProgrameData.UserMcCode = ProgrameData.UserMcCode.Insert(0, "a");
-            int ret0 = eyLogin.UserLogin(ProgrameData.UserMcCode, "a123456789", "v1.0.0", eyLogin.GetMachineCode());
-            if (ret0 == 1)//登陆成功
-            {
-                eyLogin.OpenUserCheck();
-                return true;
+                eyLogin.SetAppKey("D5FA256E997E4E728DCEC4FB5111ACDF"); // 设置程序秘钥~一定要设置,否则无法正常使用控件
+                ProgrameData.UserMcCode = eyLogin.GetMachineCode();
+                MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+                ProgrameData.UserMcCode = BitConverter.ToString(md5.ComputeHash(UTF8Encoding.Default.GetBytes(ProgrameData.UserMcCode)), 4, 8);
+                ProgrameData.UserMcCode = ProgrameData.UserMcCode.Replace("-", "");
+                ProgrameData.UserMcCode = ProgrameData.UserMcCode.ToLower();
+                ProgrameData.UserMcCode = ProgrameData.UserMcCode.Remove(0, 1);
+                ProgrameData.UserMcCode = ProgrameData.UserMcCode.Insert(0, "a");
+                int ret0 = eyLogin.UserLogin(ProgrameData.UserMcCode, "a123456789", "v1.0.0", eyLogin.GetMachineCode());
+                if (ret0 == 1)//登陆成功
+                {
+                    eyLogin.OpenUserCheck();
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show("验证网络连接失败!");
+                    MessageBox.Show("机器码 : " + ProgrameData.UserMcCode);
+                    MessageBox.Show(UnicodeToString(eyLogin.GetLastMessages()));
+                    return false;
+                }
             }
-            else
+            catch (Exception e)
             {
-                MessageBox.Show("验证网络连接失败!");
-                MessageBox.Show("机器码 : " + ProgrameData.UserMcCode);
-                MessageBox.Show(UnicodeToString(eyLogin.GetLastMessages()));
-                return false;
+                MessageBox.Show(e.ToString());
+                throw;
             }
+
 
         }
 
@@ -96,29 +117,38 @@ namespace GFHelper.Programe
             for (int i = 0; i < files.Count(); i++)
             {
                 if (files[i].Name == str + ".json") continue;
-                if (files[i].Name.Substring(0, 9) == str)
+                if (files[i].Name.Contains(str))
                     files[i].Delete();
             }
         }
-        public void CheckCatchData()
+        public static bool CheckCatchData()
         {
-            //删除文件夹下的catchdata文件
-            //im.mainWindow.CheckT.IsEnabled = false;
-            DeleteFile("catchdata");
-
-            //检查catchdata版本
-
-            string catchdataAdd = AC.EncryptTool.GetCryptoFileName(ProgrameData.CatchDataVersion.ToString());
-            string url = "http://rescnf.gf.ppgame.com/data/" + catchdataAdd;
-
-            //下载
-            using (WebClient client = new WebClient())
+            try
             {
-                client.DownloadFileAsync(new Uri(url), Path.GetFileName("catchdata.dat"));
-                dlp.Show();
-                client.DownloadProgressChanged += client_DownloadProgressChanged;
-                client.DownloadFileCompleted += client_DownloadFileCompleted;
+                //删除文件夹下的catchdata文件
+                //im.mainWindow.CheckT.IsEnabled = false;
+                DeleteFile("catchdata");
+
+                //检查catchdata版本
+
+                string catchdataAdd = AC.EncryptTool.GetCryptoFileName(ProgrameData.CatchDataVersion.ToString());
+                string url = "http://rescnf.gf.ppgame.com/data/" + catchdataAdd;
+
+                //下载
+                using (WebClient client = new WebClient())
+                {
+                    client.DownloadFileAsync(new Uri(url), Path.GetFileName("catchdata.dat"));
+
+                    client.DownloadProgressChanged += client_DownloadProgressChanged;
+                    client.DownloadFileCompleted += client_DownloadFileCompleted;
+                }
             }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                throw;
+            }
+            return true;
 
 
         }
@@ -135,9 +165,10 @@ namespace GFHelper.Programe
                 client.DownloadFileCompleted += client_DownloadFileCompleted;
             }
         }
-        static void client_DownloadProgressChanged( object sender, DownloadProgressChangedEventArgs e)
+        static void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            setLabel0Text_InThread(string.Format("当前接收到{0}字节，文件大小总共{1}字节", e.BytesReceived, e.TotalBytesToReceive));
+            ;
+            //setLabel0Text_InThread(string.Format("当前接收到{0}字节，文件大小总共{1}字节", e.BytesReceived, e.TotalBytesToReceive));
         }
         static void client_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
@@ -149,6 +180,7 @@ namespace GFHelper.Programe
             UnzipDataAndSave("catchdata.dat", ProgrameData.CatchDataVersion);
 
             DeleteFile("catchdata");
+            ProgrameData.catchdataF = true;
 
 
         }
@@ -170,23 +202,13 @@ namespace GFHelper.Programe
                 stream.Close();
             }
         }
-        public static void setLabel0Text(string text)
-        {
-            dlp.label0.Content = string.Format(text);
-        }
 
-        public static void setLabel0Text_InThread(string text)
-        {
-            dlp.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                setLabel0Text(text);
-            }));
-        }
+
 
         public static void StopTime()
         {
             if (ProgrameData.StopTime_string.ToLower() == "null") return;
-            if(ProgrameData.StopTime_datetime <= PSTConvertToGMT(DateTime.Now))
+            if (ProgrameData.StopTime_datetime <= PSTConvertToGMT(DateTime.Now))
             {
                 Environment.Exit(0);
             }
@@ -222,8 +244,7 @@ namespace GFHelper.Programe
 
 
 
-
     }
 
-
 }
+

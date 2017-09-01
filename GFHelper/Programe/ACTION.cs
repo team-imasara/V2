@@ -492,11 +492,11 @@ namespace GFHelper.Programe
 
                     if (im.userdatasummery.team_info[x][y].can_click == 1)
                     {
-                        im.uihelp.setStatusBarText_InThread(String.Format(" 第 {0} 宿舍 少女 {1} 好感度提升 ",x+1, im.userdatasummery.team_info[x][y].gun_id));
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 第 {0} 宿舍 少女 {1} 好感度提升 ",x, im.userdatasummery.team_info[x][y].gun_id));
                         int result = Convert.ToInt32(im.post.Receive_Favor_Girls_IN_Dorm(x, im.userdatasummery.team_info[x][y].id));
                         if (result > 0)
                         {
-                            im.uihelp.setStatusBarText_InThread(String.Format(" 第 {0} 宿舍 少女 {1} 好感度提升 result = {2}", x + 1, im.userdatasummery.team_info[x][y].gun_id.ToString(), result.ToString()));
+                            im.uihelp.setStatusBarText_InThread(String.Format(" 第 {0} 宿舍 少女 {1} 好感度提升 result = {2}", x, im.userdatasummery.team_info[x][y].gun_id.ToString(), result.ToString()));
                             im.userdatasummery.team_info[x][y].can_click++;
                         }
                     }
@@ -622,27 +622,135 @@ namespace GFHelper.Programe
 
         public void Eat_Equip()
         {
-            //判断是否满仓
-            //选取需要升级的枪
-            //选取狗粮
-            //发送请求
-            //装备存量-
-            //删除装备
-            //经验++
+            //SELECT+1
+            //选取需要升级的枪 done
+            //选取狗粮 优先2级 done
+            //发送请求         done
+            //删除装备         done
+            //经验++           done
+            im.userdatasummery.Read_Equipment_Upgrade();
+
+            string[] equipFood = new string[11];
+            equipFood = im.userdatasummery.Get_Equipment_Food();
+
+
+            //判断是否为空
+            if (string.IsNullOrEmpty(equipFood.ToString()) == true) return;
             var obj = new
             {
-                equip_with_user_id = im.userdatasummery.equip_with_user_info[0].id.ToString(),
 
-                food = new[] { im.userdatasummery.equip_with_user_info[1].id.ToString(), im.userdatasummery.equip_with_user_info[2].id.ToString() }
+                equip_with_user_id = im.userdatasummery.equip_with_user_info_Upgrade[0].id.ToString(),
+
+                food = equipFood
             };
+
+
             var jsonStringFromObj = DynamicJson.Serialize(obj);
-            string abc = jsonStringFromObj.ToString();
+
+            //发送请求
+            string result = im.post.Eat_Equip(jsonStringFromObj.ToString());
+
+            //数据处理
+            if(ProgramePro.ResultPro.Eat_Equip_ResultPro(ref result) == true)
+            {
+                //加经验 检测是否 超过等级
+                im.userdatasummery.Check_Equipment_Update(im.userdatasummery.equip_with_user_info_Upgrade[0].id, Convert.ToInt32(result),im.userdatasummery.equip_with_user_info[0].equip_level);
+                //删除装备
+                im.userdatasummery.Del_Equip_IN_Dict(equipFood);
+            }
 
 
         }
 
+        //战斗相关
+        public bool startMission(int mission_id,Programe.Auto.Spots[] spots)
+        {
+            // 一个 int mission_id 一个数组
+            //{"mission_id":90018,"spots":[{"spot_id":3033,"team_id":6},{"spot_id":3057,"team_id":7}]}
+            var obj = new
+            {
+                mission_id = mission_id,
+                spots = spots
+
+            };
+
+            var jsonStringFromObj = DynamicJson.Serialize(obj);
+
+            //发送请求
+            string result = im.post.startMission(jsonStringFromObj.ToString());
+
+            //数据处理
+            if (ProgramePro.ResultPro.Start_Mission_ResultPro(result) == true)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool teamMove(Programe.Auto.TeamMove teammove)
+        {
+            //{"team_id":6,"from_spot_id":3033,"to_spot_id":3038,"move_type":1}
+            var obj = new
+            {
+                team_id = teammove.team_id,
+                from_spot_id = teammove.from_spot_id,
+                to_spot_id= teammove.to_spot_id,
+                move_type = teammove.move_type,
+            };
+
+            var jsonStringFromObj = DynamicJson.Serialize(obj);
+
+            //发送请求
+            string result = im.post.teamMove(jsonStringFromObj.ToString());
+            if (ProgramePro.ResultPro.Team_Move_ResultPro(result) == true)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool battleFinish(object obj)
+        {
+            var jsonStringFromObj = DynamicJson.Serialize(obj);
+
+            //发送请求
+            string result = im.post.battleFinish(jsonStringFromObj.ToString());
+            if (ProgramePro.ResultPro.Battle_Finish_ResultPro(result) == true)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool withdrawTeam(int spot_id)
+        {
+            //{"spot_id":3033}
+            var obj = new
+            {
+                spot_id = spot_id,
+            };
+            var jsonStringFromObj = DynamicJson.Serialize(obj);
+            //发送请求
+            string result = im.post.withdrawTeam(jsonStringFromObj.ToString());
+            if (ProgramePro.ResultPro.WithDraw_Team_ResultPro(result) == true)
+            {
+                return true;
+            }
+            return false;
+        }
 
 
+        public bool abortMission()
+        {
+            //caa6f92d234e04c034f88c9eb445fd45(sign)
+
+            string result = im.post.abortMission();
+            if (ProgramePro.ResultPro.Abort_Mission_ResultPro(result) == true)
+            {
+                return true;
+            }
+            return false;
+        }
 
 
     }

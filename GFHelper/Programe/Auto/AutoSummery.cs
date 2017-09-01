@@ -260,6 +260,50 @@ namespace GFHelper.Programe.Auto
             return;
         }
 
+        public void BattleTaskLoop()
+        {
+            for(int i = 0; i <= 5; i++)
+            {
+                if (im.dic_userbattletaskinfo.ContainsKey(i))
+                {
+                    if (im.dic_userbattletaskinfo[i].reStart_WaitTime > 0)
+                    {
+                        im.dic_userbattletaskinfo[i].reStart_WaitTime--;
+                    }
+                    if(im.dic_userbattletaskinfo[i].reStart_WaitTime<=0 && im.dic_userbattletaskinfo[i].TaskList_ADD == false)
+                    {
+                        switch (i)
+                        {
+                            case 0:
+                                {
+                                    im.TaskList.Add(Programe.TaskList.TaskBattle_1);
+                                    break;
+                                }
+                            case 1:
+                                {
+                                    im.TaskList.Add(Programe.TaskList.TaskBattle_2);
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    im.TaskList.Add(Programe.TaskList.TaskBattle_3);
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    im.TaskList.Add(Programe.TaskList.TaskBattle_4);
+                                    break;
+                                }
+
+                            default:
+                                break;
+                        }
+                        im.dic_userbattletaskinfo[i].TaskList_ADD = true;
+                    }
+                }
+            }
+        }
+
         //总的循环
         public void Auto_Act_Summery()
         {

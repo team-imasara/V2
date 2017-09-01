@@ -101,6 +101,17 @@ namespace GFHelper.Programe
 
             IDictionary<string, string> parameters = new Dictionary<string, string>();
             parameters.Add("", "");
+            try
+            {
+                ProgrameData.req_id = CommonHelp.ConvertDateTime_China_Int(DateTime.Now);
+                parameters.Add("req_id", ProgrameData.req_id.ToString());
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+
+
             string data = StringBuilder_(parameters);
             string result = "";
             int catchdataversion=0;
@@ -116,6 +127,7 @@ namespace GFHelper.Programe
                 ProgrameData.CatchDataVersion = Convert.ToInt32(jsonobj.data_version);
                 ProgrameData.tomorrow_zero = Convert.ToInt32(jsonobj.tomorrow_zero);
                 ProgrameData.weekday = Convert.ToInt32(jsonobj.weekday);
+
             }
             return catchdataversion;
         }
@@ -130,6 +142,7 @@ namespace GFHelper.Programe
             parameters.Add("idfa", "");
             parameters.Add("androidid", ProgrameData.androidid);
             parameters.Add("mac", ProgrameData.mac);
+            parameters.Add("req_id", ProgrameData.req_id++.ToString());
 
             string data = StringBuilder_(parameters);
 
@@ -150,7 +163,7 @@ namespace GFHelper.Programe
         {
 
             string outdatacode = AuthCode.Encode("{\"time\":" +  CommonHelp.ConvertDateTime_China_Int(DateTime.Now).ToString() + "}", ProgrameData.sign);
-            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
             string result = "";
 
             while (string.IsNullOrEmpty(result) == true)
@@ -228,11 +241,12 @@ namespace GFHelper.Programe
 
 
 
+
         public string attendance()//api = index/index
         {
 
             string outdatacode = AuthCode.Encode(ProgrameData.sign, ProgrameData.sign);
-            string requeststring = String.Format("uid={0}&signcode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string requeststring = String.Format("uid={0}&signcode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
             string result = "";
             while (string.IsNullOrEmpty(result) == true)
             {
@@ -245,7 +259,7 @@ namespace GFHelper.Programe
         public string ifNewMail()
         {
             string outdatacode = AuthCode.Encode(ProgrameData.sign, ProgrameData.sign);//用自身作为密匙把自身加密
-            string requeststring = String.Format("uid={0}&signcode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string requeststring = String.Format("uid={0}&signcode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
             string result = "";
             while (string.IsNullOrEmpty(result) == true)
             {
@@ -267,7 +281,7 @@ namespace GFHelper.Programe
         public void GetMallStaticTables()
         {
             string outdatacode = AuthCode.Encode(ProgrameData.sign, ProgrameData.sign);//用自身作为密匙把自身加密
-            string requeststring = String.Format("uid={0}&signcode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string requeststring = String.Format("uid={0}&signcode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
 
             string result = "";
             while (string.IsNullOrEmpty(result) == true)
@@ -289,7 +303,8 @@ namespace GFHelper.Programe
 
 
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);//用自身作为密匙把自身加密
-            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
 
             string result = "";
             while (string.IsNullOrEmpty(result) == true)
@@ -306,7 +321,8 @@ namespace GFHelper.Programe
             System.Threading.Thread.Sleep(2500);
             string outdatacode = "{\"mail_with_user_id\":" + mailwith_user_id.ToString() +"}";
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);//用自身作为密匙把自身加密
-            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
 
             string result = "";
             while (string.IsNullOrEmpty(result) == true)
@@ -322,7 +338,7 @@ namespace GFHelper.Programe
             System.Threading.Thread.Sleep(2500);
             string outdatacode = "{\"mail_with_user_id\":" + mailwith_user_id.ToString() + "}";
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);//用自身作为密匙把自身加密
-            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
 
             string result = "";
             while (string.IsNullOrEmpty(result) == true)
@@ -339,7 +355,7 @@ namespace GFHelper.Programe
 
             string outdatacode = "{\"mailwith_user_id\":" + mailwith_user_id.ToString() + "}";
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);//用自身作为密匙把自身加密
-            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
 
             string result = "";
 
@@ -354,7 +370,7 @@ namespace GFHelper.Programe
 
             string outdatacode = "{\"mailwith_user_id\":" + mailwith_user_id.ToString() + "}";
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);//用自身作为密匙把自身加密
-            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
 
             string result = "";
             while (string.IsNullOrEmpty(result) == true)
@@ -389,8 +405,7 @@ namespace GFHelper.Programe
         public string RecoverResource()//恢复资源
         {
             string outdatacode = AuthCode.Encode(ProgrameData.sign, ProgrameData.sign);//用自身作为密匙把自身加密
-            string requeststring = String.Format("uid={0}&signcode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
-
+            string requeststring = String.Format("uid={0}&signcode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
             string result = "";
             while (string.IsNullOrEmpty(result) == true)
             {
@@ -407,7 +422,7 @@ namespace GFHelper.Programe
             string outdatacode = "";
             outdatacode = "{\"team_id\":" + teamid.ToString() + "," + "\"operation_id\":" + operation_id.ToString() + "}";
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
-            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
 
             string result = "";
             int count = 0;
@@ -429,7 +444,7 @@ namespace GFHelper.Programe
             string outdatacode = "";
             outdatacode = "{\"operation_id\":" + operationid.ToString() + "}";
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
-            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
 
             string result = DoPost(ProgrameData.GameAdd + RequestUrls.FinishOperation, requeststring);//不需要解密
 
@@ -448,7 +463,7 @@ namespace GFHelper.Programe
             string outdatacode = "";
             outdatacode = "{\"operation_id\":" + operationid.ToString() + "}";
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
-            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
 
 
             string result = "";
@@ -469,8 +484,7 @@ namespace GFHelper.Programe
         public string Click_kalinaFavor()
         {
             string outdatacode = AuthCode.Encode(ProgrameData.sign, ProgrameData.sign);//用自身作为密匙把自身加密
-            string requeststring = String.Format("uid={0}&signcode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
-
+            string requeststring = String.Format("uid={0}&signcode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
             string result = "";
             while (string.IsNullOrEmpty(result) == true)
             {
@@ -482,8 +496,7 @@ namespace GFHelper.Programe
         public string Click_Get_Material()
         {
             string outdatacode = AuthCode.Encode(ProgrameData.sign, ProgrameData.sign);//用自身作为密匙把自身加密
-            string requeststring = String.Format("uid={0}&signcode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
-
+            string requeststring = String.Format("uid={0}&signcode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
             string result = "";
             while (string.IsNullOrEmpty(result) == true)
             {
@@ -498,7 +511,7 @@ namespace GFHelper.Programe
         {
             string outdatacode = "{\"dorm_id\":" + dorm_id.ToString() + "," + "\"gun_with_user_id\":" + gun_with_user_id.ToString() + "}";
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
-            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
 
             string result = "";
             while (string.IsNullOrEmpty(result) == true)
@@ -527,7 +540,7 @@ namespace GFHelper.Programe
             System.Threading.Thread.Sleep(5000);
             string outdatacode = "{\"f_userid\":" + f_userid.ToString() + "}";
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
-            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
 
             string result = "";
             while (string.IsNullOrEmpty(result) == true)
@@ -553,7 +566,7 @@ namespace GFHelper.Programe
             System.Threading.Thread.Sleep(5000);
             string outdatacode = "{\"v_user_id\":" + v_user_id.ToString() + "," + "\"dorm_id\":" + dorm_id.ToString() + "}";
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
-            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
 
             string result = "";
             while (string.IsNullOrEmpty(result) == true)
@@ -587,7 +600,7 @@ namespace GFHelper.Programe
             string outdatacode = "";
             outdatacode = "{\"team_ids\":" + "\""+ teamids.ToString() + "\""+"," + "\"battle_team\":" + teamids.ToString() + "}";
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
-            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
 
 
             string result = DoPost(ProgrameData.GameAdd + RequestUrls.StartTrial, requeststring);
@@ -599,7 +612,8 @@ namespace GFHelper.Programe
         public bool EndTrial(string outdatacode)
         {
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
-            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+
             string result = DoPost(ProgrameData.GameAdd + RequestUrls.EndTrial, requeststring);
 
             return ProgramePro.ResultPro.EndTrial_ResultPro(result);
@@ -609,7 +623,7 @@ namespace GFHelper.Programe
         public string GetFriend_DormInfo()
         {
             string outdatacode = AuthCode.Encode(ProgrameData.sign, ProgrameData.sign);//用自身作为密匙把自身加密
-            string requeststring = String.Format("uid={0}&signcode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string requeststring = String.Format("uid={0}&signcode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
             string result = DoPost(ProgrameData.GameAdd + RequestUrls.Dorm_Info, requeststring);
             return ProgramePro.ResultPro.GetFriend_DormInfo(result);
         }
@@ -619,14 +633,15 @@ namespace GFHelper.Programe
             //{"v_user_id":"54634","dorm_id":1}
             string outdatacode = "{\"v_user_id\":" + "\""+v_user_id +"\""+ "," + "\"dorm_id\":" + dorm_id + "}";
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
-            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+
             string result = DoPost(ProgrameData.GameAdd + RequestUrls.Get_Friend_Build_Coin, requeststring);
             return ProgramePro.ResultPro.Get_Friend_Build_Coin(result);
         }
         public string GetRecoverBP()
         {
             string outdatacode = AuthCode.Encode(ProgrameData.sign, ProgrameData.sign);//用自身作为密匙把自身加密
-            string requeststring = String.Format("uid={0}&signcode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string requeststring = String.Format("uid={0}&signcode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
             string result = DoPost(ProgrameData.GameAdd + RequestUrls.RecoverBp, requeststring);
             return ProgramePro.ResultPro.Get_RecoverBP(result);
         }
@@ -634,14 +649,56 @@ namespace GFHelper.Programe
         public string Eat_Equip(string outdatacode)
         {
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
-            string requeststring = String.Format("uid={0}&outdatacode={1}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode));
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+
             string result = DoPost(ProgrameData.GameAdd + RequestUrls.Eat_Equip, requeststring);
 
-            return ProgramePro.ResultPro.Eat_Equip_ResultPro(result);
+            return result;
 
-            return "";
+
         }
 
+        public string startMission(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
 
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.StartMission, requeststring);
+            return result;
+        }
+
+        public string teamMove(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.MoveTeam, requeststring);
+            return result;
+        }
+        public string battleFinish(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.battleFinish, requeststring);
+            return result;
+        }
+
+        public string withdrawTeam(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.Withdraw, requeststring);
+            return result;
+        }
+
+        public string abortMission()
+        {
+            string outdatacode = AuthCode.Encode(ProgrameData.sign, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&signcode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.AbortMission, requeststring);
+            return result;
+        }
     }
 }

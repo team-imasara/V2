@@ -50,10 +50,11 @@ namespace GFHelper.CatchData
         public double powerup_part;
         public double exclusive_rate;
 
-        public Dictionary<string, int> bonus_type = new Dictionary<string, int>();
+        public string bonus_type;
 
         public int skill;
         public int max_level;
-
+        // Token: 0x04001415 RID: 5141
+        public string strBounsType;
     }
 }
