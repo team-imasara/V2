@@ -49,7 +49,7 @@ namespace GFHelper.Programe
         public static TaskListInfo Get_Dorm_Info = new TaskListInfo("获取自己宿舍信息", 25);
         public static TaskListInfo Start_Trial = new TaskListInfo("无限防御", 31);
         public static TaskListInfo GetRecoverBp = new TaskListInfo("获取BP点数", 32);
-
+        public static TaskListInfo Simulation_DATA = new TaskListInfo("资料采样", 33);
 
         public static TaskListInfo TaskBattle_1 = new TaskListInfo("练级任务1", 41);
         public static TaskListInfo TaskBattle_2 = new TaskListInfo("练级任务2", 42);

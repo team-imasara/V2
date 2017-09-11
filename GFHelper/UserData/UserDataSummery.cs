@@ -1,10 +1,12 @@
 ﻿using Codeplex.Data;
+using LitJson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using UnityEngine;
 
 namespace GFHelper.UserData
 {
@@ -35,7 +37,7 @@ namespace GFHelper.UserData
         public Dorm_With_User_Info dorm_with_user_info = new Dorm_With_User_Info();
         public int Dorm_Rest_Friend_Build_Coin_Count;
 
-
+        public Programe.Auto.User_Simulation_BattleTaskInfo usbti = new Programe.Auto.User_Simulation_BattleTaskInfo();
 
         // Token: 0x040016FF RID: 5887
         public Dictionary<int, CatchData.Fairy> dictTeamFairy = new Dictionary<int, CatchData.Fairy>();
@@ -274,7 +276,7 @@ namespace GFHelper.UserData
                     gwui.soul_bond = Convert.ToInt32(item.soul_bond);
                     gwui.skin = Convert.ToInt32(item.skin);
                     gwui.can_click = Convert.ToInt32(item.can_click);
-
+                    gwui.UpdateData();
                     //gwui.crit = Convert.ToInt32(item.crit);
                     //gwui.piercing = Convert.ToInt32(item.piercing);
                     //gwui.maxLife = Convert.ToInt32(item.maxLife);
@@ -285,8 +287,6 @@ namespace GFHelper.UserData
                     //gwui.fairyDodge = Convert.ToInt32(item.fairyDodge);
                     //gwui.fairyArmor = Convert.ToInt32(item.fairyArmor);
                     //gwui.criHarmRate = Convert.ToInt32(item.criHarmRate);
-
-
 
         gun_with_user_info.Add(gun_with_user_info.Count, gwui);
                 }
@@ -577,6 +577,95 @@ namespace GFHelper.UserData
             return true;
         }
 
+        public bool UpdateGun_Exp(dynamic jsonobj, ref int numE)
+        {
+            try
+            {
+                int x = 0;
+                foreach (var item in jsonobj.gun_exp)
+                {
+                    //gun_with_user_id":"2547569"
+                    int exp = Convert.ToInt32(item.exp);
+                    int id = Convert.ToInt32(item.gun_with_user_id);
+
+                    for(int i = 0; i <= gun_with_user_info.Last().Key + 1; i++)
+                    {
+                        if (gun_with_user_info.ContainsKey(i) == false) continue;
+
+                        if (gun_with_user_info[i].level != 100 && gun_with_user_info[i].id== id)
+                        {
+                            if(Update_GUN_exp_level(exp, gun_with_user_info[i].gun_exp, gun_with_user_info[i].gun_level) > 0)
+                            {
+                                int maxlife0 = gun_with_user_info[i].maxLife;
+                                gun_with_user_info[i].gun_exp += exp;
+                                int maxlife1 = gun_with_user_info[i].maxLife;
+                                numE += maxlife1 - maxlife0;
+                            }
+                            else
+                            {
+                                gun_with_user_info[i].gun_exp += exp;
+                            }
+                        }
+
+                    }
+                }
+
+                //更新数据 能否升级
+                return true;
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(" 更新少女经验出错");
+                MessageBox.Show(e.ToString());
+                return false;
+            }
+        }
+        public bool Add_Get_Equip_Battle(dynamic jsonobj)
+        {
+            //battle_get_equip
+            if (jsonobj.ToString().Contains("battle_get_equip") == false) { return true; }
+            try
+            {
+                
+                Equip_With_User_Info ewui = new Equip_With_User_Info();
+                ewui.id = Convert.ToInt32(jsonobj.battle_get_equip.id);
+                ewui.user_id = Convert.ToInt32( jsonobj.battle_get_equip.user_id);
+                ewui.gun_with_user_id = Convert.ToInt32( jsonobj.battle_get_equip.gun_with_user_id);
+                ewui.equip_id = Convert.ToInt32( jsonobj.battle_get_equip.equip_id);
+                ewui.equip_exp = Convert.ToInt32( jsonobj.battle_get_equip.equip_exp);
+                ewui.equip_level = Convert.ToInt32( jsonobj.battle_get_equip.equip_level);
+                ewui.pow = Convert.ToInt32( jsonobj.battle_get_equip.pow);
+                ewui.hit = Convert.ToInt32( jsonobj.battle_get_equip.hit);
+                ewui.dodge = Convert.ToInt32( jsonobj.battle_get_equip.dodge);
+                ewui.speed = Convert.ToInt32( jsonobj.battle_get_equip.speed);
+                ewui.rate = Convert.ToInt32( jsonobj.battle_get_equip.rate);
+                ewui.critical_harm_rate = Convert.ToInt32( jsonobj.battle_get_equip.critical_harm_rate);
+                ewui.critical_percent = Convert.ToInt32( jsonobj.battle_get_equip.critical_percent);
+                ewui.armor_piercing = Convert.ToInt32( jsonobj.battle_get_equip.armor_piercing);
+                ewui.armor = Convert.ToInt32( jsonobj.battle_get_equip.armor);
+                ewui.shield = Convert.ToInt32( jsonobj.battle_get_equip.shield);
+                ewui.damage_amplify = Convert.ToInt32( jsonobj.battle_get_equip.damage_amplify);
+                ewui.damage_reduction = Convert.ToInt32( jsonobj.battle_get_equip.damage_reduction);
+                ewui.night_view_percent = Convert.ToInt32( jsonobj.battle_get_equip.night_view_percent);
+
+                ewui.bullet_number_up = Convert.ToInt32( jsonobj.battle_get_equip.bullet_number_up);
+                ewui.adjust_count = Convert.ToInt32( jsonobj.battle_get_equip.adjust_count);
+                ewui.is_locked = Convert.ToInt32( jsonobj.battle_get_equip.is_locked);
+                ewui.last_adjust =  jsonobj.battle_get_equip.last_adjust.ToString();
+
+                equip_with_user_info.Add(equip_with_user_info.Last().Key+1, ewui);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(" 获取掉落装备遇到错误");
+                MessageBox.Show(e.ToString());
+                return false;
+            }
+
+
+            return true;
+        }
 
 
         public bool ReadUserData(dynamic jsonobj)
@@ -599,7 +688,7 @@ namespace GFHelper.UserData
                 UpdateOperation_Act_Info();
                 SetTeamInfo();
 
-                //设置一些开光
+                //设置一些开关
                 im.auto_summery.NeedAuto_Click_Girls_In_Dorm = true;
 
                 //ui更新
@@ -633,9 +722,9 @@ namespace GFHelper.UserData
                         {
                             //Dictionary<int, List<Gun_With_User_Info>>
                             //应该是一个小队5只手枪入列
-                            Gun_With_User_Info gwui = new Gun_With_User_Info(im);
-                            gwui = item.Value;
-                            Dic_gwui.Add(gwui.location, gwui);
+                            //Gun_With_User_Info gwui = new Gun_With_User_Info(im);
+                            //gwui = item.Value;
+                            Dic_gwui.Add(item.Value.location, item.Value);
                         }
                     }
                     team_info.Add(i, Dic_gwui);
@@ -1036,6 +1125,267 @@ namespace GFHelper.UserData
 
             return "";
         }
+
+        /// <summary>
+        /// 返回将会升级的数目
+        /// </summary>
+        /// <param name="addexp"></param>
+        /// <param name="current_exp"></param>
+        /// <param name="current_level"></param>
+        /// <returns></returns>
+        public static int Update_GUN_exp_level(int addexp,int current_exp, int current_level)
+        {
+            int num = 0;//将会升级的数目
+            if (current_level == 100)
+            {
+                return 0;
+            }
+            else
+            {
+                if(ExpToLevel(addexp + current_exp)== current_level)
+                {
+                    ;
+                }
+                else
+                {
+                    return ExpToLevel(addexp + current_exp)- current_level;
+                }
+            }
+
+            return num;//返回升了多少次级和ref addexp 所剩下的
+        }
+        /// <summary>
+        /// 返回的是所有经验对应的等级
+        /// </summary>
+        /// <param name="exp"></param>
+        /// <param name="isUser"></param>
+        /// <returns></returns>
+        public static int ExpToLevel(int exp, bool isUser = false)
+        {
+            int num = 0;
+            while ((exp -= CurrentLeveMaxExp(++num, isUser)) >= 0)
+            {
+            }
+            return num;
+        }
+
+        /// <summary>
+        /// 获取等级的最大经验
+        /// </summary>
+        /// <param name="level"></param>
+        /// <param name="isUser"></param>
+        /// <returns></returns>
+        public static int CurrentLeveMaxExp(int level, bool isUser = false)
+        {
+            if (isUser)
+            {
+                if (level <= 25)
+                {
+                    return level * 100;
+                }
+                if (level <= 99)
+                {
+                    return 100 * Mathf.FloorToInt(Mathf.Pow((float)level * 0.2f, 2f));
+                }
+                if (level <= 199)
+                {
+                    return 100 * Mathf.FloorToInt(Mathf.Pow((float)level * 0.11f, 2.5f));
+                }
+                return 100 * Mathf.FloorToInt(Mathf.Pow((float)level * 0.0118f, 9f));
+            }
+            else
+            {
+                if (level <= 25)
+                {
+                    return level * 100;
+                }
+                if (level <= 29)
+                {
+                    return 100 * Mathf.FloorToInt(Mathf.Pow((float)level * 0.15f, 2.4f));
+                }
+                if (level <= 69)
+                {
+                    return 100 * Mathf.FloorToInt(Mathf.Pow((float)level * 0.15f, 2.5f));
+                }
+                if (level <= 89)
+                {
+                    return 100 * Mathf.FloorToInt(Mathf.Pow((float)level * 0.15f, 2.6f));
+                }
+                return 100 * Mathf.FloorToInt(Mathf.Pow((float)level * 0.15f, 2.7f));
+            }
+        }
+        /// <summary>
+        /// mvp位置是8 其他 7 9 13 14
+        /// </summary>
+        /// <param name="teamid"></param>
+        /// <param name="mvp"></param>
+        public void Update_GUN_Pos(int teamid,int mvpid)
+        {
+            //mvp位置是8
+            //其他 7 9 13 14
+            bool mvpPOSeEdited=false;
+            List<int> listkey = new List<int>();
+
+            StringBuilder stringBuilder = new StringBuilder();
+            JsonWriter jsonWriter = new JsonWriter(stringBuilder);
+            jsonWriter.WriteObjectStart();
+
+            int mvpkey = 0;
+            for(int i = 1; i <= 5; i++)
+            {
+                if(im.userdatasummery.team_info[teamid][i].position!=8 && im.userdatasummery.team_info[teamid][i].id == mvpid)
+                {
+                    //还要修改gun_with_user_info 内的值
+                    im.userdatasummery.team_info[teamid][i].position = 8;
+                    mvpkey = i;
+                    mvpPOSeEdited = true;
+                    continue;
+                }
+                if (im.userdatasummery.team_info[teamid][i].position == 8 && im.userdatasummery.team_info[teamid][i].id == mvpid)
+                {
+                    continue;
+                }
+                listkey.Add(i);
+            }
+            int x = 0;
+            foreach (var i in listkey)
+            {
+                switch (x++)
+                {
+                    case 0:
+                        {
+                            if (im.userdatasummery.team_info[teamid][i].position == 7) continue;
+                            im.userdatasummery.team_info[teamid][i].position = 7;
+                            int id = im.userdatasummery.team_info[teamid][i].id;
+                            jsonWriter.WritePropertyName(id.ToString());
+                            jsonWriter.Write(7);
+
+                            break;
+                        }
+                    case 1:
+                        {
+
+                            if (mvpPOSeEdited)
+                            {
+                                int a = im.userdatasummery.team_info[teamid][mvpkey].id;
+                                jsonWriter.WritePropertyName(a.ToString());
+                                jsonWriter.Write(8);
+                            }
+                            if (im.userdatasummery.team_info[teamid][i].position == 9) continue;
+                            im.userdatasummery.team_info[teamid][i].position = 9;
+                            int id = im.userdatasummery.team_info[teamid][i].id;
+                            jsonWriter.WritePropertyName(id.ToString());
+                            jsonWriter.Write(9);
+                            break;
+                        }
+                    case 2:
+                        {
+                            if (im.userdatasummery.team_info[teamid][i].position == 13) continue;
+                            im.userdatasummery.team_info[teamid][i].position = 13;
+
+                            int id = im.userdatasummery.team_info[teamid][i].id;
+                            jsonWriter.WritePropertyName(id.ToString());
+                            jsonWriter.Write(13);
+                            break;
+                        }
+                    case 3:
+                        {
+                            if (im.userdatasummery.team_info[teamid][i].position == 14) continue;
+                            im.userdatasummery.team_info[teamid][i].position = 14;
+
+                            int id = im.userdatasummery.team_info[teamid][i].id;
+                            jsonWriter.WritePropertyName(id.ToString());
+                            jsonWriter.Write(14);
+                            break;
+                        }
+                    default:
+                        break;
+                }
+            }
+            jsonWriter.WriteObjectEnd();
+            string jsonstring = stringBuilder.ToString();
+
+            if (jsonstring.Contains(":")==false) return;
+            if (im.post.setPosition(jsonstring) !="1")
+                MessageBox.Show("setPosition出错");
+
+
+
+
+        }
+
+        /// <summary>
+        /// num是最小的口粮弹药数 如5-2N 必须大于1
+        /// 返回TRUE是需要补给
+        /// </summary>
+        /// <param name="gunid"></param>
+        /// <param name="num">num是最小的口粮弹药数 如5-2N 必须大于1</param>
+        /// <returns></returns>
+        public bool CheckGun_AMMO_MRC_NEED_SUPORT(int gunid,int num)
+        {
+            foreach (var item in gun_with_user_info)
+            {
+                if (item.Value.id == gunid)
+                {
+                    if(item.Value.ammo<=num || item.Value.mre<=num)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            return false;
+
+        }
+
+        public void BattleFinish_ammo_mrc(int teamid)
+        {
+            for(int i = 1; i <= 5; i++)
+            {
+                if (team_info[teamid].ContainsKey(i))
+                {
+                    //存在这个队员
+                    if (team_info[teamid][i].ammo > 0)
+                    {
+                        team_info[teamid][i].ammo--;
+                    }
+                    if (team_info[teamid][i].mre > 0)
+                    {
+                        team_info[teamid][i].mre--;
+                    }
+                }
+            }
+        }
+
+        public void Gun_mre_ammo_REFILL(int gunid)
+        {
+            for(int i = 0; i <= gun_with_user_info.Last().Key + 1; i++)
+            {
+                if (gun_with_user_info.ContainsKey(i))
+                {
+                    if (gun_with_user_info[i].id == gunid)
+                    {
+                        gun_with_user_info[i].mre = 10;
+                        gun_with_user_info[i].ammo = 5;
+                        return;
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
 

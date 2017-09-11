@@ -93,6 +93,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\AuthCode.dll</HintPath>
     </Reference>
+    <Reference Include="LitJson">
+      <HintPath>Resources\LitJson.dll</HintPath>
+    </Reference>
     <Reference Include="SimpleUpdater">
       <HintPath>Resources\SimpleUpdater.dll</HintPath>
     </Reference>
@@ -127,10 +130,15 @@
     <Compile Include="CatchData\Game_Config_Info.cs" />
     <Compile Include="Programe\Auto\BattleLoop.cs" />
     <Compile Include="Programe\Auto\BattleMapInfo.cs" />
+    <Compile Include="Programe\Auto\Battle_Sent.cs" />
+    <Compile Include="Programe\Auto\Map_Sent.cs" />
     <Compile Include="Programe\Auto\UserBattleTaskInfo.cs" />
+    <Compile Include="Programe\ProgramePro\APK\BattleSkillCfg.cs" />
     <Compile Include="Programe\ProgramePro\APK\EffectGridType.cs" />
+    <Compile Include="Programe\ProgramePro\APK\enumSkill.cs" />
     <Compile Include="Programe\ProgramePro\APK\GunInfo.cs" />
     <Compile Include="Programe\ProgramePro\APK\GunType.cs" />
+    <Compile Include="Programe\ProgramePro\APK\Skill.cs" />
     <Compile Include="Programe\ProgramePro\APK\SubGunType.cs" />
     <Compile Include="Programe\TextRes\asset_textes.cs" />
     <Compile Include="UserData\Func\Gun_With_User_Info_Func.cs" />

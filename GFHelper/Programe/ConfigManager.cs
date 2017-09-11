@@ -28,6 +28,10 @@ namespace GFHelper
         }
 
         public static string fileName;
+        public static Dictionary<string, object> defultValue = new Dictionary<string, object>();
+        public static string friendUID = "friendUID,true";
+
+
 
         private InstanceManager im;
         private Dictionary<int, ConfigNode> config;
@@ -38,6 +42,9 @@ namespace GFHelper
             fileName = (string)Properties.Settings.Default["ConfigFile"];
             this.im = im;
             this.config = new Dictionary<int, ConfigNode>();
+
+            defultValue.Add("friendUID", true);
+
         }
 
         public bool Load()
@@ -72,7 +79,7 @@ namespace GFHelper
         {
             try
             {
-                var configfile = File.ReadAllLines(fileName);
+                var configfile = File.ReadAllLines(fileName,Encoding.UTF8);
                 string[] newconfigfile = new string[maxline];
 
                 for (int i = 0; i < configfile.Length; ++i)
@@ -83,7 +90,7 @@ namespace GFHelper
                     newconfigfile[line.Key] = String.Format("{0}={1}", line.Value.key, line.Value.value);
                 }
 
-                File.WriteAllLines(fileName, newconfigfile);
+                File.WriteAllLines(fileName, newconfigfile, System.Text.Encoding.UTF8);
             }
             catch (Exception e)
             {
@@ -101,18 +108,18 @@ namespace GFHelper
 
         public void SetConfig(string key, object value)
         {
-            try
-            {
-                var i = findConfig(key);
-                i.value = value.ToString();
-            }
-            catch (KeyNotFoundException)
-            {
+            //try
+            //{
+            //    var i = findConfig(key);
+            //    i.value = value.ToString();
+            //}
+            //catch (KeyNotFoundException)
+            //{
                 ConfigNode cn = new ConfigNode();
                 cn.key = key;
                 cn.value = value.ToString();
                 this.config.Add(maxline++, cn);
-            }
+            //}
 
             this.Save();
         }
@@ -137,7 +144,8 @@ namespace GFHelper
             }
             catch (KeyNotFoundException)
             {
-                return false;
+                SetConfig(key, defultValue[key]);
+                return defultValue[key].ToString()== "True";
             }
         }
 
@@ -176,12 +184,25 @@ namespace GFHelper
                 ProgrameData.password = ProgrameData.password.Replace("-", "");
                 ProgrameData.password = ProgrameData.password.ToLower();
 
+
+
                 ProgrameData.androidid = this.im.configManager.getConfigString("androidid").ToUpper();
                 ProgrameData.mac = this.im.configManager.getConfigString("mac");
 
-                ProgrameData.AutoDefenseTrialBattleF = this.im.configManager.getConfigBool("AutoDefenseTrialBattleF");
+                ProgrameData.OperationDelay = this.im.configManager.getConfigInt("OperationDelay");
+
+
+                ProgrameData.AutoSimulationBattleF = this.im.configManager.getConfigBool("AutoSimulationBattleF");
                 ProgrameData.AutoDefenseTrialBattleT = this.im.configManager.getConfigInt("AutoDefenseTrialBattleT");
-                ProgrameData.StopTime_string = this.im.configManager.getConfigString("StopTime");
+                ProgrameData.SimulationDataType= this.im.configManager.getConfigInt("SimulationDataType");
+                ProgrameData.SimulationTeamEffect = this.im.configManager.getConfigInt("SimulationTeamEffect");
+                ProgrameData.SimulationDataDuration = double.Parse(this.im.configManager.getConfigString("SimulationDataDuration"));
+
+
+        ProgrameData.StopTime_string = this.im.configManager.getConfigString("StopTime");
+
+                ProgrameData.friendUID = this.im.configManager.getConfigBool("friendUID");
+
                 if(ProgrameData.StopTime_string.ToLower() == "null")
                 {
                     //ProgrameData.StopTime_datetime = "";

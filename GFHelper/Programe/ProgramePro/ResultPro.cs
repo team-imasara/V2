@@ -10,6 +10,46 @@ namespace GFHelper.Programe.ProgramePro
 {
     public class ResultPro
     {
+
+        public static bool Simulation_DATA(ref string result)
+        {
+            //如果是网络错误 如连接超时 另外考虑
+            //{"coin_num":"97","coin_type":"2"}
+            try
+            {
+                result = AuthCode.Decode(result, ProgrameData.sign);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("解析结果错误");
+                MessageBox.Show(e.ToString());
+            }
+            //字符串检查
+            if (result.Contains("coin_num") && result.Contains("coin_type"))
+            {
+                return true;
+            }
+            return false;
+
+
+        }
+
+
+
+
+        //GUN_OUT_Team
+        public static bool GUN_OUTandIN_Team(string result)
+        {
+            //如果是网络错误 如连接超时 另外考虑
+
+            //字符串检查
+            if (result =="1")
+            {
+                return true;
+            }
+            return false;
+        }
+
         public static bool Abort_Mission_ResultPro(string result)
         {
             //如果是网络错误 如连接超时 另外考虑
@@ -53,7 +93,7 @@ namespace GFHelper.Programe.ProgramePro
 
 
 
-        public static bool Battle_Finish_ResultPro(string result)
+        public static bool Battle_Finish_ResultPro(ref string result)
         {
             //如果是网络错误 如连接超时 另外考虑
             try

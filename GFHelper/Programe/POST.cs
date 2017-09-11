@@ -700,5 +700,37 @@ namespace GFHelper.Programe
             string result = DoPost(ProgrameData.GameAdd + RequestUrls.AbortMission, requeststring);
             return result;
         }
+
+        public string GUN_OUTandIN_Team(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.BuildTeam, requeststring);
+            return result;
+        }
+
+        public string SupplyTeam(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.SupplyTeam, requeststring);
+            return result;
+        }
+
+        public string setPosition(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.SetPosition, requeststring);
+            return result;
+        }
+
+        public string simulation_DATA(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.coinBattleFinish, requeststring);
+            return result;
+        }
     }
 }

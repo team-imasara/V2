@@ -111,6 +111,8 @@ namespace GFHelper
                             }
                         case 11:
                             {
+                                im.uihelp.setStatusBarText_InThread(String.Format(" 等待预定时间 "));
+                                Thread.Sleep(Programe.CommonHelp.randomtime(Programe.ProgrameData.OperationDelay));
                                 im.action.Start_Loop_Operation_Act(im.Dic_auto_operation_act[0]);
 
                                 im.TaskList.RemoveAt(0);
@@ -119,6 +121,8 @@ namespace GFHelper
                             }
                         case 12:
                             {
+                                im.uihelp.setStatusBarText_InThread(String.Format(" 等待预定时间 "));
+                                Thread.Sleep(Programe.CommonHelp.randomtime(Programe.ProgrameData.OperationDelay));
                                 im.action.Start_Loop_Operation_Act(im.Dic_auto_operation_act[1]);
                                 im.TaskList.RemoveAt(0);
                                 //im.TaskList.Add(Programe.TaskList.GetuserInfo);
@@ -126,6 +130,8 @@ namespace GFHelper
                             }
                         case 13:
                             {
+                                im.uihelp.setStatusBarText_InThread(String.Format(" 等待预定时间 "));
+                                Thread.Sleep(Programe.CommonHelp.randomtime(Programe.ProgrameData.OperationDelay));
                                 im.action.Start_Loop_Operation_Act(im.Dic_auto_operation_act[2]);
                                 im.TaskList.RemoveAt(0);
                                 //im.TaskList.Add(Programe.TaskList.GetuserInfo);
@@ -133,6 +139,8 @@ namespace GFHelper
                             }
                         case 14:
                             {
+                                im.uihelp.setStatusBarText_InThread(String.Format(" 等待预定时间 "));
+                                Thread.Sleep(Programe.CommonHelp.randomtime(Programe.ProgrameData.OperationDelay));
                                 im.action.Start_Loop_Operation_Act(im.Dic_auto_operation_act[3]);
 
                                 im.TaskList.RemoveAt(0);
@@ -224,12 +232,20 @@ namespace GFHelper
                                 //getuserinfo 不能用太卡了只能手动处理
                                 break;
                             }
+                        case 33:
+                            {
+                                im.action.Auto_Start_Simulation_Data();
+                                im.TaskList.RemoveAt(0);
+                                //处理结尾 BP的回复时间
+                                //getuserinfo 不能用太卡了只能手动处理
+                                break;
+                            }
                         case 41:
                             {
                                 //练级任务1
                                 im.battle_loop.BattleLOOP(im.dic_userbattletaskinfo[0]);
-
                                 im.TaskList.RemoveAt(0);
+                                im.battle_loop.End_At_Battle(im.dic_userbattletaskinfo[0]);
                                 break;
                             }
                         case 42:

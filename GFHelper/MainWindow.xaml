@@ -282,7 +282,7 @@
                                 <Grid Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="98" Margin="10,55,0,0" VerticalAlignment="Top" Width="719">
                                     <Label x:Name="GUN_1_name" Content="GUN_1" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Height="37" Width="100" FontSize="24"/>
                                     <TextBox x:Name="GUN_1E" HorizontalAlignment="Left" Height="20" Margin="115,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35" BorderThickness="0" Background="{x:Null}"/>
-                                    <Label x:Name="GUN_2_name" Content="GUN_2" HorizontalAlignment="Left" Margin="150,50,0,0" VerticalAlignment="Top" Height="37" Width="100" FontSize="24"/>
+                                    <Label x:Name="GUN_2_name" HorizontalAlignment="Left" Margin="150,50,0,0" VerticalAlignment="Top" Height="37" Width="100" FontSize="24" Content="GUN_2"/>
                                     <TextBox x:Name="GUN_2E" HorizontalAlignment="Left" Height="20" Margin="260,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35" BorderThickness="0" Background="{x:Null}"/>
                                     <Label x:Name="GUN_3_name" Content="GUN_3" HorizontalAlignment="Left" Margin="295,50,0,0" VerticalAlignment="Top" Height="37" Width="100" FontSize="24"/>
                                     <TextBox x:Name="GUN_3E" HorizontalAlignment="Left" Height="20" Margin="405,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35" BorderThickness="0" Background="{x:Null}"/>
@@ -298,6 +298,7 @@
                                 <RadioButton x:Name="GUN3_MVP" Content="MVP" HorizontalAlignment="Left" Margin="245,107,0,0" VerticalAlignment="Top" FontSize="10" Grid.Column="1"/>
                                 <RadioButton x:Name="GUN4_MVP" Content="MVP" HorizontalAlignment="Left" Margin="380,107,0,0" VerticalAlignment="Top" FontSize="10" Grid.Column="1"/>
                                 <RadioButton x:Name="GUN5_MVP" Content="MVP" HorizontalAlignment="Left" Margin="517,107,0,0" VerticalAlignment="Top" FontSize="10" Grid.Column="1"/>
+                                <CheckBox x:Name="Withdraw4" Content="" HorizontalAlignment="Left" Margin="365,107,0,0" VerticalAlignment="Top" Grid.Column="1"/>
                             </Grid>
                         </TabItem>
                         <TabItem Header="Task2" Margin="10,-2,-10,0" Width="60" Height="22">

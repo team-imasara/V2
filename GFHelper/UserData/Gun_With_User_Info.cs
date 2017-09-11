@@ -22,7 +22,27 @@ namespace GFHelper.UserData
         public int id;
         public int user_id;
         public int gun_id;
-        public int gun_exp;
+        public int gun_exp
+        {
+            get { return gun_exp; }
+            set
+            {
+                gun_exp += value;
+                if (level == 100) return;
+                if (UserData.UserDataSummery.ExpToLevel(gun_exp) == level) return;
+                level += UserDataSummery.Update_GUN_exp_level(value, gun_exp - value, level);
+                if (life == maxLife)
+                {
+                    UpdateMaxLife();
+                    life = maxLife;
+                }
+                else
+                {
+                    UpdateMaxLife();
+                }
+            }
+
+        }
         public int gun_level;
         public int team_id;
         public int teamId;
@@ -68,7 +88,7 @@ namespace GFHelper.UserData
 
         public CatchData.Gun_Info info = new Gun_Info();
 
-        public int gunEffect;
+        public int gunEffect=0;
 
         public float powbuffTemp = 1f;
 
@@ -94,11 +114,12 @@ namespace GFHelper.UserData
         // Token: 0x0400178B RID: 6027
         public int favorPow;
         public int additionPow;
+        public int current_Maxlife;
         // Token: 0x04001782 RID: 6018
         public List<Equip_With_User_Info> equipList = new List<Equip_With_User_Info>();
         // Token: 0x170005F2 RID: 1522
         // (get) Token: 0x06001880 RID: 6272 RVA: 0x0008551C File Offset: 0x0008371C
-        public Fairy fairy
+        Fairy fairy
         {
             get
             {
@@ -148,7 +169,7 @@ namespace GFHelper.UserData
 
         public virtual int GetPoint(bool fullLife = false, bool basePoint = false, bool isNight = false, SubGunType subGunType = SubGunType.None)
         {
-            return this.GetAtkPoint(isNight, fullLife, basePoint, subGunType)/* + this.GetSurPoint(fullLife, basePoint, subGunType) + this.GetSkill1Point(fullLife, basePoint, subGunType)*/;
+            return this.GetAtkPoint(isNight, fullLife, basePoint, subGunType) + this.GetSurPoint(fullLife, basePoint, subGunType) + this.GetSkill1Point(fullLife, basePoint, subGunType);
         }
 
         public int GetAtkPoint(bool isNight, bool isFullLife, bool basePoint, SubGunType subGunType = SubGunType.None, bool countFairy = true)
@@ -235,76 +256,71 @@ namespace GFHelper.UserData
 
 
         // Token: 0x06001638 RID: 5688 RVA: 0x00072A9C File Offset: 0x00070C9C
-        //public int GetSurPoint(bool isFullLife, bool basePoint, SubGunType subGunType = SubGunType.None)
-        //{
-        //    int num4;
-        //    int num6;
-        //    if (basePoint)
-        //    {
-        //        int num = this.pow;
-        //        int num2 = this.rate;
-        //        int num3 = this.hit;
-        //        num4 = this.dodge;
-        //        int num5 = this.crit;
-        //        num6 = this.armor;
-        //        int num7 = this.piercing;
-        //    }
-        //    else
-        //    {
-        //        int num = Mathf.CeilToInt((float)this.pow * this.GetEffectGridValue(EffectGridType.pow, subGunType));
-        //        int num2 = Mathf.CeilToInt((float)this.rate * this.GetEffectGridValue(EffectGridType.rate, subGunType));
-        //        int num3 = Mathf.CeilToInt((float)this.hit * this.GetEffectGridValue(EffectGridType.hit, subGunType));
-        //        num4 = Mathf.CeilToInt((float)this.dodge * this.GetEffectGridValue(EffectGridType.dodge, subGunType));
-        //        int num5 = Mathf.CeilToInt((float)this.crit * this.GetEffectGridValue(EffectGridType.crit, subGunType));
-        //        num6 = Mathf.CeilToInt((float)this.armor * this.GetEffectGridValue(EffectGridType.armor, subGunType));
-        //        int num7 = Mathf.CeilToInt((float)this.piercing * this.GetEffectGridValue(EffectGridType.ap, subGunType));
-        //        float effectGridValue = this.GetEffectGridValue(EffectGridType.skill, subGunType);
-        //    }
-        //    int num8 = this.life;
-        //    if (isFullLife)
-        //    {
-        //        num8 = this.maxLife;
-        //    }
-        //    //deffence_effect = 1,35,2.6,75,1.6,1
-        //    float floatFromStringArray = 1f;
-        //    float floatFromStringArray2 = 35f;
-        //    float floatFromStringArray3 = 2.6f;
-        //    float floatFromStringArray4 = 75f;
-        //    float floatFromStringArray5 = 1.6f;
-        //    float floatFromStringArray6 = 1f;
-        //    //float floatFromStringArray = Data.GetFloatFromStringArray("deffence_effect", 0, ',');
-        //    //float floatFromStringArray2 = Data.GetFloatFromStringArray("deffence_effect", 1, ',');
-        //    //float floatFromStringArray3 = Data.GetFloatFromStringArray("deffence_effect", 2, ',');
-        //    //float floatFromStringArray4 = Data.GetFloatFromStringArray("deffence_effect", 3, ',');
-        //    //float floatFromStringArray5 = Data.GetFloatFromStringArray("deffence_effect", 4, ',');
-        //    //float floatFromStringArray6 = Data.GetFloatFromStringArray("deffence_effect", 5, ',');
-        //    return (int)(floatFromStringArray * (float)Mathf.CeilToInt((float)num8 * ((floatFromStringArray2 + (float)num4) / floatFromStringArray2) * (floatFromStringArray3 * floatFromStringArray4 / Mathf.Max(floatFromStringArray4 - (float)num6 / floatFromStringArray6, 1f) - floatFromStringArray5)));
-        //}
+        public int GetSurPoint(bool isFullLife, bool basePoint, SubGunType subGunType = SubGunType.None)
+        {
+            int num4;
+            int num6;
+            if (basePoint)
+            {
+                int num = this.pow;
+                int num2 = this.rate;
+                int num3 = this.hit;
+                num4 = this.dodge;
+                int num5 = this.crit;
+                num6 = this.armor;
+                int num7 = this.piercing;
+            }
+            else
+            {
+                int num = Mathf.CeilToInt((float)this.pow * this.GetEffectGridValue(EffectGridType.pow, subGunType));
+                int num2 = Mathf.CeilToInt((float)this.rate * this.GetEffectGridValue(EffectGridType.rate, subGunType));
+                int num3 = Mathf.CeilToInt((float)this.hit * this.GetEffectGridValue(EffectGridType.hit, subGunType));
+                num4 = Mathf.CeilToInt((float)this.dodge * this.GetEffectGridValue(EffectGridType.dodge, subGunType));
+                int num5 = Mathf.CeilToInt((float)this.crit * this.GetEffectGridValue(EffectGridType.crit, subGunType));
+                num6 = Mathf.CeilToInt((float)this.armor * this.GetEffectGridValue(EffectGridType.armor, subGunType));
+                int num7 = Mathf.CeilToInt((float)this.piercing * this.GetEffectGridValue(EffectGridType.ap, subGunType));
+                float effectGridValue = this.GetEffectGridValue(EffectGridType.skill, subGunType);
+            }
+            int num8 = this.life;
+            if (isFullLife)
+            {
+                num8 = this.maxLife;
+            }
+            //deffence_effect = 1,35,2.6,75,1.6,1
 
-        //public int GetSkill1Point(bool isFullLife, bool basePoint, SubGunType subGunType = SubGunType.None)
-        //{
-        //    float num;
-        //    if (basePoint)
-        //    {
-        //        num = 1f;
-        //    }
-        //    else
-        //    {
-        //        num = this.GetEffectGridValue(EffectGridType.skill, subGunType);
-        //    }
-        //    int num2 = this.life;
-        //    if (isFullLife)
-        //    {
-        //        num2 = this.maxLife;
-        //    }
-        //    //skill_effect = 35,5
-        //    float floatFromStringArray = 35f;
-        //    float floatFromStringArray2 = 5f;
-        //    //float floatFromStringArray = Data.GetFloatFromStringArray("skill_effect", 0, ',');
-        //    //float floatFromStringArray2 = Data.GetFloatFromStringArray("skill_effect", 1, ',');
-        //    int level = this.GetSkill(enumSkill.eSkill1).level;
-        //    return Mathf.CeilToInt(Mathf.Ceil((float)num2 / (float)this.maxLife * (float)this.number) * (0.8f + (float)this.info.rank / 10f) * (floatFromStringArray + floatFromStringArray2 * (float)(level - 1)) * (float)Mathf.CeilToInt((float)level / 10f) * num);
-        //}
+            float floatFromStringArray = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("deffence_effect", 0, ',');
+            float floatFromStringArray2 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("deffence_effect", 1, ',');
+            float floatFromStringArray3 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("deffence_effect", 2, ',');
+            float floatFromStringArray4 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("deffence_effect", 3, ',');
+            float floatFromStringArray5 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("deffence_effect", 4, ',');
+            float floatFromStringArray6 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("deffence_effect", 5, ',');
+            return (int)(floatFromStringArray * (float)Mathf.CeilToInt((float)num8 * ((floatFromStringArray2 + (float)num4) / floatFromStringArray2) * (floatFromStringArray3 * floatFromStringArray4 / Mathf.Max(floatFromStringArray4 - (float)num6 / floatFromStringArray6, 1f) - floatFromStringArray5)));
+        }
+
+        public int GetSkill1Point(bool isFullLife, bool basePoint, SubGunType subGunType = SubGunType.None)
+        {
+            float num;
+            if (basePoint)
+            {
+                num = 1f;
+            }
+            else
+            {
+                num = this.GetEffectGridValue(EffectGridType.skill, subGunType);
+            }
+            int num2 = this.life;
+            if (isFullLife)
+            {
+                num2 = this.maxLife;
+            }
+            //skill_effect = 35,5
+            float floatFromStringArray = 35f;
+            float floatFromStringArray2 = 5f;
+            //float floatFromStringArray = Data.GetFloatFromStringArray("skill_effect", 0, ',');
+            //float floatFromStringArray2 = Data.GetFloatFromStringArray("skill_effect", 1, ',');
+            //int level = this.GetSkill(enumSkill.eSkill1).level;
+            return Mathf.CeilToInt(Mathf.Ceil((float)num2 / (float)this.maxLife * (float)this.number) * (0.8f + (float)this.info.rank / 10f) * (floatFromStringArray + floatFromStringArray2 * (float)(level - 1)) * (float)Mathf.CeilToInt((float)level / 10f) * num);
+        }
 
         public float GetEffectGridValue(EffectGridType type, SubGunType subGunType = SubGunType.None)
         {
@@ -324,6 +340,8 @@ namespace GFHelper.UserData
         //    return (this.mVecSkill.Count <= (int)e) ? this.mVecSkill[0] : this.mVecSkill[(int)e];
         //}
 
+
+
         public void UpdateData()
         {
             foreach (var item in im.catchdatasummery.gun_info)
@@ -341,7 +359,19 @@ namespace GFHelper.UserData
             float floatFromStringArray2 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("life_basic", 1, ',');
             float floatFromStringArray3 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("life_basic", 2, ',');
 
-            this.maxLife = Mathf.CeilToInt((floatFromStringArray + ((float)this.level - 1f) * floatFromStringArray2) * CatchData.CatchDataFunc.Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_life") * this.info.ratioLife / floatFromStringArray3) * this.number;
+            if (this.maxLife != 0)
+            {
+                this.current_Maxlife = this.maxLife;
+                this.maxLife = Mathf.CeilToInt((floatFromStringArray + ((float)this.level - 1f) * floatFromStringArray2) * CatchData.CatchDataFunc.Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_life") * this.info.ratioLife / floatFromStringArray3) * this.number;
+                this.gunEffect += maxLife - current_Maxlife;
+                
+            }
+            else
+            {
+                this.maxLife = Mathf.CeilToInt((floatFromStringArray + ((float)this.level - 1f) * floatFromStringArray2) * CatchData.CatchDataFunc.Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_life") * this.info.ratioLife / floatFromStringArray3) * this.number;
+            }
+
+
             floatFromStringArray = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("power_basic", 0, ',');
             floatFromStringArray2 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("power_basic", 1, ',');
             this.basePow = Mathf.CeilToInt(floatFromStringArray * CatchData.CatchDataFunc.Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_pow") * (float)this.info.ratioPow / floatFromStringArray2);
@@ -529,6 +559,7 @@ namespace GFHelper.UserData
                     this.bulletNumber += current11.bullet_number_up;
                 }
             }
+            //guiling
             //using (List<Equip_With_User_Info>.Enumerator enumerator12 = this.equipList.GetEnumerator())
             //{
             //    while (enumerator12.MoveNext())
@@ -571,24 +602,38 @@ namespace GFHelper.UserData
         //        }
         //    }
         //}
-        public int level
+        /// <summary>
+        /// 如果更新了的话 level=99 会自动更新this.life
+        /// </summary>
+        /// 
+        public void UpdateMaxLife()
         {
-            get
-            {
-                return this._level;
-            }
-            set
-            {
-                int level = this._level;
-                int num = this.maxLife;
-                this._level = Mathf.Min(value, 100);
-                this.UpdateData();
-                if (level != 0 && this._level > level)
-                {
-                    this.life = this.maxLife * Mathf.FloorToInt((float)this.life / (float)num) + this.life % num;
-                }
-            }
+            float floatFromStringArray = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("life_basic", 0, ',');
+            float floatFromStringArray2 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("life_basic", 1, ',');
+            float floatFromStringArray3 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("life_basic", 2, ',');
+            this.maxLife = Mathf.CeilToInt((floatFromStringArray + ((float)this.level - 1f) * floatFromStringArray2) * CatchData.CatchDataFunc.Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_life") * this.info.ratioLife / floatFromStringArray3) * this.number;
+
         }
+
+        public int level;
+        //{
+        //    get
+        //    {
+
+        //        return this._level;
+        //    }
+        //    set
+        //    {
+        //        int level = this._level;
+        //        int num = this.maxLife;
+        //        this._level = Mathf.Min(value, 100);
+        //        this.UpdateData();
+        //        if (level != 0 && this._level > level)
+        //        {
+        //            this.life = this.maxLife * Mathf.FloorToInt((float)this.life / (float)num) + this.life % num;
+        //        }
+        //    }
+        //}
         public float favorRatio
         {
             get

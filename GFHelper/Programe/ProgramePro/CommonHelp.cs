@@ -16,9 +16,14 @@ namespace GFHelper.Programe
     class CommonHelp
     {
 
+        public static int randomtime(int time)
+        {
+            Random random = new Random();
+            if (time == 0) return 0;
+            return random.Next(1, time);
+        }
 
-
-        public static DateTime PSTConvertToGMT(DateTime dateTime)
+        public static DateTime LocalDateTimeConvertToChina(DateTime dateTime)
         {
             TimeZoneInfo timeZoneSource = TimeZoneInfo.Local;
             TimeZoneInfo timeZoneDestination = TimeZoneInfo.FindSystemTimeZoneById("China Standard Time");
@@ -33,7 +38,7 @@ namespace GFHelper.Programe
                 time = TimeZoneInfo.ConvertTime(time, timeZoneSource, timeZoneDestination);
 
 
-                DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(PSTConvertToGMT(new DateTime(1970, 1, 1, 0, 0, 0, 0)));
+                DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(LocalDateTimeConvertToChina(new DateTime(1970, 1, 1, 0, 0, 0, 0)));
 
                 long t = (time.Ticks - startTime.Ticks) / 10000000;
                 if (ifoffset)
@@ -48,6 +53,10 @@ namespace GFHelper.Programe
             }
 
         }
+
+
+
+
 
         public static bool CheckCatchDataVersion(int Ncatchdatversion)
         {
@@ -208,7 +217,7 @@ namespace GFHelper.Programe
         public static void StopTime()
         {
             if (ProgrameData.StopTime_string.ToLower() == "null") return;
-            if (ProgrameData.StopTime_datetime <= PSTConvertToGMT(DateTime.Now))
+            if (ProgrameData.StopTime_datetime <= LocalDateTimeConvertToChina(DateTime.Now))
             {
                 Environment.Exit(0);
             }

@@ -32,7 +32,7 @@ namespace GFHelper
         //程序任务队列如后勤练级
         public List<TaskListInfo> TaskList;
         //练级任务
-        public Dictionary<int, Programe.Auto.UserBattleTaskInfo> dic_userbattletaskinfo = new Dictionary<int, Programe.Auto.UserBattleTaskInfo>();
+        public Dictionary<int, Programe.Auto.User_Normal_BattleTaskInfo> dic_userbattletaskinfo = new Dictionary<int, Programe.Auto.User_Normal_BattleTaskInfo>();
 
 
         public BackgroundThread backgroundthread;
@@ -63,7 +63,7 @@ namespace GFHelper
             //练级任务
             for (int x = 0; x < 4; x++)
             {
-                Programe.Auto.UserBattleTaskInfo userbattletaskinfo = new Programe.Auto.UserBattleTaskInfo();
+                Programe.Auto.User_Normal_BattleTaskInfo userbattletaskinfo = new Programe.Auto.User_Normal_BattleTaskInfo();
                 dic_userbattletaskinfo.Add(dic_userbattletaskinfo.Count, userbattletaskinfo);
             }
 

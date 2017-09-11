@@ -40,6 +40,7 @@ namespace GFHelper
                 //检查catchdata
                 AppUpdate();
                 im.configManager.setConfig();
+                im.userdatasummery.usbti.setData(Programe.ProgrameData.SimulationDataType, Programe.ProgrameData.SimulationDataDuration, Programe.ProgrameData.SimulationTeamEffect);
                 //im.logger.Log("GFHelper启动");
 
                 //初始化练级地图信息
@@ -387,13 +388,7 @@ namespace GFHelper
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            int num = 0;
-            foreach (var item in im.userdatasummery.team_info[6])
-            {
-                num += item.Value.teamId + item.Value.life + item.Value.gun_exp;
-            }
-            int result = num + im.userdatasummery.user_info.experience;
-            MessageBox.Show(result.ToString());
+            im.userdatasummery.Update_GUN_Pos(6, 256315);
             //int i = 0;
 
             //for (; i < im.userdatasummery.gun_with_user_info.Count; i++)
@@ -408,15 +403,38 @@ namespace GFHelper
 
         private void Button_Click_6(object sender, RoutedEventArgs e)
         {
+
+
             im.TaskList.Add(TaskList.Get_Battary_Friend);
         }
 
         private void Button_Click_7(object sender, RoutedEventArgs e)
         {
-            int mvp;
-            Programe.Auto.UserBattleTaskInfo ubti = new Programe.Auto.UserBattleTaskInfo();
+            int mvp=0;//mvp不用理
+
+            Programe.Auto.User_Normal_BattleTaskInfo ubti = new Programe.Auto.User_Normal_BattleTaskInfo();
+            if (GUN1_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][1].id;
+            if (GUN2_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][2].id;
+            if (GUN3_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][3].id;
+            if (GUN4_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][4].id;
+            if (GUN5_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][5].id;
+
+
+            ubti.TeamEffect = Convert.ToInt32(Task1TeamE.Text);
+            //ubti.Effect1 = Convert.ToInt32(GUN_1E.Text);
+            //ubti.Effect2 = Convert.ToInt32(GUN_2E.Text);
+            //ubti.Effect3 = Convert.ToInt32(GUN_3E.Text);
+            //ubti.Effect4 = Convert.ToInt32(GUN_4E.Text);
+            //ubti.Effect5 = Convert.ToInt32(GUN_5E.Text);
+
+            ubti.teaminfo = im.userdatasummery.im.userdatasummery.team_info[Task1MT.SelectedIndex + 1];//需要
+
+
+
+
             Programe.Auto.Battle_Gun_Info[] gun = new Programe.Auto.Battle_Gun_Info[5];
             //枪的效能 总效能
+
             for (int i = 1; i <= 5; i++)
             {
                 if(im.userdatasummery.team_info[Task1MT.SelectedIndex + 1].ContainsKey(i) == true)
@@ -427,16 +445,15 @@ namespace GFHelper
                     gun[i-1] = temp;
                 }
             }
-            ubti.skill_cd = Convert.ToInt32(im.mainWindow.Task1TeamE.Text);
-            //mvp
-            if (GUN1_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][1].gun_id;
-            if (GUN2_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][2].gun_id;
-            if (GUN3_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][3].gun_id;
-            if (GUN4_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][4].gun_id;
-            if (GUN5_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][5].gun_id;
-            ubti.Build_info(Task1Map.SelectedIndex,Task1MT.SelectedIndex+1,Task1ST1.SelectedIndex+1, gun,123);
+            ubti.gun = gun.OrderBy(p => p.id).ToArray();
 
-            im.dic_userbattletaskinfo.Add(0, ubti);
+
+            ubti.user_exp = im.userdatasummery.user_info.experience;//需要
+
+
+            ubti.Build_info(Task1Map.SelectedIndex,Task1MT.SelectedIndex+1,Task1ST1.SelectedIndex+1, gun, mvp);
+            ubti.Key = 0;
+            im.dic_userbattletaskinfo[0]=ubti;
             im.TaskList.Add(Programe.TaskList.TaskBattle_1);
         }
 

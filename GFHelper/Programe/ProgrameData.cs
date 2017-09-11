@@ -18,6 +18,7 @@ namespace GFHelper.Programe
         {
             this.im = im;
         }
+
         public static string UserMcCode;
         public static string client_ip;
         public static string accountid;
@@ -33,15 +34,19 @@ namespace GFHelper.Programe
         public static string mac;
         public static string host;
 
-
+        public static int OperationDelay;
 
         public static int CatchDataVersion;
         public static int tomorrow_zero;//用于零时刷新 北京时间0点
         public static int weekday;//会用于模拟战
 
 
-        public static bool AutoDefenseTrialBattleF;
+        public static bool AutoSimulationBattleF;
         public static int AutoDefenseTrialBattleT;
+
+        public static int SimulationDataType;
+        public static int SimulationTeamEffect;
+        public static double SimulationDataDuration;
 
         public static string StopTime_string;
         public static DateTime StopTime_datetime;
@@ -57,6 +62,7 @@ namespace GFHelper.Programe
 
         public static int timeoffset;
 
+        public static bool friendUID;
         //UI设置
 
     }

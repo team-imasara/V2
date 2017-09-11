@@ -164,7 +164,7 @@ namespace GFHelper.Programe.Auto
         //好友电池
         public void Auto_Get_Battary()
         {
-            DateTime BeijingTimeNow = CommonHelp.PSTConvertToGMT(DateTime.Now);
+            DateTime BeijingTimeNow = CommonHelp.LocalDateTimeConvertToChina(DateTime.Now);
             //如果12点过了则添加Settings.Default.GetFriendBattleryDelayM
 
             //3点
@@ -219,16 +219,58 @@ namespace GFHelper.Programe.Auto
             }
         }
 
-
-        public void Auto_Start_Trial()
+        public void Auto_Simulation_Battle()
         {
-
-            if (im.userdatasummery.user_info.bp >= 5)
+            if (ProgrameData.AutoSimulationBattleF == false) return;
+            //决定哪种模式
+            int day = (int)CommonHelp.LocalDateTimeConvertToChina(DateTime.Now).DayOfWeek;
+            if (day==1 || day== 2 || day == 4 || day == 5)
             {
-                im.TaskList.Add(TaskList.Start_Trial);
-                im.userdatasummery.user_info.bp -= 5;
+                if (im.userdatasummery.user_info.bp >= 5)
+                {
+                    im.TaskList.Add(TaskList.Start_Trial);
+                    im.userdatasummery.user_info.bp -= 5;
+                }
             }
+            if(day == 3 || day == 6 || day == 0)
+            {
+                switch (im.userdatasummery.usbti.Type)
+                {
+                    case 1:
+                        {
+                            if (im.userdatasummery.user_info.bp >= 1)
+                            {
+                                im.TaskList.Add(TaskList.Simulation_DATA);
+                                im.userdatasummery.user_info.bp -= 1;
+                            }
+                            break;
+                        }
+                    case 2:
+                        {
+                            if (im.userdatasummery.user_info.bp >= 2)
+                            {
+                                im.TaskList.Add(TaskList.Simulation_DATA);
+                                im.userdatasummery.user_info.bp -= 2;
+                            }
+                            break;
+                        }
+                    case 3:
+                        {
+                            if (im.userdatasummery.user_info.bp >= 3)
+                            {
+                                im.TaskList.Add(TaskList.Simulation_DATA);
+                                im.userdatasummery.user_info.bp -= 3;
+                            }
+                            break;
+                        }
+                    default:
+                        break;
+                }
+            }
+
+
         }
+
 
         public void BP_Recover()
         {
@@ -316,8 +358,8 @@ namespace GFHelper.Programe.Auto
                 Auto_Click_Girls_In_Dorm();
                 //好友电池
                 Auto_Get_Battary();
-                //无限防御模式
-                Auto_Start_Trial();
+                //模拟作战
+                Auto_Simulation_Battle();
                 //动能点数恢复
                 BP_Recover();
                 //每日零点刷新

@@ -8,7 +8,7 @@ namespace GFHelper.UserData
 {
     class Gun
     {
-        public Gun_With_User_Info gwui = new Gun_With_User_Info();
+        //public Gun_With_User_Info gwui = new Gun_With_User_Info();
 
     }
 }
