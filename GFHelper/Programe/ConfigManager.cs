@@ -194,27 +194,34 @@ namespace GFHelper
 
                 ProgrameData.AutoSimulationBattleF = this.im.configManager.getConfigBool("AutoSimulationBattleF");
                 ProgrameData.AutoDefenseTrialBattleT = this.im.configManager.getConfigInt("AutoDefenseTrialBattleT");
-                ProgrameData.SimulationDataType= this.im.configManager.getConfigInt("SimulationDataType");
+                ProgrameData.SimulationDataType = this.im.configManager.getConfigInt("SimulationDataType");
                 ProgrameData.SimulationTeamEffect = this.im.configManager.getConfigInt("SimulationTeamEffect");
                 ProgrameData.SimulationDataDuration = double.Parse(this.im.configManager.getConfigString("SimulationDataDuration"));
 
 
-        ProgrameData.StopTime_string = this.im.configManager.getConfigString("StopTime");
+                ProgrameData.StopTime_string = this.im.configManager.getConfigString("StopTime");
 
                 ProgrameData.friendUID = this.im.configManager.getConfigBool("friendUID");
 
-                if(ProgrameData.StopTime_string.ToLower() == "null")
+                if (ProgrameData.StopTime_string.ToLower() == "null")
                 {
                     //ProgrameData.StopTime_datetime = "";
                 }
                 else
                 {
                     IFormatProvider format = new System.Globalization.CultureInfo("zh-CN");
-                    ProgrameData.StopTime_datetime = DateTime.ParseExact(ProgrameData.StopTime_string,"yyyyMMddHHmmss", format);
+                    ProgrameData.StopTime_datetime = DateTime.ParseExact(ProgrameData.StopTime_string, "yyyyMMddHHmmss", format);
                 }
 
+                if (ProgrameData.worldid == "0")
+                {
+                    ProgrameData.GameAdd = "http://gf-adrgw-cn-zs-game-0001.ppgame.com/index.php/1000/";
+                }
+                else
+                {
+                    ProgrameData.GameAdd = "http://s" + ProgrameData.worldid + ".gw.gf.ppgame.com/index.php/100" + ProgrameData.worldid + "/";
 
-                ProgrameData.GameAdd = "http://s" + ProgrameData.worldid + ".gw.gf.ppgame.com/index.php/100" + ProgrameData.worldid + "/";
+                }
 
             }
             catch (Exception e)

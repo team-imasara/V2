@@ -212,7 +212,7 @@
                     <Label x:Name="TeamName_In_Formation" Content="第一梯队" HorizontalAlignment="Left" Margin="39,10,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                     <Label Content="&gt;&gt;" HorizontalAlignment="Left" Margin="97,10,0,0" VerticalAlignment="Top" MouseDown="Label_MouseDown_1"/>
                     <Grid HorizontalAlignment="Left" Height="44" Margin="10,58,0,0" VerticalAlignment="Top" Width="922">
-                        <Label x:Name="Gun1Name" Content="人形" HorizontalAlignment="Left" Margin="25,0,0,0" VerticalAlignment="Top" Width="98" Height="44" FontSize="24"/>
+                        <Label x:Name="Gun1Name" Content="人形" HorizontalAlignment="Left" Margin="25,0,0,0" VerticalAlignment="Top" Width="165" Height="44" FontSize="24"/>
                         <Label Content="Lv:" HorizontalAlignment="Left" Margin="195,12,0,0" VerticalAlignment="Top"/>
                         <Label x:Name="Gun1Lv" Content="N/A" HorizontalAlignment="Left" Margin="215,12,0,0" VerticalAlignment="Top"/>
                         <Label Content="EXP:" HorizontalAlignment="Left" Margin="238,12,0,0" VerticalAlignment="Top"/>
@@ -221,7 +221,7 @@
                         <Label x:Name="Gun1Hp" Content="N/A" HorizontalAlignment="Left" Margin="359,12,0,0" VerticalAlignment="Top"/>
                     </Grid>
                     <Grid HorizontalAlignment="Left" Height="44" Margin="10,110,0,0" VerticalAlignment="Top" Width="922">
-                        <Label x:Name="Gun2Name" Content="人形" HorizontalAlignment="Left" Margin="25,0,0,0" VerticalAlignment="Top" Width="98" Height="44" FontSize="24"/>
+                        <Label x:Name="Gun2Name" Content="人形" HorizontalAlignment="Left" Margin="25,0,0,0" VerticalAlignment="Top" Width="165" Height="44" FontSize="24"/>
                         <Label Content="Lv:" HorizontalAlignment="Left" Margin="195,12,0,0" VerticalAlignment="Top"/>
                         <Label x:Name="Gun2Lv" Content="N/A" HorizontalAlignment="Left" Margin="215,12,0,0" VerticalAlignment="Top"/>
                         <Label Content="EXP:" HorizontalAlignment="Left" Margin="238,12,0,0" VerticalAlignment="Top"/>
@@ -230,7 +230,7 @@
                         <Label x:Name="Gun2Hp" Content="N/A" HorizontalAlignment="Left" Margin="359,12,0,0" VerticalAlignment="Top"/>
                     </Grid>
                     <Grid HorizontalAlignment="Left" Height="44" Margin="10,162,0,0" VerticalAlignment="Top" Width="922">
-                        <Label x:Name="Gun3Name" Content="人形" HorizontalAlignment="Left" Margin="25,0,0,0" VerticalAlignment="Top" Width="98" Height="44" FontSize="24"/>
+                        <Label x:Name="Gun3Name" Content="人形" HorizontalAlignment="Left" Margin="25,0,0,0" VerticalAlignment="Top" Width="165" Height="44" FontSize="24"/>
                         <Label Content="Lv:" HorizontalAlignment="Left" Margin="195,12,0,0" VerticalAlignment="Top"/>
                         <Label x:Name="Gun3Lv" Content="N/A" HorizontalAlignment="Left" Margin="215,12,0,0" VerticalAlignment="Top"/>
                         <Label Content="EXP:" HorizontalAlignment="Left" Margin="238,12,0,0" VerticalAlignment="Top"/>
@@ -239,7 +239,7 @@
                         <Label x:Name="Gun3Hp" Content="N/A" HorizontalAlignment="Left" Margin="359,12,0,0" VerticalAlignment="Top"/>
                     </Grid>
                     <Grid HorizontalAlignment="Left" Height="44" Margin="10,214,0,0" VerticalAlignment="Top" Width="922">
-                        <Label x:Name="Gun4Name" Content="人形" HorizontalAlignment="Left" Margin="25,0,0,0" VerticalAlignment="Top" Width="98" Height="44" FontSize="24"/>
+                        <Label x:Name="Gun4Name" Content="人形" HorizontalAlignment="Left" Margin="25,0,0,0" VerticalAlignment="Top" Width="165" Height="44" FontSize="24"/>
                         <Label Content="Lv:" HorizontalAlignment="Left" Margin="195,12,0,0" VerticalAlignment="Top"/>
                         <Label x:Name="Gun4Lv" Content="N/A" HorizontalAlignment="Left" Margin="215,12,0,0" VerticalAlignment="Top"/>
                         <Label Content="EXP:" HorizontalAlignment="Left" Margin="238,12,0,0" VerticalAlignment="Top"/>
@@ -248,7 +248,7 @@
                         <Label x:Name="Gun4Hp" Content="N/A" HorizontalAlignment="Left" Margin="359,12,0,0" VerticalAlignment="Top"/>
                     </Grid>
                     <Grid HorizontalAlignment="Left" Height="44" Margin="10,266,0,0" VerticalAlignment="Top" Width="922">
-                        <Label x:Name="Gun5Name" Content="人形" HorizontalAlignment="Left" Margin="25,0,0,0" VerticalAlignment="Top" Width="98" Height="44" FontSize="24"/>
+                        <Label x:Name="Gun5Name" Content="人形" HorizontalAlignment="Left" Margin="25,0,0,0" VerticalAlignment="Top" Width="165" Height="44" FontSize="24"/>
                         <Label Content="Lv:" HorizontalAlignment="Left" Margin="195,12,0,0" VerticalAlignment="Top"/>
                         <Label x:Name="Gun5Lv" Content="N/A" HorizontalAlignment="Left" Margin="215,12,0,0" VerticalAlignment="Top"/>
                         <Label Content="EXP:" HorizontalAlignment="Left" Margin="238,12,0,0" VerticalAlignment="Top"/>
@@ -278,7 +278,7 @@
                                 <Label Content="辅梯队 :" HorizontalAlignment="Left" Margin="87,51,0,0" VerticalAlignment="Top" FontSize="24" Grid.Column="1"/>
                                 <ComboBox x:Name="Task1MT" VerticalAlignment="Top" Width="164" Margin="187,14,0,0" Height="36" HorizontalAlignment="Left" FontSize="18" Grid.Column="1" SelectionChanged="Task1MT_SelectionChanged"/>
                                 <ComboBox x:Name="Task1ST1" VerticalAlignment="Top" Width="164" Margin="187,55,0,0" Height="36" HorizontalAlignment="Left" FontSize="18" Grid.Column="1"/>
-                                <Button Content="Button" Grid.Column="1" HorizontalAlignment="Left" Margin="699,352,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_7"/>
+                                <Button Content="开始" Grid.Column="1" HorizontalAlignment="Left" Margin="724,321,0,0" VerticalAlignment="Top" Width="50" Click="Button_Click_7" Height="50"/>
                                 <Grid Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="98" Margin="10,55,0,0" VerticalAlignment="Top" Width="719">
                                     <Label x:Name="GUN_1_name" Content="GUN_1" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Height="37" Width="100" FontSize="24"/>
                                     <TextBox x:Name="GUN_1E" HorizontalAlignment="Left" Height="20" Margin="115,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35" BorderThickness="0" Background="{x:Null}"/>
@@ -298,7 +298,6 @@
                                 <RadioButton x:Name="GUN3_MVP" Content="MVP" HorizontalAlignment="Left" Margin="245,107,0,0" VerticalAlignment="Top" FontSize="10" Grid.Column="1"/>
                                 <RadioButton x:Name="GUN4_MVP" Content="MVP" HorizontalAlignment="Left" Margin="380,107,0,0" VerticalAlignment="Top" FontSize="10" Grid.Column="1"/>
                                 <RadioButton x:Name="GUN5_MVP" Content="MVP" HorizontalAlignment="Left" Margin="517,107,0,0" VerticalAlignment="Top" FontSize="10" Grid.Column="1"/>
-                                <CheckBox x:Name="Withdraw4" Content="" HorizontalAlignment="Left" Margin="365,107,0,0" VerticalAlignment="Top" Grid.Column="1"/>
                             </Grid>
                         </TabItem>
                         <TabItem Header="Task2" Margin="10,-2,-10,0" Width="60" Height="22">

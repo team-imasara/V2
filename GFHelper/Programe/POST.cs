@@ -13,7 +13,7 @@ namespace GFHelper.Programe
     class POST
     {
 
-        private static String StringBuilder_(IDictionary<string, string> parameters)
+        public static String StringBuilder_(IDictionary<string, string> parameters)
         {
             StringBuilder buffer = new StringBuilder();
             if (!(parameters == null || parameters.Count == 0))
@@ -132,31 +132,19 @@ namespace GFHelper.Programe
             return catchdataversion;
         }
 
-        public bool GetDigitalUid()
+        public string  GetDigitalUid(string data)
         {
-            IDictionary<string, string> parameters = new Dictionary<string, string>();
-            parameters.Add("openid", ProgrameData.openid);
-            parameters.Add("access_token", ProgrameData.access_token);
-            parameters.Add("app_id", "00020000100021001");
-            parameters.Add("channelid", ProgrameData.channelid);
-            parameters.Add("idfa", "");
-            parameters.Add("androidid", ProgrameData.androidid);
-            parameters.Add("mac", ProgrameData.mac);
-            parameters.Add("req_id", ProgrameData.req_id++.ToString());
 
-            string data = StringBuilder_(parameters);
+
 
             string result = "";
 
             while (string.IsNullOrEmpty(result) == true)
             {
                 result = DoPost(ProgrameData.GameAdd + RequestUrls.GetDigitalUid, data.ToString());
-                var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, "yundoudou")); //讲道理，我真不想写了
-                ProgrameData.sign = jsonobj.sign.ToString();
-                ProgrameData.uid = jsonobj.uid.ToString();
             }
 
-            return true;
+            return result;
         }
 
         public string GetUserInfo()//api = index/index

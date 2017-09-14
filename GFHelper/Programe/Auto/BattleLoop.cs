@@ -201,15 +201,7 @@ namespace GFHelper.Programe.Auto
             //                    if(this.BattleLoopTime % this.BattleSupportRound == 0)
             ubti.BattleLoopTime++;
 
-            if (ubti.BattleSupport_plus == true)
-            {
-                if(ubti.BattleLoopTime % 2 == 0)
-                {
-                    ubti.NeedSupport_plus = true;
-                    //单独补给
 
-                }
-            }
             if (im.userdatasummery.Check_Equip_FULL())
             {
                 //装备满了

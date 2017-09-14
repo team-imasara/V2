@@ -1,4 +1,5 @@
 ﻿using Codeplex.Data;
+using GFHelper.Programe.ProgramePro;
 using GFHelper.UserData;
 using System;
 using System.Collections.Generic;
@@ -36,7 +37,7 @@ namespace GFHelper.Programe
             im.post.Index_version();
 
             im.uihelp.setStatusBarText_InThread(String.Format(" 游戏登陆中"));
-            im.post.GetDigitalUid();
+            GetDigitalUid();
 
             im.uihelp.setStatusBarText_InThread(String.Format(" 获取userinfo"));
             Get_Set_UserInfo();
@@ -149,6 +150,31 @@ namespace GFHelper.Programe
                 //}
 
             }
+
+
+        }
+
+        public bool GetDigitalUid()
+        {
+            IDictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("openid", ProgrameData.openid);
+            parameters.Add("access_token", ProgrameData.access_token);
+            parameters.Add("app_id", "00020000100021001");
+            parameters.Add("channelid", ProgrameData.channelid);
+            parameters.Add("idfa", "");
+            parameters.Add("androidid", ProgrameData.androidid);
+            parameters.Add("mac", ProgrameData.mac);
+            parameters.Add("req_id", ProgrameData.req_id++.ToString());
+
+            string data =Programe.POST.StringBuilder_(parameters);
+            string result = "";
+            result = im.post.GetDigitalUid(data);
+            if (ResultPro.GetDigitalUid_Pro(ref result)==false)
+            {
+                MessageBox.Show(result);
+                return false;
+            }
+            return true;
 
 
         }

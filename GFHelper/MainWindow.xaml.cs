@@ -182,14 +182,15 @@ namespace GFHelper
             CheckT.ContinueWith(p =>
             {
                 im.uihelp.setStatusBarText_InThread(String.Format(" 验证授权完成"));
-                //testcheck(CheckT.Result);
-                testcheck(true);
+                testcheck(CheckT.Result);
+                //testcheck(true);
             });
 
             CCD.ContinueWith(p =>
             {
                 im.uihelp.setStatusBarText_InThread(String.Format(" 下载catchdata完成"));
                 im.catchdatasummery.ReadCatchData();
+                MessageBox.Show("catchdata文件下载成功", "提示");
             });
             im.uihelp.setStatusBarText_InThread(String.Format(" 开始初始化"));
             getIndex_version.Start();
@@ -199,6 +200,7 @@ namespace GFHelper
 
         public void testcheck(bool result)
         {
+
             if (result)
             {
                 this.im.uihelp.setStatusBarText_InThread(" 验证通过允许使用");

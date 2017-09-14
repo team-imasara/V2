@@ -22,15 +22,17 @@ namespace GFHelper.UserData
         public int id;
         public int user_id;
         public int gun_id;
+        public int _gun_exp;
         public int gun_exp
         {
-            get { return gun_exp; }
+            get { return _gun_exp; }
             set
             {
-                gun_exp += value;
+                _gun_exp = value;
                 if (level == 100) return;
-                if (UserData.UserDataSummery.ExpToLevel(gun_exp) == level) return;
-                level += UserDataSummery.Update_GUN_exp_level(value, gun_exp - value, level);
+                if (UserData.UserDataSummery.ExpToLevel(_gun_exp) == level) return;
+                level += UserDataSummery.Update_GUN_exp_level(value, _gun_exp - value, level);
+                gun_level = level;
                 if (life == maxLife)
                 {
                     UpdateMaxLife();
@@ -359,18 +361,7 @@ namespace GFHelper.UserData
             float floatFromStringArray2 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("life_basic", 1, ',');
             float floatFromStringArray3 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("life_basic", 2, ',');
 
-            if (this.maxLife != 0)
-            {
-                this.current_Maxlife = this.maxLife;
-                this.maxLife = Mathf.CeilToInt((floatFromStringArray + ((float)this.level - 1f) * floatFromStringArray2) * CatchData.CatchDataFunc.Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_life") * this.info.ratioLife / floatFromStringArray3) * this.number;
-                this.gunEffect += maxLife - current_Maxlife;
-                
-            }
-            else
-            {
-                this.maxLife = Mathf.CeilToInt((floatFromStringArray + ((float)this.level - 1f) * floatFromStringArray2) * CatchData.CatchDataFunc.Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_life") * this.info.ratioLife / floatFromStringArray3) * this.number;
-            }
-
+            this.maxLife = Mathf.CeilToInt((floatFromStringArray + ((float)this.level - 1f) * floatFromStringArray2) * CatchData.CatchDataFunc.Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_life") * this.info.ratioLife / floatFromStringArray3) * this.number;
 
             floatFromStringArray = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("power_basic", 0, ',');
             floatFromStringArray2 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("power_basic", 1, ',');

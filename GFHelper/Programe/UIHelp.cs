@@ -521,7 +521,7 @@ namespace GFHelper.Programe
                         case 1:
                             {
                                 //队长
-                                im.mainWindow.Gun1Name.Content = im.userdatasummery.FindGunName_GunId(item.Value.gun_id);
+                                im.mainWindow.Gun1Name.Content = TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(item.Value.gun_id));
                                 im.mainWindow.Gun1Lv.Content = item.Value.gun_level;
                                 im.mainWindow.Gun1Exp.Content = item.Value.gun_exp;
                                 im.mainWindow.Gun1Hp.Content = item.Value.life;
@@ -530,7 +530,7 @@ namespace GFHelper.Programe
                         case 2:
                             {
                                 //队长
-                                im.mainWindow.Gun2Name.Content = im.userdatasummery.FindGunName_GunId(item.Value.gun_id);
+                                im.mainWindow.Gun2Name.Content = TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(item.Value.gun_id));
                                 im.mainWindow.Gun2Lv.Content = item.Value.gun_level;
                                 im.mainWindow.Gun2Exp.Content = item.Value.gun_exp;
                                 im.mainWindow.Gun2Hp.Content = item.Value.life;
@@ -539,7 +539,7 @@ namespace GFHelper.Programe
                         case 3:
                             {
                                 //队长
-                                im.mainWindow.Gun3Name.Content = im.userdatasummery.FindGunName_GunId(item.Value.gun_id);
+                                im.mainWindow.Gun3Name.Content = TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(item.Value.gun_id));
                                 im.mainWindow.Gun3Lv.Content = item.Value.gun_level;
                                 im.mainWindow.Gun3Exp.Content = item.Value.gun_exp;
                                 im.mainWindow.Gun3Hp.Content = item.Value.life;
@@ -548,7 +548,7 @@ namespace GFHelper.Programe
                         case 4:
                             {
                                 //队长
-                                im.mainWindow.Gun4Name.Content = im.userdatasummery.FindGunName_GunId(item.Value.gun_id);
+                                im.mainWindow.Gun4Name.Content = TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(item.Value.gun_id));
                                 im.mainWindow.Gun4Lv.Content = item.Value.gun_level;
                                 im.mainWindow.Gun4Exp.Content = item.Value.gun_exp;
                                 im.mainWindow.Gun4Hp.Content = item.Value.life;
@@ -557,7 +557,7 @@ namespace GFHelper.Programe
                         case 5:
                             {
                                 //队长
-                                im.mainWindow.Gun5Name.Content = im.userdatasummery.FindGunName_GunId(item.Value.gun_id);
+                                im.mainWindow.Gun5Name.Content = TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(item.Value.gun_id));
                                 im.mainWindow.Gun5Lv.Content = item.Value.gun_level;
                                 im.mainWindow.Gun5Exp.Content = item.Value.gun_exp;
                                 im.mainWindow.Gun5Hp.Content = item.Value.life;
@@ -573,9 +573,10 @@ namespace GFHelper.Programe
             {
                 im.mainWindow.Dispatcher.Invoke(() =>
                 {
+                    if (im.mainWindow.Task1MT.SelectedIndex == -1) return;
                     if(im.userdatasummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1].ContainsKey(1))
                     {
-                        im.mainWindow.GUN_1_name.Content = Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(im.userdatasummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1][1].gun_id).ToString());
+                        im.mainWindow.GUN_1_name.Content = TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(im.userdatasummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1][1].gun_id).ToString());
                     }
                     else
                     {

@@ -242,9 +242,10 @@ namespace GFHelper.UserData
                     gwui.id = Convert.ToInt32(item.id);
                     gwui.user_id = Convert.ToInt32(item.user_id);
                     gwui.gun_id = Convert.ToInt32(item.gun_id);
-                    gwui.gun_exp = Convert.ToInt32(item.gun_exp);
+                    gwui._gun_exp = Convert.ToInt32(item.gun_exp);
                     gwui.gun_level = Convert.ToInt32(item.gun_level);
                     gwui._level = gwui.gun_level;
+                    gwui.level = gwui.gun_level;
                     gwui.team_id = Convert.ToInt32(item.team_id);
                     gwui.teamId = gwui.team_id;
                     gwui.if_modification = Convert.ToInt32(item.if_modification);
@@ -276,6 +277,7 @@ namespace GFHelper.UserData
                     gwui.soul_bond = Convert.ToInt32(item.soul_bond);
                     gwui.skin = Convert.ToInt32(item.skin);
                     gwui.can_click = Convert.ToInt32(item.can_click);
+                    //gwui.UpdateMaxLife();
                     gwui.UpdateData();
                     //gwui.crit = Convert.ToInt32(item.crit);
                     //gwui.piercing = Convert.ToInt32(item.piercing);
@@ -288,7 +290,7 @@ namespace GFHelper.UserData
                     //gwui.fairyArmor = Convert.ToInt32(item.fairyArmor);
                     //gwui.criHarmRate = Convert.ToInt32(item.criHarmRate);
 
-        gun_with_user_info.Add(gun_with_user_info.Count, gwui);
+                    gun_with_user_info.Add(gun_with_user_info.Count, gwui);
                 }
             }
             catch (Exception e)

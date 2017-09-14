@@ -118,14 +118,14 @@ namespace GFHelper.Programe
 
         }
 
-        public static void DeleteFile(string str)
+        public static void DeleteFile(string str, bool D=false)
         {
             DirectoryInfo path = new DirectoryInfo(Directory.GetCurrentDirectory());
             FileInfo[] files = path.GetFiles("*.*");
             //取得所有文件，然后判断文件名是否以"xxx-"开头
             for (int i = 0; i < files.Count(); i++)
             {
-                if (files[i].Name == str + ".json") continue;
+                if (files[i].Name == str + ".json" && D) continue;
                 if (files[i].Name.Contains(str))
                     files[i].Delete();
             }
@@ -161,19 +161,6 @@ namespace GFHelper.Programe
 
 
         }
-        private static void DownLoadNewCatchData(object sender, EventArgs e)
-        {
-            string abc = AC.EncryptTool.GetCryptoFileName("1098");
-            string url = "http://rescnf.gf.ppgame.com/data/" + abc;
-
-
-            using (WebClient client = new WebClient())
-            {
-                client.DownloadFileAsync(new Uri(url), Path.GetFileName("catchdata.dat"));
-                client.DownloadProgressChanged += client_DownloadProgressChanged;
-                client.DownloadFileCompleted += client_DownloadFileCompleted;
-            }
-        }
         static void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             ;
@@ -185,11 +172,12 @@ namespace GFHelper.Programe
             {
                 MessageBox.Show("文件下载被取消", "提示");
             }
-            MessageBox.Show("catchdata文件下载成功", "提示");
-            UnzipDataAndSave("catchdata.dat", ProgrameData.CatchDataVersion);
-
-            DeleteFile("catchdata");
-            ProgrameData.catchdataF = true;
+            if (e.Error == null && e.Cancelled == false)
+            {
+                UnzipDataAndSave("catchdata.dat", ProgrameData.CatchDataVersion);
+                DeleteFile("catchdata",true);
+                ProgrameData.catchdataF = true;
+            }
 
 
         }

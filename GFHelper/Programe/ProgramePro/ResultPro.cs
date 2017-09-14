@@ -10,6 +10,26 @@ namespace GFHelper.Programe.ProgramePro
 {
     public class ResultPro
     {
+        public static bool GetDigitalUid_Pro(ref string result)
+        {
+            if (result.Contains("Err_Msg") || result.Contains("Err_No")) return false;
+            try
+            {
+                var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, "yundoudou")); //讲道理，我真不想写了
+                ProgrameData.sign = jsonobj.sign.ToString();
+                ProgrameData.uid = jsonobj.uid.ToString();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("解析sign出现错误");
+                MessageBox.Show(string.Format("result = {0}", result));
+                MessageBox.Show(e.ToString());
+                return false;
+            }
+            return true;
+
+        }
+
 
         public static bool Simulation_DATA(ref string result)
         {

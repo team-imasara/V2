@@ -646,6 +646,11 @@ namespace GFHelper.CatchData
 
         public bool ReadCatchData()
         {
+            while (true)
+            {
+                if (ProgrameData.catchdataF == true) { break; }
+                System.Threading.Thread.Sleep(200);
+            }
 
             string catchdatafile = "catchdata.json"; /*ProgrameData.CatchDataVersion;//catchdata_版本号*/
             string jsondata;
@@ -676,10 +681,12 @@ namespace GFHelper.CatchData
             }
             catch (IOException e)
             {
+                MessageBox.Show(e.ToString());
                 return false;
             }
             catch (Exception e)
             {
+                MessageBox.Show(e.ToString());
                 return false;
             }
             
