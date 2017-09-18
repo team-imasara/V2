@@ -124,6 +124,7 @@ namespace GFHelper.Programe.ProgramePro
             {
                 MessageBox.Show("解析结果错误");
                 MessageBox.Show(e.ToString());
+                return false;
             }
             //字符串检查
             if (result.Contains("user_exp") && result.Contains("fairy_exp") && result.Contains("battle_rank") && result.Contains("free_exp"))

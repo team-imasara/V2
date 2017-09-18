@@ -298,6 +298,8 @@
                                 <RadioButton x:Name="GUN3_MVP" Content="MVP" HorizontalAlignment="Left" Margin="245,107,0,0" VerticalAlignment="Top" FontSize="10" Grid.Column="1"/>
                                 <RadioButton x:Name="GUN4_MVP" Content="MVP" HorizontalAlignment="Left" Margin="380,107,0,0" VerticalAlignment="Top" FontSize="10" Grid.Column="1"/>
                                 <RadioButton x:Name="GUN5_MVP" Content="MVP" HorizontalAlignment="Left" Margin="517,107,0,0" VerticalAlignment="Top" FontSize="10" Grid.Column="1"/>
+                                <Label Content="已执行次数:" Grid.Column="1" HorizontalAlignment="Left" Margin="356,22,0,0" VerticalAlignment="Top"/>
+                                <Label x:Name="Battle_Task1_LOOPTIME" Content="0" Grid.Column="1" HorizontalAlignment="Left" Margin="422,22,0,0" VerticalAlignment="Top" Width="54" RenderTransformOrigin="-0.481,0.72"/>
                             </Grid>
                         </TabItem>
                         <TabItem Header="Task2" Margin="10,-2,-10,0" Width="60" Height="22">
@@ -445,5 +447,6 @@
             </TabItem>
 
         </TabControl>
+        <Label Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="100" Margin="274,504,0,-151" VerticalAlignment="Top"/>
     </Grid>
 </Window>

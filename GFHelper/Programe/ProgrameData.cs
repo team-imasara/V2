@@ -65,5 +65,9 @@ namespace GFHelper.Programe
         public static bool friendUID;
         //UI设置
 
+        public static bool show_result_error = true;
+
+        public static int Error_Num_Stop = 10;
+
     }
 }

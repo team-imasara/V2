@@ -434,26 +434,26 @@ namespace GFHelper
 
 
 
-            Programe.Auto.Battle_Gun_Info[] gun = new Programe.Auto.Battle_Gun_Info[5];
-            //枪的效能 总效能
+            //Programe.Auto.Battle_Gun_Info[] gun = new Programe.Auto.Battle_Gun_Info[5];
+            ////枪的效能 总效能
 
-            for (int i = 1; i <= 5; i++)
-            {
-                if(im.userdatasummery.team_info[Task1MT.SelectedIndex + 1].ContainsKey(i) == true)
-                {
-                    Programe.Auto.Battle_Gun_Info temp = new Programe.Auto.Battle_Gun_Info();
-                    temp.id = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][i].id;
-                    temp.life = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][i].life;
-                    gun[i-1] = temp;
-                }
-            }
-            ubti.gun = gun.OrderBy(p => p.id).ToArray();
+            //for (int i = 1; i <= 5; i++)
+            //{
+            //    if(im.userdatasummery.team_info[Task1MT.SelectedIndex + 1].ContainsKey(i) == true)
+            //    {
+            //        Programe.Auto.Battle_Gun_Info temp = new Programe.Auto.Battle_Gun_Info();
+            //        temp.id = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][i].id;
+            //        temp.life = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][i].life;
+            //        gun[i-1] = temp;
+            //    }
+            //}
+            //ubti.gun = gun.OrderBy(p => p.id).ToArray();
 
 
             ubti.user_exp = im.userdatasummery.user_info.experience;//需要
 
 
-            ubti.Build_info(Task1Map.SelectedIndex,Task1MT.SelectedIndex+1,Task1ST1.SelectedIndex+1, gun, mvp);
+            ubti.Build_info(Task1Map.SelectedIndex,Task1MT.SelectedIndex+1,Task1ST1.SelectedIndex+1, mvp);
             ubti.Key = 0;
             im.dic_userbattletaskinfo[0]=ubti;
             im.TaskList.Add(Programe.TaskList.TaskBattle_1);

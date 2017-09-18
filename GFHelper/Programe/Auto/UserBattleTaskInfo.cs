@@ -84,10 +84,7 @@ namespace GFHelper.Programe.Auto
         public int Effect3=0;
         public int Effect4=0;
         public int Effect5;
-        public Battle_Gun_Info[] gun
-        {
-            get; set;
-        }
+
 
         internal Dictionary<int, Gun_With_User_Info> teaminfo=new Dictionary<int, Gun_With_User_Info>();
         public int user_exp;
@@ -155,7 +152,7 @@ namespace GFHelper.Programe.Auto
         public bool GunNeedWithDraw = false;//战斗中人形撤退
         public double GunWithDrawTimedelay = 0;//撤退延迟
 
-        public void Build_info(int taskmap, int mtID,int stID, Battle_Gun_Info[] gun,int mvp)
+        public void Build_info(int taskmap, int mtID,int stID,int mvp)
         {
             //地图
             this.TaskMap = taskmap;

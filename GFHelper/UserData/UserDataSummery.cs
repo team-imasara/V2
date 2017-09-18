@@ -289,8 +289,17 @@ namespace GFHelper.UserData
                     //gwui.fairyDodge = Convert.ToInt32(item.fairyDodge);
                     //gwui.fairyArmor = Convert.ToInt32(item.fairyArmor);
                     //gwui.criHarmRate = Convert.ToInt32(item.criHarmRate);
+                    int i = 0;
+                    while (true)
+                    {
+                        if (!gun_with_user_info.ContainsKey(i))
+                        {
+                            gun_with_user_info.Add(i, gwui);
+                            break;
+                        }
+                        i++;
+                    }
 
-                    gun_with_user_info.Add(gun_with_user_info.Count, gwui);
                 }
             }
             catch (Exception e)
@@ -655,8 +664,16 @@ namespace GFHelper.UserData
                 ewui.adjust_count = Convert.ToInt32( jsonobj.battle_get_equip.adjust_count);
                 ewui.is_locked = Convert.ToInt32( jsonobj.battle_get_equip.is_locked);
                 ewui.last_adjust =  jsonobj.battle_get_equip.last_adjust.ToString();
-
-                equip_with_user_info.Add(equip_with_user_info.Last().Key+1, ewui);
+                int i = 0;
+                while (true)
+                {
+                    if (!equip_with_user_info.ContainsKey(i))
+                    {
+                        equip_with_user_info.Add(i, ewui);
+                        break;
+                    }
+                    i++;
+                }
             }
             catch (Exception e)
             {
@@ -846,7 +863,9 @@ namespace GFHelper.UserData
         public void Read_Equipment_Upgrade()
         {
             equip_with_user_info_Upgrade.Clear();
-            int type = im.mainWindow.UpgradeEquipType.SelectedIndex + 1;
+            int type=0;
+            im.mainWindow.UpgradeEquipType.Dispatcher.Invoke(new Action(() => { type = im.mainWindow.UpgradeEquipType.SelectedIndex + 1; }));
+
 
             foreach (var item in equip_with_user_info_Rank5)
             {
@@ -1221,7 +1240,7 @@ namespace GFHelper.UserData
         /// </summary>
         /// <param name="teamid"></param>
         /// <param name="mvp"></param>
-        public void Update_GUN_Pos(int teamid,int mvpid)
+        public bool Update_GUN_Pos(int teamid,int mvpid)
         {
             //mvp位置是8
             //其他 7 9 13 14
@@ -1307,12 +1326,20 @@ namespace GFHelper.UserData
             jsonWriter.WriteObjectEnd();
             string jsonstring = stringBuilder.ToString();
 
-            if (jsonstring.Contains(":")==false) return;
-            if (im.post.setPosition(jsonstring) !="1")
-                MessageBox.Show("setPosition出错");
-
-
-
+            if (jsonstring.Contains(":") == false) return true;
+            int count = 0;
+            while (true)
+            {
+                string result = im.post.setPosition(jsonstring);
+                if (result == "1")
+                {
+                    return true;
+                }
+                else
+                {
+                    Programe.ACTION.result_error_PRO(result, count++);
+                }
+            }
 
         }
 

@@ -347,6 +347,7 @@ namespace GFHelper.Programe
             im.mainWindow.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(
     () =>
     {
+        im.mainWindow.Battle_Task1_LOOPTIME.Content = im.dic_userbattletaskinfo[0].BattleLoopTime.ToString();
         //基础动能超导动能
         im.mainWindow.textBPnum.Text = im.userdatasummery.user_info.bp.ToString();
         im.mainWindow.textBP_PayNUM.Text = im.userdatasummery.user_info.bp_pay.ToString();

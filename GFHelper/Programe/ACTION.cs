@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -682,7 +683,7 @@ namespace GFHelper.Programe
 
 
             //判断是否为空
-            if (string.IsNullOrEmpty(equipFood.ToString()) == true) return;
+            if (string.IsNullOrEmpty(equipFood.ToString())) return;
             var obj = new
             {
 
@@ -695,75 +696,123 @@ namespace GFHelper.Programe
             var jsonStringFromObj = DynamicJson.Serialize(obj);
 
             //发送请求
-            string result = im.post.Eat_Equip(jsonStringFromObj.ToString());
-
             //数据处理
-            if(ProgramePro.ResultPro.Eat_Equip_ResultPro(ref result) == true)
+            int count = 0;
+            while (true)
             {
-                //加经验 检测是否 超过等级
-                im.userdatasummery.Check_Equipment_Update(im.userdatasummery.equip_with_user_info_Upgrade[0].id, Convert.ToInt32(result),im.userdatasummery.equip_with_user_info[0].equip_level);
-                //删除装备
-                im.userdatasummery.Del_Equip_IN_Dict(equipFood);
+                string result = im.post.Eat_Equip(jsonStringFromObj.ToString());
+                if (ProgramePro.ResultPro.Eat_Equip_ResultPro(ref result))
+                {
+                    //加经验 检测是否 超过等级
+                    im.userdatasummery.Check_Equipment_Update(im.userdatasummery.equip_with_user_info_Upgrade[0].id, Convert.ToInt32(result), im.userdatasummery.equip_with_user_info[0].equip_level);
+                    //删除装备
+                    im.userdatasummery.Del_Equip_IN_Dict(equipFood);
+                    return;
+                }
+                else
+                {
+                    result_error_PRO(result, count++);
+                }
             }
-
 
         }
 
         //战斗相关
         public bool startMission(int mission_id,Programe.Auto.Spots[] spots)
         {
-            // 一个 int mission_id 一个数组
-            //{"mission_id":90018,"spots":[{"spot_id":3033,"team_id":6},{"spot_id":3057,"team_id":7}]}
-
-            // Create New JsonObject
+            Thread.Sleep(8000);
+            int count = 0;
             dynamic newjson = new DynamicJson();
             newjson.mission_id /*这是节点*/ = mission_id;/* 这是值*/
             newjson.spots = spots ;
 
             var jsonstring = newjson.ToString();
 
-
-            //发送请求
-            string result = im.post.startMission(jsonstring);
-
-            //数据处理
-            if (ProgramePro.ResultPro.Start_Mission_ResultPro(result) == true)
+            while (true)
             {
-                return true;
+                string result = "";
+                result = im.post.startMission(jsonstring);
+
+                if (ResultPro.Start_Mission_ResultPro(result))
+                {
+                    return true;
+                }
+                else
+                {
+                    result_error_PRO(result, count++);
+                }
+
             }
-            return false;
         }
 
-        public bool teamMove(Programe.Auto.TeamMove teammove)
+        public bool teamMove(Auto.TeamMove teammove)
         {
             //{"team_id":6,"from_spot_id":3033,"to_spot_id":3038,"move_type":1}
+            Thread.Sleep(3000);
             dynamic newjson = new DynamicJson();
             newjson.team_id /*这是节点*/ = teammove.team_id;/* 这是值*/
             newjson.from_spot_id /*这是节点*/ = teammove.from_spot_id;/* 这是值*/
             newjson.to_spot_id /*这是节点*/ = teammove.to_spot_id;/* 这是值*/
             newjson.move_type /*这是节点*/ = teammove.move_type;/* 这是值*/
             var jsonstring = newjson.ToString();
-
+            int count = 0;
             //发送请求
-            string result = im.post.teamMove(jsonstring);
-            if (ProgramePro.ResultPro.Team_Move_ResultPro(result) == true)
+            while (true)
             {
-                return true;
+                string result = "";
+                result = im.post.teamMove(jsonstring);
+                if (ResultPro.Team_Move_ResultPro(result))
+                {
+                    return true;
+                }
+                else
+                {
+                    result_error_PRO(result, count++);
+                }
             }
-            return false;
         }
 
         public bool Normal_battleFinish(string data,ref string result)
         {
-
-            ProgramePro.WriteLog.Log(data);
-            //发送请求
-            result = im.post.battleFinish(data);
-            if (ProgramePro.ResultPro.Battle_Finish_ResultPro(ref result) == true)
+            int count = 0;
+            while (true)
             {
-                return true;
+                result = im.post.battleFinish(data);
+                if(ResultPro.Battle_Finish_ResultPro(ref result))
+                {
+                    Thread.Sleep(5000);
+                    return true;
+                }
+                else
+                {
+                    result_error_PRO(result, count++);
+                }
             }
-            return false;
+        }
+        public bool withdrawTeam(int spot_id)
+        {
+            //{"spot_id":3033}
+            var obj = new
+            {
+                spot_id = spot_id,
+            };
+            int count = 0;
+            var jsonStringFromObj = DynamicJson.Serialize(obj);
+            //发送请求
+            while (true)
+            {
+                string result = "";
+                result = im.post.withdrawTeam(jsonStringFromObj.ToString());
+                if (ProgramePro.ResultPro.WithDraw_Team_ResultPro(result))
+                {
+                    Thread.Sleep(3000);
+                    return true;
+                }
+                else
+                {
+                    result_error_PRO(result, count++);
+                }
+            }
         }
 
         public bool Simulation_battleFinish(string data, ref string result)
@@ -779,39 +828,67 @@ namespace GFHelper.Programe
         }
 
 
-        public bool withdrawTeam(int spot_id)
+        public bool SupplyTeam(int team_id)
         {
-            //{"spot_id":3033}
-            var obj = new
+            dynamic newjson = new DynamicJson();
+            newjson.team_id /*这是节点*/ = team_id;/* 这是值*/
+            int count = 0;
+            while (true)
             {
-                spot_id = spot_id,
-            };
-            var jsonStringFromObj = DynamicJson.Serialize(obj);
-            //发送请求
-            string result = im.post.withdrawTeam(jsonStringFromObj.ToString());
-            if (ProgramePro.ResultPro.WithDraw_Team_ResultPro(result) == true)
-            {
-                return true;
+                string result = im.post.SupplyTeam(newjson.ToString());
+                if (ResultPro.GUN_OUTandIN_Team(result))
+                {
+                    Thread.Sleep(2000);
+                    return true;
+                }
+                else
+                {
+                    result_error_PRO(result, count++);
+                }
             }
-            return false;
         }
 
 
         public bool abortMission()
         {
             //caa6f92d234e04c034f88c9eb445fd45(sign)
-
-            string result = im.post.abortMission();
-            if (ProgramePro.ResultPro.Abort_Mission_ResultPro(result) == true)
+            int count = 0;
+            while (true)
             {
-                return true;
+                string result = "";
+                result = im.post.abortMission();
+                if (ResultPro.Abort_Mission_ResultPro(result))
+                {
+                    Thread.Sleep(2000);
+                    return true;
+                }
+                else
+                {
+                    result_error_PRO(result, count++);
+                }
             }
-            return false;
         }
+
+        public static void result_error_PRO(string result,int count)
+        {
+            //第二次post 返回error:2可能是服务器已经接受但是没有返回成功 可以尝试继续
+            WriteLog.Log(result);
+            if (ProgrameData.show_result_error)
+            {
+                MessageBox.Show(result);
+            }
+            if (ProgrameData.Error_Num_Stop == count)
+            {
+                MessageBox.Show("错误次数达到上限");
+                //错误次数达到上线
+            }
+        }
+
 
         public bool GUN_OUT_Team(int mvp_id,Dictionary<int,Gun_With_User_Info> teaminfo)
         {
             //{"team_id":6,"gun_with_user_id":0,"location":4}
+            int count = 0;
             foreach (var item in teaminfo)
             {
                 if(item.Value.id != mvp_id)
@@ -821,14 +898,17 @@ namespace GFHelper.Programe
                     newjson.gun_with_user_id /*这是节点*/ = 0;/* 这是值*/
                     newjson.location /*这是节点*/ = item.Value.location;/* 这是值*/
                     var jsonstring = newjson.ToString();
-                    string result = im.post.GUN_OUTandIN_Team(jsonstring);
-                    if (ProgramePro.ResultPro.GUN_OUTandIN_Team(result) == true)
+                    while (true)
                     {
-                        continue;
-                    }
-                    else
-                    {
-                        return false;
+                        string result = im.post.GUN_OUTandIN_Team(jsonstring);
+                        if (ResultPro.GUN_OUTandIN_Team(result))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            result_error_PRO(result, count++);
+                        }
                     }
                 }
             }
@@ -838,6 +918,7 @@ namespace GFHelper.Programe
         public bool GUN_IN_Team(int mvp_id, Dictionary<int, Gun_With_User_Info> teaminfo)
         {
             //{"team_id":6,"gun_with_user_id":0,"location":4}
+            int count = 0;
             foreach (var item in teaminfo)
             {
                 if (item.Value.id != mvp_id)
@@ -847,35 +928,23 @@ namespace GFHelper.Programe
                     newjson.gun_with_user_id /*这是节点*/ = item.Value.id;/* 这是值*/
                     newjson.location /*这是节点*/ = item.Value.location;/* 这是值*/
                     var jsonstring = newjson.ToString();
-                    string result = im.post.GUN_OUTandIN_Team(jsonstring);
-                    if (ProgramePro.ResultPro.GUN_OUTandIN_Team(result) == true)
+                    while (true)
                     {
-                        continue;
-                    }
-                    else
-                    {
-                        return false;
+                        string result = im.post.GUN_OUTandIN_Team(jsonstring);
+                        if (ProgramePro.ResultPro.GUN_OUTandIN_Team(result))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            result_error_PRO(result, count++);
+                        }
                     }
                 }
             }
             return true;
         }
 
-        public bool SupplyTeam(int team_id)
-        {
-            dynamic newjson = new DynamicJson();
-            newjson.team_id /*这是节点*/ = team_id;/* 这是值*/
-            var jsonstring = newjson.ToString();
-            string result = im.post.SupplyTeam(jsonstring);
-            if (ProgramePro.ResultPro.GUN_OUTandIN_Team(result) == true)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
 
-        }
     }
 }

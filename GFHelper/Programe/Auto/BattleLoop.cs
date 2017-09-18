@@ -45,31 +45,12 @@ namespace GFHelper.Programe.Auto
             ubti.withdrawPOS1 = 14;
 
             im.uihelp.setStatusBarText_InThread(String.Format(" 检查装备仓库是否满额"));
+            Check_Equip_FULL();
 
-            if (im.userdatasummery.Check_Equip_FULL())
-            {
-                im.action.Eat_Equip();//升级
-                //装备满了 需要升级或者拆解
-            }
 
             //是否需要单独补给
             im.uihelp.setStatusBarText_InThread(String.Format(" 检查是否需要单独补给"));
-            if (im.userdatasummery.CheckGun_AMMO_MRC_NEED_SUPORT(ubti.mvp,1))
-            {
-                im.action.GUN_OUT_Team(ubti.mvp, ubti.teaminfo);
-                Thread.Sleep(12000);
-                im.action.startMission(Map_Sent.Map5_2N.mission_id, Map_Sent.Map5_2N.Mission_Start_spots);
-                Thread.Sleep(2000);
-                if (im.action.SupplyTeam(ubti.TaskMianTeam_ID) == false) MessageBox.Show("补给梯队错误");
-                Thread.Sleep(1500);
-                im.action.withdrawTeam(Map_Sent.Map5_2N.withdrawSpot);
-                Thread.Sleep(1500);
-                im.action.abortMission();
-                Thread.Sleep(3000);
-                im.action.GUN_IN_Team(ubti.mvp, ubti.teaminfo);
-                im.userdatasummery.Gun_mre_ammo_REFILL(ubti.mvp);
-                return;
-            }
+            CheckGun_AMMO_MRC_NEED_SUPORT(ubti, 1);
 
             //阵型确定
             im.uihelp.setStatusBarText_InThread(String.Format(" 检查阵型"));
@@ -78,62 +59,36 @@ namespace GFHelper.Programe.Auto
             //部署梯队
             //回合开始
             im.uihelp.setStatusBarText_InThread(String.Format(" 回合开始"));
-            Thread.Sleep(12000);
-            if (im.action.startMission(Map_Sent.Map5_2N.mission_id,Map_Sent.Map5_2N.Mission_Start_spots))
-            {
+            im.action.startMission(Map_Sent.Map5_2N.mission_id, Map_Sent.Map5_2N.Mission_Start_spots);
 
-                Thread.Sleep(2000);
-            }
-            //补给
+
             //右移一步
             im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map5_2N.dic_TeamMove[stepNum]));
-            if (im.action.teamMove(Map_Sent.Map5_2N.dic_TeamMove[stepNum++]))
-            {
-                Thread.Sleep(8000);
-            }
+            im.action.teamMove(Map_Sent.Map5_2N.dic_TeamMove[stepNum++]);
+
             //战斗结算 经验，装备，指挥官经验
             //建立
 
             Normal_Battle_Sent bs1 = new Normal_Battle_Sent();
-
             bs1.spot_id = 3038;
             bs1.mvp = ubti.mvp;
             bs1.user_rec.seed = ubti.seed;
-
             bs1.battle_damage.enemy_effect_client = 11830;
             bs1.battle_damage.team_effect_30 = ubti.TeamEffect;
             bs1.battle_damage.team_effect_60 = ubti.TeamEffect;
             bs1.battle_damage.true_time = 3.7;
             bs1.set_data(ubti);
             im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
-            if (im.action.Normal_battleFinish(bs1.BattleResult,ref result) == true)
+
+            if (im.action.Normal_battleFinish(bs1.BattleResult,ref result))
             {
-                var jsonobj = Codeplex.Data.DynamicJson.Parse(result);
-
-
-                im.userdatasummery.user_info.experience += Convert.ToInt16(jsonobj.user_exp);
-                //装备
-                im.userdatasummery.Add_Get_Equip_Battle(jsonobj);
-                //人形经验
-                int numE = 0;
-                im.userdatasummery.UpdateGun_Exp(jsonobj, ref numE);
-                ubti.TeamEffect += numE;
-                //效能更新 升级后 hp的差额加入效能 是否重新入字典
-                ubti.teaminfo = im.userdatasummery.im.userdatasummery.team_info[ubti.TaskMianTeam_ID];//需要
-                im.userdatasummery.BattleFinish_ammo_mrc(ubti.TaskMianTeam_ID);
-                Thread.Sleep(3000);
-
+                Battle_Result_PRO(ref ubti, ref result);
             }
-            else
-            {
-                MessageBox.Show(string.Format("错误 result = {0}", result));
-            }
+
             //右移一步
             im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map5_2N.dic_TeamMove[stepNum]));
-            if (im.action.teamMove(Map_Sent.Map5_2N.dic_TeamMove[stepNum++]))
-            {
-                Thread.Sleep(10000);
-            }
+            im.action.teamMove(Map_Sent.Map5_2N.dic_TeamMove[stepNum++]);
+
             Normal_Battle_Sent bs2 = new Normal_Battle_Sent();
 
             bs1.spot_id = 3047;
@@ -148,48 +103,28 @@ namespace GFHelper.Programe.Auto
 
             //战斗结算 经验装备
             im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
-            if (im.action.Normal_battleFinish(bs1.BattleResult, ref result) == true)
+            if (im.action.Normal_battleFinish(bs1.BattleResult, ref result))
             {
-                var jsonobj = Codeplex.Data.DynamicJson.Parse(result);
-                int user_exp = Convert.ToInt16(jsonobj.user_exp);
-                //装备
-                im.userdatasummery.Add_Get_Equip_Battle(jsonobj);
-                //人形经验
-                int numE = 0;
-                im.userdatasummery.UpdateGun_Exp(jsonobj, ref numE);
-                ubti.TeamEffect += numE;
-                ubti.teaminfo = im.userdatasummery.im.userdatasummery.team_info[ubti.TaskMianTeam_ID];//需要
-                im.userdatasummery.BattleFinish_ammo_mrc(ubti.TaskMianTeam_ID);
-                Thread.Sleep(4000);
+                Battle_Result_PRO(ref ubti, ref result);
             }
-            else
-            {
-                MessageBox.Show(string.Format("错误 result = {0}", result));
-            }
+
+
             //左移一步
             im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map5_2N.dic_TeamMove[stepNum]));
-            if (im.action.teamMove(Map_Sent.Map5_2N.dic_TeamMove[stepNum++]))
-            {
-                Thread.Sleep(2000);
-            }
+            im.action.teamMove(Map_Sent.Map5_2N.dic_TeamMove[stepNum++]);
+
+
             //左移一步
             im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map5_2N.dic_TeamMove[stepNum]));
-            if (im.action.teamMove(Map_Sent.Map5_2N.dic_TeamMove[stepNum++]))
-            {
-                Thread.Sleep(2000);
-            }
+            im.action.teamMove(Map_Sent.Map5_2N.dic_TeamMove[stepNum++]);
+
             //撤离
             im.uihelp.setStatusBarText_InThread(String.Format(" 撤离"));
-            if (im.action.withdrawTeam(Map_Sent.Map5_2N.withdrawSpot))
-            {
-                Thread.Sleep(2000);
-            }
+            im.action.withdrawTeam(Map_Sent.Map5_2N.withdrawSpot);
+
             //战役结束
             im.uihelp.setStatusBarText_InThread(String.Format(" 终止作战"));
-            if (im.action.abortMission())
-            {
-                Thread.Sleep(2000);
-            }
+            im.action.abortMission();
             //结算
         }
 
@@ -202,11 +137,11 @@ namespace GFHelper.Programe.Auto
             ubti.BattleLoopTime++;
 
 
-            if (im.userdatasummery.Check_Equip_FULL())
-            {
-                //装备满了
-                return;
-            }
+            //if (im.userdatasummery.Check_Equip_FULL())
+            //{
+            //    //装备满了
+            //    return;
+            //}
 
 
             if (ubti.BattleLoopTime<=ubti.BattleMaxLoopTime || ubti.BattleMaxLoopTime==0)
@@ -215,6 +150,47 @@ namespace GFHelper.Programe.Auto
                 ContinueLoopBattle(ubti);
             }
 
+        }
+
+        public void Check_Equip_FULL()
+        {
+            if (im.userdatasummery.Check_Equip_FULL())
+            {
+                im.action.Eat_Equip();//升级
+                //装备满了 需要升级或者拆解
+            }
+        }
+
+        public void CheckGun_AMMO_MRC_NEED_SUPORT(User_Normal_BattleTaskInfo ubti,int num)
+        {
+            if (im.userdatasummery.CheckGun_AMMO_MRC_NEED_SUPORT(ubti.mvp, num))
+            {
+                im.uihelp.setStatusBarText_InThread(String.Format(" 正在单独补给 (移出队伍)"));
+                im.action.GUN_OUT_Team(ubti.mvp, ubti.teaminfo);
+                im.action.startMission(Map_Sent.Map5_2N.mission_id, Map_Sent.Map5_2N.Mission_Start_spots);
+                im.uihelp.setStatusBarText_InThread(String.Format(" 正在单独补给 (单独补给)"));
+                im.action.SupplyTeam(ubti.TaskMianTeam_ID);
+                im.action.withdrawTeam(Map_Sent.Map5_2N.withdrawSpot);
+                im.action.abortMission();
+                im.uihelp.setStatusBarText_InThread(String.Format(" 正在单独补给 (移入队伍)"));
+                im.action.GUN_IN_Team(ubti.mvp, ubti.teaminfo);
+                im.userdatasummery.Gun_mre_ammo_REFILL(ubti.mvp);
+            }
+        }
+
+        public void Battle_Result_PRO(ref User_Normal_BattleTaskInfo ubti,ref string result)
+        {
+            var jsonobj = Codeplex.Data.DynamicJson.Parse(result);
+            im.userdatasummery.user_info.experience += Convert.ToInt16(jsonobj.user_exp);
+            //装备
+            im.userdatasummery.Add_Get_Equip_Battle(jsonobj);
+            //人形经验
+            int numE = 0;
+            im.userdatasummery.UpdateGun_Exp(jsonobj, ref numE);
+            ubti.TeamEffect += numE;
+            //效能更新 升级后 hp的差额加入效能 是否重新入字典
+            ubti.teaminfo = im.userdatasummery.im.userdatasummery.team_info[ubti.TaskMianTeam_ID];//需要
+            im.userdatasummery.BattleFinish_ammo_mrc(ubti.TaskMianTeam_ID);
         }
 
         public void ContinueLoopBattle(User_Normal_BattleTaskInfo ubti)
@@ -299,6 +275,10 @@ namespace GFHelper.Programe.Auto
 
 
             }
+
+
+
+
 
     }
 }
