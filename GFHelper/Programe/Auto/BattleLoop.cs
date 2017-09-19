@@ -91,19 +91,19 @@ namespace GFHelper.Programe.Auto
 
             Normal_Battle_Sent bs2 = new Normal_Battle_Sent();
 
-            bs1.spot_id = 3047;
-            bs1.mvp = ubti.mvp;
-            bs1.user_rec.seed = ubti.seed;
+            bs2.spot_id = 3047;
+            bs2.mvp = ubti.mvp;
+            bs2.user_rec.seed = ubti.seed;
 
-            bs1.battle_damage.enemy_effect_client = 14196;
-            bs1.battle_damage.team_effect_30 = ubti.TeamEffect;
-            bs1.battle_damage.team_effect_60 = ubti.TeamEffect;
-            bs1.battle_damage.true_time = 5.1;
-            bs1.set_data(ubti);
+            bs2.battle_damage.enemy_effect_client = 14196;
+            bs2.battle_damage.team_effect_30 = ubti.TeamEffect;
+            bs2.battle_damage.team_effect_60 = ubti.TeamEffect;
+            bs2.battle_damage.true_time = 5.1;
+            bs2.set_data(ubti);
 
             //战斗结算 经验装备
             im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
-            if (im.action.Normal_battleFinish(bs1.BattleResult, ref result))
+            if (im.action.Normal_battleFinish(bs2.BattleResult, ref result))
             {
                 Battle_Result_PRO(ref ubti, ref result);
             }
