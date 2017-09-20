@@ -182,6 +182,11 @@ namespace GFHelper.Programe.ProgramePro
         public static bool Eat_Equip_ResultPro(ref string result)
         {
             //如果是网络错误 如连接超时 另外考虑
+            if (result.Contains("error"))
+            {
+
+                return false;
+            }
             try
             {
                 result = AuthCode.Decode(result, ProgrameData.sign);
