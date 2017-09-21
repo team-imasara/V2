@@ -10,6 +10,8 @@ using EyLogin;
 using System.IO;
 using System.Net;
 using System.IO.Compression;
+using System.Diagnostics;
+using System.Security.Principal;
 
 namespace GFHelper.Programe
 {
@@ -58,7 +60,7 @@ namespace GFHelper.Programe
 
 
 
-        public static bool CheckCatchDataVersion(int Ncatchdatversion)
+        public static bool CheckCatchDataVersion(string Ncatchdatversion)
         {
             if (Ncatchdatversion == ProgrameData.CatchDataVersion)
             {
@@ -79,44 +81,7 @@ namespace GFHelper.Programe
 
 
 
-        public static bool checkT()
-        {
-            return true;
-            try
-            {
-                EyLoginSoft eyLogin = new EyLoginSoft();
-                string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();//获取主版本号     
-
-                eyLogin.SetAppKey("D5FA256E997E4E728DCEC4FB5111ACDF"); // 设置程序秘钥~一定要设置,否则无法正常使用控件
-                ProgrameData.UserMcCode = eyLogin.GetMachineCode();
-                MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-                ProgrameData.UserMcCode = BitConverter.ToString(md5.ComputeHash(UTF8Encoding.Default.GetBytes(ProgrameData.UserMcCode)), 4, 8);
-                ProgrameData.UserMcCode = ProgrameData.UserMcCode.Replace("-", "");
-                ProgrameData.UserMcCode = ProgrameData.UserMcCode.ToLower();
-                ProgrameData.UserMcCode = ProgrameData.UserMcCode.Remove(0, 1);
-                ProgrameData.UserMcCode = ProgrameData.UserMcCode.Insert(0, "a");
-                int ret0 = eyLogin.UserLogin(ProgrameData.UserMcCode, "a123456789", "v1.0.0", eyLogin.GetMachineCode());
-                if (ret0 == 1)//登陆成功
-                {
-                    eyLogin.OpenUserCheck();
-                    return true;
-                }
-                else
-                {
-                    MessageBox.Show("验证网络连接失败!");
-                    MessageBox.Show("机器码 : " + ProgrameData.UserMcCode);
-                    MessageBox.Show(UnicodeToString(eyLogin.GetLastMessages()));
-                    return false;
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString());
-                throw;
-            }
-
-
-        }
+      
 
         public static void DeleteFile(string str, bool D=false)
         {
@@ -141,7 +106,8 @@ namespace GFHelper.Programe
                 //检查catchdata版本
 
                 string catchdataAdd = AC.EncryptTool.GetCryptoFileName(ProgrameData.CatchDataVersion.ToString());
-                string url = "http://rescnf.gf.ppgame.com/data/" + catchdataAdd;
+
+                string url = "http://rescnf.gf.ppgame.com/data/" + catchdataAdd.ToString();
 
                 //下载
                 using (WebClient client = new WebClient())
@@ -161,6 +127,8 @@ namespace GFHelper.Programe
 
 
         }
+
+
         static void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             ;
@@ -181,7 +149,7 @@ namespace GFHelper.Programe
 
 
         }
-        static void UnzipDataAndSave(string dataFilePath, int dataVersion, string saveFile = "catchdata.json")
+        static void UnzipDataAndSave(string dataFilePath, string dataVersion, string saveFile = "catchdata.json")
         {
             byte[] buffer = new byte[0x400];
             StringBuilder builder = new StringBuilder();
@@ -238,7 +206,45 @@ namespace GFHelper.Programe
         }
 
 
+        public static bool RegisterDll()
+        {
+            bool result = true;
+            try
+            {
+                string dllPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "EyLogin.dll");//获得要注册的dll的物理路径
+                if (!File.Exists(dllPath))
+                {
+                    MessageBox.Show(string.Format("“{0}”目录下无“XXX.dll”文件！", AppDomain.CurrentDomain.BaseDirectory));
 
+                    return false;
+                }
+                //拼接命令参数
+                string startArgs = string.Format("/s \"{0}\"", dllPath);
+
+                Process p = new Process();//创建一个新进程，以执行注册动作
+                p.StartInfo.FileName = "regsvr32";
+                p.StartInfo.Arguments = startArgs;
+
+                //以管理员权限dll文件
+                WindowsIdentity winIdentity = WindowsIdentity.GetCurrent();
+                WindowsPrincipal winPrincipal = new WindowsPrincipal(winIdentity);
+                if (!winPrincipal.IsInRole(WindowsBuiltInRole.Administrator))
+                {
+                    p.StartInfo.Verb = "runas";//管理员权限运行
+                }
+                p.Start();
+                p.WaitForExit();
+                p.Close();
+                p.Dispose();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format("注册XXX.dll时出错,错误信息：{0}", ex.Message));
+                result = false;
+            }
+
+            return result;
+        }
 
 
     }

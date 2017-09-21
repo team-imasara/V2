@@ -18,6 +18,8 @@ using System.Net;
 using System.Threading;
 using Codeplex.Data;
 using GFHelper.Programe;
+using System.Runtime.InteropServices;
+
 namespace GFHelper
 {
     /// <summary>
@@ -30,8 +32,10 @@ namespace GFHelper
         private InstanceManager im;
 
         Thread countdown, CompleteMisson;
+
         public MainWindow()
         {
+            CommonHelp.RegisterDll();
             InitializeComponent();
             try
             {
@@ -171,8 +175,9 @@ namespace GFHelper
         {
             im.mainWindow.CheckT.IsEnabled = false;
 
-            var getIndex_version = new Task<int>(im.post.Index_version);
-            var CheckT = new Task<bool>(CommonHelp.checkT);
+            var getIndex_version = new Task<string>(im.post.Index_version);
+
+            var CheckT = new Task<bool>(im.userlogin.checkT);
             var CCD = new Task<bool>(CommonHelp.CheckCatchData);
             getIndex_version.ContinueWith(p =>
             {

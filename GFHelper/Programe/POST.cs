@@ -1,4 +1,5 @@
 ﻿using Codeplex.Data;
+using GFHelper.Programe.ProgramePro;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -96,7 +97,7 @@ namespace GFHelper.Programe
             return true;
         }
 
-        public int Index_version()//这个API发的是当前时间戳？
+        public string Index_version()//这个API发的是当前时间戳？
         {
 
             IDictionary<string, string> parameters = new Dictionary<string, string>();
@@ -114,7 +115,7 @@ namespace GFHelper.Programe
 
             string data = StringBuilder_(parameters);
             string result = "";
-            int catchdataversion=0;
+
 
             while (string.IsNullOrEmpty(result) == true)
             {
@@ -122,16 +123,34 @@ namespace GFHelper.Programe
                 result = DoPost(ProgrameData.GameAdd + RequestUrls.Index_version, data.ToString());//明码不需要解密
                 //result = CommonHelp.StringD(result);
                 var jsonobj = DynamicJson.Parse(result); //讲道理，我真不想写了
-
-                catchdataversion = Convert.ToInt32(jsonobj.data_version);
-                ProgrameData.CatchDataVersion = Convert.ToInt32(jsonobj.data_version);
+                
+                ProgrameData.CatchDataVersion = jsonobj.data_version.ToString();
                 ProgrameData.tomorrow_zero = Convert.ToInt32(jsonobj.tomorrow_zero);
                 ProgrameData.weekday = Convert.ToInt32(jsonobj.weekday);
 
             }
-            return catchdataversion;
+            return ProgrameData.CatchDataVersion;
         }
-
+        public static int ConvertStringVersionToInterger(string version)
+        {
+            int num;
+            bool flag = int.TryParse(version, out num);
+            int result;
+            if (flag)
+            {
+                result = num;
+            }
+            else
+            {
+                num = 1;
+                for (int i = 0; i < version.Length; i++)
+                {
+                    num = (int)version[i] * num % 9999;
+                }
+                result = num;
+            }
+            return result;
+        }
         public string  GetDigitalUid(string data)
         {
 
@@ -433,15 +452,19 @@ namespace GFHelper.Programe
             outdatacode = "{\"operation_id\":" + operationid.ToString() + "}";
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
             string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
-
-            string result = DoPost(ProgrameData.GameAdd + RequestUrls.FinishOperation, requeststring);//不需要解密
-
-            return ProgramePro.ResultPro.Finish_Operation_ResultPro(result);
-
+            int count = 0;
+            while (true)
+            {
+                string result = DoPost(ProgrameData.GameAdd + RequestUrls.FinishOperation, requeststring);//不需要解密
+                if (ResultPro.Result_Pro(ref result, "Finish_Operation_Pro", true) == 1) { return true; }
+                if (ResultPro.Result_Pro(ref result, "Finish_Operation_Pro", true) == 0) { ACTION.result_error_PRO(result, count++); continue; }
+                if (ResultPro.Result_Pro(ref result, "Finish_Operation_Pro", true) == -1) { return false; /*特殊处理我还没想好*/; }
             }
 
+        }
 
-            //"{\"item_id\":\"\",\"big_success\":0}"
+
+        //"{\"item_id\":\"\",\"big_success\":0}"
 
 
 
@@ -583,28 +606,26 @@ namespace GFHelper.Programe
             }
         }
 
-        public bool StartTrial(string teamids)
+        public string StartTrial(string teamids)
         {
             string outdatacode = "";
-            outdatacode = "{\"team_ids\":" + "\""+ teamids.ToString() + "\""+"," + "\"battle_team\":" + teamids.ToString() + "}";
+            outdatacode = "{\"team_ids\":" + "\"" + teamids.ToString() + "\"" + "," + "\"battle_team\":" + teamids.ToString() + "}";
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
             string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
 
 
             string result = DoPost(ProgrameData.GameAdd + RequestUrls.StartTrial, requeststring);
+            return result;
+        }
 
-            return ProgramePro.ResultPro.StartTrial_ResultPro(result);
-
-         }
-
-        public bool EndTrial(string outdatacode)
+        public string EndTrial(string outdatacode)
         {
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
             string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
 
             string result = DoPost(ProgrameData.GameAdd + RequestUrls.EndTrial, requeststring);
+            return result;
 
-            return ProgramePro.ResultPro.EndTrial_ResultPro(result);
 
         }
 
@@ -613,10 +634,11 @@ namespace GFHelper.Programe
             string outdatacode = AuthCode.Encode(ProgrameData.sign, ProgrameData.sign);//用自身作为密匙把自身加密
             string requeststring = String.Format("uid={0}&signcode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
             string result = DoPost(ProgrameData.GameAdd + RequestUrls.Dorm_Info, requeststring);
-            return ProgramePro.ResultPro.GetFriend_DormInfo(result);
+            return result;
+
         }
 
-        public bool Get_Build_Coin(string v_user_id,string dorm_id)
+        public string Get_Build_Coin(string v_user_id,string dorm_id)
         {
             //{"v_user_id":"54634","dorm_id":1}
             string outdatacode = "{\"v_user_id\":" + "\""+v_user_id +"\""+ "," + "\"dorm_id\":" + dorm_id + "}";
@@ -624,14 +646,15 @@ namespace GFHelper.Programe
             string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
 
             string result = DoPost(ProgrameData.GameAdd + RequestUrls.Get_Friend_Build_Coin, requeststring);
-            return ProgramePro.ResultPro.Get_Friend_Build_Coin(result);
+            return result;
         }
         public string GetRecoverBP()
         {
             string outdatacode = AuthCode.Encode(ProgrameData.sign, ProgrameData.sign);//用自身作为密匙把自身加密
             string requeststring = String.Format("uid={0}&signcode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
             string result = DoPost(ProgrameData.GameAdd + RequestUrls.RecoverBp, requeststring);
-            return ProgramePro.ResultPro.Get_RecoverBP(result);
+            return result;
+
         }
 
         public string Eat_Equip(string outdatacode)

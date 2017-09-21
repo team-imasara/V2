@@ -21,6 +21,9 @@ namespace GFHelper
         public POST post = new POST();
         public ConfigManager configManager;
 
+
+        public EyLoginSoft eyLogin = new EyLoginSoft();
+        public UserLogin userlogin;
         //data
         public Programe.TextRes.Asset_Textes asset_textes;//解析后勤 枪 日常任务等代码
         public CatchDataSummery catchdatasummery;
@@ -42,7 +45,7 @@ namespace GFHelper
 
         public InstanceManager(MainWindow mainWindow)
         {
-
+            this.userlogin = new UserLogin(this);
             this.mainWindow = mainWindow;
             this.backgroundthread = new BackgroundThread(this);
             this.uihelp = new UIHelp(this);

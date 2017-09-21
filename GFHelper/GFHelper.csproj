@@ -91,7 +91,7 @@
   <ItemGroup>
     <Reference Include="AuthCode, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\AuthCode.dll</HintPath>
+      <HintPath>Resources\AuthCode.dll</HintPath>
     </Reference>
     <Reference Include="LitJson">
       <HintPath>Resources\LitJson.dll</HintPath>
@@ -177,6 +177,7 @@
     <Compile Include="UserData\Operation_Act_Info.cs" />
     <Compile Include="UserData\UserDataSummery.cs" />
     <Compile Include="UserData\User_Info.cs" />
+    <Compile Include="UserLogin.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
