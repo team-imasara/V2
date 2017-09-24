@@ -22,6 +22,7 @@ namespace GFHelper.Programe.ProgramePro
         {
 
             if (result == "first") { return 0; }//第一次发送
+            if (result=="") { return -1; }//
             if (result.Contains("error")) { return -1; }//我也不知道return 什么好
             if (result.Contains("Err_Msg") || result.Contains("Err_No")) return -1;
             if (need_decode)

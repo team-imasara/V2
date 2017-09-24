@@ -12,6 +12,7 @@ using System.Net;
 using System.IO.Compression;
 using System.Diagnostics;
 using System.Security.Principal;
+using Microsoft.Win32;
 
 namespace GFHelper.Programe
 {
@@ -208,7 +209,10 @@ namespace GFHelper.Programe
 
         public static bool RegisterDll()
         {
-            bool result = true;
+            RegistryKey rkTest = Registry.ClassesRoot.OpenSubKey("CLSID\\{3674FE01-AB81-4659-AFA0-1245D0E1531B}\\");
+            if (rkTest != null) return true;
+
+                bool result = true;
             try
             {
                 string dllPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "EyLogin.dll");//获得要注册的dll的物理路径

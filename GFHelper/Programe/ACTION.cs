@@ -175,7 +175,7 @@ namespace GFHelper.Programe
                 result = im.post.GetDigitalUid(data);
                 if(ResultPro.Result_Pro(ref result, "GetDigitalUid_Pro", false) == 1) { return true; }
                 if (ResultPro.Result_Pro(ref result, "GetDigitalUid_Pro", false) == 0) { MessageBox.Show(result); continue; }
-                if (ResultPro.Result_Pro(ref result, "GetDigitalUid_Pro", false) == -1) { return false; /*特殊处理我还没想好*/; }
+                if (ResultPro.Result_Pro(ref result, "GetDigitalUid_Pro", false) == -1) { MessageBox.Show(result); return false; /*特殊处理我还没想好*/; }
             }
         }
 
@@ -482,7 +482,7 @@ namespace GFHelper.Programe
                 string result = im.post.StartTrial(ProgrameData.AutoDefenseTrialBattleT.ToString());
                 if (ResultPro.Result_Pro(ref result, "StartTrial_Pro", true) == 1) { return true; }
                 if (ResultPro.Result_Pro(ref result, "StartTrial_Pro", true) == 0) { result_error_PRO(result, count++); continue; }
-                if (ResultPro.Result_Pro(ref result, "StartTrial_Pro", true) == -1) { return false; /*特殊处理我还没想好*/; }
+                if (ResultPro.Result_Pro(ref result, "StartTrial_Pro", true) == -1) { MessageBox.Show(result); return false; /*特殊处理我还没想好*/; }
             }
 
             im.uihelp.setStatusBarText_InThread(String.Format(" 结束防御模式"));
@@ -497,7 +497,7 @@ namespace GFHelper.Programe
                 string result = im.post.EndTrial(outdatacode);
                 if (ResultPro.Result_Pro(ref result, "EndTrial_Pro", true) == 1) { return true; }
                 if (ResultPro.Result_Pro(ref result, "EndTrial_Pro", true) == 0) { result_error_PRO(result, count++); continue; }
-                if (ResultPro.Result_Pro(ref result, "EndTrial_Pro", true) == -1) { return false; /*特殊处理我还没想好*/; }
+                if (ResultPro.Result_Pro(ref result, "EndTrial_Pro", true) == -1) { MessageBox.Show(result); return false; /*特殊处理我还没想好*/; }
             }
         }
 
@@ -515,7 +515,7 @@ namespace GFHelper.Programe
                     return true;
                 }
                 if (ResultPro.Result_Pro(ref result, "Get_RecoverBP_Pro", true) == 0) { result_error_PRO(result, count++); continue; }
-                if (ResultPro.Result_Pro(ref result, "Get_RecoverBP_Pro", true) == -1) { return false; /*特殊处理我还没想好*/; }
+                if (ResultPro.Result_Pro(ref result, "Get_RecoverBP_Pro", true) == -1) { MessageBox.Show(result); return false; /*特殊处理我还没想好*/; }
             }
         }
 
@@ -532,7 +532,7 @@ namespace GFHelper.Programe
                     string result = im.post.Get_Build_Coin(im.userdatasummery.dorm_with_user_info.info.user_id, im.userdatasummery.dorm_with_user_info.info.dorm_id);
                     if (ResultPro.Result_Pro(ref result, "Get_Friend_Build_Coin_Pro", true) == 1) { return true; }
                     if (ResultPro.Result_Pro(ref result, "Get_Friend_Build_Coin_Pro", true) == 0) { result_error_PRO(result, count++); continue; }
-                    if (ResultPro.Result_Pro(ref result, "Get_Friend_Build_Coin_Pro", true) == -1) { return false; /*特殊处理我还没想好*/; }
+                    if (ResultPro.Result_Pro(ref result, "Get_Friend_Build_Coin_Pro", true) == -1) { MessageBox.Show(result); return false; /*特殊处理我还没想好*/; }
                 }
 
             }
@@ -554,9 +554,10 @@ namespace GFHelper.Programe
                     {
                         var jsonobj = DynamicJson.Parse(result);
                         im.userdatasummery.ReadDormData(jsonobj);
+                        return true;
                     }
                     if (ResultPro.Result_Pro(ref result, "GetFriend_DormInfo_Pro", true) == 0) { result_error_PRO(result, count++); continue; }
-                    if (ResultPro.Result_Pro(ref result, "GetFriend_DormInfo_Pro", true) == -1) { return false; /*特殊处理我还没想好*/; }
+                    if (ResultPro.Result_Pro(ref result, "GetFriend_DormInfo_Pro", true) == -1) { MessageBox.Show(result); return false; /*特殊处理我还没想好*/; }
                 }
             }
             catch (Exception)
@@ -610,7 +611,7 @@ namespace GFHelper.Programe
                     return true;
                 }
                 if (ResultPro.Result_Pro(ref result, "Eat_Equip_Pro", true) == 0) { result_error_PRO(result, count++); continue; }
-                if (ResultPro.Result_Pro(ref result, "Eat_Equip_Pro", true) == -1) { return false; /*特殊处理我还没想好*/; }
+                if (ResultPro.Result_Pro(ref result, "Eat_Equip_Pro", true) == -1) { MessageBox.Show(result); return false; /*特殊处理我还没想好*/; }
             }
         }
 
@@ -628,7 +629,7 @@ namespace GFHelper.Programe
                 string result = im.post.startMission(newjson.ToString());
                 if (ResultPro.Result_Pro(ref result, "Start_Mission_Pro", true) == 1) { return true; }
                 if (ResultPro.Result_Pro(ref result, "Start_Mission_Pro", true) == 0) { result_error_PRO(result, count++); continue; }
-                if (ResultPro.Result_Pro(ref result, "Start_Mission_Pro", true) == -1) { return false; /*特殊处理我还没想好*/; }
+                if (ResultPro.Result_Pro(ref result, "Start_Mission_Pro", true) == -1) { MessageBox.Show(result); return false; /*特殊处理我还没想好*/; }
             }
         }
 
@@ -649,7 +650,7 @@ namespace GFHelper.Programe
                 string result = im.post.teamMove(newjson.ToString());
                 if (ResultPro.Result_Pro(ref result, "Team_Move_Pro", true) == 1) { return true; }
                 if (ResultPro.Result_Pro(ref result, "Team_Move_Pro", true) == 0) { result_error_PRO(result, count++); continue; }
-                if (ResultPro.Result_Pro(ref result, "Team_Move_Pro", true) == -1) { return false; /*特殊处理我还没想好*/; }
+                if (ResultPro.Result_Pro(ref result, "Team_Move_Pro", true) == -1) { MessageBox.Show(result); return false; /*特殊处理我还没想好*/; }
             }
         }
 
@@ -662,7 +663,7 @@ namespace GFHelper.Programe
                 result = im.post.battleFinish(data);
                 if (ResultPro.Result_Pro(ref result, "Battle_Finish_Pro", true) == 1) { return true; }
                 if (ResultPro.Result_Pro(ref result, "Battle_Finish_Pro", true) == 0) { result_error_PRO(result, count++); continue; }
-                if (ResultPro.Result_Pro(ref result, "Battle_Finish_Pro", true) == -1) { return false; /*特殊处理我还没想好*/; }
+                if (ResultPro.Result_Pro(ref result, "Battle_Finish_Pro", true) == -1) { MessageBox.Show(result); return false; /*特殊处理我还没想好*/; }
             }
         }
         public bool withdrawTeam(int spot_id)
@@ -681,7 +682,7 @@ namespace GFHelper.Programe
 
                 if (ResultPro.Result_Pro(ref result, "WithDraw_Team_Pro", true) == 1) { return true; }
                 if (ResultPro.Result_Pro(ref result, "WithDraw_Team_Pro", true) == 0) { result_error_PRO(result, count++); continue; }
-                if (ResultPro.Result_Pro(ref result, "WithDraw_Team_Pro", true) == -1) { return false; /*特殊处理我还没想好*/; }
+                if (ResultPro.Result_Pro(ref result, "WithDraw_Team_Pro", true) == -1) { MessageBox.Show(result); return false; /*特殊处理我还没想好*/; }
             }
         }
 
@@ -695,7 +696,7 @@ namespace GFHelper.Programe
 
                 if (ResultPro.Result_Pro(ref result, "Simulation_DATA_Pro", true) == 1) { return true; }
                 if (ResultPro.Result_Pro(ref result, "Simulation_DATA_Pro", true) == 0) { result_error_PRO(result, count++); continue; }
-                if (ResultPro.Result_Pro(ref result, "Simulation_DATA_Pro", true) == -1) { return false; /*特殊处理我还没想好*/; }
+                if (ResultPro.Result_Pro(ref result, "Simulation_DATA_Pro", true) == -1) { MessageBox.Show(result); return false; /*特殊处理我还没想好*/; }
             }
         }
 
@@ -711,7 +712,7 @@ namespace GFHelper.Programe
                 Thread.Sleep(2000);
                 if (ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false) == 1) { return true; }
                 if (ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false) == 0) { result_error_PRO(result, count++); continue; }
-                if (ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false) == -1) { return false; /*特殊处理我还没想好*/; }
+                if (ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false) == -1) { MessageBox.Show(result); return false; /*特殊处理我还没想好*/; }
             }
         }
 
@@ -726,7 +727,7 @@ namespace GFHelper.Programe
                 Thread.Sleep(2000);
                 if (ResultPro.Result_Pro(ref result, "Abort_Mission_Pro", true) == 1) { return true; }
                 if (ResultPro.Result_Pro(ref result, "Abort_Mission_Pro", true) == 0) { result_error_PRO(result, count++); continue; }
-                if (ResultPro.Result_Pro(ref result, "Abort_Mission_Pro", true) == -1) { return false; /*特殊处理我还没想好*/; }
+                if (ResultPro.Result_Pro(ref result, "Abort_Mission_Pro", true) == -1) { MessageBox.Show(result); return false; /*特殊处理我还没想好*/; }
             }
         }
 
@@ -764,7 +765,7 @@ namespace GFHelper.Programe
                         string result = im.post.GUN_OUTandIN_Team(newjson.ToString());
                         if (ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false) == 1) { return true; }
                         if (ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false) == 0) { result_error_PRO(result, count++); continue; }
-                        if (ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false) == -1) { return false; /*特殊处理我还没想好*/; }
+                        if (ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false) == -1) { MessageBox.Show(result); return false; /*特殊处理我还没想好*/; }
                     }
                 }
             }
@@ -788,7 +789,7 @@ namespace GFHelper.Programe
                         string result = im.post.GUN_OUTandIN_Team(newjson.ToString());
                         if (ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false) == 1) { return true; }
                         if (ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false) == 0) { result_error_PRO(result, count++); continue; }
-                        if (ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false) == -1) { return false; /*特殊处理我还没想好*/; }
+                        if (ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false) == -1) { MessageBox.Show(result); return false; /*特殊处理我还没想好*/; }
                     }
                 }
             }

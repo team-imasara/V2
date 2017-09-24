@@ -23,16 +23,24 @@ namespace GFHelper.Programe
 
         public static int ShowTeamID = 1;
 
-        public  void MainWindowTitle()
+        public void MainWindowTitle()
         {
-            if (im.TaskList.Any())
+            try
             {
-                im.mainWindow.Title = string.Format(" 少女前线-暗 当前任务 " + im.TaskList[0].TaskName.ToString());
+                if (im.TaskList.Any())
+                {
+                    im.mainWindow.Title = string.Format(" 少女前线-暗 当前任务 " + im.TaskList[0].TaskName.ToString());
+                }
+                else
+                {
+                    im.mainWindow.Title = string.Format(" 少女前线-暗 当前任务 空闲");
+                }
             }
-            else
+            catch (Exception e)
             {
-                im.mainWindow.Title = string.Format(" 少女前线-暗 当前任务 空闲");
+                ;
             }
+
 
         }
 
