@@ -395,17 +395,13 @@ namespace GFHelper
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            im.userdatasummery.Update_GUN_Pos(6, 256315);
-            //int i = 0;
+            im.action.Get_dicGun_Combine();
 
-            //for (; i < im.userdatasummery.gun_with_user_info.Count; i++)
-            //{
-            //    if (im.userdatasummery.gun_with_user_info[i].teamId == 7)
-            //    {
-            //        im.userdatasummery.gun_with_user_info[i].UpdateData();
-            //        im.userdatasummery.gun_with_user_info[i].GetPoint(true);
-            //    }
-            //}
+
+
+
+
+
         }
 
         private void Button_Click_6(object sender, RoutedEventArgs e)
@@ -417,6 +413,9 @@ namespace GFHelper
 
         private void Button_Click_7(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show("请确保已勾选升级的装备,MVP,战斗效能和正确的梯队 重要的人形上锁");
+            MessageBox.Show("请确保已勾选升级的装备,MVP,战斗效能和正确的梯队 重要的人形上锁");
+            MessageBox.Show("请确保已勾选升级的装备,MVP,战斗效能和正确的梯队 重要的人形上锁");
             int mvp=0;//mvp不用理
 
             Programe.Auto.User_Normal_BattleTaskInfo ubti = new Programe.Auto.User_Normal_BattleTaskInfo();

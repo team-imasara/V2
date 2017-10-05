@@ -110,6 +110,40 @@ namespace GFHelper.CatchData.CatchDataFunc
                 }
             }
             return result;
+        }   
+        // Token: 0x06001851 RID: 6225 RVA: 0x000843F4 File Offset: 0x000825F4
+        public static float GetEquipLevelUpRate(int rarity)
+        {
+            if (rarity < 1)
+            {
+                return 0f;
+            }
+            if (CatchDataSummery.equip_exp_Rate_info.Count == 0)
+            {
+                string[] array = GetString("equip_exp_rate").Split(new char[]
+                {
+                ','
+                });
+                string[] array2 = array;
+                for (int i = 0; i < array2.Length; i++)
+                {
+                    string text = array2[i];
+                    string text2 = text.Split(new char[]
+                    {
+                    ':'
+                    })[0];
+                    string text3 = text.Split(new char[]
+                    {
+                    ':'
+                    })[1];
+                    CatchDataSummery.equip_exp_Rate_info.Add(int.Parse(text2), float.Parse(text3));
+                }
+            }
+            if (CatchDataSummery.equip_exp_Rate_info.ContainsKey(rarity))
+            {
+                return CatchDataSummery.equip_exp_Rate_info[rarity];
+            }
+            return 0f;
         }
     }
 }

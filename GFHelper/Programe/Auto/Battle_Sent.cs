@@ -14,27 +14,34 @@ namespace GFHelper.Programe.Auto
         public void set_data(User_Normal_BattleTaskInfo ubti)
         {
             Random random = new Random();
-            int r1 = random.Next(50, 60);
+
 
             this.mvp = ubti.mvp;
             //this.gun = ubti.gun;
             teaminfo = ubti.teaminfo;
 
-            if (ubti.withdrawNUM == 1)
-            {
-                record tempRecod = new record(r1, ubti.withdrawgunid1, 1, 0, false);
-                this.user_rec.listRecord.Add(tempRecod);
 
-            }
-            if(ubti.withdrawNUM == 2)
+            switch (ubti.TaskMap)
             {
-                //"{\"seed\":11464086,\"record\":[\"81,41020270,1,0,False\",\"106,2547569,1,0,False\"]}"
-                record tempRecod1 = new record(r1, ubti.withdrawgunid1, 1, 0, false);
-                record tempRecod2 = new record(r1 + random.Next(13, 20), ubti.withdrawgunid2, 1, 0, false);
-                this.user_rec.listRecord.Add(tempRecod1);
-                this.user_rec.listRecord.Add(tempRecod2);
+                case 0://5-2N
+                    {
+                        int r1 = random.Next(50, 60);
+                        record tempRecod = new record(r1, ubti.withdrawgunid1, 1, 0, false);
+                        this.user_rec.listRecord.Add(tempRecod);
+                        break;
+                    }
+                case 1://7-6
+                    {
+                        int r1 = random.Next(150, 180);
+                        record tempRecod1 = new record(r1, ubti.withdrawgunid1, 1, 0, false);
+                        record tempRecod2 = new record(r1 + random.Next(20, 50), ubti.withdrawgunid2, 1, 0, false);
+                        this.user_rec.listRecord.Add(tempRecod1);
+                        this.user_rec.listRecord.Add(tempRecod2);
+                        break;
+                    }
+                default:
+                    break;
             }
-
             this.skill_cd = ubti.TeamEffect;
 
         }

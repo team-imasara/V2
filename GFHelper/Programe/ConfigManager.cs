@@ -198,7 +198,7 @@ namespace GFHelper
                 ProgrameData.SimulationTeamEffect = this.im.configManager.getConfigInt("SimulationTeamEffect");
                 ProgrameData.SimulationDataDuration = double.Parse(this.im.configManager.getConfigString("SimulationDataDuration"));
 
-
+                ProgrameData.show_result_error = this.im.configManager.getConfigBool("Result_Error_Show");
                 ProgrameData.StopTime_string = this.im.configManager.getConfigString("StopTime");
 
                 ProgrameData.friendUID = this.im.configManager.getConfigBool("friendUID");

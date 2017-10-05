@@ -25,8 +25,9 @@ namespace GFHelper.CatchData
         public Dictionary<int, Auto_Mission_Info> auto_mission_info = new Dictionary<int, Auto_Mission_Info>();
         public Dictionary<int, Fairy_Type_Info> fairy_type_info = new Dictionary<int, Fairy_Type_Info>();
         public Dictionary<int, Fairy_Info> fairy_info = new Dictionary<int, CatchData.Fairy_Info>();
-        public Dictionary<int, Equip_Exp_Info> equip_exp_info = new Dictionary<int, Equip_Exp_Info>();
-        public Dictionary<int, Equip_Info> equip_info = new Dictionary<int, Equip_Info>();
+        public static Dictionary<int, int> equip_exp_info = new Dictionary<int, int>();
+        public static Dictionary<int, float> equip_exp_Rate_info = new Dictionary<int, float>();
+        public static Dictionary<int, Equip_Info> equip_info = new Dictionary<int, Equip_Info>();
         public Dictionary<int, Gun_Info> gun_info = new Dictionary<int, Gun_Info>();
         public static Dictionary<GunType, Gun_Type_Info> gun_type_info = new Dictionary<GunType, Gun_Type_Info>();
         public Dictionary<int, Kalina_Favor_Info> kalina_favor_info = new Dictionary<int, Kalina_Favor_Info>();
@@ -45,8 +46,8 @@ namespace GFHelper.CatchData
             this.auto_mission_info.Clear();
             this.fairy_type_info.Clear();
             this.fairy_info.Clear();
-            this.equip_exp_info.Clear();
-            this.equip_info.Clear();
+            equip_exp_info.Clear();
+            equip_info.Clear();
             this.gun_info.Clear();
             //this.gun_type_info.Clear();
             this.kalina_favor_info.Clear();
@@ -209,10 +210,7 @@ namespace GFHelper.CatchData
             {
                 foreach (var item in jsonobj.equip_exp_info)
                 {
-                    Equip_Exp_Info eei = new Equip_Exp_Info();
-                    eei.level = Convert.ToInt32(item.level);
-                    eei.exp = Convert.ToInt32(item.exp);
-                    equip_exp_info.Add(eei.level-1, eei);
+                    equip_exp_info.Add(Convert.ToInt32(item.level), Convert.ToInt32(item.exp));
                 }
             }
             catch (Exception e )
@@ -278,16 +276,9 @@ namespace GFHelper.CatchData
                     double.TryParse(item.powerup_ammo, out ei.powerup_ammo);
                     double.TryParse(item.powerup_mre, out ei.powerup_mre);
                     double.TryParse(item.powerup_part, out ei.powerup_part);
-                    double.TryParse(item.exclusive_rate, out ei.exclusive_rate);
+                    float.TryParse(item.exclusive_rate, out ei.exclusive_rate);//专有没办法的啦 3倍
 
                     ei.bonus_type = item.bonus_type.ToString();
-                    //foreach (var x in item.bonus_type.Split(','))
-                    //{
-                    //    if (String.IsNullOrEmpty(x)) continue;
-                    //    //x -> hit:5
-                    //    string[] sArray = x.Split(':');
-                    //    ei.bonus_type.Add(sArray[0].ToString(), Convert.ToInt32(sArray[1]));
-                    //}
 
                     int.TryParse(item.skill, out ei.skill);
                     int.TryParse(item.max_level, out ei.max_level);

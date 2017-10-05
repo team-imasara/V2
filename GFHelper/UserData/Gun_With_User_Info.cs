@@ -19,9 +19,9 @@ namespace GFHelper.UserData
             this.im = im;
         }
 
-        public int id;
+        public int id;//这个是与user有关的id 通常是6位数
         public int user_id;
-        public int gun_id;
+        public int gun_id;//这是是2位数
         public int _gun_exp;
         public int gun_exp
         {
@@ -153,7 +153,49 @@ namespace GFHelper.UserData
         public int[] arrEffectGridBuff = new int[8];
 
 
-
+        public int Core_COMbineNeed
+        {
+            get
+            {
+                switch (info.rank)
+                {
+                    case 2:
+                        {
+                            if (number == 1) return 1;
+                            if (number == 2) return 1;
+                            if (number == 3) return 2;
+                            if (number == 4) return 3;
+                            return 0;
+                        }
+                    case 3:
+                        {
+                            if (number == 1) return 3;
+                            if (number == 2) return 3;
+                            if (number == 3) return 6;
+                            if (number == 4) return 9;
+                            return 0;
+                        }
+                    case 4:
+                        {
+                            if (number == 1) return 9;
+                            if (number == 2) return 9;
+                            if (number == 3) return 18;
+                            if (number == 4) return 27;
+                            return 0;
+                        }
+                    case 5:
+                        {
+                            if (number == 1) return 15;
+                            if (number == 2) return 15;
+                            if (number == 3) return 30;
+                            if (number == 4) return 45;
+                            return 0;
+                        }
+                    default:
+                        return 0;
+                }
+            }
+        }
 
 
 

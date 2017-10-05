@@ -677,6 +677,15 @@ namespace GFHelper.Programe
             string result = DoPost(ProgrameData.GameAdd + RequestUrls.StartMission, requeststring);
             return result;
         }
+        
+        public string reinforceTeam(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.ReinforceTeam, requeststring);
+            return result;
+        }
 
         public string teamMove(string outdatacode)
         {
@@ -711,7 +720,20 @@ namespace GFHelper.Programe
             string result = DoPost(ProgrameData.GameAdd + RequestUrls.AbortMission, requeststring);
             return result;
         }
-
+        public string endTurn()
+        {
+            string outdatacode = AuthCode.Encode(ProgrameData.sign, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&signcode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.EndTurn, requeststring);
+            return result;
+        }
+        public string startTurn()
+        {
+            string outdatacode = AuthCode.Encode(ProgrameData.sign, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&signcode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.StartTurn, requeststring);
+            return result;
+        }
         public string GUN_OUTandIN_Team(string outdatacode)
         {
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
@@ -741,6 +763,35 @@ namespace GFHelper.Programe
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
             string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
             string result = DoPost(ProgrameData.GameAdd + RequestUrls.coinBattleFinish, requeststring);
+            return result;
+        }
+        public string Girl_Fix(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.FixGun, requeststring);
+            return result;
+        }
+        public string Retire_Gun(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.RetireGun, requeststring);
+            return result;
+        }
+
+        public string EatGun(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.EatGun, requeststring);
+            return result;
+        }
+        public string combineGun(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.CombineGun, requeststring);
             return result;
         }
     }

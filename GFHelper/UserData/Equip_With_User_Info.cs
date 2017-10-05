@@ -1,4 +1,5 @@
 ﻿using GFHelper.CatchData;
+using GFHelper.CatchData.CatchDataFunc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace GFHelper.UserData
         // Token: 0x0400161A RID: 5658
         private int _nightResistance;
         // Token: 0x04001607 RID: 5639
-        public Equip_Info info;
+        public Equip_Info info=new Equip_Info();
         // Token: 0x170005CC RID: 1484
         // (get) Token: 0x060017B2 RID: 6066 RVA: 0x0007B6B0 File Offset: 0x000798B0
         // (set) Token: 0x060017B1 RID: 6065 RVA: 0x0007B6A4 File Offset: 0x000798A4
@@ -80,5 +81,79 @@ namespace GFHelper.UserData
             return value;
         }
         public int night_view_percent;
+
+
+
+
+        /// <summary>
+        /// 传入一个exp,返回升了多少级
+        /// </summary>
+        /// <param name="expAdded"></param>
+        /// <returns></returns>
+        public int GetLevelToBeAdded(int expAdded)
+        {
+            int i = expAdded + GetCurrentLevelExp();
+            int num = equip_level + 1;
+            int num2 = 0;
+            while (i >= 0)
+            {
+                i -= CalculateExpToNextLevel(num);
+                num++;
+                if (i >= 0)
+                {
+                    num2++;
+                }
+            }
+            return num2;
+        }
+        public int GetCurrentLevelExp()
+        {
+            return this.equip_exp - this.GetTotalExpToLevel(this.equip_level);
+        }
+
+        public int CalculateExpToNextLevel(int nextLevel)
+        {
+            int num;
+            if (nextLevel > 1)
+            {
+                if (nextLevel - 1 < CatchDataSummery.equip_exp_info.Count)
+                {
+                    num = CatchDataSummery.equip_exp_info[nextLevel] - CatchDataSummery.equip_exp_info[nextLevel - 1];
+                }
+                else
+                {
+                    num = 99999;
+                }
+            }
+            else if (nextLevel == 1)
+            {
+                num = CatchDataSummery.equip_exp_info[nextLevel];
+            }
+            else
+            {
+                num = 0;
+            }
+            float equipLevelUpRate = Game_Config_Info_Func.GetEquipLevelUpRate((int)this.info.rank);
+            float exclusiveRate = this.info.exclusive_rate;
+            return Mathf.CeilToInt((float)num * equipLevelUpRate * exclusiveRate);
+        }
+
+        // Token: 0x060017C1 RID: 6081 RVA: 0x0007BC30 File Offset: 0x00079E30
+        public int GetTotalExpToLevel(int level)
+        {
+            int num;
+            if (level >= 1)
+            {
+                num = CatchDataSummery.equip_exp_info[level];
+            }
+            else
+            {
+                num = 0;
+            }
+            float equipLevelUpRate = Game_Config_Info_Func.GetEquipLevelUpRate(this.info.rank);
+            return Mathf.CeilToInt((float)num * equipLevelUpRate * this.info.exclusive_rate);
+        }
+
+
     }
 }

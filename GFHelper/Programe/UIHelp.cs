@@ -1,4 +1,5 @@
-﻿using GFHelper.UserData;
+﻿using GFHelper.CatchData;
+using GFHelper.UserData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -174,7 +175,7 @@ namespace GFHelper.Programe
                     im.mainWindow.textFixSlot.Text = im.userdatasummery.user_info.max_fix_slot.ToString();
                     im.mainWindow.textUpgradeSlot.Text = im.userdatasummery.user_info.max_upgrade_slot.ToString();
 
-                    im.mainWindow.textGunNum.Text = String.Format("{0}/{1}", im.userdatasummery.user_info.gun_collect.Count, im.userdatasummery.user_info.maxgun);
+                    im.mainWindow.textGunNum.Text = String.Format("{0}/{1}", im.userdatasummery.gun_with_user_info.Count, im.userdatasummery.user_info.maxgun);
                     im.mainWindow.textTeamNum.Text = im.userdatasummery.user_info.maxteam.ToString();
                     im.mainWindow.textUnlockRatio.Text = ((int)((double)im.userdatasummery.user_info.gun_collect.Count / (double)im.catchdatasummery.gun_info.Count * 100)).ToString() + "%";
 
@@ -324,7 +325,7 @@ namespace GFHelper.Programe
                 string itemtext="";
                 for(int i = 1; i <= 20; i++)
                 {
-                    foreach (var item in im.catchdatasummery.equip_info)
+                    foreach (var item in CatchDataSummery.equip_info)
                     {
                         if (i == item.Value.type && item.Value.rank ==5)
                         {
@@ -355,6 +356,8 @@ namespace GFHelper.Programe
             im.mainWindow.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(
     () =>
     {
+        setUserInfo();
+
         im.mainWindow.Battle_Task1_LOOPTIME.Content = im.dic_userbattletaskinfo[0].BattleLoopTime.ToString();
         //基础动能超导动能
         im.mainWindow.textBPnum.Text = im.userdatasummery.user_info.bp.ToString();

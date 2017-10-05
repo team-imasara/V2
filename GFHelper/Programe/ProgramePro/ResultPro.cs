@@ -22,7 +22,7 @@ namespace GFHelper.Programe.ProgramePro
         {
 
             if (result == "first") { return 0; }//第一次发送
-            if (result=="") { return -1; }//
+            if (result=="") { return 0; }//
             if (result.Contains("error")) { return -1; }//我也不知道return 什么好
             if (result.Contains("Err_Msg") || result.Contains("Err_No")) return -1;
             if (need_decode)
@@ -73,7 +73,7 @@ namespace GFHelper.Programe.ProgramePro
                     }
                 case "WithDraw_Team_Pro":
                     {
-                        return result.Contains("spot_id") && result.Contains("boss_hp") ? 1 : 0;
+                        return result.Contains("spot_id") || result.Contains("[]") ? 1 : 0;
                     }
                 case "Battle_Finish_Pro":
                     {
@@ -81,7 +81,7 @@ namespace GFHelper.Programe.ProgramePro
                     }
                 case "Team_Move_Pro":
                     {
-                        return result.Contains("spot_id") && result.Contains("fairy_skill_return") ? 1 : 0;
+                        return result.Contains("fairy_skill_perform") && result.Contains("fairy_skill_return") ? 1 : 0;
                     }
                 case "Start_Mission_Pro":
                     {
@@ -115,6 +115,20 @@ namespace GFHelper.Programe.ProgramePro
                     {
                         return result.Contains("recover_bp") && result.Contains("last_bp_recover_time") ? 1 : 0;
                     }
+                case "endTurn":
+                    {
+                        return result.Contains("mission_win_result") && result.Contains("mission_lose_result")&&result.Contains("fairy_skill_perform") ? 1 : 0;
+                    }
+                case "startTurn":
+                    {
+                        return result.Contains("mission_lose_result") && result.Contains("mission_win_result") && result.Contains("fairy_skill_return") ? 1 : 0;
+                    }
+
+                case "EatGun":
+                    {
+                        return result.Contains("pow") && result.Contains("dodge") && result.Contains("rate") ? 1 : 0;
+                    }
+
                 default:
                     break;
             }

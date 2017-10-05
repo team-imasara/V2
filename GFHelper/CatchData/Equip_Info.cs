@@ -48,7 +48,7 @@ namespace GFHelper.CatchData
         public double powerup_ammo;
         public double powerup_mre;
         public double powerup_part;
-        public double exclusive_rate;
+        public float exclusive_rate;
 
         public string bonus_type;
 

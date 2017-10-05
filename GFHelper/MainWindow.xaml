@@ -273,6 +273,7 @@
                                 <Label Content="地图 :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="24"/>
                                 <ComboBox x:Name="Task1Map" VerticalAlignment="Top" Width="164" Margin="86,14,0,0" Height="36" HorizontalAlignment="Left" FontSize="18" Grid.ColumnSpan="2">
                                     <ComboBoxItem Content="5-2N"/>
+                                    <ComboBoxItem Content="7-6"/>
                                 </ComboBox>
                                 <Label Content="主梯队 :" HorizontalAlignment="Left" Margin="87,10,0,0" VerticalAlignment="Top" FontSize="24" Grid.Column="1"/>
                                 <Label Content="辅梯队 :" HorizontalAlignment="Left" Margin="87,51,0,0" VerticalAlignment="Top" FontSize="24" Grid.Column="1"/>

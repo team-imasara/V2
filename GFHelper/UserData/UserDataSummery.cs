@@ -1,4 +1,6 @@
 ﻿using Codeplex.Data;
+using GFHelper.CatchData;
+using GFHelper.CatchData.CatchDataFunc;
 using LitJson;
 using System;
 using System.Collections.Generic;
@@ -45,6 +47,10 @@ namespace GFHelper.UserData
         /// team_info,int key 就是一个梯队
         /// </summary>
         public Dictionary<int, Dictionary<int,Gun_With_User_Info>> team_info = new Dictionary<int, Dictionary<int,Gun_With_User_Info>>();//没读一次user_info都需要刷新
+        public static List<int> Gun_Retire_Rank2 = new List<int>();
+        public static List<int> Gun_Retire_Rank3 = new List<int>();
+        public static Dictionary<int, Gun_With_User_Info> dicGun_PowerUP = new Dictionary<int,Gun_With_User_Info>();
+        public static Dictionary<int, Gun_With_User_Info> dicGun_Combine = new Dictionary<int, Gun_With_User_Info>();
 
         public int FriendLv;
 
@@ -388,7 +394,10 @@ namespace GFHelper.UserData
                     ewui.adjust_count = Convert.ToInt32(item.Value.adjust_count);
                     ewui.is_locked = Convert.ToInt32(item.Value.is_locked);
                     ewui.last_adjust = item.Value.last_adjust.ToString();
-
+                    foreach (var x in CatchDataSummery.equip_info)
+                    {
+                        if (x.Value.id == Convert.ToInt32(item.Value.equip_id)) ewui.info = x.Value;
+                    }
                     equip_with_user_info.Add(equip_with_user_info.Count, ewui);
                 }
             }
@@ -632,57 +641,85 @@ namespace GFHelper.UserData
                 return false;
             }
         }
-        public bool Add_Get_Equip_Battle(dynamic jsonobj)
+        public bool Add_Get_Gun_Equip_Battle(dynamic jsonobj)
         {
             //battle_get_equip
-            if (jsonobj.ToString().Contains("battle_get_equip") == false) { return true; }
-            try
+            if (jsonobj.ToString().Contains("battle_get_equip") == true)
             {
-                
-                Equip_With_User_Info ewui = new Equip_With_User_Info();
-                ewui.id = Convert.ToInt32(jsonobj.battle_get_equip.id);
-                ewui.user_id = Convert.ToInt32( jsonobj.battle_get_equip.user_id);
-                ewui.gun_with_user_id = Convert.ToInt32( jsonobj.battle_get_equip.gun_with_user_id);
-                ewui.equip_id = Convert.ToInt32( jsonobj.battle_get_equip.equip_id);
-                ewui.equip_exp = Convert.ToInt32( jsonobj.battle_get_equip.equip_exp);
-                ewui.equip_level = Convert.ToInt32( jsonobj.battle_get_equip.equip_level);
-                ewui.pow = Convert.ToInt32( jsonobj.battle_get_equip.pow);
-                ewui.hit = Convert.ToInt32( jsonobj.battle_get_equip.hit);
-                ewui.dodge = Convert.ToInt32( jsonobj.battle_get_equip.dodge);
-                ewui.speed = Convert.ToInt32( jsonobj.battle_get_equip.speed);
-                ewui.rate = Convert.ToInt32( jsonobj.battle_get_equip.rate);
-                ewui.critical_harm_rate = Convert.ToInt32( jsonobj.battle_get_equip.critical_harm_rate);
-                ewui.critical_percent = Convert.ToInt32( jsonobj.battle_get_equip.critical_percent);
-                ewui.armor_piercing = Convert.ToInt32( jsonobj.battle_get_equip.armor_piercing);
-                ewui.armor = Convert.ToInt32( jsonobj.battle_get_equip.armor);
-                ewui.shield = Convert.ToInt32( jsonobj.battle_get_equip.shield);
-                ewui.damage_amplify = Convert.ToInt32( jsonobj.battle_get_equip.damage_amplify);
-                ewui.damage_reduction = Convert.ToInt32( jsonobj.battle_get_equip.damage_reduction);
-                ewui.night_view_percent = Convert.ToInt32( jsonobj.battle_get_equip.night_view_percent);
-
-                ewui.bullet_number_up = Convert.ToInt32( jsonobj.battle_get_equip.bullet_number_up);
-                ewui.adjust_count = Convert.ToInt32( jsonobj.battle_get_equip.adjust_count);
-                ewui.is_locked = Convert.ToInt32( jsonobj.battle_get_equip.is_locked);
-                ewui.last_adjust =  jsonobj.battle_get_equip.last_adjust.ToString();
-                int i = 0;
-                while (true)
+                try
                 {
-                    if (!equip_with_user_info.ContainsKey(i))
+                    Equip_With_User_Info ewui = new Equip_With_User_Info();
+                    ewui.id = Convert.ToInt32(jsonobj.battle_get_equip.id);
+                    ewui.user_id = Convert.ToInt32(jsonobj.battle_get_equip.user_id);
+                    ewui.gun_with_user_id = Convert.ToInt32(jsonobj.battle_get_equip.gun_with_user_id);
+                    ewui.equip_id = Convert.ToInt32(jsonobj.battle_get_equip.equip_id);
+                    ewui.equip_exp = Convert.ToInt32(jsonobj.battle_get_equip.equip_exp);
+                    ewui.equip_level = Convert.ToInt32(jsonobj.battle_get_equip.equip_level);
+                    ewui.pow = Convert.ToInt32(jsonobj.battle_get_equip.pow);
+                    ewui.hit = Convert.ToInt32(jsonobj.battle_get_equip.hit);
+                    ewui.dodge = Convert.ToInt32(jsonobj.battle_get_equip.dodge);
+                    ewui.speed = Convert.ToInt32(jsonobj.battle_get_equip.speed);
+                    ewui.rate = Convert.ToInt32(jsonobj.battle_get_equip.rate);
+                    ewui.critical_harm_rate = Convert.ToInt32(jsonobj.battle_get_equip.critical_harm_rate);
+                    ewui.critical_percent = Convert.ToInt32(jsonobj.battle_get_equip.critical_percent);
+                    ewui.armor_piercing = Convert.ToInt32(jsonobj.battle_get_equip.armor_piercing);
+                    ewui.armor = Convert.ToInt32(jsonobj.battle_get_equip.armor);
+                    ewui.shield = Convert.ToInt32(jsonobj.battle_get_equip.shield);
+                    ewui.damage_amplify = Convert.ToInt32(jsonobj.battle_get_equip.damage_amplify);
+                    ewui.damage_reduction = Convert.ToInt32(jsonobj.battle_get_equip.damage_reduction);
+                    ewui.night_view_percent = Convert.ToInt32(jsonobj.battle_get_equip.night_view_percent);
+
+                    ewui.bullet_number_up = Convert.ToInt32(jsonobj.battle_get_equip.bullet_number_up);
+                    ewui.adjust_count = Convert.ToInt32(jsonobj.battle_get_equip.adjust_count);
+                    ewui.is_locked = Convert.ToInt32(jsonobj.battle_get_equip.is_locked);
+                    ewui.last_adjust = jsonobj.battle_get_equip.last_adjust.ToString();
+                    int i = 0;
+                    while (true)
                     {
-                        equip_with_user_info.Add(i, ewui);
-                        break;
+                        if (!equip_with_user_info.ContainsKey(i))
+                        {
+                            equip_with_user_info.Add(i, ewui);
+                            break;
+                        }
+                        i++;
                     }
-                    i++;
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(" 添加掉落装备遇到错误");
+                    MessageBox.Show(e.ToString());
+                    return false;
                 }
             }
-            catch (Exception e)
+            
+            if(jsonobj.ToString().Contains("battle_get_gun") == true)
             {
-                MessageBox.Show(" 获取掉落装备遇到错误");
-                MessageBox.Show(e.ToString());
-                return false;
+                try
+                {
+                    Gun_With_User_Info gwui = new Gun_With_User_Info(im);
+
+                    gwui.id = Convert.ToInt32(jsonobj.battle_get_gun.gun_with_user_id);
+                    gwui.gun_id = Convert.ToInt32(jsonobj.battle_get_gun.gun_id);
+                    gwui.UpdateData();
+                    int i = 0;
+                    while (true)
+                    {
+                        if (!gun_with_user_info.ContainsKey(i))
+                        {
+                            gun_with_user_info.Add(i, gwui);
+                            return true;
+                        }
+                        i++;
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(" 添加人形掉落遇到错误");
+                    MessageBox.Show(e.ToString());
+                    return false;
+                }
             }
-
-
             return true;
         }
 
@@ -760,8 +797,12 @@ namespace GFHelper.UserData
         /// 检查是否满仓
         /// </summary>
         /// <returns></returns>
-        public bool Check_Equip_FULL()
+        public bool Check_Equip_GUN_FULL()
         {
+            if (im.userdatasummery.gun_with_user_info.Count >= im.userdatasummery.user_info.maxgun)
+            {
+                return true;
+            }
             if (im.userdatasummery.equip_with_user_info.Count >= im.userdatasummery.user_info.maxequip)
             {
                 return true;
@@ -781,7 +822,7 @@ namespace GFHelper.UserData
                 foreach (var item in equip_with_user_info)
                 {
                     //item.Value.equip_id用id 索引 catchdata的id 得到 5级
-                    if (im.catchdatasummery.equip_info[item.Value.equip_id - 1].rank == 5)
+                    if (CatchDataSummery.equip_info[item.Value.equip_id - 1].rank == 5)
                     {
                         Equip_With_User_Info ewui_rank5 = new Equip_With_User_Info();
                         ewui_rank5 = item.Value;
@@ -789,7 +830,7 @@ namespace GFHelper.UserData
                     }
 
                     //item.Value.equip_id用id 索引 catchdata的id 得到 4级
-                    if (im.catchdatasummery.equip_info[item.Value.equip_id - 1].rank == 4)
+                    if (CatchDataSummery.equip_info[item.Value.equip_id - 1].rank == 4)
                     {
                         Equip_With_User_Info ewui_rank4 = new Equip_With_User_Info();
                         ewui_rank4 = item.Value;
@@ -797,7 +838,7 @@ namespace GFHelper.UserData
                     }
 
                     //item.Value.equip_id用id 索引 catchdata的id 得到 3级
-                    if (im.catchdatasummery.equip_info[item.Value.equip_id - 1].rank == 3)
+                    if (CatchDataSummery.equip_info[item.Value.equip_id - 1].rank == 3)
                     {
                         Equip_With_User_Info ewui_rank3 = new Equip_With_User_Info();
                         ewui_rank3 = item.Value;
@@ -805,7 +846,7 @@ namespace GFHelper.UserData
                     }
 
                     //item.Value.equip_id用id 索引 catchdata的id 得到 2级
-                    if (im.catchdatasummery.equip_info[item.Value.equip_id - 1].rank == 2)
+                    if (CatchDataSummery.equip_info[item.Value.equip_id - 1].rank == 2)
                     {
                         Equip_With_User_Info ewui_rank2 = new Equip_With_User_Info();
                         ewui_rank2 = item.Value;
@@ -818,6 +859,36 @@ namespace GFHelper.UserData
             {
 
             }
+        }
+
+        /// <summary>
+        /// 返回false 表示没有2级枪了
+        /// </summary>
+        /// <returns></returns>
+        public bool Get_Gun_Retire()
+        {
+            Gun_Retire_Rank2.Clear();
+            Gun_Retire_Rank3.Clear();
+            foreach (var item in gun_with_user_info)
+            {
+                if (item.Value.info.rank == 2 && item.Value.is_locked!=1)
+                {
+                    Gun_Retire_Rank2.Add(item.Value.id);
+                    if (Gun_Retire_Rank2.Count == 24) break;
+                }
+            }
+            foreach (var item in gun_with_user_info)
+            {
+                if (item.Value.info.rank == 3 && item.Value.is_locked != 1)
+                {
+                    Gun_Retire_Rank3.Add(item.Value.id);
+                    if (Gun_Retire_Rank3.Count == 24) break;
+                }
+            }
+
+
+            if (Gun_Retire_Rank2.Count > 0 || Gun_Retire_Rank3.Count > 0) return true;
+            return false;
         }
 
         public string[] Get_Equipment_Food()
@@ -870,7 +941,7 @@ namespace GFHelper.UserData
             foreach (var item in equip_with_user_info_Rank5)
             {
                 //5级装备等级小于10 没有被人形装备
-                if(item.Value.equip_level<10 && im.catchdatasummery.equip_info[item.Value.equip_id-1].type == type && item.Value.gun_with_user_id == 0)
+                if(item.Value.equip_level<10 && CatchDataSummery.equip_info[item.Value.equip_id-1].type == type && item.Value.gun_with_user_id == 0)
                 {
                     Equip_With_User_Info ewui_upgrade = new Equip_With_User_Info();
                     ewui_upgrade = item.Value;
@@ -880,6 +951,13 @@ namespace GFHelper.UserData
 
         }
 
+
+
+
+
+
+
+
         /// <summary>
         /// 更新装备的经验值 loc 是 装备总表的位置 exp是升级的经验
         /// 不允许传入10级装备
@@ -887,48 +965,76 @@ namespace GFHelper.UserData
         /// <param name="loc">123</param>
         /// <param name="exp"></param>
         /// <returns></returns>
-        public void Check_Equipment_Update (int id,int exp,int level)
+        public void Check_Equipment_Update(int id,int exp)
         {
-            //当前装备等级的最大经验值
-            int nextLevelEXP = im.catchdatasummery.equip_exp_info[level+1].exp;
-            int Equip_Exp = 0;
-            int loc_IN_ALL=0;
+
+            int key=-1;
 
             //当前装备的经验值
             foreach (var item in im.userdatasummery.equip_with_user_info)
             {
                 if(item.Value.id == id)
                 {
-                    Equip_Exp = item.Value.equip_exp;
-                    loc_IN_ALL = item.Key;
+                    key = item.Key;
+                    break;
                 }
             }
 
             //开始比较 分别是需要升级或者不需要升级
-
-            if (Equip_Exp + exp >= nextLevelEXP)
-            {
-                //升级
-                im.userdatasummery.equip_with_user_info[loc_IN_ALL].equip_level += 1;
-                int a = nextLevelEXP - Equip_Exp;
-                int b =exp - a;
-
-                im.userdatasummery.equip_with_user_info[loc_IN_ALL].equip_exp = 0;//归零
-                im.userdatasummery.equip_with_user_info[loc_IN_ALL].equip_exp += Equip_Exp  -nextLevelEXP + exp;
-            }
-
-            if (Equip_Exp + exp < nextLevelEXP)
-            {
-                im.userdatasummery.equip_with_user_info[loc_IN_ALL].equip_exp += exp;
-            }
+            this.im.userdatasummery.equip_with_user_info[key].equip_level += this.im.userdatasummery.equip_with_user_info[key].GetLevelToBeAdded(exp);
+            this.im.userdatasummery.equip_with_user_info[key].equip_exp += exp;
 
             //10级处理
-            if(im.userdatasummery.equip_with_user_info[loc_IN_ALL].equip_level == 10)
+            if(im.userdatasummery.equip_with_user_info[key].equip_level == 10)
             {
-                im.userdatasummery.equip_with_user_info[loc_IN_ALL].equip_exp = nextLevelEXP;
+                //10级处理
             }
 
-            Read_Equipment_Rank();
+
+        }
+
+        /// <summary>
+        /// 删除退休人形gun_with_user_info
+        /// </summary>
+        public void Del_Gun_IN_Dict(int type)
+        {
+            for (int i = 0; i <= gun_with_user_info.Last().Key; i++)
+            {
+                if (gun_with_user_info.ContainsKey(i))
+                {
+                    switch (type)
+                    {
+                        case 2:
+                            {
+                                foreach (var x in Gun_Retire_Rank2)
+                                {
+                                    if (gun_with_user_info[i].id == x)
+                                    {
+                                        gun_with_user_info.Remove(i);
+                                        break;
+                                    }
+                                }
+                                break;
+                            }
+
+                        case 3:
+                            {
+                                foreach (var y in Gun_Retire_Rank3)
+                                {
+                                    if (gun_with_user_info[i].id == y)
+                                    {
+                                        gun_with_user_info.Remove(i);
+                                        break;
+                                    }
+                                }
+                                break;
+                            }
+                        default:
+                            break;
+                    }
+                }
+            }
+            Gun_Retire_Rank2.Clear();
         }
 
         /// <summary>
@@ -940,7 +1046,7 @@ namespace GFHelper.UserData
             foreach (var item0 in res)
             {
                 
-                for(int i = 0; i < equip_with_user_info.Count; i++)
+                for(int i = 0; i < equip_with_user_info.Last().Key; i++)
                 {
                     if (equip_with_user_info.ContainsKey(i))
                     {
@@ -951,7 +1057,7 @@ namespace GFHelper.UserData
                     }
                 }
 
-                for (int i = 0; i < equip_with_user_info_Rank2.Count; i++)
+                for (int i = 0; i < equip_with_user_info_Rank2.Last().Key; i++)
                 {
                     if (equip_with_user_info_Rank2.ContainsKey(i))
                     {
@@ -963,7 +1069,7 @@ namespace GFHelper.UserData
 
 
                 }
-                for (int i = 0; i < equip_with_user_info_Rank3.Count; i++)
+                for (int i = 0; i < equip_with_user_info_Rank3.Last().Key; i++)
                 {
                     if (equip_with_user_info_Rank3.ContainsKey(i))
                     {
@@ -973,7 +1079,7 @@ namespace GFHelper.UserData
                         }
                     }
                 }
-                for (int i = 0; i < equip_with_user_info_Rank4.Count; i++)
+                for (int i = 0; i < equip_with_user_info_Rank4.Last().Key; i++)
                 {
                     if (equip_with_user_info_Rank4.ContainsKey(i))
                     { 
@@ -1401,7 +1507,18 @@ namespace GFHelper.UserData
                 }
             }
         }
-
+        public void GUN_HP_reduce(int gunid,int hp_reduce)
+        {
+            for(int i = 0; i <= gun_with_user_info.Last().Key; i++)
+            {
+                if (!gun_with_user_info.ContainsKey(i)) continue;
+                if (gun_with_user_info[i].id == gunid)
+                {
+                    gun_with_user_info[i].life -= hp_reduce;
+                    return;
+                }
+            }
+        }
 
 
 
