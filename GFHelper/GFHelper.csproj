@@ -128,9 +128,11 @@
     <Compile Include="CatchData\fairy_info.cs" />
     <Compile Include="CatchData\Fairy_Type_Info.cs" />
     <Compile Include="CatchData\Game_Config_Info.cs" />
+    <Compile Include="CatchData\Skill.cs" />
     <Compile Include="Programe\Auto\BattleLoop.cs" />
     <Compile Include="Programe\Auto\BattleMapInfo.cs" />
     <Compile Include="Programe\Auto\Battle_Sent.cs" />
+    <Compile Include="Programe\Auto\Friend.cs" />
     <Compile Include="Programe\Auto\Map_Sent.cs" />
     <Compile Include="Programe\Auto\UserBattleTaskInfo.cs" />
     <Compile Include="Programe\ProgramePro\APK\BattleSkillCfg.cs" />

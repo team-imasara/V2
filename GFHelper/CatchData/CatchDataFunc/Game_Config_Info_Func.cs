@@ -68,6 +68,22 @@ namespace GFHelper.CatchData.CatchDataFunc
             return result;
         }
 
+        public static int GetInt(string key)
+        {
+            int result = 0;
+            foreach (var item in CatchDataSummery.game_config_info)
+            {
+                if (item.Value.parameter_name == key)
+                {
+                    string[] a = item.Value.parameter_value[0];
+                    int.TryParse(a[0], out result);
+                    return result;
+                }
+            }
+            return result;
+        }
+
+
         public static float GetFloatFromStringArray(string key, int id, char splitChar = ',')
         {
             float result = 0;

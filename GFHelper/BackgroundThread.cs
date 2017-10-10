@@ -215,7 +215,12 @@ namespace GFHelper
                                 im.TaskList.RemoveAt(0);
                                 break;
                             }
-
+                        case 26:
+                            {
+                                im.friend.Friend_Praise();
+                                im.TaskList.RemoveAt(0);
+                                break;
+                            }
                         case 31:
                             {
                                 im.action.Auto_Start_Trial();

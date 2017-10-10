@@ -107,9 +107,9 @@ namespace GFHelper.Programe
                                 break;
                             }
                         }
-                        im.mainWindow.textitem1.Text = Convert.ToString(im.userdatasummery.item_with_user_info[findKey].number);//人形制造契约:item_with_user_info
+                        im.mainWindow.textitem2.Text = Convert.ToString(im.userdatasummery.item_with_user_info[findKey].number);//人形制造契约:item_with_user_info
                     }
-                    catch (Exception) { im.mainWindow.textitem1.Text = "0"; }
+                    catch (Exception) { im.mainWindow.textitem2.Text = "0"; }
 
                     try
                     {
@@ -173,7 +173,7 @@ namespace GFHelper.Programe
 
                     im.mainWindow.textDevelopSlot.Text = im.userdatasummery.user_info.max_build_slot.ToString();//建造槽
                     im.mainWindow.textFixSlot.Text = im.userdatasummery.user_info.max_fix_slot.ToString();
-                    im.mainWindow.textUpgradeSlot.Text = im.userdatasummery.user_info.max_upgrade_slot.ToString();
+                    //im.mainWindow.textUpgradeSlot.Text = im.userdatasummery.user_info.max_upgrade_slot.ToString();
 
                     im.mainWindow.textGunNum.Text = String.Format("{0}/{1}", im.userdatasummery.gun_with_user_info.Count, im.userdatasummery.user_info.maxgun);
                     im.mainWindow.textTeamNum.Text = im.userdatasummery.user_info.maxteam.ToString();
@@ -211,6 +211,8 @@ namespace GFHelper.Programe
                     //采购币 兑换卷
                     im.mainWindow.textFurniture_CoinNum.Text = im.userdatasummery.GetFurniture_CoinNum().ToString();
                     im.mainWindow.textExchange_CoinNum.Text = im.userdatasummery.GetExchange_CoinNum().ToString();
+
+                    im.mainWindow.coretem3.Text = im.userdatasummery.user_info.core.ToString();
 
                 }));
             }

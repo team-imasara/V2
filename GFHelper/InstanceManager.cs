@@ -28,7 +28,7 @@ namespace GFHelper
         public Programe.TextRes.Asset_Textes asset_textes;//解析后勤 枪 日常任务等代码
         public CatchDataSummery catchdatasummery;
         public UserDataSummery userdatasummery;
-
+        public Friend friend;
 
         //4个后勤任务
         public Dictionary<int, Operation_Act_Info> Dic_auto_operation_act = new Dictionary<int, Operation_Act_Info>();
@@ -55,7 +55,7 @@ namespace GFHelper
             this.asset_textes = new Programe.TextRes.Asset_Textes(this);
             this.catchdatasummery = new CatchDataSummery(this);
             this.userdatasummery = new UserDataSummery(this);
-
+            this.friend = new Friend(this);
 
             //4个后勤任务
             for (int x=0; x < 4;x++)

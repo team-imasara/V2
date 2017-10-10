@@ -87,6 +87,7 @@ public class RequestUrls
 
     public const string Dorm_Info = "Friend/dormInfo";
     public const string Visit_Friend_Build = "Friend/visit";
+    public const string Friend_praise = "Friend/praise";
     public const string Get_Friend_Build_Coin = "Dorm/get_build_coin";
 
     public const string Get_Battaries = "Dorm/get_build_coin";

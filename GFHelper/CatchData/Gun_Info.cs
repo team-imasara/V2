@@ -81,6 +81,11 @@ namespace GFHelper.CatchData
         // Token: 0x040017E2 RID: 6114
         public int ratioSpeed;
         public Programe.ProgramePro.APK.GunType type;
+
+        // Token: 0x040017F1 RID: 6129
+        public List<int> skills = new List<int>();
+
+
         //public int Compare(GunInfo x, GunInfo y)
         //{
         //    return (x.id - y.id);

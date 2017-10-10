@@ -88,7 +88,7 @@ namespace GFHelper.UserData
 
         public int criHarmRate;
 
-        public CatchData.Gun_Info info = new Gun_Info();
+        public Gun_Info info = new Gun_Info();
 
         public int gunEffect=0;
 
@@ -260,37 +260,37 @@ namespace GFHelper.UserData
             {
                 if (type != GunType.shotgun)
                 {
-                    float floatFromStringArray = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_normal", 0, ',');
-                    float floatFromStringArray2 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_normal", 1, ',');
-                    float floatFromStringArray3 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_normal", 2, ',');
-                    float floatFromStringArray4 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_normal", 3, ',');
-                    float floatFromStringArray5 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_normal", 4, ',');
-                    float floatFromStringArray6 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_normal", 5, ',');
+                    float floatFromStringArray = Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_normal", 0, ',');
+                    float floatFromStringArray2 = Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_normal", 1, ',');
+                    float floatFromStringArray3 = Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_normal", 2, ',');
+                    float floatFromStringArray4 = Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_normal", 3, ',');
+                    float floatFromStringArray5 = Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_normal", 4, ',');
+                    float floatFromStringArray6 = Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_normal", 5, ',');
                     result = Mathf.CeilToInt(floatFromStringArray * Mathf.Ceil((float)num8 / (float)this.maxLife * (float)this.number) * (((float)num + (float)num7 / floatFromStringArray6) * ((float)this.criHarmRate / 100f * (float)num5 / 100f + 1f) * (float)num2 / floatFromStringArray5 * (float)num10 / ((float)num10 + floatFromStringArray3) + floatFromStringArray4));
                 }
                 else
                 {
-                    float floatFromStringArray = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_sg", 0, ',');
-                    float floatFromStringArray2 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_sg", 1, ',');
-                    float floatFromStringArray3 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_sg", 2, ',');
-                    float floatFromStringArray4 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_sg", 3, ',');
-                    float floatFromStringArray5 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_sg", 4, ',');
-                    float floatFromStringArray6 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_sg", 5, ',');
-                    float floatFromStringArray7 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_sg", 6, ',');
-                    float floatFromStringArray8 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_sg", 7, ',');
-                    float floatFromStringArray9 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_sg", 8, ',');
+                    float floatFromStringArray = Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_sg", 0, ',');
+                    float floatFromStringArray2 = Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_sg", 1, ',');
+                    float floatFromStringArray3 = Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_sg", 2, ',');
+                    float floatFromStringArray4 = Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_sg", 3, ',');
+                    float floatFromStringArray5 = Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_sg", 4, ',');
+                    float floatFromStringArray6 = Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_sg", 5, ',');
+                    float floatFromStringArray7 = Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_sg", 6, ',');
+                    float floatFromStringArray8 = Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_sg", 7, ',');
+                    float floatFromStringArray9 = Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_sg", 8, ',');
                     result = Mathf.CeilToInt(floatFromStringArray * Mathf.Ceil((float)num8 / (float)this.maxLife * (float)this.number) * (floatFromStringArray7 * (float)num9 * ((float)num + (float)num7 / floatFromStringArray6) * ((float)this.criHarmRate / 100f * (float)num5 / 100f + 1f) / ((float)num9 * floatFromStringArray5 / (float)num2 + floatFromStringArray8 + floatFromStringArray9 * (float)num9) * (float)num10 / ((float)num10 + floatFromStringArray3) + floatFromStringArray4));
                 }
             }
             else
             {
-                float floatFromStringArray = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_mg", 0, ',');
-                float floatFromStringArray2 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_mg", 1, ',');
-                float floatFromStringArray3 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_mg", 2, ',');
-                float floatFromStringArray4 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_mg", 3, ',');
-                float floatFromStringArray5 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_mg", 4, ',');
-                float floatFromStringArray6 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_mg", 5, ',');
-                float floatFromStringArray7 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_mg", 6, ',');
+                float floatFromStringArray = Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_mg", 0, ',');
+                float floatFromStringArray2 = Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_mg", 1, ',');
+                float floatFromStringArray3 = Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_mg", 2, ',');
+                float floatFromStringArray4 = Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_mg", 3, ',');
+                float floatFromStringArray5 = Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_mg", 4, ',');
+                float floatFromStringArray6 = Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_mg", 5, ',');
+                float floatFromStringArray7 = Game_Config_Info_Func.GetFloatFromStringArray("attack_effect_mg", 6, ',');
                 result = Mathf.CeilToInt(floatFromStringArray * Mathf.Ceil((float)num8 / (float)this.maxLife * (float)this.number) * ((float)num9 * ((float)num + (float)num7 / floatFromStringArray7) * ((float)this.criHarmRate / 100f * (float)num5 / 100f + 1f) / ((float)num9 / 3f + floatFromStringArray3 + floatFromStringArray4 / (float)num2) * (float)num10 / ((float)num10 + floatFromStringArray5) + floatFromStringArray6));
             }
             return result;
@@ -330,14 +330,13 @@ namespace GFHelper.UserData
             {
                 num8 = this.maxLife;
             }
-            //deffence_effect = 1,35,2.6,75,1.6,1
 
-            float floatFromStringArray = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("deffence_effect", 0, ',');
-            float floatFromStringArray2 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("deffence_effect", 1, ',');
-            float floatFromStringArray3 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("deffence_effect", 2, ',');
-            float floatFromStringArray4 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("deffence_effect", 3, ',');
-            float floatFromStringArray5 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("deffence_effect", 4, ',');
-            float floatFromStringArray6 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("deffence_effect", 5, ',');
+            float floatFromStringArray = Game_Config_Info_Func.GetFloatFromStringArray("deffence_effect", 0, ',');
+            float floatFromStringArray2 = Game_Config_Info_Func.GetFloatFromStringArray("deffence_effect", 1, ',');
+            float floatFromStringArray3 = Game_Config_Info_Func.GetFloatFromStringArray("deffence_effect", 2, ',');
+            float floatFromStringArray4 = Game_Config_Info_Func.GetFloatFromStringArray("deffence_effect", 3, ',');
+            float floatFromStringArray5 = Game_Config_Info_Func.GetFloatFromStringArray("deffence_effect", 4, ',');
+            float floatFromStringArray6 = Game_Config_Info_Func.GetFloatFromStringArray("deffence_effect", 5, ',');
             return (int)(floatFromStringArray * (float)Mathf.CeilToInt((float)num8 * ((floatFromStringArray2 + (float)num4) / floatFromStringArray2) * (floatFromStringArray3 * floatFromStringArray4 / Mathf.Max(floatFromStringArray4 - (float)num6 / floatFromStringArray6, 1f) - floatFromStringArray5)));
         }
 
@@ -357,12 +356,11 @@ namespace GFHelper.UserData
             {
                 num2 = this.maxLife;
             }
-            //skill_effect = 35,5
-            float floatFromStringArray = 35f;
-            float floatFromStringArray2 = 5f;
-            //float floatFromStringArray = Data.GetFloatFromStringArray("skill_effect", 0, ',');
-            //float floatFromStringArray2 = Data.GetFloatFromStringArray("skill_effect", 1, ',');
-            //int level = this.GetSkill(enumSkill.eSkill1).level;
+
+
+            float floatFromStringArray = Game_Config_Info_Func.GetFloatFromStringArray("skill_effect", 0, ',');
+            float floatFromStringArray2 = Game_Config_Info_Func.GetFloatFromStringArray("skill_effect", 1, ',');
+            int level = this.GetSkill(enumSkill.eSkill1).level;
             return Mathf.CeilToInt(Mathf.Ceil((float)num2 / (float)this.maxLife * (float)this.number) * (0.8f + (float)this.info.rank / 10f) * (floatFromStringArray + floatFromStringArray2 * (float)(level - 1)) * (float)Mathf.CeilToInt((float)level / 10f) * num);
         }
 
@@ -379,10 +377,10 @@ namespace GFHelper.UserData
             return 1f + (float)this.arrEffectGridBuff[type - EffectGridType.pow] / 100f;
         }
 
-        //public Skill GetSkill(enumSkill e)
-        //{
-        //    return (this.mVecSkill.Count <= (int)e) ? this.mVecSkill[0] : this.mVecSkill[(int)e];
-        //}
+        public Skill GetSkill(enumSkill e)
+        {
+            return (this.mVecSkill.Count <= (int)e) ? this.mVecSkill[0] : this.mVecSkill[(int)e];
+        }
 
 
 
@@ -399,19 +397,19 @@ namespace GFHelper.UserData
 
 
 
-            float floatFromStringArray = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("life_basic", 0, ',');
-            float floatFromStringArray2 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("life_basic", 1, ',');
-            float floatFromStringArray3 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("life_basic", 2, ',');
+            float floatFromStringArray = Game_Config_Info_Func.GetFloatFromStringArray("life_basic", 0, ',');
+            float floatFromStringArray2 = Game_Config_Info_Func.GetFloatFromStringArray("life_basic", 1, ',');
+            float floatFromStringArray3 = Game_Config_Info_Func.GetFloatFromStringArray("life_basic", 2, ',');
 
-            this.maxLife = Mathf.CeilToInt((floatFromStringArray + ((float)this.level - 1f) * floatFromStringArray2) * CatchData.CatchDataFunc.Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_life") * this.info.ratioLife / floatFromStringArray3) * this.number;
+            this.maxLife = Mathf.CeilToInt((floatFromStringArray + ((float)this.level - 1f) * floatFromStringArray2) * Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_life") * this.info.ratioLife / floatFromStringArray3) * this.number;
 
-            floatFromStringArray = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("power_basic", 0, ',');
-            floatFromStringArray2 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("power_basic", 1, ',');
-            this.basePow = Mathf.CeilToInt(floatFromStringArray * CatchData.CatchDataFunc.Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_pow") * (float)this.info.ratioPow / floatFromStringArray2);
-            floatFromStringArray = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("power_grow", 0, ',');
-            floatFromStringArray2 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("power_grow", 1, ',');
-            floatFromStringArray3 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("power_grow", 2, ',');
-            this.maxAddPow = Mathf.CeilToInt((float)(this.level - 1) * floatFromStringArray * CatchData.CatchDataFunc.Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_pow") * (float)this.info.ratioPow * this.info.eatRatio / floatFromStringArray2 / floatFromStringArray3);
+            floatFromStringArray = Game_Config_Info_Func.GetFloatFromStringArray("power_basic", 0, ',');
+            floatFromStringArray2 = Game_Config_Info_Func.GetFloatFromStringArray("power_basic", 1, ',');
+            this.basePow = Mathf.CeilToInt(floatFromStringArray * Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_pow") * (float)this.info.ratioPow / floatFromStringArray2);
+            floatFromStringArray = Game_Config_Info_Func.GetFloatFromStringArray("power_grow", 0, ',');
+            floatFromStringArray2 = Game_Config_Info_Func.GetFloatFromStringArray("power_grow", 1, ',');
+            floatFromStringArray3 = Game_Config_Info_Func.GetFloatFromStringArray("power_grow", 2, ',');
+            this.maxAddPow = Mathf.CeilToInt((float)(this.level - 1) * floatFromStringArray * Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_pow") * (float)this.info.ratioPow * this.info.eatRatio / floatFromStringArray2 / floatFromStringArray3);
             this.pow = this.basePow + this.additionPow;
             this.favorPow = Math.Sign(this.favorRatio) * Mathf.CeilToInt(Mathf.Abs((float)this.pow * this.favorRatio));
             this.pow += this.favorPow;
@@ -433,13 +431,13 @@ namespace GFHelper.UserData
                 this.fairyPow = Mathf.CeilToInt((float)this.pow * this.fairy.pow / 100f);
             }
             this.pow += this.fairyPow;
-            floatFromStringArray = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("rate_basic", 0, ',');
-            floatFromStringArray2 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("rate_basic", 1, ',');
-            this.baseRate = Mathf.CeilToInt(floatFromStringArray * CatchData.CatchDataFunc.Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_rate") * (float)this.info.ratioRate / floatFromStringArray2);
-            floatFromStringArray = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("rate_grow", 0, ',');
-            floatFromStringArray2 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("rate_grow", 1, ',');
-            floatFromStringArray3 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("rate_grow", 2, ',');
-            this.maxAddRate = Mathf.CeilToInt((float)(this.level - 1) * floatFromStringArray * CatchData.CatchDataFunc.Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_rate") * (float)this.info.ratioRate * this.info.eatRatio / floatFromStringArray2 / floatFromStringArray3);
+            floatFromStringArray = Game_Config_Info_Func.GetFloatFromStringArray("rate_basic", 0, ',');
+            floatFromStringArray2 = Game_Config_Info_Func.GetFloatFromStringArray("rate_basic", 1, ',');
+            this.baseRate = Mathf.CeilToInt(floatFromStringArray * Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_rate") * (float)this.info.ratioRate / floatFromStringArray2);
+            floatFromStringArray = Game_Config_Info_Func.GetFloatFromStringArray("rate_grow", 0, ',');
+            floatFromStringArray2 = Game_Config_Info_Func.GetFloatFromStringArray("rate_grow", 1, ',');
+            floatFromStringArray3 = Game_Config_Info_Func.GetFloatFromStringArray("rate_grow", 2, ',');
+            this.maxAddRate = Mathf.CeilToInt((float)(this.level - 1) * floatFromStringArray * Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_rate") * (float)this.info.ratioRate * this.info.eatRatio / floatFromStringArray2 / floatFromStringArray3);
             this.rate = this.baseRate + this.additionRate;
             using (List<Equip_With_User_Info>.Enumerator enumerator2 = this.equipList.GetEnumerator())
             {
@@ -449,13 +447,13 @@ namespace GFHelper.UserData
                     this.rate += current2.rate;
                 }
             }
-            floatFromStringArray = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("hit_basic", 0, ',');
-            floatFromStringArray2 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("hit_basic", 1, ',');
-            this.baseHit = Mathf.CeilToInt(floatFromStringArray * CatchData.CatchDataFunc.Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_hit") * (float)this.info.ratioHit / floatFromStringArray2);
-            floatFromStringArray = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("hit_grow", 0, ',');
-            floatFromStringArray2 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("hit_grow", 1, ',');
-            floatFromStringArray3 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("hit_grow", 2, ',');
-            this.maxAddHit = Mathf.CeilToInt((float)(this.level - 1) * floatFromStringArray * CatchData.CatchDataFunc.Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_hit") * (float)this.info.ratioHit * this.info.eatRatio / floatFromStringArray2 / floatFromStringArray3);
+            floatFromStringArray = Game_Config_Info_Func.GetFloatFromStringArray("hit_basic", 0, ',');
+            floatFromStringArray2 = Game_Config_Info_Func.GetFloatFromStringArray("hit_basic", 1, ',');
+            this.baseHit = Mathf.CeilToInt(floatFromStringArray * Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_hit") * (float)this.info.ratioHit / floatFromStringArray2);
+            floatFromStringArray = Game_Config_Info_Func.GetFloatFromStringArray("hit_grow", 0, ',');
+            floatFromStringArray2 = Game_Config_Info_Func.GetFloatFromStringArray("hit_grow", 1, ',');
+            floatFromStringArray3 = Game_Config_Info_Func.GetFloatFromStringArray("hit_grow", 2, ',');
+            this.maxAddHit = Mathf.CeilToInt((float)(this.level - 1) * floatFromStringArray * Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_hit") * (float)this.info.ratioHit * this.info.eatRatio / floatFromStringArray2 / floatFromStringArray3);
             this.hit = this.baseHit + this.additionHit;
             this.favorHit = Math.Sign(this.favorRatio) * Mathf.CeilToInt(Mathf.Abs((float)this.hit * this.favorRatio));
             this.hit += this.favorHit;
@@ -476,13 +474,13 @@ namespace GFHelper.UserData
                 this.fairyHit = Mathf.CeilToInt((float)this.hit * this.fairy.hit / 100f);
             }
             this.hit += this.fairyHit;
-            floatFromStringArray = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("dodge_basic", 0, ',');
-            floatFromStringArray2 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("dodge_basic", 1, ',');
-            this.baseDodge = Mathf.CeilToInt(floatFromStringArray * CatchData.CatchDataFunc.Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_dodge") * (float)this.info.ratioDodge / floatFromStringArray2);
-            floatFromStringArray = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("dodge_grow", 0, ',');
-            floatFromStringArray2 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("dodge_grow", 1, ',');
-            floatFromStringArray3 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("dodge_grow", 2, ',');
-            this.maxAddDodge = Mathf.CeilToInt((float)(this.level - 1) * floatFromStringArray * CatchData.CatchDataFunc.Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_dodge") * (float)this.info.ratioDodge * this.info.eatRatio / floatFromStringArray2 / floatFromStringArray3);
+            floatFromStringArray = Game_Config_Info_Func.GetFloatFromStringArray("dodge_basic", 0, ',');
+            floatFromStringArray2 = Game_Config_Info_Func.GetFloatFromStringArray("dodge_basic", 1, ',');
+            this.baseDodge = Mathf.CeilToInt(floatFromStringArray * Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_dodge") * (float)this.info.ratioDodge / floatFromStringArray2);
+            floatFromStringArray = Game_Config_Info_Func.GetFloatFromStringArray("dodge_grow", 0, ',');
+            floatFromStringArray2 = Game_Config_Info_Func.GetFloatFromStringArray("dodge_grow", 1, ',');
+            floatFromStringArray3 = Game_Config_Info_Func.GetFloatFromStringArray("dodge_grow", 2, ',');
+            this.maxAddDodge = Mathf.CeilToInt((float)(this.level - 1) * floatFromStringArray * Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_dodge") * (float)this.info.ratioDodge * this.info.eatRatio / floatFromStringArray2 / floatFromStringArray3);
             this.dodge = this.baseDodge + this.additionDodge;
             this.favorDodge = Math.Sign(this.favorRatio) * Mathf.CeilToInt(Mathf.Abs((float)this.dodge * this.favorRatio));
             this.dodge += this.favorDodge;
@@ -514,10 +512,10 @@ namespace GFHelper.UserData
                 }
             }
             this.piercing += this.equipAp;
-            floatFromStringArray = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("armor_basic", 0, ',');
-            floatFromStringArray2 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("armor_basic", 1, ',');
-            floatFromStringArray3 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("armor_basic", 2, ',');
-            this.armor = Mathf.CeilToInt((floatFromStringArray + (float)(this.level - 1) * floatFromStringArray2) * CatchData.CatchDataFunc.Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_armor") * (float)this.info.ratioArmor / floatFromStringArray3);
+            floatFromStringArray = Game_Config_Info_Func.GetFloatFromStringArray("armor_basic", 0, ',');
+            floatFromStringArray2 = Game_Config_Info_Func.GetFloatFromStringArray("armor_basic", 1, ',');
+            floatFromStringArray3 = Game_Config_Info_Func.GetFloatFromStringArray("armor_basic", 2, ',');
+            this.armor = Mathf.CeilToInt((floatFromStringArray + (float)(this.level - 1) * floatFromStringArray2) * Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_armor") * (float)this.info.ratioArmor / floatFromStringArray3);
             using (List<Equip_With_User_Info>.Enumerator enumerator6 = this.equipList.GetEnumerator())
             {
                 while (enumerator6.MoveNext())
@@ -572,9 +570,9 @@ namespace GFHelper.UserData
                 }
             }
             this.nightResistance /= 100f;
-            floatFromStringArray = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("speed_basic", 0, ',');
-            floatFromStringArray2 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("speed_basic", 1, ',');
-            this.speed = Mathf.CeilToInt(floatFromStringArray * CatchData.CatchDataFunc.Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_speed") * (float)this.info.ratioSpeed / floatFromStringArray2);
+            floatFromStringArray = Game_Config_Info_Func.GetFloatFromStringArray("speed_basic", 0, ',');
+            floatFromStringArray2 = Game_Config_Info_Func.GetFloatFromStringArray("speed_basic", 1, ',');
+            this.speed = Mathf.CeilToInt(floatFromStringArray * Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_speed") * (float)this.info.ratioSpeed / floatFromStringArray2);
             using (List<Equip_With_User_Info>.Enumerator enumerator10 = this.equipList.GetEnumerator())
             {
                 while (enumerator10.MoveNext())
@@ -593,58 +591,60 @@ namespace GFHelper.UserData
                 }
             }
             //guiling
-            //using (List<Equip_With_User_Info>.Enumerator enumerator12 = this.equipList.GetEnumerator())
-            //{
-            //    while (enumerator12.MoveNext())
-            //    {
-            //        Equip_With_User_Info current12 = enumerator12.Current;
-            //        if (current12.info.skill != 0)
-            //        {
-            //            this.GetSkill(enumSkill.eNormal).id = current12.info.skill;
-            //            break;
-            //        }
-            //        this.InitSkills();
-            //    }
-            //}
-            //if (this.equipList.Count() == 0 && this.mVecSkill.get_Count() != 0)
-            //{
-            //    this.InitSkills();
-            //}
+            using (List<Equip_With_User_Info>.Enumerator enumerator12 = this.equipList.GetEnumerator())
+            {
+                while (enumerator12.MoveNext())
+                {
+                    Equip_With_User_Info current12 = enumerator12.Current;
+                    if (current12.info.skill != 0)
+                    {
+                        this.GetSkill(enumSkill.eNormal).id = current12.info.skill;
+                        break;
+                    }
+                    this.InitSkills();
+                }
+            }
+            if (this.equipList.Count() == 0 && this.mVecSkill.Count() != 0)
+            {
+                this.InitSkills();
+            }
         }
-        //public void InitSkills()
-        //{
-        //    this.mHasDodgeSkill = false;
-        //    this.mHasHurtSkill = false;
-        //    for (int i = 0; i < this.info.skills.Count(); i++)
-        //    {
-        //        if (this.mVecSkill.get_Count() <= i)
-        //        {
-        //            this.mVecSkill.Add(new Skill(this.info.skills.get_Item(i), 1));
-        //        }
-        //        else
-        //        {
-        //            this.mVecSkill.get_Item(i).id = this.info.skills.get_Item(i);
-        //        }
-        //        if (this.mVecSkill.get_Item(i).info != null && this.mVecSkill.get_Item(i).info.triggerType == 11)
-        //        {
-        //            this.mHasDodgeSkill = true;
-        //        }
-        //        if (this.mVecSkill.get_Item(i).info != null && this.mVecSkill.get_Item(i).info.triggerType == 10)
-        //        {
-        //            this.mHasHurtSkill = true;
-        //        }
-        //    }
-        //}
+
+        public void InitSkills()
+        {
+            this.mHasDodgeSkill = false;
+            this.mHasHurtSkill = false;
+            for (int i = 0; i < this.info.skills.Count(); i++)
+            {
+                //if (this.mVecSkill.Count() <= i)
+                //{
+                //    this.mVecSkill.Add(new Skill(this.info.skills[i], 1));
+                //}
+                //else
+                //{
+                //    this.mVecSkill[i].id = this.info.skills[i];
+                //}
+                //if (this.mVecSkill[i].info != null && this.mVecSkill[i].info.triggerType == 11)
+                //{
+                //    this.mHasDodgeSkill = true;
+                //}
+                //if (this.mVecSkill[i].info != null && this.mVecSkill[i].info.triggerType == 10)
+                //{
+                //    this.mHasHurtSkill = true;
+                //}
+            }
+        }
+
         /// <summary>
         /// 如果更新了的话 level=99 会自动更新this.life
         /// </summary>
         /// 
         public void UpdateMaxLife()
         {
-            float floatFromStringArray = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("life_basic", 0, ',');
-            float floatFromStringArray2 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("life_basic", 1, ',');
-            float floatFromStringArray3 = CatchData.CatchDataFunc.Game_Config_Info_Func.GetFloatFromStringArray("life_basic", 2, ',');
-            this.maxLife = Mathf.CeilToInt((floatFromStringArray + ((float)this.level - 1f) * floatFromStringArray2) * CatchData.CatchDataFunc.Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_life") * this.info.ratioLife / floatFromStringArray3) * this.number;
+            float floatFromStringArray = Game_Config_Info_Func.GetFloatFromStringArray("life_basic", 0, ',');
+            float floatFromStringArray2 = Game_Config_Info_Func.GetFloatFromStringArray("life_basic", 1, ',');
+            float floatFromStringArray3 = Game_Config_Info_Func.GetFloatFromStringArray("life_basic", 2, ',');
+            this.maxLife = Mathf.CeilToInt((floatFromStringArray + ((float)this.level - 1f) * floatFromStringArray2) * Game_Config_Info_Func.GetGunBasicAttribute(this.info.type, "basic_attribute_life") * this.info.ratioLife / floatFromStringArray3) * this.number;
 
         }
 
@@ -686,5 +686,10 @@ namespace GFHelper.UserData
                 return 0.1f;
             }
         }
+
+        private List<Skill> mVecSkill = new List<Skill>();
+
+        private bool mHasDodgeSkill;
+        private bool mHasHurtSkill;
     }
 }

@@ -449,6 +449,31 @@ namespace GFHelper.CatchData
                     int.TryParse(item.is_additional, out gi.is_additional);
                     int.TryParse(item.launch_time, out gi.launch_time);
 
+                    int normal_attack = int.Parse(item.normal_attack);
+                    gi.skills.Add(normal_attack);
+                    int skill1 = int.Parse(item.skill1);
+                    gi.skills.Add(skill1);
+                    int skill2 = int.Parse(item.skill2);
+                    gi.skills.Add(skill2);
+                    string[] array3 = item.passive_skill.ToString().Split(new char[]
+                    {
+            ','
+                    });
+                    for (int k = 0; k < array3.Length; k++)
+                    {
+                        int num = 0;
+                        if (int.TryParse(array3[k], out num))
+                        {
+                            gi.skills.Add(num);
+                        }
+                    }
+
+
+
+
+
+
+
 
                     gun_info.Add(gun_info.Count, gi);
                     count++;

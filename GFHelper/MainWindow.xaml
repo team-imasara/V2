@@ -32,9 +32,8 @@
                         <TextBlock x:Name="textmp" HorizontalAlignment="Left" Height="15" Margin="47,0,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="55"/>
                         <TextBlock x:Name="textpart" Height="15" Margin="148,10,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" HorizontalAlignment="Left" Width="55" Grid.Row="1"/>
                         <TextBlock x:Name="textammo" HorizontalAlignment="Left" Height="16" Margin="148,-1,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="55"/>
-                        <TextBlock x:Name="textBlock_Copy3" HorizontalAlignment="Left" Height="16" Margin="203,0,0,0" TextWrapping="Wrap" Text="人形制造契约:" VerticalAlignment="Top" Width="79"/>
+                        <TextBlock x:Name="textBlock_Copy3" HorizontalAlignment="Left" Height="16" Margin="203,0,0,0" TextWrapping="Wrap" Text="核心:" VerticalAlignment="Top" Width="79"/>
                         <TextBlock x:Name="textBlock_Copy4" HorizontalAlignment="Left" Height="17" Margin="203,8,0,0" TextWrapping="Wrap" Text="快速制造契约:" VerticalAlignment="Top" Width="79" Grid.Row="1"/>
-                        <TextBlock x:Name="textitem1" HorizontalAlignment="Left" Height="16" Margin="287,-1,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="55"/>
                         <TextBlock x:Name="textitem3" HorizontalAlignment="Left" Height="16" Margin="287,9,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="55" Grid.Row="1"/>
                         <TextBlock x:Name="textBlock_Copy5" HorizontalAlignment="Left" Height="17" Margin="344,-1,0,0" TextWrapping="Wrap" Text="快速修复契约:" VerticalAlignment="Top" Width="79"/>
                         <TextBlock x:Name="textBlock_Copy6" HorizontalAlignment="Left" Height="20" Margin="344,8,0,0" TextWrapping="Wrap" Text="快速训练契约:" VerticalAlignment="Top" Width="79" Grid.Row="1" Grid.RowSpan="2"/>
@@ -52,6 +51,7 @@
                         <TextBlock x:Name="textFurniture_CoinNum" HorizontalAlignment="Left" Height="13" Margin="710,0,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="51"/>
                         <TextBlock x:Name="textBlock_Copy12" HorizontalAlignment="Left" Height="20" Margin="666,8,0,0" TextWrapping="Wrap" Text="兑换卷:" VerticalAlignment="Top" Width="39" Grid.Row="1" Grid.RowSpan="2"/>
                         <TextBlock x:Name="textExchange_CoinNum" HorizontalAlignment="Left" Height="13" Margin="710,9,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="51" Grid.Row="1"/>
+                        <TextBlock x:Name="coretem3" HorizontalAlignment="Left" Height="16" Margin="287,1,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="55" Grid.RowSpan="2"/>
                     </Grid>
                     <Grid Name ="GirdUserInfo" HorizontalAlignment="Left" Height="38" Margin="3,8,0,0" VerticalAlignment="Top" Width="184">
                         <TextBlock x:Name="UserName" Height="38" TextWrapping="Wrap" Text="指挥官名称" Margin="0,0,47,-3" FontSize="24" VerticalAlignment="Bottom" TextAlignment="Right"/>
@@ -71,9 +71,9 @@
                         <Grid HorizontalAlignment="Left" Height="86" Margin="12,-6,-105,-6" VerticalAlignment="Top" Width="222">
                             <TextBlock x:Name="textBlock1_Copy2" HorizontalAlignment="Left" Height="16" Margin="0,16,0,0" TextWrapping="Wrap" Text="建造位置数: " VerticalAlignment="Top" Width="96"/>
                             <TextBlock x:Name="textBlock1_Copy3" HorizontalAlignment="Left" Height="16" Margin="0,37,0,0" TextWrapping="Wrap" Text="修理位置数:" VerticalAlignment="Top" Width="96"/>
-                            <TextBlock x:Name="textBlock1_Copy4" HorizontalAlignment="Left" Height="16" Margin="0,58,0,0" TextWrapping="Wrap" Text="训练位置数: " VerticalAlignment="Top" Width="96"/>
+                            <TextBlock x:Name="textBlock1_Copy4" HorizontalAlignment="Left" Height="16" Margin="0,58,0,0" TextWrapping="Wrap" Text="人形制造契约:" VerticalAlignment="Top" Width="96"/>
                             <TextBlock x:Name="textDevelopSlot" HorizontalAlignment="Left" Height="14" Margin="80,16,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="110"/>
-                            <TextBlock x:Name="textUpgradeSlot" HorizontalAlignment="Left" Height="14" Margin="80,58,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="110"/>
+                            <TextBlock x:Name="textitem2" HorizontalAlignment="Left" Height="14" Margin="80,58,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="110"/>
                             <TextBlock x:Name="textFixSlot" HorizontalAlignment="Left" Height="14" Margin="80,37,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="110"/>
                         </Grid>
                     </GroupBox>
@@ -125,6 +125,7 @@
                     <Button Content="Button" HorizontalAlignment="Left" Margin="358,229,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_5"/>
                     <Label x:Name="BP_RecoverTime" Content="BP_RecoverTime" HorizontalAlignment="Left" Margin="254,228,0,0" VerticalAlignment="Top"/>
                     <Button Content="好友&#xD;&#xA;电池" HorizontalAlignment="Left" Margin="130,328,0,0" VerticalAlignment="Top" Width="50" Height="50" Click="Button_Click_6"/>
+                    <Button Content="好友&#xA;点赞" HorizontalAlignment="Left" Margin="185,328,0,0" VerticalAlignment="Top" Width="50" Height="50" Click="Button_Click_6"/>
                 </Grid>
             </TabItem>
             <TabItem Header="人形建造" Margin="-2,4,-2,-5">

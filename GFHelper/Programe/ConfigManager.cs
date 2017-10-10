@@ -171,13 +171,40 @@ namespace GFHelper
                     Environment.Exit(0);
                 }
 
-                if (this.im.configManager.getConfigString("platform") == "ios")
+                if (this.im.configManager.getConfigString("platform").ToLower() == "ios")
                     ProgrameData.platform = "iOS";
                 else
                     ProgrameData.platform = "android";
+                ProgrameData.worldid = this.im.configManager.getConfigString("worldId");
+                switch (ProgrameData.platform)
+                {
+                    case "android":
+                        {
+                            if (ProgrameData.worldid == "0")
+                            {
+                                ProgrameData.GameAdd = "http://gf-adrgw-cn-zs-game-0001.ppgame.com/index.php/1000/";
+                            }
+                            else
+                            {
+                                ProgrameData.GameAdd = "http://s" + ProgrameData.worldid + ".gw.gf.ppgame.com/index.php/100" + ProgrameData.worldid + "/";
+
+                            }
+                            break;
+                        }
+                    case "iOS":
+                        {
+                            ProgrameData.GameAdd = "http://gf-ios-cn-zs-game-0001.ppgame.com/index.php/3000/";
+                            break;
+                        }
+                    default:
+                        break;
+                }
+
+
+
 
                 ProgrameData.channelid = this.im.configManager.getConfigString("channelid").ToUpper();
-                ProgrameData.worldid = this.im.configManager.getConfigString("worldId");
+
                 ProgrameData.accountid = this.im.configManager.getConfigString("accountid");
                 System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
                 ProgrameData.password = BitConverter.ToString(md5.ComputeHash(UTF8Encoding.Default.GetBytes(this.im.configManager.getConfigString("password"))));
@@ -211,16 +238,6 @@ namespace GFHelper
                 {
                     IFormatProvider format = new System.Globalization.CultureInfo("zh-CN");
                     ProgrameData.StopTime_datetime = DateTime.ParseExact(ProgrameData.StopTime_string, "yyyyMMddHHmmss", format);
-                }
-
-                if (ProgrameData.worldid == "0")
-                {
-                    ProgrameData.GameAdd = "http://gf-adrgw-cn-zs-game-0001.ppgame.com/index.php/1000/";
-                }
-                else
-                {
-                    ProgrameData.GameAdd = "http://s" + ProgrameData.worldid + ".gw.gf.ppgame.com/index.php/100" + ProgrameData.worldid + "/";
-
                 }
 
             }

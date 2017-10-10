@@ -794,5 +794,20 @@ namespace GFHelper.Programe
             string result = DoPost(ProgrameData.GameAdd + RequestUrls.CombineGun, requeststring);
             return result;
         }
+
+        public string Friend_visit(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.Visit_Friend_Build, requeststring);
+            return result;
+        }
+        public string Friend_praise(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.Friend_praise, requeststring);
+            return result;
+        }
     }
 }

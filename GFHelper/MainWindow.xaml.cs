@@ -408,7 +408,7 @@ namespace GFHelper
         {
 
 
-            im.TaskList.Add(TaskList.Get_Battary_Friend);
+            im.TaskList.Add(TaskList.Friend_Praise);
         }
 
         private void Button_Click_7(object sender, RoutedEventArgs e)

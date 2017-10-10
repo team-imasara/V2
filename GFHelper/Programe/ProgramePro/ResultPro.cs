@@ -128,7 +128,14 @@ namespace GFHelper.Programe.ProgramePro
                     {
                         return result.Contains("pow") && result.Contains("dodge") && result.Contains("rate") ? 1 : 0;
                     }
-
+                case "Friend_visit":
+                    {
+                        return result.Contains("info") && result.Contains("user_id") && result.Contains("f_userid") ? 1 : 0;
+                    }
+                case "Friend_praise":
+                    {
+                        return result.Contains("package") && result.Contains("id") && result.Contains("user_exp") ? 1 : 0;
+                    }
                 default:
                     break;
             }
