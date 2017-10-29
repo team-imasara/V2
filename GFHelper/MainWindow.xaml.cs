@@ -19,6 +19,9 @@ using System.Threading;
 using Codeplex.Data;
 using GFHelper.Programe;
 using System.Runtime.InteropServices;
+using GFHelper.UserData;
+using AC;
+using GFHelper.Programe.Auto;
 
 namespace GFHelper
 {
@@ -115,7 +118,7 @@ namespace GFHelper
         {
 
             im.mainWindow.Login.IsEnabled = false;
-            im.TaskList.Add(TaskList.Login);
+            ProgrameData.TaskList.Add(TaskList.Login);
             //im.action.AutoLogin();
             //if (im.baseAction.AutoLogin() == true)
 
@@ -125,7 +128,6 @@ namespace GFHelper
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            Label1.Content=AuthCode.Decode(textbox1.Text, textbox2.Text);
 
         }
 
@@ -137,10 +139,7 @@ namespace GFHelper
         private void button1_Click(object sender, RoutedEventArgs e)
         {
 
-            var jsonobj = DynamicJson.Parse(AuthCode.Decode(textbox1.Text, "yundoudou")); //讲道理，我真不想写了
 
-
-            textbox2.Text = jsonobj.sign.ToString();
         }
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
@@ -390,17 +389,23 @@ namespace GFHelper
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            im.TaskList.Add(TaskList.Get_Battary_Friend);
+            ProgrameData.TaskList.Add(TaskList.Get_Battary_Friend);
         }
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            im.action.Get_dicGun_Combine();
+            UserDataSummery.dicGun_PowerUP.Clear();
+            int i = 0;
+            foreach (var item in im.userdatasummery.gun_with_user_info)
+            {
+                if (item.Value.maxAddDodge != item.Value.additionDodge && item.Value.maxAddHit != item.Value.additionHit && item.Value.maxAddPow != item.Value.additionPow&& item.Value.maxAddRate != item.Value.additionRate)
+                {
+                    UserDataSummery.dicGun_PowerUP.Add(i++, item.Value);
+                    MessageBox.Show(string.Format("Gun_name = {0} ", Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(item.Value.gun_id))));
+                }
 
-
-
-
-
+            }
+            MessageBox.Show((string.Format("当前共有 i={0}", i)));
 
         }
 
@@ -408,7 +413,7 @@ namespace GFHelper
         {
 
 
-            im.TaskList.Add(TaskList.Friend_Praise);
+            ProgrameData.TaskList.Add(TaskList.Friend_Praise);
         }
 
         private void Button_Click_7(object sender, RoutedEventArgs e)
@@ -460,12 +465,32 @@ namespace GFHelper
             ubti.Build_info(Task1Map.SelectedIndex,Task1MT.SelectedIndex+1,Task1ST1.SelectedIndex+1, mvp);
             ubti.Key = 0;
             im.dic_userbattletaskinfo[0]=ubti;
-            im.TaskList.Add(Programe.TaskList.TaskBattle_1);
+            ProgrameData.TaskList.Add(Programe.TaskList.TaskBattle_1);
         }
 
         private void Task1MT_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             im.uihelp.setTeamInfo_In_Formation();
+        }
+
+        private void Button_Click_8(object sender, RoutedEventArgs e)
+        {
+            string sign = CommonHelp.sign(textbox3.Text);
+
+            label_sign.Content = ProgrameData.sign;
+        }
+
+        private void Button_Click_9(object sender, RoutedEventArgs e)
+        {
+
+            result_decoded.Text = CommonHelp.DecodeAndMapJson(result_decoded.Text);
+        }
+
+        private void POST_Click(object sender, RoutedEventArgs e)
+        {
+
+
+
         }
 
         private void AutoOperationB_S4_Click(object sender, RoutedEventArgs e)

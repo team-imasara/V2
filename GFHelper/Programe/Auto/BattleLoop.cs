@@ -48,7 +48,12 @@ namespace GFHelper.Programe.Auto
             Map_Sent.Map5_2N.dic_TeamMove[1].team_id = ubti.TaskMianTeam_ID;
             Map_Sent.Map5_2N.dic_TeamMove[2].team_id = ubti.TaskMianTeam_ID;
             Map_Sent.Map5_2N.dic_TeamMove[3].team_id = ubti.TaskMianTeam_ID;
-            ubti.withdrawPOS1 = 14;
+
+            //撤退位置
+            List<int> list = new List<int>();
+            list.Add(14);
+            Set_Withdraw_INFO(ubti, list);
+
 
             im.uihelp.setStatusBarText_InThread(String.Format(" 检查装备仓库是否满额"));
             Check_Equip_Gun_FULL();
@@ -79,10 +84,7 @@ namespace GFHelper.Programe.Auto
             bs1.spot_id = 3038;
             bs1.mvp = ubti.mvp;
             bs1.user_rec.seed = ubti.seed;
-            bs1.battle_damage.enemy_effect_client = 11830;
-            bs1.battle_damage.team_effect_30 = ubti.TeamEffect;
-            bs1.battle_damage.team_effect_60 = ubti.TeamEffect;
-            bs1.battle_damage.true_time = 3.7;
+            bs1.battle_info.data_set(11830,/*浮动*/115, 2430,/*浮动*/4);
             bs1.set_data(ubti);
             im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
 
@@ -101,10 +103,7 @@ namespace GFHelper.Programe.Auto
             bs2.mvp = ubti.mvp;
             bs2.user_rec.seed = ubti.seed;
 
-            bs2.battle_damage.enemy_effect_client = 14196;
-            bs2.battle_damage.team_effect_30 = ubti.TeamEffect;
-            bs2.battle_damage.team_effect_60 = ubti.TeamEffect;
-            bs2.battle_damage.true_time = 5.1;
+            bs1.battle_info.data_set(14196,/*浮动*/155, 2916,/*浮动*/5);
             bs2.set_data(ubti);
 
             //战斗结算 经验装备
@@ -148,7 +147,10 @@ namespace GFHelper.Programe.Auto
             Map_Sent.Map0_2.dic_TeamMove[4].team_id = ubti.TaskMianTeam_ID;
             Map_Sent.Map0_2.dic_TeamMove[5].team_id = ubti.TaskMianTeam_ID;
             Map_Sent.Map0_2.dic_TeamMove[6].team_id = ubti.TaskMianTeam_ID;
-            ubti.withdrawPOS1 = 18;
+
+            List<int> list = new List<int>();
+            list.Add(18); 
+            Set_Withdraw_INFO(ubti, list);
 
             im.uihelp.setStatusBarText_InThread(String.Format(" 检查床位是否满额"));
             Check_Equip_Gun_FULL();
@@ -176,14 +178,13 @@ namespace GFHelper.Programe.Auto
             //战斗结算 经验，装备，指挥官经验
             //建立
             //需要扣血
-            im.userdatasummery.GUN_HP_reduce(100, random.Next(50, 80));
+            //im.userdatasummery.GUN_Life_reduce(100, random.Next(50, 80));
             bs.spot_id = 17;
             bs.mvp = ubti.mvp;
             bs.user_rec.seed = ubti.seed;
-            bs.battle_damage.enemy_effect_client = 9544;
-            bs.battle_damage.team_effect_60 = ubti.TeamEffect;//需要重新想
-            bs.battle_damage.team_effect_30 = ubti.TeamEffect;//需要重新想
-            bs.battle_damage.true_time = 23.7;
+            //bs.battle_info.enemy_effect_client = 9544;
+
+            //bs.battle_info.true_time = 23.7;
             bs.set_data(ubti);
             im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
 
@@ -199,14 +200,12 @@ namespace GFHelper.Programe.Auto
             //战斗结算 经验，装备，指挥官经验
             //建立
             //需要扣血
-            im.userdatasummery.GUN_HP_reduce(100, random.Next(30, 60));
+            //im.userdatasummery.GUN_Life_reduce(100, random.Next(30, 60));
             bs.spot_id = 18;
             bs.mvp = ubti.mvp;
             bs.user_rec.seed = ubti.seed;
-            bs.battle_damage.enemy_effect_client = 8449;
-            bs.battle_damage.team_effect_60 = ubti.TeamEffect;//需要重新想
-            bs.battle_damage.team_effect_30 = ubti.TeamEffect;//需要重新想
-            bs.battle_damage.true_time = 23.7;
+            //bs.battle_info.enemy_effect_client = 8449;
+            //bs.battle_info.true_time = 23.7;
             bs.set_data(ubti);
             im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
 
@@ -224,14 +223,12 @@ namespace GFHelper.Programe.Auto
             //战斗结算 经验，装备，指挥官经验
             //建立
             //需要扣血
-            im.userdatasummery.GUN_HP_reduce(100, random.Next(60, 100));
+            //im.userdatasummery.GUN_Life_reduce(100, random.Next(60, 100));
             bs.spot_id = 16;
             bs.mvp = ubti.mvp;
             bs.user_rec.seed = ubti.seed;
-            bs.battle_damage.enemy_effect_client = 4753;
-            bs.battle_damage.team_effect_60 = ubti.TeamEffect;//需要重新想
-            bs.battle_damage.team_effect_30 = ubti.TeamEffect;//需要重新想
-            bs.battle_damage.true_time = 9.8;
+            //bs.battle_info.enemy_effect_client = 4753;
+            //bs.battle_info.true_time = 9.8;
             bs.set_data(ubti);
             im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
 
@@ -249,14 +246,13 @@ namespace GFHelper.Programe.Auto
             im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map0_2.dic_TeamMove[stepNum]));
             im.action.teamMove(Map_Sent.Map0_2.dic_TeamMove[stepNum++]);
 
-            im.userdatasummery.GUN_HP_reduce(100, random.Next(10, 30));
+            //im.userdatasummery.GUN_Life_reduce(100, random.Next(10, 30));
             bs.spot_id = 23;
             bs.mvp = ubti.mvp;
             bs.user_rec.seed = ubti.seed;
-            bs.battle_damage.enemy_effect_client = 6270;
-            bs.battle_damage.team_effect_60 = ubti.TeamEffect;//需要重新想
-            bs.battle_damage.team_effect_30 = ubti.TeamEffect;//需要重新想
-            bs.battle_damage.true_time = 19.3;
+            //bs.battle_info.enemy_effect_client = 6270;
+
+            //bs.battle_info.true_time = 19.3;
             bs.set_data(ubti);
             im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
 
@@ -268,14 +264,13 @@ namespace GFHelper.Programe.Auto
             im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map0_2.dic_TeamMove[stepNum]));
             im.action.teamMove(Map_Sent.Map0_2.dic_TeamMove[stepNum++]);
 
-            im.userdatasummery.GUN_HP_reduce(100, random.Next(20, 40));
+            //im.userdatasummery.GUN_Life_reduce(100, random.Next(20, 40));
             bs.spot_id = 25;
             bs.mvp = ubti.mvp;
             bs.user_rec.seed = ubti.seed;
-            bs.battle_damage.enemy_effect_client = 6540;
-            bs.battle_damage.team_effect_60 = ubti.TeamEffect;//需要重新想
-            bs.battle_damage.team_effect_30 = ubti.TeamEffect;//需要重新想
-            bs.battle_damage.true_time = 17.7;
+            //bs.battle_info.enemy_effect_client = 6540;
+
+            //bs.battle_info.true_time = 17.7;
             bs.set_data(ubti);
             im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
 
@@ -302,8 +297,12 @@ namespace GFHelper.Programe.Auto
             Map_Sent.Map7_6.dic_TeamMove[2].team_id = ubti.TaskMianTeam_ID;
             Map_Sent.Map7_6.dic_TeamMove[3].team_id = ubti.TaskMianTeam_ID;
 
-            ubti.withdrawPOS1 = 14;
-            ubti.withdrawPOS2 = 13;
+
+            List<int> list = new List<int>();
+            list.Add(13);list.Add(14);
+            Set_Withdraw_INFO(ubti,list);
+
+
             im.uihelp.setStatusBarText_InThread(String.Format(" 检查床位是否满额"));
             Check_Equip_Gun_FULL();
 
@@ -328,11 +327,15 @@ namespace GFHelper.Programe.Auto
             bs.spot_id = 1947;
             bs.mvp = ubti.mvp;
             bs.user_rec.seed = ubti.seed;
-            bs.battle_damage.enemy_effect_client = 6756;
-            bs.battle_damage.team_effect_60 = ubti.TeamEffect;//需要重新想
-            bs.battle_damage.team_effect_30 = ubti.TeamEffect - random.Next(200, 300);//需要重新想
-            bs.battle_damage.true_time = (double)random.Next(90, 110) / 10;
+
+            //血量计算
+            ubti.Set_LifeReduce(random.Next(10, 20));
+            im.userdatasummery.GUN_Life_reduce(ubti.TaskMianTeam_ID, ubti.List_withdrawPOS, ubti.List_lifeReduce);
+
             bs.set_data(ubti);
+            int time = random.Next(6, 8);
+            bs.battle_info.data_set(6752,/*浮动*/CommonHelp.GetTotalFPS_((double)time), 5688,/*浮动*/time);
+
             im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
 
             if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
@@ -348,11 +351,14 @@ namespace GFHelper.Programe.Auto
             bs.spot_id = 1949;
             bs.mvp = ubti.mvp;
             bs.user_rec.seed = ubti.seed;
-            bs.battle_damage.enemy_effect_client = 5475;
-            bs.battle_damage.team_effect_60 = ubti.TeamEffect;//需要重新想
-            bs.battle_damage.team_effect_30 = ubti.TeamEffect - random.Next(200, 300);//需要重新想
-            bs.battle_damage.true_time = (double)random.Next(80, 90) / 10;
+
+            ubti.Set_LifeReduce(random.Next(10, 20));
+            im.userdatasummery.GUN_Life_reduce(ubti.TaskMianTeam_ID, ubti.List_withdrawPOS, ubti.List_lifeReduce);
             bs.set_data(ubti);
+            time = random.Next(6, 8);
+            bs.battle_info.data_set(5475,/*浮动*/CommonHelp.GetTotalFPS_((double)time), 8890,/*浮动*/time);
+            bs.set_data(ubti);
+
             im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
 
             if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
@@ -370,11 +376,15 @@ namespace GFHelper.Programe.Auto
             bs.spot_id = 1949;
             bs.mvp = ubti.mvp;
             bs.user_rec.seed = ubti.seed;
-            bs.battle_damage.enemy_effect_client = 6752;
-            bs.battle_damage.team_effect_60 = ubti.TeamEffect;//需要重新想
-            bs.battle_damage.team_effect_30 = ubti.TeamEffect - random.Next(200, 300);//需要重新想
-            bs.battle_damage.true_time = (double)random.Next(70, 85) / 10;
+
+            //血量计算
+            ubti.Set_LifeReduce(random.Next(10, 20));
+            im.userdatasummery.GUN_Life_reduce(ubti.TaskMianTeam_ID, ubti.List_withdrawPOS, ubti.List_lifeReduce);
             bs.set_data(ubti);
+            time = random.Next(6, 8);
+            bs.battle_info.data_set(6752,/*浮动*/CommonHelp.GetTotalFPS_((double)time), 5688,/*浮动*/time);
+            bs.set_data(ubti);
+
             im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
 
             if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
@@ -396,10 +406,13 @@ namespace GFHelper.Programe.Auto
             bs.spot_id = 1947;
             bs.mvp = ubti.mvp;
             bs.user_rec.seed = ubti.seed;
-            bs.battle_damage.enemy_effect_client = 6752;
-            bs.battle_damage.team_effect_60 = ubti.TeamEffect;//需要重新想
-            bs.battle_damage.team_effect_30 = ubti.TeamEffect - random.Next(200, 300);//需要重新想
-            bs.battle_damage.true_time =(double)random.Next(70, 85) / 10;
+            //血量计算
+            ubti.Set_LifeReduce(random.Next(10, 20));
+            im.userdatasummery.GUN_Life_reduce(ubti.TaskMianTeam_ID, ubti.List_withdrawPOS, ubti.List_lifeReduce);
+            bs.set_data(ubti);
+
+            time = random.Next(6, 8);
+            bs.battle_info.data_set(6752,/*浮动*/CommonHelp.GetTotalFPS_((double)time), 5688,/*浮动*/time);
             bs.set_data(ubti);
             im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
 
@@ -450,6 +463,13 @@ namespace GFHelper.Programe.Auto
             //检查是否需要拆解核心
             Gun_Retire_Core();
 
+            //检查是否需要修复
+            im.userdatasummery.Check_Gun_need_FIX(ubti.TaskMianTeam_ID,0.2);
+            //检查是否需要重新登陆
+            if (ubti.BattleLoopTime % ProgrameData.BL_ReLogin_num == 0)
+            {
+                ProgrameData.TaskList.Add(TaskList.Login);
+            }
 
 
             if (ubti.BattleLoopTime <= ubti.BattleMaxLoopTime || ubti.BattleMaxLoopTime == 0)
@@ -460,12 +480,33 @@ namespace GFHelper.Programe.Auto
 
         }
 
+        public void Set_Withdraw_INFO(User_Normal_BattleTaskInfo ubti, List<int> withdrawinfo)
+        {
+            ubti.List_withdrawGUN_ID.Clear();
+            ubti.List_withdrawPOS.Clear();
+            foreach (var item in withdrawinfo)
+            {
+                ubti.List_withdrawPOS.Add(item);
+            }
+            
+            for(int i = 1; i <= im.userdatasummery.team_info[ubti.TaskMianTeam_ID].Count; i++)
+            {
+                foreach (var item in withdrawinfo)
+                {
+                    if (im.userdatasummery.team_info[ubti.TaskMianTeam_ID][i].position == item)
+                    {
+                        ubti.List_withdrawGUN_ID.Add(im.userdatasummery.team_info[ubti.TaskMianTeam_ID][i].id);
+                    }
+                }
+            }
+        }
 
         public void Gun_Retire_Core()
         {
             im.userdatasummery.Get_Gun_Retire();
             if (UserDataSummery.Gun_Retire_Rank3.Count >= 24)
             {
+                Thread.Sleep(2000);
                 im.action.Gun_retire(3);
                 im.userdatasummery.user_info.core += 24;
             }
@@ -477,8 +518,15 @@ namespace GFHelper.Programe.Auto
             if (im.userdatasummery.Check_Equip_GUN_FULL())
             {
                 im.action.Eat_Equip();//升级
-                im.action.EatGunHandle();
-                im.action.Gun_retire(2);
+                if (im.action.EatGunHandle())
+                {
+                    return;
+                }
+                else
+                {
+                    im.action.Gun_retire(2);
+                }
+
                 //装备满了 需要升级或者拆解
             }
         }
@@ -487,6 +535,10 @@ namespace GFHelper.Programe.Auto
         {
             Map_Sent.Map5_2N.spots1.team_id = ubti.TaskMianTeam_ID;
             Map_Sent.Map5_2N.spots2.team_id = ubti.TaskSupportTeam1_ID;
+
+
+            Check_Equip_Gun_FULL();
+
             if (im.userdatasummery.CheckGun_AMMO_MRC_NEED_SUPORT(ubti.mvp, num))
             {
                 im.uihelp.setStatusBarText_InThread(String.Format(" 正在单独补给 (移出队伍)"));
@@ -523,7 +575,7 @@ namespace GFHelper.Programe.Auto
             {
                 case 0:
                     {
-                        im.TaskList.Add(Programe.TaskList.TaskBattle_1);
+                        ProgrameData.TaskList.Add(Programe.TaskList.TaskBattle_1);
                         break;
                     }
                 default:
@@ -542,7 +594,7 @@ namespace GFHelper.Programe.Auto
             {
                 case 1:
                     {
-                        sbs.set_Data(usbt.mission_id1, usbt.duration, usbt.skill_cd, usbt.enemy_effect_client1);
+                        sbs.set_Data(usbt.mission_id1, usbt.duration, usbt.skill_cd, usbt.enemy_effect_client1,usbt.enemy_life1);
                         if (usbt.duration < usbt.L_duration1)
                         {
                             return;
@@ -551,7 +603,7 @@ namespace GFHelper.Programe.Auto
                     }
                 case 2:
                     {
-                        sbs.set_Data(usbt.mission_id2, usbt.duration, usbt.skill_cd, usbt.enemy_effect_client2);
+                        sbs.set_Data(usbt.mission_id2, usbt.duration, usbt.skill_cd, usbt.enemy_effect_client2,usbt.enemy_life2);
                         if (usbt.duration < usbt.L_duration2)
                         {
                             return;
@@ -560,7 +612,7 @@ namespace GFHelper.Programe.Auto
                     }
                 case 3:
                     {
-                        sbs.set_Data(usbt.mission_id3, usbt.duration, usbt.skill_cd, usbt.enemy_effect_client3);
+                        sbs.set_Data(usbt.mission_id3, usbt.duration, usbt.skill_cd, usbt.enemy_effect_client3,usbt.enemy_life3);
                         if (usbt.duration < usbt.L_duration3) { return; }
                         break;
                     }

@@ -1,4 +1,5 @@
-﻿using Codeplex.Data;
+﻿using AC;
+using Codeplex.Data;
 using GFHelper.Programe.ProgramePro;
 using System;
 using System.Collections.Generic;
@@ -60,11 +61,37 @@ namespace GFHelper.Programe
         /// <returns></returns>
         public string GetLocalAddress()
         {
-            string result = DoPost("http://1212.ip138.com/ic.asp", "");
-            int start = result.IndexOf("[") + 1;
-            int end = result.IndexOf("]", start);
-            result = result.Substring(start, end - start);
-            return result;
+            while (true)
+            {
+                try
+                {
+                    while (true)
+                    {
+                        string result;
+                        WebRequest wr = WebRequest.Create("http://www.ipip.net/");
+                        Stream s = wr.GetResponse().GetResponseStream();
+                        StreamReader sr = new StreamReader(s, Encoding.UTF8);
+                        string all = sr.ReadToEnd();
+                        int start = all.IndexOf("您当前的IP：", StringComparison.Ordinal) + 7;
+                        int end = all.IndexOf("<", start, StringComparison.Ordinal);
+                        result = all.Substring(start, end - start);
+                        sr.Close();
+                        s.Close();
+                        char[] chs = result.ToArray();
+                        int count = 0;
+                        for (int i = 0; i < chs.Length; i++)
+                        {
+                            if (chs[i] == '.') count++;
+                        }
+                        if (count == 3) return result;
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    ;
+                }
+            }
         }
 
         public bool LoginFirstUrl()
@@ -84,17 +111,19 @@ namespace GFHelper.Programe
 
             string result = "";
 
-            while (string.IsNullOrEmpty(result) == true)
+            while (true)
             {
-
                 result = DoPost(RequestUrls.LoginFirstUrl, data.ToString());
-                var jsonobj = DynamicJson.Parse(result); //讲道理，我真不想写了
-
-                ProgrameData.access_token = jsonobj.access_token.ToString();
-                ProgrameData.openid = jsonobj.openid.ToString();
+                if (ResultPro.Result_Pro(ref result, "LoginFirstUrl", false) == 1)
+                {
+                    var jsonobj = DynamicJson.Parse(result); //讲道理，我真不想写了
+                    ProgrameData.access_token = jsonobj.access_token.ToString();
+                    ProgrameData.openid = jsonobj.openid.ToString();
+                    return true;
+                }
+                if (ResultPro.Result_Pro(ref result, "LoginFirstUrl", false) == 0) {continue; }
+                if (ResultPro.Result_Pro(ref result, "LoginFirstUrl", false) == -1) {continue; /*特殊处理我还没想好*/; }
             }
-
-            return true;
         }
 
         public string Index_version()//这个API发的是当前时间戳？
@@ -116,41 +145,23 @@ namespace GFHelper.Programe
             string data = StringBuilder_(parameters);
             string result = "";
 
-
-            while (string.IsNullOrEmpty(result) == true)
+            while (true)
             {
-
                 result = DoPost(ProgrameData.GameAdd + RequestUrls.Index_version, data.ToString());//明码不需要解密
-                //result = CommonHelp.StringD(result);
-                var jsonobj = DynamicJson.Parse(result); //讲道理，我真不想写了
-                
-                ProgrameData.CatchDataVersion = jsonobj.data_version.ToString();
-                ProgrameData.tomorrow_zero = Convert.ToInt32(jsonobj.tomorrow_zero);
-                ProgrameData.weekday = Convert.ToInt32(jsonobj.weekday);
-
-            }
-            return ProgrameData.CatchDataVersion;
-        }
-        public static int ConvertStringVersionToInterger(string version)
-        {
-            int num;
-            bool flag = int.TryParse(version, out num);
-            int result;
-            if (flag)
-            {
-                result = num;
-            }
-            else
-            {
-                num = 1;
-                for (int i = 0; i < version.Length; i++)
+                if (ResultPro.Result_Pro(ref result, "Index_version", false) == 1)
                 {
-                    num = (int)version[i] * num % 9999;
+                    var jsonobj = DynamicJson.Parse(result); //讲道理，我真不想写了
+                    GameData.loginTime = Convert.ToInt32(jsonobj.now);
+                    ProgrameData.CatchDataVersion = jsonobj.data_version.ToString();
+                    ProgrameData.tomorrow_zero = Convert.ToInt32(jsonobj.tomorrow_zero);
+                    ProgrameData.weekday = Convert.ToInt32(jsonobj.weekday);
+                    return ProgrameData.CatchDataVersion;
                 }
-                result = num;
+                if (ResultPro.Result_Pro(ref result, "Index_version", false) == 0) { continue; }
+                if (ResultPro.Result_Pro(ref result, "Index_version", false) == -1) {continue; /*特殊处理我还没想好*/; }
             }
-            return result;
         }
+
         public string  GetDigitalUid(string data)
         {
 
@@ -271,7 +282,8 @@ namespace GFHelper.Programe
             while (string.IsNullOrEmpty(result) == true)
             {
                 result = DoPost(ProgrameData.GameAdd + RequestUrls.CheckNewMail, requeststring);
-                result = AuthCode.Decode(result, ProgrameData.sign);
+                //result = AuthCode.Decode(result, ProgrameData.sign);
+                result = CommonHelp.DecodeAndMapJson(result);
             }
             return result;
         }
@@ -294,7 +306,9 @@ namespace GFHelper.Programe
             while (string.IsNullOrEmpty(result) == true)
             {
                 result = DoPost(ProgrameData.GameAdd + RequestUrls.MallStaticTables, requeststring);
-                var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, ProgrameData.sign));
+                //var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, ProgrameData.sign));
+
+                var jsonobj = DynamicJson.Parse(CommonHelp.DecodeAndMapJson(result));
             }
         }
 
@@ -317,7 +331,8 @@ namespace GFHelper.Programe
             while (string.IsNullOrEmpty(result) == true)
             {
                 result = DoPost(ProgrameData.GameAdd + RequestUrls.GetMailList, requeststring);
-                result = AuthCode.Decode(result, ProgrameData.sign);
+                //result = AuthCode.Decode(result, ProgrameData.sign);
+                result = CommonHelp.DecodeAndMapJson(result);
             }
 
             return result;//未json化
@@ -353,7 +368,8 @@ namespace GFHelper.Programe
                 result = DoPost(ProgrameData.GameAdd + RequestUrls.GetMailResource, requeststring);
 
             }
-            result = AuthCode.Decode(result, ProgrameData.sign);
+            //result = AuthCode.Decode(result, ProgrameData.sign);
+            result = CommonHelp.DecodeAndMapJson(result);
             return result;
         }
 
@@ -385,7 +401,8 @@ namespace GFHelper.Programe
                 result = DoPost(ProgrameData.GameAdd + RequestUrls.GetMailResource, requeststring);
 
             }
-            result = AuthCode.Decode(result, ProgrameData.sign);
+            //result = AuthCode.Decode(result, ProgrameData.sign);
+            result = CommonHelp.DecodeAndMapJson(result);
             return result;
         }
 
@@ -417,7 +434,8 @@ namespace GFHelper.Programe
             while (string.IsNullOrEmpty(result) == true)
             {
                 result = DoPost(ProgrameData.GameAdd + RequestUrls.RecoverResource, requeststring);
-                var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, ProgrameData.sign));
+                //var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, ProgrameData.sign));
+                var jsonobj = DynamicJson.Parse(CommonHelp.DecodeAndMapJson(result));
             }
             return result;
         }
@@ -530,7 +548,9 @@ namespace GFHelper.Programe
                 result = DoPost(ProgrameData.GameAdd + RequestUrls.Dorm_Receive_Favor, requeststring);
 
             }
-            var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, ProgrameData.sign));
+            //var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, ProgrameData.sign));
+
+            var jsonobj = DynamicJson.Parse(CommonHelp.DecodeAndMapJson(result));
             try
             {
                 return Convert.ToInt32(jsonobj.favor_click.ToString());
@@ -559,7 +579,9 @@ namespace GFHelper.Programe
                 result = DoPost(ProgrameData.GameAdd + RequestUrls.Visit_Friend_Build, requeststring);
 
             }
-            var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, ProgrameData.sign));
+            //var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, ProgrameData.sign));
+            //result = CommonHelp.DecodeAndMapJson(result);
+            var jsonobj = DynamicJson.Parse(CommonHelp.DecodeAndMapJson(result));
             try
             {
                 return Convert.ToInt32(jsonobj.build_coin_flag.ToString());
@@ -585,7 +607,9 @@ namespace GFHelper.Programe
                 result = DoPost(ProgrameData.GameAdd + RequestUrls.Get_Friend_Build_Coin, requeststring);
 
             }
-            var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, ProgrameData.sign));
+            //var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, ProgrameData.sign));
+            //result = CommonHelp.DecodeAndMapJson(result);
+            var jsonobj = DynamicJson.Parse(CommonHelp.DecodeAndMapJson(result));
             try
             {
                 //如果和预想的num一样则返回true

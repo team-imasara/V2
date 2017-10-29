@@ -1,6 +1,7 @@
 ﻿using Codeplex.Data;
 using GFHelper.CatchData;
 using GFHelper.CatchData.CatchDataFunc;
+using GFHelper.Programe;
 using LitJson;
 using System;
 using System.Collections.Generic;
@@ -707,7 +708,8 @@ namespace GFHelper.UserData
                     {
                         if (!gun_with_user_info.ContainsKey(i))
                         {
-                            gun_with_user_info.Add(i, gwui);
+                            gun_with_user_info[i] = gwui;
+                            //gun_with_user_info.Add(i, gwui);
                             return true;
                         }
                         i++;
@@ -871,15 +873,15 @@ namespace GFHelper.UserData
             Gun_Retire_Rank3.Clear();
             foreach (var item in gun_with_user_info)
             {
-                if (item.Value.info.rank == 2 && item.Value.is_locked!=1)
+                if (item.Value.info.rank == 2 && item.Value.is_locked == 0)
                 {
                     Gun_Retire_Rank2.Add(item.Value.id);
-                    if (Gun_Retire_Rank2.Count == 24) break;
+                    if (Gun_Retire_Rank2.Count == ProgrameData.Eat_Gun_rank2_num) break;
                 }
             }
             foreach (var item in gun_with_user_info)
             {
-                if (item.Value.info.rank == 3 && item.Value.is_locked != 1)
+                if (item.Value.info.rank == 3 && item.Value.is_locked == 0)
                 {
                     Gun_Retire_Rank3.Add(item.Value.id);
                     if (Gun_Retire_Rank3.Count == 24) break;
@@ -1014,6 +1016,7 @@ namespace GFHelper.UserData
                                         break;
                                     }
                                 }
+
                                 break;
                             }
 
@@ -1027,6 +1030,7 @@ namespace GFHelper.UserData
                                         break;
                                     }
                                 }
+
                                 break;
                             }
                         default:
@@ -1034,7 +1038,23 @@ namespace GFHelper.UserData
                     }
                 }
             }
-            Gun_Retire_Rank2.Clear();
+            switch (type)
+            {
+                case 2:
+                    {
+                        Gun_Retire_Rank2.Clear();
+                        break;
+                    }
+                case 3:
+                    {
+                        Gun_Retire_Rank3.Clear();
+                        break;
+                    }
+                default:
+                    break;
+            }
+
+
         }
 
         /// <summary>
@@ -1507,28 +1527,57 @@ namespace GFHelper.UserData
                 }
             }
         }
-        public void GUN_HP_reduce(int gunid,int hp_reduce)
+
+        /// <summary>
+        /// 战斗结束后的扣血
+        /// </summary>
+        /// <param name="teamID">队伍ID</param>
+        /// <param name="pos">要扣血的位置</param>
+        /// <param name="life_reduce">要扣血的血量 和 pos 一一对应</param>
+        public void GUN_Life_reduce(int teamID,List<int> pos,List<int> life_reduce)
         {
-            for(int i = 0; i <= gun_with_user_info.Last().Key; i++)
+            int count = 0;
+            for(int i =1;i<= team_info[teamID].Count; i++)
             {
-                if (!gun_with_user_info.ContainsKey(i)) continue;
-                if (gun_with_user_info[i].id == gunid)
+                for (int y = 0; y < pos.Count; y++)
                 {
-                    gun_with_user_info[i].life -= hp_reduce;
-                    return;
+                    if (team_info[teamID][i].position == pos[y])
+                    {
+                        team_info[teamID][i].life -= life_reduce[y];
+
+                        if (team_info[teamID][i].life < 0)
+                        {
+                            team_info[teamID][i].life = 0;
+                        }
+                        count++;
+                        if (count == life_reduce.Count)
+                        {
+                            return;
+                        }
+                    }
                 }
             }
+
         }
 
+        public void Check_Gun_need_FIX(int teamID, double num)
+        {
+            im.uihelp.setStatusBarText_InThread(String.Format(" 检查人形是否需要修复"));
+            System.Threading.Thread.Sleep(1000);
+            for (int i = 1; i <= team_info[teamID].Count; i++)
+            {
+                double k =(double)team_info[teamID][i].life / team_info[teamID][i].maxLife;
+                if (k <= num)
+                {
+                    System.Threading.Thread.Sleep(2000);
+                    if (im.action.Fix_Gun(team_info[teamID][i].id, true))
+                    {
+                        team_info[teamID][i].life = team_info[teamID][i].maxLife;
+                    }
+                }
+            }
 
-
-
-
-
-
-
-
-
+        }
 
 
 

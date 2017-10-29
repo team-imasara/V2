@@ -33,7 +33,7 @@ namespace GFHelper
         //4个后勤任务
         public Dictionary<int, Operation_Act_Info> Dic_auto_operation_act = new Dictionary<int, Operation_Act_Info>();
         //程序任务队列如后勤练级
-        public List<TaskListInfo> TaskList;
+
         //练级任务
         public Dictionary<int, Programe.Auto.User_Normal_BattleTaskInfo> dic_userbattletaskinfo = new Dictionary<int, Programe.Auto.User_Normal_BattleTaskInfo>();
 
@@ -70,7 +70,7 @@ namespace GFHelper
                 dic_userbattletaskinfo.Add(dic_userbattletaskinfo.Count, userbattletaskinfo);
             }
 
-            this.TaskList = new List<TaskListInfo>();
+
 
             this.auto_summery = new Programe.Auto.Auto_Summery(this);
             this.battle_loop = new Programe.Auto.BattleLoop(this);

@@ -78,12 +78,30 @@ namespace GFHelper.Programe.Auto
             });
         }
     }
-    public class battle_damage
+
+    public class battle_info
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="enemy_effect_client">enemy_effect_client</param>
+        /// <param name="true_time">true_time</param>
+        /// <param name="life_enemy">life_enemy</param>
+        /// <param name="client_time">client_time</param>
+        public void data_set(int enemy_effect_client,int true_time,int life_enemy,int client_time)
+        {
+            this.enemy_effect_client = enemy_effect_client;
+            this.true_time = true_time;
+            this.life_enemy = life_enemy;
+            this.client_time = client_time;
+        }
+
         public int enemy_effect_client { set; get; }
-        public int team_effect_60 { set; get; }
-        public int team_effect_30 { set; get; }
-        public double true_time { set; get;}
+        public int true_time { set; get; }//帧数
+        public int life_enemy { set; get; }//铁血血量 和对铁血造成的伤害 一般相等
+        public int client_time { set; get; }//客户端时间 秒数
+
+
     }
 
     public class battle_time

@@ -28,9 +28,9 @@ namespace GFHelper.Programe
         {
             try
             {
-                if (im.TaskList.Any())
+                if (ProgrameData.TaskList.Any())
                 {
-                    im.mainWindow.Title = string.Format(" 少女前线-暗 当前任务 " + im.TaskList[0].TaskName.ToString());
+                    im.mainWindow.Title = string.Format(" 少女前线-暗 当前任务 " + ProgrameData.TaskList[0].TaskName.ToString());
                 }
                 else
                 {

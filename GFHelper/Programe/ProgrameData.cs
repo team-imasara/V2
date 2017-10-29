@@ -67,7 +67,53 @@ namespace GFHelper.Programe
 
         public static bool show_result_error = true;
 
+
+        public static int Eat_Gun_rank2_num = 24;
+
         public static int Error_Num_Stop = 10;
+
+        public static int BL_ReLogin_num = 20;
+
+
+
+        public static Dictionary<int, string> dic_Error_Result = new Dictionary<int, string>();
+        public static List<TaskListInfo> TaskList = new List<TaskListInfo>();
+
+
+        public static void Add_dic_Error(string result)
+        {
+            if (dic_Error_Result.Count >= 100) dic_Error_Result.Clear();
+            dic_Error_Result.Add(dic_Error_Result.Count, result);
+
+
+            int count = 0;
+
+
+            foreach (var item in dic_Error_Result)
+            {
+                if (item.Value.Contains("error"))
+                {
+                    count++;
+                    continue;
+                }
+                else
+                {
+                    count = 0;
+                }
+
+                if (count >= 7)
+                {
+                    Programe.ProgramePro.WriteLog.Log(String.Format(" error错误达到7个 "));
+                    dic_Error_Result.Clear();
+                    TaskList.Add(Programe.TaskList.Login);
+                    break;
+                }
+            }
+
+
+
+
+        }
 
     }
 }

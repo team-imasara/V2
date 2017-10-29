@@ -34,7 +34,7 @@ public class RequestUrls
     public const string FinishDeveloEquip = "Equip/finishDevelop";
     public const string FinishOperation = "Operation/finishOperation";
     public const string FixFinish = "Gun/fixFinish";
-    public const string FixGun = "Gun/fixGun";
+    public const string FixGun = "Gun/fixGuns";
     public const string FormationSupplyGun = "Gun/supplyGun";
     public const string GemBuyConstruction = "Mall/gemToMax";
     public const string GemBuyGiftbag = "Mall/gemToGiftbag";

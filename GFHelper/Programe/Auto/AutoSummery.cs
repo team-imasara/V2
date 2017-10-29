@@ -48,22 +48,22 @@ namespace GFHelper.Programe.Auto
                                     case 0:
                                         {
 
-                                            im.TaskList.Add(Programe.TaskList.Finish_Operation_Act1);
+                                            ProgrameData.TaskList.Add(Programe.TaskList.Finish_Operation_Act1);
                                             break;
                                         }
                                     case 1:
                                         {
-                                            im.TaskList.Add(Programe.TaskList.Finish_Operation_Act2);
+                                            ProgrameData.TaskList.Add(Programe.TaskList.Finish_Operation_Act2);
                                             break;
                                         }
                                     case 2:
                                         {
-                                            im.TaskList.Add(Programe.TaskList.Finish_Operation_Act3);
+                                            ProgrameData.TaskList.Add(Programe.TaskList.Finish_Operation_Act3);
                                             break;
                                         }
                                     case 3:
                                         {
-                                            im.TaskList.Add(Programe.TaskList.Finish_Operation_Act4);
+                                            ProgrameData.TaskList.Add(Programe.TaskList.Finish_Operation_Act4);
                                             break;
                                         }
                                     default:
@@ -77,22 +77,22 @@ namespace GFHelper.Programe.Auto
                                     case 0:
                                         {
 
-                                            im.TaskList.Add(Programe.TaskList.Auto_Loop_Operation_Act1);
+                                            ProgrameData.TaskList.Add(Programe.TaskList.Auto_Loop_Operation_Act1);
                                             break;
                                         }
                                     case 1:
                                         {
-                                            im.TaskList.Add(Programe.TaskList.Auto_Loop_Operation_Act2);
+                                            ProgrameData.TaskList.Add(Programe.TaskList.Auto_Loop_Operation_Act2);
                                             break;
                                         }
                                     case 2:
                                         {
-                                            im.TaskList.Add(Programe.TaskList.Auto_Loop_Operation_Act3);
+                                            ProgrameData.TaskList.Add(Programe.TaskList.Auto_Loop_Operation_Act3);
                                             break;
                                         }
                                     case 3:
                                         {
-                                            im.TaskList.Add(Programe.TaskList.Auto_Loop_Operation_Act4);
+                                            ProgrameData.TaskList.Add(Programe.TaskList.Auto_Loop_Operation_Act4);
                                             break;
                                         }
                                     default:
@@ -128,7 +128,7 @@ namespace GFHelper.Programe.Auto
         {
             if(im.userdatasummery.kalina_with_user_info.click_num < 5)
             {
-                im.TaskList.Add(Programe.TaskList.Click_Kalina);
+                ProgrameData.TaskList.Add(Programe.TaskList.Click_Kalina);
                 im.userdatasummery.kalina_with_user_info.click_num++;
             }
         }
@@ -141,7 +141,7 @@ namespace GFHelper.Programe.Auto
                 {
                     if (x.Value.can_click == 1)
                     {
-                        im.TaskList.Add(TaskList.Click_Girls_In_Dorm);
+                        ProgrameData.TaskList.Add(TaskList.Click_Girls_In_Dorm);
                         NeedAuto_Click_Girls_In_Dorm = false;
                         return;
                     }
@@ -170,7 +170,7 @@ namespace GFHelper.Programe.Auto
             //3点
             if (BeijingTimeNow.Hour * 60 + BeijingTimeNow.Minute == (60 * 3 + 1) && Time3AddGetFriendBattery == true)
             {
-                im.TaskList.Add(TaskList.Get_Battary_Friend);
+                ProgrameData.TaskList.Add(TaskList.Get_Battary_Friend);
                 Time3AddGetFriendBattery = false;
             }
             else
@@ -182,7 +182,7 @@ namespace GFHelper.Programe.Auto
             //11点
             if (BeijingTimeNow.Hour * 60 + BeijingTimeNow.Minute == (60 * 15 + 1) && Time15AddGetFriendBattery == true)
             {
-                im.TaskList.Add(TaskList.Get_Battary_Friend);
+                ProgrameData.TaskList.Add(TaskList.Get_Battary_Friend);
 
                 Time15AddGetFriendBattery = false;
             }
@@ -194,8 +194,8 @@ namespace GFHelper.Programe.Auto
 
             if(BeijingTimeNow.Hour * 60 + BeijingTimeNow.Minute == (60 * 11 + 1) && Time11AddGetMineBattery == true)
             {
-                im.TaskList.Add(TaskList.Get_Dorm_Info);
-                im.TaskList.Add(TaskList.Get_Battary_Mine);
+                ProgrameData.TaskList.Add(TaskList.Get_Dorm_Info);
+                ProgrameData.TaskList.Add(TaskList.Get_Battary_Mine);
                 Time11AddGetMineBattery = false;
             }
             else
@@ -208,8 +208,8 @@ namespace GFHelper.Programe.Auto
             if (BeijingTimeNow.Hour * 60 + BeijingTimeNow.Minute == (60 * 17 + 1) && Time17AddGetFriendBattery == true)
             {
 
-                im.TaskList.Add(TaskList.Get_Dorm_Info);
-                im.TaskList.Add(TaskList.Get_Battary_Mine);
+                ProgrameData.TaskList.Add(TaskList.Get_Dorm_Info);
+                ProgrameData.TaskList.Add(TaskList.Get_Battary_Mine);
                 Time17AddGetFriendBattery = false;
             }
             else
@@ -224,15 +224,15 @@ namespace GFHelper.Programe.Auto
             if (ProgrameData.AutoSimulationBattleF == false) return;
             //决定哪种模式
             int day = (int)CommonHelp.LocalDateTimeConvertToChina(DateTime.Now).DayOfWeek;
-            if (day==1 || day== 2 || day == 4 || day == 5)
+            if (day==1 || day== 3 || day == 4 || day == 6)
             {
                 if (im.userdatasummery.user_info.bp >= 5)
                 {
-                    im.TaskList.Add(TaskList.Start_Trial);
+                    ProgrameData.TaskList.Add(TaskList.Start_Trial);
                     im.userdatasummery.user_info.bp -= 5;
                 }
             }
-            if(day == 3 || day == 6 || day == 0)
+            if(day == 2 || day == 5 || day == 0)
             {
                 switch (im.userdatasummery.usbti.Type)
                 {
@@ -240,7 +240,7 @@ namespace GFHelper.Programe.Auto
                         {
                             if (im.userdatasummery.user_info.bp >= 1)
                             {
-                                im.TaskList.Add(TaskList.Simulation_DATA);
+                                ProgrameData.TaskList.Add(TaskList.Simulation_DATA);
                                 im.userdatasummery.user_info.bp -= 1;
                             }
                             break;
@@ -249,7 +249,7 @@ namespace GFHelper.Programe.Auto
                         {
                             if (im.userdatasummery.user_info.bp >= 2)
                             {
-                                im.TaskList.Add(TaskList.Simulation_DATA);
+                                ProgrameData.TaskList.Add(TaskList.Simulation_DATA);
                                 im.userdatasummery.user_info.bp -= 2;
                             }
                             break;
@@ -258,7 +258,7 @@ namespace GFHelper.Programe.Auto
                         {
                             if (im.userdatasummery.user_info.bp >= 3)
                             {
-                                im.TaskList.Add(TaskList.Simulation_DATA);
+                                ProgrameData.TaskList.Add(TaskList.Simulation_DATA);
                                 im.userdatasummery.user_info.bp -= 3;
                             }
                             break;
@@ -283,7 +283,7 @@ namespace GFHelper.Programe.Auto
             if ((im.userdatasummery.user_info.last_bp_recover_time + 7200+600) < (CommonHelp.ConvertDateTime_China_Int(DateTime.Now)))//600是延迟10分钟
             {
                 //如果上次恢复时间到现在当前时间差距大于两个小时 则 发送请求 
-                im.TaskList.Add(TaskList.GetRecoverBp);
+                ProgrameData.TaskList.Add(TaskList.GetRecoverBp);
                 im.userdatasummery.user_info.last_bp_recover_time = CommonHelp.ConvertDateTime_China_Int(DateTime.Now);
             }
 
@@ -297,7 +297,7 @@ namespace GFHelper.Programe.Auto
             if (CommonHelp.ConvertDateTime_China_Int(DateTime.Now) > ProgrameData.tomorrow_zero+600)//600是延迟10分钟
             {
                 ProgrameData.tomorrow_zero = 2101948800;
-                im.TaskList.Add(TaskList.Login);
+                ProgrameData.TaskList.Add(TaskList.Login);
             }
             return;
         }
@@ -318,22 +318,22 @@ namespace GFHelper.Programe.Auto
                         {
                             case 0:
                                 {
-                                    im.TaskList.Add(Programe.TaskList.TaskBattle_1);
+                                    ProgrameData.TaskList.Add(Programe.TaskList.TaskBattle_1);
                                     break;
                                 }
                             case 1:
                                 {
-                                    im.TaskList.Add(Programe.TaskList.TaskBattle_2);
+                                    ProgrameData.TaskList.Add(Programe.TaskList.TaskBattle_2);
                                     break;
                                 }
                             case 2:
                                 {
-                                    im.TaskList.Add(Programe.TaskList.TaskBattle_3);
+                                    ProgrameData.TaskList.Add(Programe.TaskList.TaskBattle_3);
                                     break;
                                 }
                             case 3:
                                 {
-                                    im.TaskList.Add(Programe.TaskList.TaskBattle_4);
+                                    ProgrameData.TaskList.Add(Programe.TaskList.TaskBattle_4);
                                     break;
                                 }
 

@@ -24,60 +24,25 @@ namespace GFHelper.Programe.Auto
 
 
         public int mvp;
-        public int withdrawNUM //每次都要赋值
+
+
+
+        public List<int> List_withdrawPOS = new List<int>();
+        public List<int> List_lifeReduce = new List<int>();
+        public List<int> List_withdrawGUN_ID = new List<int>();
+
+        public void Set_withdrawPOS(int pos)
         {
-            get
-            {
-                int i = 0;
-                if (string.IsNullOrEmpty(withdrawPOS1.ToString()) == false && withdrawPOS1 != 0) i++;
-                if (string.IsNullOrEmpty(withdrawPOS2.ToString()) == false && withdrawPOS2 != 0) i++;
-                return i;
-            }
+            List_withdrawPOS.Clear();
+            List_withdrawPOS.Add(pos);
         }
-        public int withdrawPOS1;
-        public int withdrawPOS2;
-        public int withdrawgunid1
+
+        public void Set_LifeReduce(int num)
         {
-            get
-            {
-                int id=0;
-                foreach (var item in teaminfo)
-                {
-                    if (item.Value.position == withdrawPOS1)
-                    {
-                        id = item.Value.id;
-                    }
-                }
-                return id;
-            }
+            List_lifeReduce.Clear();
+            List_lifeReduce.Add(num);
         }
-        public int withdrawgunid2
-        {
-            get
-            {
-                int id = 0;
-                foreach (var item in teaminfo)
-                {
-                    if (item.Value.position == withdrawPOS2)
-                    {
-                        id = item.Value.id;
-                    }
-                }
-                return id;
-            }
-        }
-        public int withdrawgunid5
-        {
-            get; set;
-        }
-        public int withdrawgunid3
-        {
-            get; set;
-        }
-        public int withdrawgunid4
-        {
-            get; set;
-        }
+
         public int TeamEffect;
         public int Effect1=0;
         public int Effect2=0;
@@ -178,6 +143,10 @@ namespace GFHelper.Programe.Auto
         public int enemy_effect_client1= 2569;
         public int enemy_effect_client2 = 5069;
         public int enemy_effect_client3 = 10069;
+
+        public int enemy_life1 = 10000;
+        public int enemy_life2 = 20000;
+        public int enemy_life3 = 40000;
 
         public void  setData(int type,double duration,int skill_cd)
         {

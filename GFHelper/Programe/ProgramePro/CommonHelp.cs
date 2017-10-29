@@ -13,6 +13,9 @@ using System.IO.Compression;
 using System.Diagnostics;
 using System.Security.Principal;
 using Microsoft.Win32;
+using AC;
+using LitJson;
+using ICSharpCode.SharpZipLib.GZip;
 
 namespace GFHelper.Programe
 {
@@ -250,6 +253,67 @@ namespace GFHelper.Programe
             return result;
         }
 
+
+        public static string DecodeAndMapJson(string wwwText)
+        {
+            JsonData result=new JsonData();
+            try
+            {
+                if (wwwText.StartsWith("#"))
+                {
+                    using (MemoryStream memoryStream = new MemoryStream(AuthCode.DecodeWithGzip(wwwText.Substring(1), ProgrameData.sign)))
+                    {
+                        using (Stream stream = new GZipInputStream(memoryStream))
+                        {
+                            using (StreamReader streamReader = new StreamReader(stream, Encoding.Default))
+                            {
+                                result = JsonMapper.ToObject(streamReader);
+                                return result.ToJson();
+                            }
+                        }
+                    }
+                }
+                string text2 = AuthCode.Decode(wwwText, ProgrameData.sign);
+
+                result = JsonMapper.ToObject(text2);
+            }
+            catch (Exception ex)
+            {
+                ;
+            }
+            return result.ToJson();
+        }
+
+        public static string sign(string result)
+        {
+            JsonData jsonData2 = null;
+            GameData.realtimeSinceLogin = Convert.ToInt32((DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0)).TotalSeconds);
+            AuthCode.Init(new AuthCode.IntDelegate(GameData.GetCurrentTimeStamp));
+
+            GameData.loginTime = ConvertDateTime_China_Int(DateTime.Now);
+
+            using (MemoryStream stream = new MemoryStream(AuthCode.DecodeWithGzip(result.Substring(1), "yundoudou")))
+            {
+                using (Stream stream2 = new GZipInputStream(stream))
+                {
+                    using (StreamReader streamReader = new StreamReader(stream2, Encoding.Default))
+                    {
+                        jsonData2 = JsonMapper.ToObject(streamReader);
+                    }
+                }
+            }
+
+            ProgrameData.uid = jsonData2["uid"].String;
+            ProgrameData.sign = jsonData2["sign"].String;
+            return ProgrameData.sign;
+
+        }
+
+        public static int GetTotalFPS_(double time)
+        {
+            double result = time * 31;
+            return (int)Math.Ceiling(result);
+        }
 
     }
 

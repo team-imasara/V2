@@ -1,10 +1,17 @@
 ﻿using Codeplex.Data;
+using ICSharpCode.SharpZipLib.GZip;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using AC;
+using LitJson;
+using UnityEngine;
 
 namespace GFHelper.Programe.ProgramePro
 {
@@ -20,7 +27,7 @@ namespace GFHelper.Programe.ProgramePro
         /// <returns>1成功 0不成功,需要重发 -1不成功,不需要重发</returns>
         public static int Result_Pro(ref string result,string type,bool need_decode)
         {
-
+            ProgrameData.Add_dic_Error(result);
             if (result == "first") { return 0; }//第一次发送
             if (result=="") { return 0; }//
             if (result.Contains("error")) { return -1; }//我也不知道return 什么好
@@ -29,7 +36,8 @@ namespace GFHelper.Programe.ProgramePro
             {
                 try
                 {
-                    result = AuthCode.Decode(result, ProgrameData.sign);
+                    //AuthCode.Decode(result, ProgrameData.sign);
+                    result = CommonHelp.DecodeAndMapJson(result); 
                 }
                 catch (Exception e)
                 {
@@ -46,9 +54,28 @@ namespace GFHelper.Programe.ProgramePro
                     {
                         try
                         {
-                            var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, "yundoudou")); //讲道理，我真不想写了
-                            ProgrameData.sign = jsonobj.sign.ToString();
-                            ProgrameData.uid = jsonobj.uid.ToString();
+                            JsonData jsonData2 = null;
+                            GameData.realtimeSinceLogin = Convert.ToInt32((DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0)).TotalSeconds);
+                            AuthCode.Init(new AuthCode.IntDelegate(GameData.GetCurrentTimeStamp));
+
+                            using (MemoryStream stream = new MemoryStream(AuthCode.DecodeWithGzip(result.Substring(1), "yundoudou")))
+                            {
+                                using (Stream stream2 = new GZipInputStream(stream))
+                                {
+                                    using (StreamReader streamReader = new StreamReader(stream2, Encoding.Default))
+                                    {
+                                            jsonData2 = JsonMapper.ToObject(streamReader);
+                                    }
+                                }
+                            }
+
+                            ProgrameData.uid = jsonData2["uid"].String;
+                            ProgrameData.sign = jsonData2["sign"].String;
+
+
+                            //var jsonobj = DynamicJson.Parse(AuthCode.Decode(result, "yundoudou")); //讲道理，我真不想写了
+                            //ProgrameData.sign = jsonobj.sign.ToString();
+                            //ProgrameData.uid = jsonobj.uid.ToString();
                             return 1;
                         }
                         catch (Exception e)
@@ -136,6 +163,16 @@ namespace GFHelper.Programe.ProgramePro
                     {
                         return result.Contains("package") && result.Contains("id") && result.Contains("user_exp") ? 1 : 0;
                     }
+                //LoginFirstUrl
+                case "LoginFirstUrl":
+                    {
+                        return result.Contains("access_token") && result.Contains("openid") && result.Contains("result") ? 1 : 0;
+                    }
+                //Index_version
+                case "Index_version":
+                    {
+                        return result.Contains("now") && result.Contains("tomorrow_zero") && result.Contains("data_version") ? 1 : 0;
+                    }
                 default:
                     break;
             }
@@ -147,7 +184,8 @@ namespace GFHelper.Programe.ProgramePro
         {
             try
             {
-                result = AuthCode.Decode(result, ProgrameData.sign);
+                //result = AuthCode.Decode(result, ProgrameData.sign);
+                result = CommonHelp.DecodeAndMapJson(result);
             }
             catch (Exception e)
             {

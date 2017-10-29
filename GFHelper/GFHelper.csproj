@@ -93,6 +93,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Resources\AuthCode.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="LitJson">
       <HintPath>Resources\LitJson.dll</HintPath>
     </Reference>
@@ -135,6 +138,7 @@
     <Compile Include="Programe\Auto\Friend.cs" />
     <Compile Include="Programe\Auto\Map_Sent.cs" />
     <Compile Include="Programe\Auto\UserBattleTaskInfo.cs" />
+    <Compile Include="Programe\GameData.cs" />
     <Compile Include="Programe\ProgramePro\APK\BattleSkillCfg.cs" />
     <Compile Include="Programe\ProgramePro\APK\EffectGridType.cs" />
     <Compile Include="Programe\ProgramePro\APK\enumSkill.cs" />
@@ -144,7 +148,6 @@
     <Compile Include="Programe\ProgramePro\APK\SubGunType.cs" />
     <Compile Include="Programe\TextRes\asset_textes.cs" />
     <Compile Include="UserData\Func\Gun_With_User_Info_Func.cs" />
-    <Compile Include="Programe\AuthCode.cs" />
     <Compile Include="BackgroundThread.cs" />
     <Compile Include="CatchData\Auto_Mission_Info.cs" />
     <Compile Include="CatchData\CatchDataSummery.cs" />
