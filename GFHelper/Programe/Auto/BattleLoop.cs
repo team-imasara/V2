@@ -1,4 +1,5 @@
-﻿using GFHelper.UserData;
+﻿using GFHelper.Programe.ProgramePro;
+using GFHelper.UserData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,11 @@ namespace GFHelper.Programe.Auto
                         Battle7_6(ubti);
                         break;
                     }
+                case 2:
+                    {
+                        Battle7_6BOSS(ubti);
+                        break;
+                    }
                 default:
                     break;
             }
@@ -42,6 +48,7 @@ namespace GFHelper.Programe.Auto
             //先在im更新数据然后 this.ubti更新
             int stepNum = 0;
             string result = "";
+            Random random = new Random();
             Map_Sent.Map5_2N.spots1.team_id = ubti.TaskMianTeam_ID;
             Map_Sent.Map5_2N.spots2.team_id = ubti.TaskSupportTeam1_ID;
             Map_Sent.Map5_2N.dic_TeamMove[0].team_id = ubti.TaskMianTeam_ID;
@@ -81,11 +88,8 @@ namespace GFHelper.Programe.Auto
             //建立
 
             Normal_Battle_Sent bs1 = new Normal_Battle_Sent();
-            bs1.spot_id = 3038;
-            bs1.mvp = ubti.mvp;
-            bs1.user_rec.seed = ubti.seed;
-            bs1.battle_info.data_set(11830,/*浮动*/115, 2430,/*浮动*/4);
-            bs1.set_data(ubti);
+
+            BattleSent_Data_Built(ref bs1, ubti, 3038, 0, random.Next(4, 5), 11830, 2430);
             im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
 
             if (im.action.Normal_battleFinish(bs1.BattleResult,ref result))
@@ -99,13 +103,7 @@ namespace GFHelper.Programe.Auto
 
             Normal_Battle_Sent bs2 = new Normal_Battle_Sent();
 
-            bs2.spot_id = 3047;
-            bs2.mvp = ubti.mvp;
-            bs2.user_rec.seed = ubti.seed;
-
-            bs1.battle_info.data_set(14196,/*浮动*/155, 2916,/*浮动*/5);
-            bs2.set_data(ubti);
-
+            BattleSent_Data_Built(ref bs2, ubti, 3047, 0, random.Next(4, 5), 14196, 2916);
             //战斗结算 经验装备
             im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
             if (im.action.Normal_battleFinish(bs2.BattleResult, ref result))
@@ -323,21 +321,8 @@ namespace GFHelper.Programe.Auto
             im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map7_6.dic_TeamMove[stepNum]));
             im.action.teamMove(Map_Sent.Map7_6.dic_TeamMove[stepNum++]);
 
-            //战斗结算 经验，装备，指挥官经验
-            bs.spot_id = 1947;
-            bs.mvp = ubti.mvp;
-            bs.user_rec.seed = ubti.seed;
-
-            //血量计算
-            ubti.Set_LifeReduce(random.Next(10, 20));
-            im.userdatasummery.GUN_Life_reduce(ubti.TaskMianTeam_ID, ubti.List_withdrawPOS, ubti.List_lifeReduce);
-
-            bs.set_data(ubti);
-            int time = random.Next(6, 8);
-            bs.battle_info.data_set(6752,/*浮动*/CommonHelp.GetTotalFPS_((double)time), 5688,/*浮动*/time);
-
+            BattleSent_Data_Built(ref bs, ubti, 1947, random.Next(10, 20), random.Next(6, 8), 6752, 5688);
             im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
-
             if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
             {
                 Battle_Result_PRO(ref ubti, ref result);
@@ -348,17 +333,7 @@ namespace GFHelper.Programe.Auto
             im.action.teamMove(Map_Sent.Map7_6.dic_TeamMove[stepNum++]);
 
             //战斗结算 经验，装备，指挥官经验
-            bs.spot_id = 1949;
-            bs.mvp = ubti.mvp;
-            bs.user_rec.seed = ubti.seed;
-
-            ubti.Set_LifeReduce(random.Next(10, 20));
-            im.userdatasummery.GUN_Life_reduce(ubti.TaskMianTeam_ID, ubti.List_withdrawPOS, ubti.List_lifeReduce);
-            bs.set_data(ubti);
-            time = random.Next(6, 8);
-            bs.battle_info.data_set(5475,/*浮动*/CommonHelp.GetTotalFPS_((double)time), 8890,/*浮动*/time);
-            bs.set_data(ubti);
-
+            BattleSent_Data_Built(ref bs, ubti, 1949, random.Next(10, 20), random.Next(6, 8), 5475, 8890);
             im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
 
             if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
@@ -373,18 +348,7 @@ namespace GFHelper.Programe.Auto
             im.action.endTurn();
 
             //战斗结算 经验，装备，指挥官经验
-            bs.spot_id = 1949;
-            bs.mvp = ubti.mvp;
-            bs.user_rec.seed = ubti.seed;
-
-            //血量计算
-            ubti.Set_LifeReduce(random.Next(10, 20));
-            im.userdatasummery.GUN_Life_reduce(ubti.TaskMianTeam_ID, ubti.List_withdrawPOS, ubti.List_lifeReduce);
-            bs.set_data(ubti);
-            time = random.Next(6, 8);
-            bs.battle_info.data_set(6752,/*浮动*/CommonHelp.GetTotalFPS_((double)time), 5688,/*浮动*/time);
-            bs.set_data(ubti);
-
+            BattleSent_Data_Built(ref bs, ubti, 1949, random.Next(10, 20), random.Next(6, 8), 6752, 5688);
             im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
 
             if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
@@ -402,20 +366,9 @@ namespace GFHelper.Programe.Auto
             im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map7_6.dic_TeamMove[stepNum]));
             im.action.teamMove(Map_Sent.Map7_6.dic_TeamMove[stepNum++]);
 
-            //战斗结算 经验，装备，指挥官经验
-            bs.spot_id = 1947;
-            bs.mvp = ubti.mvp;
-            bs.user_rec.seed = ubti.seed;
-            //血量计算
-            ubti.Set_LifeReduce(random.Next(10, 20));
-            im.userdatasummery.GUN_Life_reduce(ubti.TaskMianTeam_ID, ubti.List_withdrawPOS, ubti.List_lifeReduce);
-            bs.set_data(ubti);
 
-            time = random.Next(6, 8);
-            bs.battle_info.data_set(6752,/*浮动*/CommonHelp.GetTotalFPS_((double)time), 5688,/*浮动*/time);
-            bs.set_data(ubti);
+            BattleSent_Data_Built(ref bs, ubti, 1947, random.Next(10, 20), random.Next(6, 8), 6752, 5688);
             im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
-
             if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
             {
                 Battle_Result_PRO(ref ubti, ref result);
@@ -452,6 +405,152 @@ namespace GFHelper.Programe.Auto
 
 
         }
+        public void Battle7_6BOSS(User_Normal_BattleTaskInfo ubti)
+        {
+            Random random = new Random();
+            int stepNum = 0; string result = "";
+            Normal_Battle_Sent bs = new Normal_Battle_Sent();
+            Map_Sent.Map7_6BOSS.spots1.team_id = ubti.TaskMianTeam_ID;
+            Map_Sent.Map7_6BOSS.spots2.team_id = ubti.TaskSupportTeam1_ID;
+            Map_Sent.Map7_6BOSS.dic_TeamMove[0].team_id = ubti.TaskMianTeam_ID;
+            Map_Sent.Map7_6BOSS.dic_TeamMove[1].team_id = ubti.TaskMianTeam_ID;
+            Map_Sent.Map7_6BOSS.dic_TeamMove[2].team_id = ubti.TaskMianTeam_ID;
+            Map_Sent.Map7_6BOSS.dic_TeamMove[3].team_id = ubti.TaskMianTeam_ID;
+            Map_Sent.Map7_6BOSS.dic_TeamMove[4].team_id = ubti.TaskMianTeam_ID;
+            Map_Sent.Map7_6BOSS.dic_TeamMove[5].team_id = ubti.TaskMianTeam_ID;
+            Map_Sent.Map7_6BOSS.dic_TeamMove[6].team_id = ubti.TaskMianTeam_ID;
+
+
+
+            List<int> list = new List<int>();
+            list.Add(18); list.Add(14);//
+            Set_Withdraw_INFO(ubti, list);
+
+
+            im.uihelp.setStatusBarText_InThread(String.Format(" 检查床位是否满额"));
+            Check_Equip_Gun_FULL();
+
+
+            //阵型确定
+            //im.uihelp.setStatusBarText_InThread(String.Format(" 检查阵型"));
+            //im.userdatasummery.Update_GUN_Pos(ubti.TaskMianTeam_ID, ubti.mvp);/////////////////////////需要改
+
+            //部署梯队
+            //回合开始
+            im.uihelp.setStatusBarText_InThread(String.Format(" 回合开始"));
+            im.action.startMission(Map_Sent.Map7_6BOSS.mission_id, Map_Sent.Map7_6BOSS.Mission_Start_spots);
+
+            //补给梯队
+            im.uihelp.setStatusBarText_InThread(String.Format(" 正在单独补给 (单独补给)"));
+            im.action.SupplyTeam(ubti.TaskMianTeam_ID);
+
+
+            im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map7_6BOSS.dic_TeamMove[stepNum]));
+            im.action.teamMove(Map_Sent.Map7_6BOSS.dic_TeamMove[stepNum++]);
+
+            BattleSent_Data_Built(ref bs, ubti, 1947, 0, random.Next(4, 6), 6756, 11380);
+            im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+            if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
+            {
+                Battle_Result_PRO(ref ubti, ref result);
+            }
+
+
+            im.uihelp.setStatusBarText_InThread(String.Format(" 部署梯队"));
+            im.action.reinforceTeam(Map_Sent.Map7_6BOSS.spots2);
+
+
+            im.uihelp.setStatusBarText_InThread(String.Format(" 正在单独补给 (单独补给)"));
+            im.action.SupplyTeam(ubti.TaskSupportTeam1_ID);
+
+            im.uihelp.setStatusBarText_InThread(String.Format("回合结束"));
+            im.action.endTurn();
+
+
+            BattleSent_Data_Built(ref bs, ubti, 1947, 0, random.Next(4, 5), 6752, 5688);
+            im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+            if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
+            {
+                Battle_Result_PRO(ref ubti, ref result);
+            }
+
+            BattleSent_Data_Built(ref bs, ubti, 1948, 0, random.Next(4, 5), 5475, 8890,1);
+            im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+            if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
+            {
+                Battle_Result_PRO(ref ubti, ref result);
+            }
+
+            //回合结束
+            im.uihelp.setStatusBarText_InThread(String.Format("回合开始"));
+            im.action.endEnemyTurn();
+            im.action.startTurn();
+
+
+            im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map7_6BOSS.dic_TeamMove[stepNum]));
+            im.action.teamMove(Map_Sent.Map7_6BOSS.dic_TeamMove[stepNum++]);
+
+            im.uihelp.setStatusBarText_InThread(String.Format(" 正在单独补给 (单独补给)"));
+            im.action.SupplyTeam(ubti.TaskMianTeam_ID);
+
+            im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map7_6BOSS.dic_TeamMove[stepNum]));
+            im.action.teamMove(Map_Sent.Map7_6BOSS.dic_TeamMove[stepNum++]);
+
+            im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map7_6BOSS.dic_TeamMove[stepNum]));
+            im.action.teamMove(Map_Sent.Map7_6BOSS.dic_TeamMove[stepNum++]);////0000000
+
+            BattleSent_Data_Built(ref bs, ubti, 1946, 0, random.Next(7, 8), 10875, 16022,0);
+            im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+            if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
+            {
+                Battle_Result_PRO(ref ubti, ref result);
+            }
+
+
+            im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map7_6BOSS.dic_TeamMove[stepNum]));
+            im.action.teamMove(Map_Sent.Map7_6BOSS.dic_TeamMove[stepNum++]);
+
+            BattleSent_Data_Built(ref bs, ubti, 2152, 0, random.Next(7, 8), 10415, 23979);
+            im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+            if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
+            {
+                Battle_Result_PRO(ref ubti, ref result);
+            }
+
+            im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map7_6BOSS.dic_TeamMove[stepNum]));
+            im.action.teamMove(Map_Sent.Map7_6BOSS.dic_TeamMove[stepNum++]);
+
+            BattleSent_Data_Built(ref bs, ubti, 1941, 0, random.Next(7, 8), 12904, 17068);
+            im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+            if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
+            {
+                Battle_Result_PRO(ref ubti, ref result);
+            }
+
+            im.uihelp.setStatusBarText_InThread(String.Format("回合结束"));
+            im.action.endTurn();
+
+
+            BattleSent_Data_Built(ref bs, ubti, 1941, random.Next(0,1)*221, random.Next(18, 22), 24604, 48992, 4060);
+            im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+            if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
+            {
+                Battle_Result_PRO(ref ubti, ref result);
+            }
+
+            //回合结束
+            im.uihelp.setStatusBarText_InThread(String.Format("回合开始"));
+            im.action.endEnemyTurn();
+            im.action.startTurn();
+
+            im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map7_6BOSS.dic_TeamMove[stepNum]));
+            im.action.teamMove(Map_Sent.Map7_6BOSS.dic_TeamMove[stepNum++]);
+
+            im.action.endTurn();
+
+
+        }
+
 
         public void End_At_Battle(User_Normal_BattleTaskInfo ubti)
         {
@@ -464,7 +563,7 @@ namespace GFHelper.Programe.Auto
             Gun_Retire_Core();
 
             //检查是否需要修复
-            im.userdatasummery.Check_Gun_need_FIX(ubti.TaskMianTeam_ID,0.2);
+            im.userdatasummery.Check_Gun_need_FIX(ubti.TaskMianTeam_ID, 0.2);
             //检查是否需要重新登陆
             if (ubti.BattleLoopTime % ProgrameData.BL_ReLogin_num == 0)
             {
@@ -518,6 +617,7 @@ namespace GFHelper.Programe.Auto
             if (im.userdatasummery.Check_Equip_GUN_FULL())
             {
                 im.action.Eat_Equip();//升级
+                //im.action.Gun_retire(2);
                 if (im.action.EatGunHandle())
                 {
                     return;
@@ -533,8 +633,8 @@ namespace GFHelper.Programe.Auto
 
         public void CheckGun_AMMO_MRC_NEED_SUPORT(User_Normal_BattleTaskInfo ubti,int num)
         {
-            Map_Sent.Map5_2N.spots1.team_id = ubti.TaskMianTeam_ID;
-            Map_Sent.Map5_2N.spots2.team_id = ubti.TaskSupportTeam1_ID;
+            Map_Sent.Map3_6.spots1.team_id = ubti.TaskMianTeam_ID;
+            Map_Sent.Map3_6.spots2.team_id = ubti.TaskSupportTeam1_ID;
 
 
             Check_Equip_Gun_FULL();
@@ -542,22 +642,31 @@ namespace GFHelper.Programe.Auto
             if (im.userdatasummery.CheckGun_AMMO_MRC_NEED_SUPORT(ubti.mvp, num))
             {
                 im.uihelp.setStatusBarText_InThread(String.Format(" 正在单独补给 (移出队伍)"));
-                im.action.GUN_OUT_Team(ubti.mvp, ubti.teaminfo);
-                im.action.startMission(Map_Sent.Map5_2N.mission_id, Map_Sent.Map5_2N.Mission_Start_spots);
+                im.action.GUN_OUT_Team(ubti.mvp, ubti.teaminfo0);
+
+                im.action.startMission(Map_Sent.Map3_6.mission_id, Map_Sent.Map3_6.Mission_Start_spots);
+
                 im.uihelp.setStatusBarText_InThread(String.Format(" 正在单独补给 (单独补给)"));
                 im.action.SupplyTeam(ubti.TaskMianTeam_ID);
-                im.action.withdrawTeam(Map_Sent.Map5_2N.withdrawSpot);
+                im.uihelp.setStatusBarText_InThread(String.Format(" 正在单独补给 (梯队撤离)"));
+                im.action.withdrawTeam(Map_Sent.Map3_6.withdrawSpot);
+                im.uihelp.setStatusBarText_InThread(String.Format(" 正在单独补给 (作战终止)"));
                 im.action.abortMission();
                 im.uihelp.setStatusBarText_InThread(String.Format(" 正在单独补给 (移入队伍)"));
-                im.action.GUN_IN_Team(ubti.mvp, ubti.teaminfo);
+                im.action.GUN_IN_Team(ubti.mvp, ubti.teaminfo0);
                 im.userdatasummery.Gun_mre_ammo_REFILL(ubti.mvp);
             }
         }
 
         public void Battle_Result_PRO(ref User_Normal_BattleTaskInfo ubti,ref string result)
         {
+            if (ProgrameData.debugmode)
+            {
+                WriteLog.Log(string.Format(" battle_result = {0} ", result), "debug");
+            }
             var jsonobj = Codeplex.Data.DynamicJson.Parse(result);
             im.userdatasummery.user_info.experience += Convert.ToInt16(jsonobj.user_exp);
+            ubti.user_exp = im.userdatasummery.user_info.experience;
             //装备
             im.userdatasummery.Add_Get_Gun_Equip_Battle(jsonobj);
             //人形经验
@@ -565,8 +674,64 @@ namespace GFHelper.Programe.Auto
             im.userdatasummery.UpdateGun_Exp(jsonobj, ref numE);
             ubti.TeamEffect += numE;
             //效能更新 升级后 hp的差额加入效能 是否重新入字典
-            ubti.teaminfo = im.userdatasummery.im.userdatasummery.team_info[ubti.TaskMianTeam_ID];//需要
+            switch (ubti.teamId_used)
+            {
+                case 0:
+                    {
+                        ubti.teaminfo0 = im.userdatasummery.im.userdatasummery.team_info[ubti.TaskMianTeam_ID];//需要
+                        break;
+                    }
+                case 1:
+                    {
+                        ubti.teaminfo1 = im.userdatasummery.im.userdatasummery.team_info[ubti.TaskSupportTeam1_ID];//需要
+                        break;
+                    }
+                default:
+                    break;
+            }
             im.userdatasummery.BattleFinish_ammo_mrc(ubti.TaskMianTeam_ID);
+        }
+
+
+        public void BattleSent_Data_Built(ref Normal_Battle_Sent bs, User_Normal_BattleTaskInfo ubti,int spot_id,int life_reduce,int time, int enemy_effect_client,int life_enemy,int teamID_used=0,int damage_team_no_miss
+=0)
+        {
+            Random random = new Random();
+
+            //战斗结算 经验，装备，指挥官经验
+            bs.spot_id = spot_id;
+
+            switch (teamID_used)
+            {
+                case 0:
+                    {
+                        ubti.teamId_used = teamID_used;
+                        bs.teamID_used = teamID_used;
+                        bs.mvp = ubti.mvp;
+                        break;
+                    }
+                case 1:
+                    {
+                        ubti.teamId_used = teamID_used;
+                        bs.teamID_used = teamID_used;
+                        bs.mvp = ubti.teaminfo1[1].id;
+                        break;
+                    }
+                default:
+                    break;
+            }
+            //bs.mvp = ubti.mvp;
+            bs.user_rec.seed = ubti.seed;
+
+
+
+            //血量计算
+            ubti.Set_LifeReduce(life_reduce);
+            im.userdatasummery.GUN_Life_reduce(ubti.TaskMianTeam_ID, ubti.List_withdrawPOS, ubti.List_lifeReduce);
+
+            bs.set_data(ubti);
+
+            bs.battle_info.data_set(enemy_effect_client,/*浮动*/CommonHelp.GetTotalFPS_((double)time), life_enemy,/*浮动*/time, damage_team_no_miss);
         }
 
         public void ContinueLoopBattle(User_Normal_BattleTaskInfo ubti)

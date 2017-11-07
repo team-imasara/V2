@@ -45,27 +45,6 @@ namespace GFHelper.Programe
             im.uihelp.setStatusBarText_InThread(String.Format(" 获取userinfo"));
             Get_Set_UserInfo();
 
-            //int a = 0;
-            //lock (im.user_operationInfoLocker)//锁
-            //{
-            //    im.dataHelper.ReadUserInfo(im.apioperation.GetUserInfo());
-            //    //-----------------加后勤结束判断
-            //    foreach (var item in im.data.user_operationInfo)
-            //    {
-            //        if (item.Value._LastTime == -1)
-            //        {
-            //            ProgrameData.TaskList.taskadd(Models.TaskListInfo.ReceiveLogistics);//
-            //        }
-            //    }
-            //    if (a == 1)
-            //    {
-            //        ProgrameData.TaskList.taskadd(Models.TaskListInfo.StartLogisticsTask1);//getuserinfo
-            //    }
-            //    Models.SimpleInfo.LoginStartOperation = true;
-            //}
-            ////----------------如果有后勤结束则发包接收后勤
-
-            //im.autoOperation.SetTeamInfo();
 
             //加零点签到判断
             //如果当前时间戳大于    "user_record":   "attendance_type1_time": 1487520000,则签到
@@ -96,9 +75,22 @@ namespace GFHelper.Programe
             im.uihelp.setStatusBarText_InThread(String.Format(" 回复资源"));
             im.post.RecoverResource();
 
+            Abort_Mission_loginIN();
+
+
             im.auto_summery.LoginSuccessful = true;//开始自动任务循环
             return true;
         }
+
+        public void Abort_Mission_loginIN()
+        {
+            if (im.userdatasummery.Mission_S)
+            {
+                im.uihelp.setStatusBarText_InThread(String.Format(" 终止作战任务"));
+                abortMission();
+            }
+        }
+
 
         /// <summary>
         /// Mail只处理签到信息
@@ -123,7 +115,7 @@ namespace GFHelper.Programe
                     im.uihelp.setStatusBarText_InThread(String.Format(" 开始接收邮件 邮件ID: {0} ,邮件剩余数量 : {1} 线程延迟2.5秒",im.userdatasummery.maillist[x].id,im.userdatasummery.maillist.Count));
                     result = im.post.GetOneMail_Type1(mailwith_user_id);
                     result = ProgramePro.ResultPro.Get_Mail_Content(result);
-                    ProgramePro.WriteLog.Log(string.Format("邮件记录 : {0}", result));
+                    ProgramePro.WriteLog.Log(string.Format("邮件记录 : {0}", result),"log");
                     im.uihelp.setStatusBarText_InThread(String.Format(" 邮件ID: {0} 接收成功 ,邮件剩余数量 : {1} 线程延迟2.5秒", im.userdatasummery.maillist[x].id, im.userdatasummery.maillist.Count));
                     if (im.post.GetMailResource_Type1(mailwith_user_id) != "")
                     {
@@ -198,11 +190,45 @@ namespace GFHelper.Programe
 
         public void Get_Set_UserInfo()
         {
-            string result = im.post.GetUserInfo();
+            string result = Get_UserInfo_post();
             var jsonobj = DynamicJson.Parse(result); //讲道理，我真不想写了
             im.userdatasummery.ReadUserData(jsonobj);
             im.uihelp.setUserInfo();
         }
+
+        public string Get_UserInfo_post()
+        {
+            int count = 0;
+            while (true)
+            {
+                string result = im.post.GetUserInfo();
+
+                switch (ResultPro.Result_Pro(ref result, "GetUserInfo", false))
+                {
+                    case 1:
+                        {
+                            return result;
+                        }
+                    case 0:
+                        {
+                            result_error_PRO(result, count++); continue;
+                        }
+                    case -1:
+                        {
+                            result_error_PRO(result, count++); continue;
+                        }
+                    default:
+                        break;
+                }
+
+
+            }
+
+
+
+        }
+
+
 
          public void Start_Loop_Operation_Act(UserData.Operation_Act_Info operation_act_info)
         {
@@ -441,7 +467,7 @@ namespace GFHelper.Programe
 
                 int Friend_BattaryNum = im.post.Get_Friend_BattaryNum(item.Value.f_userid);
                 if(Friend_BattaryNum==10)
-                WriteLog.Log(String.Format(" 10电池好友UID =  {0}", item.Value.f_userid.ToString()));
+                WriteLog.Log(String.Format(" 10电池好友UID =  {0}", item.Value.f_userid.ToString()),"log");
             }
         }
 
@@ -466,7 +492,7 @@ namespace GFHelper.Programe
                     {
                         im.post.Get_Friend_Battary(item.Value.f_userid, 0, Friend_BattaryNum);
                         im.userdatasummery.Dorm_Rest_Friend_Build_Coin_Count--;
-                        Programe.ProgramePro.WriteLog.Log(String.Format(" 获取好友 {0} 宿舍的电池 数目: {1} ", item.Value.name.ToString(), Friend_BattaryNum));
+                        WriteLog.Log(String.Format(" 获取好友 {0} 宿舍的电池 数目: {1} ", item.Value.name.ToString(), Friend_BattaryNum),"log");
                     }
 
                     if (LoopTime == im.userdatasummery.friend_with_user_info.Count) BattaryNum--;
@@ -674,28 +700,44 @@ namespace GFHelper.Programe
         public void Get_dicGun_Combine()
         {
             UserDataSummery.dicGun_Combine.Clear();
-
             foreach (var item in im.userdatasummery.gun_with_user_info)
             {
+                if (im.userdatasummery.CheckGunStatus(item.Value)) continue;
                 //2扩
-                if(item.Value.level>=10 && item.Value.level < 30)
+                if (item.Value.level>=10 && item.Value.level < 30)
                 {
-                    if (item.Value.number < 2) UserDataSummery.dicGun_Combine.Add(UserDataSummery.dicGun_Combine.Count, item.Value);
+                    if (item.Value.number < 2)
+                    {
+                        UserDataSummery.dicGun_Combine.Add(UserDataSummery.dicGun_Combine.Count, item.Value);
+                    }
+
                 }
                 //3扩
                 if (item.Value.level >= 30 && item.Value.level < 70)
                 {
-                    if (item.Value.number < 3) UserDataSummery.dicGun_Combine.Add(UserDataSummery.dicGun_Combine.Count, item.Value);
+                    if (item.Value.number < 3)
+                    {
+                        UserDataSummery.dicGun_Combine.Add(UserDataSummery.dicGun_Combine.Count, item.Value);
+                    }
+
                 }
                 //4扩
                 if (item.Value.level >= 70 && item.Value.level < 90)
                 {
-                    if (item.Value.number < 4) UserDataSummery.dicGun_Combine.Add(UserDataSummery.dicGun_Combine.Count, item.Value);
+                    if (item.Value.number < 4)
+                    {
+                        UserDataSummery.dicGun_Combine.Add(UserDataSummery.dicGun_Combine.Count, item.Value);
+                    }
+
                 }
                 //5扩
                 if (item.Value.level >= 90 && item.Value.level <= 100)
                 {
-                    if (item.Value.number < 5) UserDataSummery.dicGun_Combine.Add(UserDataSummery.dicGun_Combine.Count, item.Value);
+                    if (item.Value.number < 5)
+                    {
+                        UserDataSummery.dicGun_Combine.Add(UserDataSummery.dicGun_Combine.Count, item.Value);
+                    }
+
                 }
             }
         }
@@ -767,12 +809,13 @@ namespace GFHelper.Programe
         {
             UserDataSummery.dicGun_PowerUP.Clear();
             int i = 0;
+
             foreach (var item in im.userdatasummery.gun_with_user_info)
             {
+                if (im.userdatasummery.CheckGunStatus(item.Value)) continue;
                 if (item.Value.maxAddDodge > item.Value.additionDodge && item.Value.maxAddHit > item.Value.additionHit && item.Value.maxAddPow > item.Value.additionPow && item.Value.maxAddRate > item.Value.additionRate)
                 {
                     UserDataSummery.dicGun_PowerUP.Add(i++, item.Value);
-                    //MessageBox.Show(string.Format("Gun_name = {0}", Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(item.Value.gun_id))));
                 }
             }
         }
@@ -1101,6 +1144,7 @@ namespace GFHelper.Programe
                         }
                     case -1:
                         {
+                            if (count >= ProgrameData.BL_Error_num) { return false; }
                             result_error_PRO(result, count++); break;
                         }
                     default:
@@ -1115,6 +1159,10 @@ namespace GFHelper.Programe
             //WriteLog.Log(String.Format("data = {0}", data));
             Thread.Sleep(5000);
             int count = 0;
+            if (ProgrameData.debugmode)
+            {
+                WriteLog.Log(data, "debug");
+            }
             while (true)
             {
                 result = im.post.battleFinish(data);
@@ -1131,7 +1179,7 @@ namespace GFHelper.Programe
                         }
                     case -1:
                         {
-                            if (count == 3) { return false; }
+                            if (count>= ProgrameData.BL_Error_num) { return false; }
                             result_error_PRO(result, count++); break;
 
                         }
@@ -1168,6 +1216,7 @@ namespace GFHelper.Programe
                         }
                     case -1:
                         {
+                            if (count >= ProgrameData.BL_Error_num) { return false; }
                             result_error_PRO(result, count++); break;
                         }
                     default:
@@ -1188,6 +1237,7 @@ namespace GFHelper.Programe
 
                 switch (ResultPro.Result_Pro(ref result, "endTurn", true))
                 {
+                    
                     case 1:
                         {
                             if (result.Contains("gun_with_user_id"))
@@ -1215,6 +1265,7 @@ namespace GFHelper.Programe
                         }
                     case -1:
                         {
+                            if (count >= ProgrameData.BL_Error_num) { return false; }
                             result_error_PRO(result, count++); break;
                         }
                     default:
@@ -1243,6 +1294,7 @@ namespace GFHelper.Programe
                         }
                     case -1:
                         {
+                            if (count >= ProgrameData.BL_Error_num) { return false; }
                             result_error_PRO(result, count++); break;
                         }
                     default:
@@ -1281,6 +1333,39 @@ namespace GFHelper.Programe
                 }
 
             }
+        }
+
+
+
+        public void endEnemyTurn()
+        {
+            int count = 0;
+            while (true)
+            {
+                string result = POST.endEnemyTurn();
+                Thread.Sleep(2000);
+
+                switch (ResultPro.Result_Pro(ref result, "endEnemyTurn_PRO", true))
+                {
+                    case 1:
+                        {
+                            return;
+                        }
+                    case 0:
+                        {
+                            result_error_PRO(result, count++); continue;
+                        }
+                    case -1:
+                        {
+                            if (count >= ProgrameData.BL_Error_num) { return; }
+                            result_error_PRO(result, count++); break;
+                        }
+                    default:
+                        break;
+                }
+
+            }
+
         }
 
 
@@ -1337,6 +1422,7 @@ namespace GFHelper.Programe
                         }
                     case -1:
                         {
+                            if (count >= ProgrameData.BL_Error_num) { return false; }
                             result_error_PRO(result, count++); break;
                         }
                     default:
@@ -1348,7 +1434,7 @@ namespace GFHelper.Programe
         public static void result_error_PRO(string result,int count)
         {
             //第二次post 返回error:2可能是服务器已经接受但是没有返回成功 可以尝试继续
-            WriteLog.Log(result);
+            WriteLog.Log(result,"debug");
             if (ProgrameData.show_result_error)
             {
                 MessageBox.Show(result);
@@ -1360,184 +1446,196 @@ namespace GFHelper.Programe
             //}
         }
 
-
-        public bool GUN_OUT_Team(int mvp_id,Dictionary<int,Gun_With_User_Info> teaminfo)
+        public void changeLock(List<int> listlockid, List<int> listUnlockid)
         {
-            //{"team_id":6,"gun_with_user_id":0,"location":4}
-            GUN_OUT_Team: int count = 0;
-            int Gun_count = 0;
-            foreach (var item in teaminfo)
+            StringBuilder sb = new StringBuilder();
+            JsonWriter jsonWriter = new JsonWriter(sb);
+            jsonWriter.WriteObjectStart();
+            jsonWriter.WritePropertyName("lock");
+            jsonWriter.WriteArrayStart();
+            foreach (long current2 in listlockid)
             {
-                if(item.Value.id != mvp_id)
+                jsonWriter.Write(current2);
+            }
+            jsonWriter.WriteArrayEnd();
+            jsonWriter.WritePropertyName("unlock");
+            jsonWriter.WriteArrayStart();
+            foreach (long current3 in listUnlockid)
+            {
+                jsonWriter.Write(current3);
+            }
+            jsonWriter.WriteArrayEnd();
+            jsonWriter.WriteObjectEnd();
+
+
+
+
+            int count = 0;
+            while (true)
+            {
+                string result = POST.ChangeLockStatus(sb.ToString());
+
+                switch (ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false))
                 {
-                    dynamic newjson = new DynamicJson();
-                    newjson.team_id /*这是节点*/ = item.Value.team_id;/* 这是值*/
-                    newjson.gun_with_user_id /*这是节点*/ = 0;/* 这是值*/
-                    newjson.location /*这是节点*/ = item.Value.location;/* 这是值*/
-
-                    bool loop = true;
-                    while (loop)
-                    {
-                        string result = im.post.GUN_OUTandIN_Team(newjson.ToString());
-
-                        switch (ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false))
+                    case 1:
                         {
-                            case 1:
-                                {
-                                    Gun_count++; loop=false;break;
-                                }
-                            case 0:
-                                {
-                                    result_error_PRO(result, count++); continue;
-                                }
-                            case -1:
-                                {
-                                    result_error_PRO(result, count++); break;
-                                }
-                            default:
-                                break;
+                            return;
                         }
-
-
-
-                    }
-                }
-            }
-            //队长位置判定 MVP不是队长的话移到队长位置
-            foreach (var item in teaminfo)
-            {
-                if (item.Value.id == mvp_id && item.Value.location != 1)
-                {
-                    dynamic newjson = new DynamicJson();
-                    newjson.team_id /*这是节点*/ = item.Value.team_id;/* 这是值*/
-                    newjson.gun_with_user_id /*这是节点*/ = item.Value.id;/* 这是值*/
-                    newjson.location /*这是节点*/ = 1;/* 这是值*/
-
-                    bool loop = true;
-                    while (loop)
-                    {
-                        string result = im.post.GUN_OUTandIN_Team(newjson.ToString());
-
-                        switch (ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false))
+                    case 0:
                         {
-                            case 1:
-                                {
-                                    Gun_count++; loop = false; break;
-                                }
-                            case 0:
-                                {
-                                    result_error_PRO(result, count++); continue;
-                                }
-                            case -1:
-                                {
-                                    result_error_PRO(result, count++); break;
-                                }
-                            default:
-                                break;
+                            result_error_PRO(result, count++); continue;
                         }
-
-                    }
+                    case -1:
+                        {
+                            if (count >= ProgrameData.BL_Error_num) { return; }
+                            result_error_PRO(result, count++); continue;
+                        }
+                    default:
+                        break;
                 }
-            }
 
 
-            if (Gun_count == 4|| Gun_count == 5)
-            {
-                return true;
-            }
-            else
-            {
-                goto GUN_OUT_Team;
             }
         }
 
-        public bool GUN_IN_Team(int mvp_id, Dictionary<int, Gun_With_User_Info> teaminfo)
+
+
+
+        public void GUN_OUT_Team(int mvp_id,Dictionary<int,Gun_With_User_Info> teaminfo)
         {
-            //{"team_id":6,"gun_with_user_id":0,"location":4}
-            GUN_IN_Team: int count = 0;
-            int Gun_count = 0;
-            foreach(var item in teaminfo)
+            //MVP队长判定
+            //list 位置0 = mvp 位置1 =tank1 位置2 = tank2 位置 3 4 normal id
+            Dictionary<int,int> List_ID = new Dictionary<int,int>();
+            int start = 0;
+
+            Gun_IN_OUT.Get_Gun_Location(mvp_id, ref List_ID, teaminfo);
+            if (List_ID.Count == 4)//mvp是队长
             {
-                if (item.Value.id != mvp_id)
-                {
-                    dynamic newjson = new DynamicJson();
-                    newjson.team_id /*这是节点*/ = item.Value.team_id;/* 这是值*/
-                    newjson.gun_with_user_id /*这是节点*/ = item.Value.id;/* 这是值*/
-                    newjson.location /*这是节点*/ = item.Value.location;/* 这是值*/
-
-                    bool loop = true;
-                    while (loop)
-                    {
-                        string result = im.post.GUN_OUTandIN_Team(newjson.ToString());
-
-                        switch (ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false))
-                        {
-                            case 1:
-                                {
-                                    Gun_count++; loop = false; break;
-                                }
-                            case 0:
-                                {
-                                    result_error_PRO(result, count++); continue;
-                                }
-                            case -1:
-                                {
-                                    result_error_PRO(result, count++); break;
-                                }
-                            default:
-                                break;
-                        }
-
-
-
-                    }
-                }
-            }
-
-            //mvp位置判定 如果不是
-            foreach (var item in teaminfo)
-            {
-                if (item.Value.id == mvp_id && item.Value.location !=1)
-                {
-                    dynamic newjson = new DynamicJson();
-                    newjson.team_id /*这是节点*/ = item.Value.team_id;/* 这是值*/
-                    newjson.gun_with_user_id /*这是节点*/ = item.Value.id;/* 这是值*/
-                    newjson.location /*这是节点*/ = item.Value.location;/* 这是值*/
-
-                    bool loop = true;
-                    while (loop)
-                    {
-                        string result = im.post.GUN_OUTandIN_Team(newjson.ToString());
-                        switch (ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false))
-                        {
-                            case 1:
-                                {
-                                    Gun_count++; loop = false; break;
-                                }
-                            case 0:
-                                {
-                                    result_error_PRO(result, count++); continue;
-                                }
-                            case -1:
-                                {
-                                    result_error_PRO(result, count++); break;
-                                }
-                            default:
-                                break;
-                        }
-                    }
-                }
-            }
-
-
-            if (Gun_count == 4 || Gun_count == 5)
-            {
-                return true;
+                start = 2;
             }
             else
             {
-                goto GUN_IN_Team;
+                start = 1;
             }
+
+            foreach (var item in List_ID)
+            {
+                Gun_IN_OUT.Gun_OUT_post(teaminfo[1].teamId, item.Key);
+            }
+
+            return;
+
+
+            ////{"team_id":6,"gun_with_user_id":0,"location":4}
+            //GUN_OUT_Team: int count = 0;
+            //int Gun_count = 0;
+            //foreach (var item in teaminfo)
+            //{
+            //    if(item.Value.id != mvp_id)
+            //    {
+            //        dynamic newjson = new DynamicJson();
+            //        newjson.team_id /*这是节点*/ = item.Value.team_id;/* 这是值*/
+            //        newjson.gun_with_user_id /*这是节点*/ = 0;/* 这是值*/
+            //        newjson.location /*这是节点*/ = item.Value.location;/* 这是值*/
+
+            //        bool loop = true;
+            //        while (loop)
+            //        {
+            //            string result = im.post.GUN_OUTandIN_Team(newjson.ToString());
+
+            //            switch (ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false))
+            //            {
+            //                case 1:
+            //                    {
+            //                        Gun_count++; loop=false;break;
+            //                    }
+            //                case 0:
+            //                    {
+            //                        result_error_PRO(result, count++); continue;
+            //                    }
+            //                case -1:
+            //                    {
+            //                        result_error_PRO(result, count++); break;
+            //                    }
+            //                default:
+            //                    break;
+            //            }
+
+
+
+            //        }
+            //    }
+            //}
+            ////队长位置判定 MVP不是队长的话移到队长位置
+            //foreach (var item in teaminfo)
+            //{
+            //    if (item.Value.id == mvp_id && item.Value.location != 1)
+            //    {
+            //        dynamic newjson = new DynamicJson();
+            //        newjson.team_id /*这是节点*/ = item.Value.team_id;/* 这是值*/
+            //        newjson.gun_with_user_id /*这是节点*/ = item.Value.id;/* 这是值*/
+            //        newjson.location /*这是节点*/ = 1;/* 这是值*/
+
+            //        bool loop = true;
+            //        while (loop)
+            //        {
+            //            string result = im.post.GUN_OUTandIN_Team(newjson.ToString());
+
+            //            switch (ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false))
+            //            {
+            //                case 1:
+            //                    {
+            //                        Gun_count++; loop = false; break;
+            //                    }
+            //                case 0:
+            //                    {
+            //                        result_error_PRO(result, count++); continue;
+            //                    }
+            //                case -1:
+            //                    {
+            //                        result_error_PRO(result, count++); break;
+            //                    }
+            //                default:
+            //                    break;
+            //            }
+
+            //        }
+            //    }
+            //}
+
+
+            //if (Gun_count == 4|| Gun_count == 5)
+            //{
+            //    return true;
+            //}
+            //else
+            //{
+            //    goto GUN_OUT_Team;
+            //}
+        }
+
+        public void GUN_IN_Team(int mvp_id, Dictionary<int, Gun_With_User_Info> teaminfo)
+        {
+            //list 位置0 = mvp 位置1 =tank1 位置2 = tank2 位置 3 4 normal id
+            Dictionary<int, int> List_ID = new Dictionary<int, int>();
+            int start = 0;
+
+            Gun_IN_OUT.Get_Gun_Location(mvp_id, ref List_ID, teaminfo);
+            if (List_ID.Count == 4)
+            {
+                start = 2;
+            }
+            else
+            {
+                start = 1;
+            }
+
+            for (; start <= 5; start++)
+            {
+                Gun_IN_OUT.Gun_IN_post(teaminfo[1].teamId, List_ID[start], start);
+            }
+
+            return;
         }
 
 

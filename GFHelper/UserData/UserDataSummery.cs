@@ -2,11 +2,13 @@
 using GFHelper.CatchData;
 using GFHelper.CatchData.CatchDataFunc;
 using GFHelper.Programe;
+using GFHelper.Programe.ProgramePro;
 using LitJson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using UnityEngine;
@@ -52,9 +54,11 @@ namespace GFHelper.UserData
         public static List<int> Gun_Retire_Rank3 = new List<int>();
         public static Dictionary<int, Gun_With_User_Info> dicGun_PowerUP = new Dictionary<int,Gun_With_User_Info>();
         public static Dictionary<int, Gun_With_User_Info> dicGun_Combine = new Dictionary<int, Gun_With_User_Info>();
+        public static Auto_Mission_Act_Info amai = new Auto_Mission_Act_Info();
+        public static Dictionary<int, upgrade_act_info> upgrade_act_info = new Dictionary<int, upgrade_act_info>();
 
         public int FriendLv;
-
+        public bool Mission_S;
 
         public void ClearUserData()
         {
@@ -174,7 +178,7 @@ namespace GFHelper.UserData
 
         public bool ReadUserData_operation_act_info(dynamic jsonobj)
         {
-            operation_act_info.Clear();
+
             try
             {
                 foreach (var item in jsonobj.operation_act_info)
@@ -202,11 +206,39 @@ namespace GFHelper.UserData
 
                 return false;
             }
-
-
-
-
             return true;
+        }
+        public void ReadUserData_upgrade_act_info(dynamic jsonobj)
+        {
+            upgrade_act_info.Clear();
+            try
+            {
+                foreach (var item in jsonobj.upgrade_act_info)
+                {
+                    upgrade_act_info uai = new upgrade_act_info();
+
+                    uai.user_id = Convert.ToInt32(item.user_id);
+                    uai.gun_with_user_id = Convert.ToInt32(item.gun_with_user_id);
+                    uai.skill = Convert.ToInt32(item.skill);
+                    uai.upgrade_slot = Convert.ToInt32(item.upgrade_slot);
+                    uai.fairy_with_user_id = Convert.ToInt32(item.fairy_with_user_id);
+                    uai.end_time = Convert.ToInt32(item.end_time);
+
+                    upgrade_act_info.Add(upgrade_act_info.Count, uai);
+
+                }
+            }
+            catch (Exception e)
+            {
+                im.mainWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("读取UserData_upgrade_act_info遇到错误");
+                    MessageBox.Show(e.ToString());
+                });
+
+                return;
+            }
+            return ;
         }
 
         public bool ReadUserData_kalina_with_user_info(dynamic jsonobj)
@@ -485,6 +517,35 @@ namespace GFHelper.UserData
 
         }
 
+        public void ReadAuto_Mission_Act_Info(dynamic jsonobj)
+        {
+            //amai
+            try
+            {
+
+                if (jsonobj.auto_mission_act_info==null) return;
+                amai.auto_mission_id = Convert.ToInt32(jsonobj.auto_mission_act_info.auto_mission_id);
+                amai.user_id = Convert.ToInt32(jsonobj.auto_mission_act_info.user_id);
+
+                amai.team_ids.Clear();
+
+                foreach (var item in jsonobj.auto_mission_act_info.team_ids.Split(','))
+                {
+                    if (String.IsNullOrEmpty(item)) continue;
+                    amai.team_ids.Add(Convert.ToInt32(item));
+                }
+
+                amai.end_time = Convert.ToInt32(jsonobj.auto_mission_act_info.end_time);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+        }
+
         public bool ReadUserData_maillist(dynamic jsonobj)
         {
             maillist.Clear();
@@ -536,7 +597,25 @@ namespace GFHelper.UserData
             return true;
         }
 
+        public void ReadUserData_mission_act_info(dynamic jsonobj)
+        {
+            Mission_S = false;
+            try
+            {
+                string data = jsonobj.mission_act_info.ToString();
+                if (data.Length > 10)
+                {
+                    Mission_S = true;
+                }
+            }
+            catch (Exception)
+            {
+                return;
+            }
 
+
+
+        }
 
         /// <summary>
         /// ReadDormData 不在 getuserinfo API接口上。 
@@ -702,6 +781,7 @@ namespace GFHelper.UserData
 
                     gwui.id = Convert.ToInt32(jsonobj.battle_get_gun.gun_with_user_id);
                     gwui.gun_id = Convert.ToInt32(jsonobj.battle_get_gun.gun_id);
+                    Check_NewGun(gwui.gun_id);
                     gwui.UpdateData();
                     int i = 0;
                     while (true)
@@ -725,6 +805,29 @@ namespace GFHelper.UserData
             return true;
         }
 
+        public void Check_NewGun(int gun_id)
+        {
+            if (!user_info.gun_collect.Contains(gun_id))
+            {
+                WriteLog.Log(string.Format("获取新人形 : {0} ,意不意外 惊不惊喜", Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(gun_id))),"log");
+                List<int> listLockid = new List<int>();
+                listLockid.Add(gun_id);
+                List<int> listUnLockid = new List<int>();
+
+                im.uihelp.setStatusBarText_InThread(String.Format(" LOCK"));
+                Thread.Sleep(2000);
+                im.action.changeLock(listLockid, listUnLockid);
+
+
+
+            }
+            else
+            {
+                WriteLog.Log(string.Format("获取人形 : {0}", Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(gun_id))),"log");
+            }
+
+
+        }
 
         public bool ReadUserData(dynamic jsonobj)
         {
@@ -742,6 +845,12 @@ namespace GFHelper.UserData
                 ReadUserData_user_record(jsonobj);
                 Dorm_Rest_Friend_Build_Coin_Count = Convert.ToInt32(jsonobj.dorm_rest_friend_build_coin_count);
 
+                ReadUserData_mission_act_info(jsonobj);
+
+                ReadAuto_Mission_Act_Info(jsonobj);
+                ReadUserData_upgrade_act_info(jsonobj);
+
+
                 //如果operation_act_info不为空 则需要更新 自动后勤
                 UpdateOperation_Act_Info();
                 SetTeamInfo();
@@ -755,8 +864,10 @@ namespace GFHelper.UserData
                 Read_Equipment_Rank();
                 FriendLv = GetFriendLv();
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                MessageBox.Show("ReadUserData 出错");
+                MessageBox.Show(e.ToString());
                 return false;
             }
             return true;
@@ -801,11 +912,11 @@ namespace GFHelper.UserData
         /// <returns></returns>
         public bool Check_Equip_GUN_FULL()
         {
-            if (im.userdatasummery.gun_with_user_info.Count >= im.userdatasummery.user_info.maxgun)
+            if (im.userdatasummery.gun_with_user_info.Count+10 >= im.userdatasummery.user_info.maxgun)
             {
                 return true;
             }
-            if (im.userdatasummery.equip_with_user_info.Count >= im.userdatasummery.user_info.maxequip)
+            if (im.userdatasummery.equip_with_user_info.Count+10 >= im.userdatasummery.user_info.maxequip)
             {
                 return true;
             }
@@ -1537,27 +1648,29 @@ namespace GFHelper.UserData
         public void GUN_Life_reduce(int teamID,List<int> pos,List<int> life_reduce)
         {
             int count = 0;
-            for(int i =1;i<= team_info[teamID].Count; i++)
-            {
-                for (int y = 0; y < pos.Count; y++)
-                {
-                    if (team_info[teamID][i].position == pos[y])
-                    {
-                        team_info[teamID][i].life -= life_reduce[y];
 
+            foreach (var item in pos)
+            {
+                for (int i = 1; i <= team_info[teamID].Count; i++)
+                {
+                    if(item == team_info[teamID][i].position)
+                    {
+                        if (count + 1 > life_reduce.Count) return;
+
+                        team_info[teamID][i].life -= life_reduce[count];
+                        count++;
                         if (team_info[teamID][i].life < 0)
                         {
                             team_info[teamID][i].life = 0;
                         }
-                        count++;
-                        if (count == life_reduce.Count)
-                        {
-                            return;
-                        }
+
+
+
                     }
+
+
                 }
             }
-
         }
 
         public void Check_Gun_need_FIX(int teamID, double num)
@@ -1576,6 +1689,26 @@ namespace GFHelper.UserData
                     }
                 }
             }
+
+        }
+
+        public bool CheckGunStatus(Gun_With_User_Info gwui)
+        {
+            //是否在后勤 自律 训练
+            foreach (var x in im.userdatasummery.operation_act_info)
+            {
+                if (x.Value.team_id == gwui.team_id)
+                {
+                    return true;
+                }
+            }
+            if (UserDataSummery.amai.team_ids.Contains(gwui.team_id)) return true;
+            foreach (var y in UserDataSummery.upgrade_act_info)
+            {
+                if (y.Value.gun_with_user_id == gwui.id) return true;
+            }
+            return false;
+
 
         }
 

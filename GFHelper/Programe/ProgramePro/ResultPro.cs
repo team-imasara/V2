@@ -144,7 +144,7 @@ namespace GFHelper.Programe.ProgramePro
                     }
                 case "endTurn":
                     {
-                        return result.Contains("mission_win_result") && result.Contains("mission_lose_result")&&result.Contains("fairy_skill_perform") ? 1 : 0;
+                        return result.Contains("mission_win_result") || result.Contains("fairy_skill_on_enemy") ? 1 : 0;
                     }
                 case "startTurn":
                     {
@@ -172,6 +172,16 @@ namespace GFHelper.Programe.ProgramePro
                 case "Index_version":
                     {
                         return result.Contains("now") && result.Contains("tomorrow_zero") && result.Contains("data_version") ? 1 : 0;
+                    }
+                //GetUserInfo
+                case "GetUserInfo":
+                    {
+                        return result.Contains("id") && result.Contains("gun") && result.Contains("user") ? 1 : 0;
+                    }
+
+                case "endEnemyTurn_PRO":
+                    {
+                        return result.Contains("ally_instance_betray") && result.Contains("mission_lose_result") && result.Contains("ally_instance_transform") ? 1 : 0;
                     }
                 default:
                     break;

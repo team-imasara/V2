@@ -67,6 +67,7 @@ namespace GFHelper.Programe
 
         public static bool show_result_error = true;
 
+        public static bool debugmode = true;
 
         public static int Eat_Gun_rank2_num = 24;
 
@@ -75,6 +76,8 @@ namespace GFHelper.Programe
         public static int BL_ReLogin_num = 20;
 
 
+        //post返回error 如果累计大于3则 返回false
+        public static int BL_Error_num = 3;
 
         public static Dictionary<int, string> dic_Error_Result = new Dictionary<int, string>();
         public static List<TaskListInfo> TaskList = new List<TaskListInfo>();
@@ -94,6 +97,21 @@ namespace GFHelper.Programe
                 if (item.Value.Contains("error"))
                 {
                     count++;
+
+
+                    if (count >= 3)
+                    {
+                        if (ProgrameData.TaskList.Contains(Programe.TaskList.Login))
+                        {
+                            return;
+                        }
+
+                        Programe.ProgramePro.WriteLog.Log(String.Format(" error错误达到3个 "),"debug");
+                        dic_Error_Result.Clear();
+                        TaskList.Add(Programe.TaskList.Login);
+                        return;
+                    }
+
                     continue;
                 }
                 else
@@ -101,13 +119,6 @@ namespace GFHelper.Programe
                     count = 0;
                 }
 
-                if (count >= 7)
-                {
-                    Programe.ProgramePro.WriteLog.Log(String.Format(" error错误达到7个 "));
-                    dic_Error_Result.Clear();
-                    TaskList.Add(Programe.TaskList.Login);
-                    break;
-                }
             }
 
 

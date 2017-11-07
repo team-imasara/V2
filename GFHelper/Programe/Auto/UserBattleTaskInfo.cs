@@ -44,27 +44,49 @@ namespace GFHelper.Programe.Auto
         }
 
         public int TeamEffect;
+        public int TeamEffect0;
+        public int TeamEffect1;
         public int Effect1=0;
         public int Effect2=0;
         public int Effect3=0;
         public int Effect4=0;
         public int Effect5;
+        public int teamId_used = 0;
 
-
-        internal Dictionary<int, Gun_With_User_Info> teaminfo=new Dictionary<int, Gun_With_User_Info>();
+        internal Dictionary<int, Gun_With_User_Info> teaminfo0=new Dictionary<int, Gun_With_User_Info>();
+        internal Dictionary<int, Gun_With_User_Info> teaminfo1 = new Dictionary<int, Gun_With_User_Info>();
         public int user_exp;
         private int _seed = 0;
         public int seed
         {
             get
             {
-                _seed = 0;
-                foreach (var item in teaminfo)
+                switch (teamId_used)
                 {
-                    _seed = _seed + item.Value.gun_exp + item.Value.life + item.Value.teamId;
+                    case 0:
+                        {
+                            _seed = 0;
+                            foreach (var item in teaminfo0)
+                            {
+                                _seed = _seed + item.Value.gun_exp + item.Value.life + item.Value.teamId;
+                            }
+                            _seed += user_exp;
+                            return _seed;
+                        }
+                    case 1:
+                        {
+                            _seed = 0;
+                            foreach (var item in teaminfo1)
+                            {
+                                _seed = _seed + item.Value.gun_exp + item.Value.life + item.Value.teamId;
+                            }
+                            _seed += user_exp;
+                            return _seed;
+                        }
+                    default:
+                        return 0;
                 }
-                _seed += user_exp;
-                return _seed;
+
             }
         }
 

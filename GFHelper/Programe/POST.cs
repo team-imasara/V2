@@ -38,7 +38,7 @@ namespace GFHelper.Programe
         }
 
 
-        public string DoPost(string url, string data)
+        public static string DoPost(string url, string data)
         {
             try
             {
@@ -758,7 +758,7 @@ namespace GFHelper.Programe
             string result = DoPost(ProgrameData.GameAdd + RequestUrls.StartTurn, requeststring);
             return result;
         }
-        public string GUN_OUTandIN_Team(string outdatacode)
+        public static string GUN_OUTandIN_Team(string outdatacode)
         {
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
             string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
@@ -833,5 +833,24 @@ namespace GFHelper.Programe
             string result = DoPost(ProgrameData.GameAdd + RequestUrls.Friend_praise, requeststring);
             return result;
         }
+
+        public static string endEnemyTurn()
+        {
+            string outdatacode = AuthCode.Encode(ProgrameData.sign, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&signcode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.endEnemyTurn, requeststring);
+            return result;
+        }
+
+        public static string ChangeLockStatus(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.ChangeLockStatus, requeststring);
+            return result;
+        }
+
+
+
     }
 }

@@ -15,9 +15,26 @@ namespace GFHelper.Programe.Auto
         {
             Random random = new Random();
 
-            this.mvp = ubti.mvp;
+            //this.mvp = ubti.mvp;
             //this.gun = ubti.gun;
-            teaminfo = ubti.teaminfo;
+            switch (ubti.teamId_used)
+            {
+                case 0:
+                    {
+                        teaminfo = ubti.teaminfo0;
+                        ubti.TeamEffect = ubti.TeamEffect0;
+                        break;
+                    }
+                case 1:
+                    {
+                        teaminfo = ubti.teaminfo1;
+                        ubti.TeamEffect = ubti.TeamEffect1;
+                        break;
+                    }
+                default:
+                    break;
+            }
+
 
             foreach (var item in ubti.List_lifeReduce)
             {
@@ -65,6 +82,7 @@ namespace GFHelper.Programe.Auto
         public battle_info battle_info = new battle_info();
 
         public int life_reduce;
+        public int teamID_used = 0;
 
         public string BattleResult
         {
@@ -95,6 +113,8 @@ namespace GFHelper.Programe.Auto
 
                 jsonWriter.WritePropertyName("guns");
                 jsonWriter.WriteArrayStart();
+
+
                 foreach (var item in teaminfo)
                 {
                     jsonWriter.WriteObjectStart();
@@ -156,7 +176,16 @@ namespace GFHelper.Programe.Auto
             writer.WritePropertyName("18");
             writer.Write(life_reduce);
             writer.WritePropertyName("19");
-            writer.Write((int)(life_reduce*(double)random.Next(10,20)/10));
+
+            if (battle_info.damage_team_no_miss == 0)
+            {
+                writer.Write((int)(life_reduce * (double)random.Next(10, 20) / 10));
+            }
+            else
+            {
+                writer.Write(battle_info.damage_team_no_miss);
+            }
+
             writer.WritePropertyName("20");
             writer.Write(0);
             writer.WritePropertyName("21");

@@ -88,18 +88,20 @@ namespace GFHelper.Programe.Auto
         /// <param name="true_time">true_time</param>
         /// <param name="life_enemy">life_enemy</param>
         /// <param name="client_time">client_time</param>
-        public void data_set(int enemy_effect_client,int true_time,int life_enemy,int client_time)
+        public void data_set(int enemy_effect_client,int true_time,int life_enemy,int client_time,int damage_team_no_miss=0)
         {
             this.enemy_effect_client = enemy_effect_client;
             this.true_time = true_time;
             this.life_enemy = life_enemy;
             this.client_time = client_time;
+            this.damage_team_no_miss = damage_team_no_miss;
         }
 
         public int enemy_effect_client { set; get; }
         public int true_time { set; get; }//帧数
         public int life_enemy { set; get; }//铁血血量 和对铁血造成的伤害 一般相等
         public int client_time { set; get; }//客户端时间 秒数
+        public int damage_team_no_miss { set; get; }
 
 
     }

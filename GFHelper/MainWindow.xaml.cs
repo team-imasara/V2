@@ -431,15 +431,17 @@ namespace GFHelper
             if (GUN5_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][5].id;
 
 
-            ubti.TeamEffect = Convert.ToInt32(Task1TeamE.Text);
+            ubti.TeamEffect0 = Convert.ToInt32(Task1TeamE.Text);
+            //ubti.TeamEffect1 = Convert.ToInt32(Task1TeamE_S.Text);
+            Int32.TryParse(Task1TeamE_S.Text, out ubti.TeamEffect1);
             //ubti.Effect1 = Convert.ToInt32(GUN_1E.Text);
             //ubti.Effect2 = Convert.ToInt32(GUN_2E.Text);
             //ubti.Effect3 = Convert.ToInt32(GUN_3E.Text);
             //ubti.Effect4 = Convert.ToInt32(GUN_4E.Text);
             //ubti.Effect5 = Convert.ToInt32(GUN_5E.Text);
 
-            ubti.teaminfo = im.userdatasummery.im.userdatasummery.team_info[Task1MT.SelectedIndex + 1];//需要
-
+            ubti.teaminfo0 = im.userdatasummery.im.userdatasummery.team_info[Task1MT.SelectedIndex + 1];//需要
+            ubti.teaminfo1 = im.userdatasummery.im.userdatasummery.team_info[Task1ST1.SelectedIndex + 1];
 
 
 
@@ -482,8 +484,11 @@ namespace GFHelper
 
         private void Button_Click_9(object sender, RoutedEventArgs e)
         {
+            im.action.Get_dicGun_PowerUP();
+            MessageBox.Show(UserDataSummery.dicGun_PowerUP.Count.ToString());
 
-            result_decoded.Text = CommonHelp.DecodeAndMapJson(result_decoded.Text);
+            im.action.Get_dicGun_Combine();
+            MessageBox.Show(UserDataSummery.dicGun_Combine.Count.ToString());
         }
 
         private void POST_Click(object sender, RoutedEventArgs e)

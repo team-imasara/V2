@@ -231,8 +231,13 @@ namespace GFHelper.Programe
                 im.mainWindow.comboBoxOperationTeam2.Items.Clear();
                 im.mainWindow.comboBoxOperationTeam3.Items.Clear();
                 im.mainWindow.comboBoxOperationTeam4.Items.Clear();
-                im.mainWindow.Task1MT.Items.Clear();
-                im.mainWindow.Task1ST1.Items.Clear();
+
+                if (im.mainWindow.Task1MT.AlternationCount < 1)
+                {
+                    im.mainWindow.Task1MT.Items.Clear();
+                    im.mainWindow.Task1ST1.Items.Clear();
+                }
+
             });
             try
             {

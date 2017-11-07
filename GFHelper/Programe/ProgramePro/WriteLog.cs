@@ -17,7 +17,7 @@ namespace GFHelper.Programe.ProgramePro
 
         private static StreamWriter streamWriter; //写文件  
 
-        public static void Log(string message)
+        public static void Log(string message,string type)
         {
             try
             {
@@ -27,7 +27,22 @@ namespace GFHelper.Programe.ProgramePro
                 {
                     Directory.CreateDirectory(directPath);
                 }
-                directPath += string.Format(@"\{0}月{1}日.log", DateTime.Now.ToString("MM"), DateTime.Now.ToString("dd"));
+                switch (type)
+                {
+                    case "log":
+                        {
+                            directPath += string.Format(@"\{0}月{1}日.log", DateTime.Now.ToString("MM"), DateTime.Now.ToString("dd"));
+                            break;
+                        }
+                    case "debug":
+                        {
+                            directPath += string.Format(@"\DebugLog.log");
+                            break;
+                        }
+                    default:
+                        break;
+                }
+
                 if (streamWriter == null)
                 {
                     streamWriter = !File.Exists(directPath) ? File.CreateText(directPath) : File.AppendText(directPath);    //判断文件是否存在如果不存在则创建，如果存在则添加。
@@ -42,7 +57,7 @@ namespace GFHelper.Programe.ProgramePro
             catch (Exception ex)
             {
 
-                Log("记录输出异常：" + ex.Message);
+                Log("记录输出异常：" + ex.Message, "debug");
             }
 
             finally
@@ -58,7 +73,7 @@ namespace GFHelper.Programe.ProgramePro
                     catch (Exception ex)
                     {
 
-                        Log("记录输出异常：" + ex.Message);
+                        Log("记录输出异常：" + ex.Message,"debug");
                     }
 
                 }
