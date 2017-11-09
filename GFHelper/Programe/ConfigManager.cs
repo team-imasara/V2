@@ -218,7 +218,8 @@ namespace GFHelper
 
                 ProgrameData.OperationDelay = this.im.configManager.getConfigInt("OperationDelay");
 
-
+                //AutoStrengthen
+                ProgrameData.AutoStrengthen = this.im.configManager.getConfigBool("AutoStrengthen");
                 ProgrameData.AutoSimulationBattleF = this.im.configManager.getConfigBool("AutoSimulationBattleF");
                 ProgrameData.AutoDefenseTrialBattleT = this.im.configManager.getConfigInt("AutoDefenseTrialBattleT");
                 ProgrameData.SimulationDataType = this.im.configManager.getConfigInt("SimulationDataType");

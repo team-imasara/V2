@@ -498,6 +498,11 @@ namespace GFHelper
 
         }
 
+        private void Button_Click_10(object sender, RoutedEventArgs e)
+        {
+            im.action.EatGunHandle();
+        }
+
         private void AutoOperationB_S4_Click(object sender, RoutedEventArgs e)
         {
             im.action.UI_Button_Start_Finish_Operation_Act(im.mainWindow.AutoOperationB_S4, 3);

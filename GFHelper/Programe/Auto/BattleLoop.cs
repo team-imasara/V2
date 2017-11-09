@@ -617,15 +617,13 @@ namespace GFHelper.Programe.Auto
             if (im.userdatasummery.Check_Equip_GUN_FULL())
             {
                 im.action.Eat_Equip();//升级
-                //im.action.Gun_retire(2);
-                if (im.action.EatGunHandle())
+                if (ProgrameData.AutoStrengthen)
                 {
-                    return;
+                    if (im.action.EatGunHandle()) return;
                 }
-                else
-                {
-                    im.action.Gun_retire(2);
-                }
+
+                im.action.Gun_retire(2);
+
 
                 //装备满了 需要升级或者拆解
             }
@@ -644,6 +642,7 @@ namespace GFHelper.Programe.Auto
                 im.uihelp.setStatusBarText_InThread(String.Format(" 正在单独补给 (移出队伍)"));
                 im.action.GUN_OUT_Team(ubti.mvp, ubti.teaminfo0);
 
+                im.uihelp.setStatusBarText_InThread(String.Format(" 正在单独补给 (开始作战)"));
                 im.action.startMission(Map_Sent.Map3_6.mission_id, Map_Sent.Map3_6.Mission_Start_spots);
 
                 im.uihelp.setStatusBarText_InThread(String.Format(" 正在单独补给 (单独补给)"));

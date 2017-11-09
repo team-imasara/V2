@@ -984,7 +984,7 @@ namespace GFHelper.UserData
             Gun_Retire_Rank3.Clear();
             foreach (var item in gun_with_user_info)
             {
-                if (item.Value.info.rank == 2 && item.Value.is_locked == 0)
+                if (item.Value.info.rank == 2 && item.Value.is_locked == 0 && item.Value.teamId==0)
                 {
                     Gun_Retire_Rank2.Add(item.Value.id);
                     if (Gun_Retire_Rank2.Count == ProgrameData.Eat_Gun_rank2_num) break;

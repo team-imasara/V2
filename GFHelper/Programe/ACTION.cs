@@ -1506,135 +1506,32 @@ namespace GFHelper.Programe
             //MVP队长判定
             //list 位置0 = mvp 位置1 =tank1 位置2 = tank2 位置 3 4 normal id
             Dictionary<int,int> List_ID = new Dictionary<int,int>();
-            int start = 0;
 
             Gun_IN_OUT.Get_Gun_Location(mvp_id, ref List_ID, teaminfo);
-            if (List_ID.Count == 4)//mvp是队长
+
+            for (int i = 1; i <= 5; i++)
             {
-                start = 2;
-            }
-            else
-            {
-                start = 1;
+                Gun_IN_OUT.Gun_OUT_post(teaminfo[1].teamId, i);
             }
 
-            foreach (var item in List_ID)
-            {
-                Gun_IN_OUT.Gun_OUT_post(teaminfo[1].teamId, item.Key);
-            }
+            Gun_IN_OUT.Gun_IN_post(teaminfo[1].teamId, mvp_id, 1);
 
             return;
 
-
-            ////{"team_id":6,"gun_with_user_id":0,"location":4}
-            //GUN_OUT_Team: int count = 0;
-            //int Gun_count = 0;
-            //foreach (var item in teaminfo)
-            //{
-            //    if(item.Value.id != mvp_id)
-            //    {
-            //        dynamic newjson = new DynamicJson();
-            //        newjson.team_id /*这是节点*/ = item.Value.team_id;/* 这是值*/
-            //        newjson.gun_with_user_id /*这是节点*/ = 0;/* 这是值*/
-            //        newjson.location /*这是节点*/ = item.Value.location;/* 这是值*/
-
-            //        bool loop = true;
-            //        while (loop)
-            //        {
-            //            string result = im.post.GUN_OUTandIN_Team(newjson.ToString());
-
-            //            switch (ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false))
-            //            {
-            //                case 1:
-            //                    {
-            //                        Gun_count++; loop=false;break;
-            //                    }
-            //                case 0:
-            //                    {
-            //                        result_error_PRO(result, count++); continue;
-            //                    }
-            //                case -1:
-            //                    {
-            //                        result_error_PRO(result, count++); break;
-            //                    }
-            //                default:
-            //                    break;
-            //            }
-
-
-
-            //        }
-            //    }
-            //}
-            ////队长位置判定 MVP不是队长的话移到队长位置
-            //foreach (var item in teaminfo)
-            //{
-            //    if (item.Value.id == mvp_id && item.Value.location != 1)
-            //    {
-            //        dynamic newjson = new DynamicJson();
-            //        newjson.team_id /*这是节点*/ = item.Value.team_id;/* 这是值*/
-            //        newjson.gun_with_user_id /*这是节点*/ = item.Value.id;/* 这是值*/
-            //        newjson.location /*这是节点*/ = 1;/* 这是值*/
-
-            //        bool loop = true;
-            //        while (loop)
-            //        {
-            //            string result = im.post.GUN_OUTandIN_Team(newjson.ToString());
-
-            //            switch (ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false))
-            //            {
-            //                case 1:
-            //                    {
-            //                        Gun_count++; loop = false; break;
-            //                    }
-            //                case 0:
-            //                    {
-            //                        result_error_PRO(result, count++); continue;
-            //                    }
-            //                case -1:
-            //                    {
-            //                        result_error_PRO(result, count++); break;
-            //                    }
-            //                default:
-            //                    break;
-            //            }
-
-            //        }
-            //    }
-            //}
-
-
-            //if (Gun_count == 4|| Gun_count == 5)
-            //{
-            //    return true;
-            //}
-            //else
-            //{
-            //    goto GUN_OUT_Team;
-            //}
         }
 
         public void GUN_IN_Team(int mvp_id, Dictionary<int, Gun_With_User_Info> teaminfo)
         {
             //list 位置0 = mvp 位置1 =tank1 位置2 = tank2 位置 3 4 normal id
             Dictionary<int, int> List_ID = new Dictionary<int, int>();
-            int start = 0;
+
 
             Gun_IN_OUT.Get_Gun_Location(mvp_id, ref List_ID, teaminfo);
-            if (List_ID.Count == 4)
-            {
-                start = 2;
-            }
-            else
-            {
-                start = 1;
-            }
 
-            for (; start <= 5; start++)
+            for (int i = 1; i <= 5; i++)
             {
-                Gun_IN_OUT.Gun_IN_post(teaminfo[1].teamId, List_ID[start], start);
+                Gun_IN_OUT.Gun_IN_post(teaminfo[1].teamId, List_ID[i], i);
             }
-
             return;
         }
 

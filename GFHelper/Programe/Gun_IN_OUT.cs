@@ -16,30 +16,33 @@ namespace GFHelper.Programe
         {
             //mvp检查
             //如果MVP是队长 则 LIST 只有 4位 MVP不需要动
-            bool mvp_location_1 = false;
+            //bool mvp_location_1 = false;
+            //foreach (var item in teaminfo)
+            //{
+            //    if(item.Value.id==mvp_id && item.Value.location == 1)
+            //    {
+            //        mvp_location_1 = true;
+            //    }
+            //}
             foreach (var item in teaminfo)
             {
-                if(item.Value.id==mvp_id && item.Value.location == 1)
-                {
-                    mvp_location_1 = true;
-                }
+                if (item.Value.id == mvp_id && item.Value.location != 1) list[0] = item.Value.id;
+                list[item.Value.location] = item.Value.id;
             }
-            if (mvp_location_1)
-            {
-                //MVP是队长
-                foreach (var item in teaminfo)
-                {
-                    if (item.Value.id == mvp_id) continue;
-                    list[item.Value.location] = item.Value.id;
-                }
-            }
-            else
-            {
-                foreach (var item in teaminfo)
-                {
-                    list[item.Value.location] = item.Value.id;
-                }
-            }
+
+            //if (mvp_location_1)
+            //{
+            //    //MVP是队长
+            //    foreach (var item in teaminfo)
+            //    {
+            //        if (item.Value.id == mvp_id) continue;
+            //        list[item.Value.location] = item.Value.id;
+            //    }
+            //}
+            //else
+            //{
+
+            //}
 
         }
 

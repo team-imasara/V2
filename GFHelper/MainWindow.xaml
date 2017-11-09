@@ -454,7 +454,8 @@
                     <Label x:Name="BP_RecoverTime" Content="BP_RecoverTime" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,174,0,0"/>
                     <TextBox x:Name="TEXTBOX_outdatacode" HorizontalAlignment="Left" Height="23" Margin="10,92,0,0" TextWrapping="Wrap" Text="outdatacode" VerticalAlignment="Top" Width="120"/>
                     <Button x:Name="POST" HorizontalAlignment="Left" Margin="135,96,0,0" VerticalAlignment="Top" Width="81" Height="19" Content="POST" Click="POST_Click"/>
-                    <Button HorizontalAlignment="Left" Margin="301,6,0,0" VerticalAlignment="Top" Width="81" Click="Button_Click_9" Height="19" Content="。"/>
+                    <Button HorizontalAlignment="Left" Margin="301,6,0,0" VerticalAlignment="Top" Width="81" Click="Button_Click_9" Height="19" Content="1"/>
+                    <Button HorizontalAlignment="Left" Margin="301,30,0,0" VerticalAlignment="Top" Width="81" Height="19" Content="2" Click="Button_Click_10"/>
                 </Grid>
             </TabItem>
 

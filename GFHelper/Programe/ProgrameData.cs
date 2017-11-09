@@ -67,7 +67,7 @@ namespace GFHelper.Programe
 
         public static bool show_result_error = true;
 
-        public static bool debugmode = true;
+        public static bool debugmode = false;
 
         public static int Eat_Gun_rank2_num = 24;
 
@@ -75,7 +75,7 @@ namespace GFHelper.Programe
 
         public static int BL_ReLogin_num = 20;
 
-
+        public static bool AutoStrengthen;
         //post返回error 如果累计大于3则 返回false
         public static int BL_Error_num = 3;
 
