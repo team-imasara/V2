@@ -279,7 +279,7 @@ namespace GFHelper.Programe
             }
             catch (Exception ex)
             {
-                ;
+                MessageBox.Show(ex.ToString());
             }
             return result.ToJson();
         }

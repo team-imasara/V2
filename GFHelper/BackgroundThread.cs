@@ -245,7 +245,7 @@ namespace GFHelper
                             case 41:
                                 {
                                     //练级任务1
-                                    im.battle_loop.BattleLOOP(im.dic_userbattletaskinfo[0]);
+                                    im.battle_loop.BattleLOOP_normal(im.dic_userbattletaskinfo[0]);
                                     ProgrameData.TaskList.RemoveAt(0);
                                     im.battle_loop.End_At_Battle(im.dic_userbattletaskinfo[0]);
                                     break;
@@ -253,7 +253,7 @@ namespace GFHelper
                             case 42:
                                 {
                                     //练级任务1
-                                    im.battle_loop.BattleLOOP(im.dic_userbattletaskinfo[1]);
+                                    im.battle_loop.BattleLOOP_normal(im.dic_userbattletaskinfo[1]);
 
                                     ProgrameData.TaskList.RemoveAt(0);
                                     break;
@@ -261,7 +261,7 @@ namespace GFHelper
                             case 43:
                                 {
                                     //练级任务1
-                                    im.battle_loop.BattleLOOP(im.dic_userbattletaskinfo[2]);
+                                    im.battle_loop.BattleLOOP_normal(im.dic_userbattletaskinfo[2]);
 
                                     ProgrameData.TaskList.RemoveAt(0);
                                     break;
@@ -269,7 +269,7 @@ namespace GFHelper
                             case 44:
                                 {
                                     //练级任务1
-                                    im.battle_loop.BattleLOOP(im.dic_userbattletaskinfo[3]);
+                                    im.battle_loop.BattleLOOP_normal(im.dic_userbattletaskinfo[3]);
 
                                     ProgrameData.TaskList.RemoveAt(0);
                                     break;

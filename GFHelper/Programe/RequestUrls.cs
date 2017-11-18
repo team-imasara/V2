@@ -95,6 +95,6 @@ public class RequestUrls
     public const string Eat_Equip = "Equip/eatEquip";
 
     public const string endEnemyTurn = "Mission/endEnemyTurn";
-
+    public const string eventDraw ="Mission/eventDraw";
 }
 

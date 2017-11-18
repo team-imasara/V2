@@ -1082,7 +1082,7 @@ namespace GFHelper.Programe
             }
         }
 
-        public bool reinforceTeam(Auto.Spots spots)
+        public bool reinforceTeam(Auto.Spots spots,bool night=false)
         {
             //{"spot_id":1948,"team_id":7}
             Thread.Sleep(2000);
@@ -1091,12 +1091,15 @@ namespace GFHelper.Programe
             newjson.spot_id /*这是节点*/ = spots.spot_id;/* 这是值*/
             newjson.team_id = spots.team_id;
 
+            int k=0;
             while (true)
             {
                 string result = im.post.reinforceTeam(newjson.ToString());
 
+                if (night == false) k = ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false);
+                if (night == true) k = ResultPro.Result_Pro(ref result, "night_reinforceTeam", true);
 
-                switch (ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false))
+                switch (k)
                 {
                     case 1:
                         {
@@ -1108,6 +1111,7 @@ namespace GFHelper.Programe
                         }
                     case -1:
                         {
+                            if (count >= ProgrameData.BL_Error_num) { return false; }
                             result_error_PRO(result, count++); break;
                         }
                     default:
@@ -1430,6 +1434,42 @@ namespace GFHelper.Programe
                 }
             }
         }
+
+        public void eventDraw()
+        {
+            //caa6f92d234e04c034f88c9eb445fd45(sign)
+            int count = 0;
+            while (true)
+            {
+                string result = POST.eventDraw();
+                Thread.Sleep(500);
+
+                switch (ResultPro.Result_Pro(ref result, "eventDraw", true))
+                {
+                    case 1:
+                        {
+                            var jsonobj = Codeplex.Data.DynamicJson.Parse(result);
+                            im.userdatasummery.Read_Activity_info(jsonobj);
+                            return;
+                        }
+                    case 0:
+                        {
+                            result_error_PRO(result, count++); continue;
+                        }
+                    case -1:
+                        {
+                            if (count >= ProgrameData.BL_Error_num) { return; }
+                            result_error_PRO(result, count++); break;
+                        }
+                    default:
+                        break;
+                }
+            }
+
+
+
+        }
+
 
         public static void result_error_PRO(string result,int count)
         {

@@ -68,7 +68,7 @@ namespace GFHelper.Programe
                     while (true)
                     {
                         string result;
-                        WebRequest wr = WebRequest.Create("http://www.ipip.net/");
+                        WebRequest wr = WebRequest.Create("https://www.ipip.net/");
                         Stream s = wr.GetResponse().GetResponseStream();
                         StreamReader sr = new StreamReader(s, Encoding.UTF8);
                         string all = sr.ReadToEnd();
@@ -89,7 +89,7 @@ namespace GFHelper.Programe
                 }
                 catch (Exception e)
                 {
-                    ;
+                    MessageBox.Show(e.ToString());
                 }
             }
         }
@@ -850,7 +850,13 @@ namespace GFHelper.Programe
             return result;
         }
 
-
+        public static string eventDraw()
+        {
+            string outdatacode = AuthCode.Encode(ProgrameData.sign, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&signcode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.eventDraw, requeststring);
+            return result;
+        }
 
     }
 }

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GFHelper.Programe.Auto;
+using GFHelper.Programe.Auto.BattleLoop_Normal;
 
 namespace GFHelper
 {
@@ -43,6 +44,9 @@ namespace GFHelper
         public Programe.Auto.Auto_Summery auto_summery;
         public Programe.Auto.BattleLoop battle_loop;
 
+        public BattleLoop_Normal battleloop_n;
+        public BattleLoop_Activity battleloop_a;
+
         public InstanceManager(MainWindow mainWindow)
         {
             this.userlogin = new UserLogin(this);
@@ -57,6 +61,8 @@ namespace GFHelper
             this.userdatasummery = new UserDataSummery(this);
             this.friend = new Friend(this);
 
+            this.battleloop_n = new BattleLoop_Normal(this);
+            this.battleloop_a = new BattleLoop_Activity(this);
             //4个后勤任务
             for (int x=0; x < 4;x++)
             {

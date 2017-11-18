@@ -57,6 +57,8 @@ namespace GFHelper.UserData
         public static Auto_Mission_Act_Info amai = new Auto_Mission_Act_Info();
         public static Dictionary<int, upgrade_act_info> upgrade_act_info = new Dictionary<int, upgrade_act_info>();
 
+        public static Dictionary<int, int> battle_get_prize_NUM = new Dictionary<int, int>();
+
         public int FriendLv;
         public bool Mission_S;
 
@@ -80,6 +82,29 @@ namespace GFHelper.UserData
             EmptyOperation_Act_Info();
 
         }
+
+        public void Read_Activity_info(dynamic jsonobj)
+        {
+            //{"id":"1","mission_campaign":"-14,-15","draw_event_id":"62,63,64,65,66,67,68,69","start_time":"1501124400","end_time":"1512612000","normal_combat_campaign":"-2,-3,-4,-6,-7","normal_combat_init":"10005,10018","draw_info":[{"draw_event_id":"62","draw_num":"1"},{"draw_event_id":"63","draw_num":"0"},{"draw_event_id":"64","draw_num":"0"},{"draw_event_id":"65","draw_num":"0"},{"draw_event_id":"66","draw_num":"0"},{"draw_event_id":"67","draw_num":"35"},{"draw_event_id":"68","draw_num":"11"},{"draw_event_id":"69","draw_num":"10"}]}
+
+            battle_get_prize_NUM.Clear();
+
+
+            try
+            {
+                foreach (var item in jsonobj.draw_info)
+                {
+                    battle_get_prize_NUM.Add(Convert.ToInt32(item.draw_event_id), Convert.ToInt32(item.draw_num));
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("获取活动信息出错");
+                MessageBox.Show(e.ToString());
+            }
+
+        }
+
 
         public bool ReadUserData_user_info(dynamic jsonobj)
         {
@@ -721,6 +746,25 @@ namespace GFHelper.UserData
                 return false;
             }
         }
+
+        public void Add_Get_battle_get_prize(dynamic jsonobj,int key)
+        {
+            if (jsonobj.ToString().Contains("battle_get_prize") == true)
+            {
+                try
+                {
+                    battle_get_prize_NUM[key]++;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(" 添加战场奖励遇到错误");
+                    MessageBox.Show(e.ToString());
+                    return;
+                }
+            }
+        }
+
+
         public bool Add_Get_Gun_Equip_Battle(dynamic jsonobj)
         {
             //battle_get_equip
@@ -992,7 +1036,7 @@ namespace GFHelper.UserData
             }
             foreach (var item in gun_with_user_info)
             {
-                if (item.Value.info.rank == 3 && item.Value.is_locked == 0)
+                if (item.Value.info.rank == 3 && item.Value.is_locked == 0 && item.Value.teamId == 0)
                 {
                     Gun_Retire_Rank3.Add(item.Value.id);
                     if (Gun_Retire_Rank3.Count == 24) break;

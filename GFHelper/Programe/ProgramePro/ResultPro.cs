@@ -112,7 +112,7 @@ namespace GFHelper.Programe.ProgramePro
                     }
                 case "Start_Mission_Pro":
                     {
-                        return result.Contains("spot_id") && result.Contains("boss_hp") ? 1 : 0;
+                        return result.Contains("spot_id") ? 1 : 0;
                     }
                 case "Eat_Equip_Pro":
                     {
@@ -183,6 +183,15 @@ namespace GFHelper.Programe.ProgramePro
                     {
                         return result.Contains("ally_instance_betray") && result.Contains("mission_lose_result") && result.Contains("ally_instance_transform") ? 1 : 0;
                     }
+                case "eventDraw":
+                    {
+                        return result.Contains("mission_campaign") && result.Contains("draw_event_id") && result.Contains("start_time") ? 1 : 0;
+                    }
+                case "night_reinforceTeam":
+                    {
+                        return result.Contains("night_spots") && result.Contains("spot_id") && result.Contains("belong") ? 1 : 0;
+                    }
+
                 default:
                     break;
             }

@@ -186,8 +186,8 @@ namespace GFHelper
             CheckT.ContinueWith(p =>
             {
                 im.uihelp.setStatusBarText_InThread(String.Format(" 验证授权完成"));
-                testcheck(CheckT.Result);
-                //testcheck(true);
+                //testcheck(CheckT.Result);
+                testcheck(true);
             });
 
             CCD.ContinueWith(p =>
@@ -484,11 +484,7 @@ namespace GFHelper
 
         private void Button_Click_9(object sender, RoutedEventArgs e)
         {
-            im.action.Get_dicGun_PowerUP();
-            MessageBox.Show(UserDataSummery.dicGun_PowerUP.Count.ToString());
-
-            im.action.Get_dicGun_Combine();
-            MessageBox.Show(UserDataSummery.dicGun_Combine.Count.ToString());
+            im.mainWindow.result_decoded.Text= CommonHelp.DecodeAndMapJson(im.mainWindow.result_decoded.Text);
         }
 
         private void POST_Click(object sender, RoutedEventArgs e)

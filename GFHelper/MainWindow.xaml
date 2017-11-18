@@ -273,6 +273,9 @@
                                         <ComboBoxItem Content="5-2N"/>
                                         <ComboBoxItem Content="7-6"/>
                                         <ComboBoxItem Content="7-6BOSS"/>
+                                        <ComboBoxItem Content="1图超钻石"/>
+                                        <ComboBoxItem Content="2图超钻石"/>
+                                        <ComboBoxItem Content="E2-3"/>
                                     </ComboBox>
                                     <Label Content="主梯队 :" HorizontalAlignment="Left" Margin="87,10,0,0" VerticalAlignment="Top" FontSize="24" Grid.Column="1"/>
                                     <Label Content="辅梯队 :" HorizontalAlignment="Left" Margin="87,51,0,0" VerticalAlignment="Top" FontSize="24" Grid.Column="1"/>
