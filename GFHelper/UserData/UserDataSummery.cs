@@ -825,7 +825,7 @@ namespace GFHelper.UserData
 
                     gwui.id = Convert.ToInt32(jsonobj.battle_get_gun.gun_with_user_id);
                     gwui.gun_id = Convert.ToInt32(jsonobj.battle_get_gun.gun_id);
-                    Check_NewGun(gwui.gun_id);
+                    Check_NewGun(gwui.id);
                     gwui.UpdateData();
                     int i = 0;
                     while (true)

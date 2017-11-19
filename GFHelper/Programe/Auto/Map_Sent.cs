@@ -357,6 +357,61 @@ namespace GFHelper.Programe.Auto.Map_Sent
         public static int withdrawSpot = 5032;//撤离
     }
 
+    static class MapE1_4BOSS
+    {
+        //要给spots1 2 赋值 梯队ID
+        //要给teammove 赋值 梯队ID
+        public static int mission_id = 10046;
+        //[{"spot_id":3033,"team_id":6},{"spot_id":3057,"team_id":7}]
+        public static Spots spots1 = new Spots(5054);
+
+        public static Spots[] Mission_Start_spots = { spots1 };//部署梯队的信息
+
+        public static TeamMove teammove1 = new TeamMove(5031, 5055, 1);
+        public static TeamMove teammove2 = new TeamMove(5055, 5041, 1);
+        public static TeamMove teammove3 = new TeamMove(5041, 5038, 1);
+        public static TeamMove teammove4 = new TeamMove(5038, 5053, 1);
+
+        public static TeamMove teammove5 = new TeamMove(5053, 5030, 1);
+        public static TeamMove teammove6 = new TeamMove(5030, 5052, 1);
+        public static TeamMove teammove7 = new TeamMove(5052, 5037, 1);
+        public static TeamMove teammove8 = new TeamMove(5037, 5042, 1);
+
+
+
+        public static Dictionary<int, TeamMove> _dic_TeamMove = new Dictionary<int, TeamMove>();
+        public static Dictionary<int, TeamMove> dic_TeamMove
+        {
+            get
+            {
+                if (_dic_TeamMove.Count == 0)
+                {
+                    _dic_TeamMove[0] = teammove1;
+                    _dic_TeamMove[1] = teammove2;
+                    _dic_TeamMove[2] = teammove3;
+                    _dic_TeamMove[3] = teammove4;
+
+                    _dic_TeamMove[4] = teammove5;
+                    _dic_TeamMove[5] = teammove6;
+                    _dic_TeamMove[6] = teammove7;
+                    _dic_TeamMove[7] = teammove8;
+                }
+
+                return _dic_TeamMove;
+            }
+            set
+            {
+                _dic_TeamMove = value;
+            }
+        }//梯队移动的顺序
+
+
+
+        public static int withdrawSpot = 5032;//撤离
+    }
+
+
+
     static class MapE2_2
     {
         //要给spots1 2 赋值 梯队ID
