@@ -96,5 +96,8 @@ public class RequestUrls
 
     public const string endEnemyTurn = "Mission/endEnemyTurn";
     public const string eventDraw ="Mission/eventDraw";
+
+    public const string FairyMissionSkill = "Mission/fairySkillPerform";
+
 }
 

@@ -422,7 +422,7 @@ namespace GFHelper
             MessageBox.Show("请确保已勾选升级的装备,MVP,战斗效能和正确的梯队 重要的人形上锁");
             MessageBox.Show("请确保已勾选升级的装备,MVP,战斗效能和正确的梯队 重要的人形上锁");
             int mvp=0;//mvp不用理
-
+            
             Programe.Auto.User_Normal_BattleTaskInfo ubti = new Programe.Auto.User_Normal_BattleTaskInfo();
             if (GUN1_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][1].id;
             if (GUN2_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][2].id;
@@ -430,7 +430,7 @@ namespace GFHelper
             if (GUN4_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][4].id;
             if (GUN5_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][5].id;
 
-
+            ubti.BattleMaxLoopTime = Convert.ToInt16(im.mainWindow.BattleMaxLoopTime.Text);
             ubti.TeamEffect0 = Convert.ToInt32(Task1TeamE.Text);
             //ubti.TeamEffect1 = Convert.ToInt32(Task1TeamE_S.Text);
             Int32.TryParse(Task1TeamE_S.Text, out ubti.TeamEffect1);

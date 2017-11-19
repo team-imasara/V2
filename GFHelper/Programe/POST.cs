@@ -858,5 +858,13 @@ namespace GFHelper.Programe
             return result;
         }
 
+        public static string FairyMissionSkill(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.FairyMissionSkill, requeststring);
+            return result;
+        }
+
     }
 }

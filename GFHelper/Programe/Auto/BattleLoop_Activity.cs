@@ -342,7 +342,7 @@ namespace GFHelper.Programe.Auto
             im.action.SupplyTeam(ubti.TaskMianTeam_ID);
 
             //妖精
-
+            im.action.FairyMissionSkill(ubti.TaskMianTeam_ID,5054, 5031);
 
             //右移一步
             im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.MapE1_4BOSS.dic_TeamMove[stepNum]));

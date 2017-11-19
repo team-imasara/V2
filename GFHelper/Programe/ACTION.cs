@@ -1194,6 +1194,55 @@ namespace GFHelper.Programe
 
             }
         }
+
+        public bool FairyMissionSkill(int team_id,int spot_id,int new_spot_id)
+        {
+            Thread.Sleep(2000);
+            StringBuilder stringBuilder = new StringBuilder();
+            JsonWriter jsonWriter = new JsonWriter(stringBuilder);
+            jsonWriter.WriteObjectStart();
+            jsonWriter.WritePropertyName("fairy_team_id");
+            jsonWriter.Write(team_id);
+            jsonWriter.WritePropertyName("fairy_spot");
+            jsonWriter.Write(spot_id);
+            jsonWriter.WritePropertyName("spot_id");
+            jsonWriter.WriteArrayStart();
+
+            jsonWriter.Write(new_spot_id);
+
+            jsonWriter.WriteArrayEnd();
+            jsonWriter.WriteObjectEnd();
+            int count = 0;
+
+            while (true)
+            {
+                string result = POST.FairyMissionSkill(stringBuilder.ToString());
+
+                switch (ResultPro.Result_Pro(ref result, "FairyMissionSkill", true))
+                {
+                    case 1:
+                        {
+                            return true;
+                        }
+                    case 0:
+                        {
+                            result_error_PRO(result, count++); continue;
+                        }
+                    case -1:
+                        {
+                            if (count >= ProgrameData.BL_Error_num) { return false; }
+                            result_error_PRO(result, count++); continue;
+                        }
+                    default:
+                        break;
+                }
+
+
+            }
+
+
+
+        }
         public bool withdrawTeam(int spot_id)
         {
             Thread.Sleep(2000);
