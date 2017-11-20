@@ -76,6 +76,7 @@ namespace GFHelper.Programe
         public static int BL_ReLogin_num = 20;
 
         public static bool AutoStrengthen;
+        public static bool AutoDummyLink;
         //post返回error 如果累计大于3则 返回false
         public static int BL_Error_num = 3;
 

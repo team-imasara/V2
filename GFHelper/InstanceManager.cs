@@ -41,8 +41,8 @@ namespace GFHelper
 
         public BackgroundThread backgroundthread;
 
-        public Programe.Auto.Auto_Summery auto_summery;
-        public Programe.Auto.BattleLoop battle_loop;
+        public Auto_Summery auto_summery;
+        public BattleLoop battle_loop;
 
         public BattleLoop_Normal battleloop_n;
         public BattleLoop_Activity battleloop_a;

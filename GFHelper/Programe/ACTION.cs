@@ -748,6 +748,7 @@ namespace GFHelper.Programe
         /// </summary>
         public void CombineGun()
         {
+            if (!ProgrameData.AutoDummyLink) return;
             im.uihelp.setStatusBarText_InThread(String.Format(" 准备扩编"));
             int count = 0;
             Get_dicGun_Combine();

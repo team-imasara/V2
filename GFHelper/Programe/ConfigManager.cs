@@ -220,6 +220,8 @@ namespace GFHelper
 
                 //AutoStrengthen
                 ProgrameData.AutoStrengthen = this.im.configManager.getConfigBool("AutoStrengthen");
+
+                ProgrameData.AutoDummyLink = this.im.configManager.getConfigBool("AutoDummyLink");
                 ProgrameData.AutoSimulationBattleF = this.im.configManager.getConfigBool("AutoSimulationBattleF");
                 ProgrameData.AutoDefenseTrialBattleT = this.im.configManager.getConfigInt("AutoDefenseTrialBattleT");
                 ProgrameData.SimulationDataType = this.im.configManager.getConfigInt("SimulationDataType");
