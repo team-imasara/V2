@@ -104,7 +104,7 @@ namespace GFHelper.Programe.ProgramePro
                     }
                 case "Battle_Finish_Pro":
                     {
-                        return result.Contains("user_exp") && result.Contains("fairy_exp")&& result.Contains("battle_rank") && result.Contains("free_exp") ? 1 : 0;
+                        return result.Contains("user_exp") &&result.Contains("battle_rank") && result.Contains("free_exp") ? 1 : 0;
                     }
                 case "Team_Move_Pro":
                     {
@@ -191,6 +191,15 @@ namespace GFHelper.Programe.ProgramePro
                     {
                         return result.Contains("night_spots") && result.Contains("spot_id") && result.Contains("belong") ? 1 : 0;
                     }
+                case "FairyMissionSkill":
+                    {
+                        return result.Contains("fairy_team_id") && result.Contains("fairy_skill_perform") && result.Contains("next_skill_cd_turn") ? 1 : 0;
+                    }
+                case "Team_MoveRandom_Pro":
+                    {
+                        return result.Contains("enemy_team_id") && result.Contains("enemy_instance_id") ? 1 : 0;
+                    }
+
 
                 default:
                     break;

@@ -430,7 +430,15 @@ namespace GFHelper
             if (GUN4_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][4].id;
             if (GUN5_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][5].id;
 
-            ubti.BattleMaxLoopTime = Convert.ToInt16(im.mainWindow.BattleMaxLoopTime.Text);
+            try
+            {
+                ubti.BattleMaxLoopTime = Convert.ToInt16(im.mainWindow.BattleMaxLoopTime.Text);
+            }
+            catch (Exception)
+            {
+
+            }
+
             ubti.TeamEffect0 = Convert.ToInt32(Task1TeamE.Text);
             //ubti.TeamEffect1 = Convert.ToInt32(Task1TeamE_S.Text);
             Int32.TryParse(Task1TeamE_S.Text, out ubti.TeamEffect1);

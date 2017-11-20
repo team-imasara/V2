@@ -1158,6 +1158,46 @@ namespace GFHelper.Programe
             }
         }
 
+        public bool teamMove_Random(Auto.TeamMove teammove)
+        {
+            //{"team_id":6,"from_spot_id":3033,"to_spot_id":3038,"move_type":1}
+            Thread.Sleep(2000);
+            dynamic newjson = new DynamicJson();
+            newjson.team_id /*这是节点*/ = teammove.team_id;/* 这是值*/
+            newjson.from_spot_id /*这是节点*/ = teammove.from_spot_id;/* 这是值*/
+            newjson.to_spot_id /*这是节点*/ = teammove.to_spot_id;/* 这是值*/
+            newjson.move_type /*这是节点*/ = teammove.move_type;/* 这是值*/
+
+            int count = 0;
+            //发送请求
+            while (true)
+            {
+                string result = im.post.teamMove(newjson.ToString());
+
+                switch (ResultPro.Result_Pro(ref result, "Team_MoveRandom_Pro", true))
+                {
+                    case 1:
+                        {
+                            return true;
+                        }
+                    case 0:
+                        {
+                            return false;
+                        }
+                    case -1:
+                        {
+                            if (count >= ProgrameData.BL_Error_num) { return false; }
+                            result_error_PRO(result, count++); break;
+                        }
+                    default:
+                        break;
+                }
+
+            }
+        }
+
+
+
         public bool Normal_battleFinish(string data,ref string result)
         {
             //WriteLog.Log(String.Format("data = {0}", data));

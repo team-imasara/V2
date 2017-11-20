@@ -71,6 +71,11 @@ namespace GFHelper.Programe.Auto
                     {
                         switch (Check_Activity_Battle_Loop_Need(2))
                         {
+                            case 5:
+                                {
+                                    im.battleloop_a.E2_1(ubti);
+                                    break;
+                                }
                             case 6:
                                 {
                                     im.battleloop_a.E2_2(ubti);
@@ -100,7 +105,7 @@ namespace GFHelper.Programe.Auto
                     }
                 case 6:
                     {
-                        im.battleloop_a.E1_3(ubti);
+                        im.battleloop_a.E1_4BOSS(ubti);
                         break;
                     }
                 default:
@@ -167,6 +172,15 @@ namespace GFHelper.Programe.Auto
                 {
                     switch (item.Key)
                     {
+                        case 66:
+                            {
+                                if (item.Value <= 6)
+                                    return 5;
+                                else
+                                {
+                                    break;
+                                }
+                            }
                         case 67:
                             {
                                 if (item.Value <= 6)

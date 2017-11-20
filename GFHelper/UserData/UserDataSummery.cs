@@ -825,7 +825,7 @@ namespace GFHelper.UserData
 
                     gwui.id = Convert.ToInt32(jsonobj.battle_get_gun.gun_with_user_id);
                     gwui.gun_id = Convert.ToInt32(jsonobj.battle_get_gun.gun_id);
-                    Check_NewGun(gwui.id);
+                    Check_NewGun(gwui.id,gwui.gun_id);
                     gwui.UpdateData();
                     int i = 0;
                     while (true)
@@ -849,13 +849,13 @@ namespace GFHelper.UserData
             return true;
         }
 
-        public void Check_NewGun(int gun_id)
+        public void Check_NewGun(int gun_with_user_id,int gun_id)
         {
             if (!user_info.gun_collect.Contains(gun_id))
             {
                 WriteLog.Log(string.Format("获取新人形 : {0} ,意不意外 惊不惊喜", Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(gun_id))),"log");
                 List<int> listLockid = new List<int>();
-                listLockid.Add(gun_id);
+                listLockid.Add(gun_with_user_id);
                 List<int> listUnLockid = new List<int>();
 
                 im.uihelp.setStatusBarText_InThread(String.Format(" LOCK"));

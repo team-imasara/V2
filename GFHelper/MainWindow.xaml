@@ -276,7 +276,7 @@
                                         <ComboBoxItem Content="1章超钻石"/>
                                         <ComboBoxItem Content="2章超钻石"/>
                                         <ComboBoxItem Content="E2-3"/>
-                                        <ComboBoxItem Content="E1-3"/>
+                                        <ComboBoxItem Content="E1-4"/>
                                     </ComboBox>
                                     <Label Content="主梯队 :" HorizontalAlignment="Left" Margin="87,10,0,0" VerticalAlignment="Top" FontSize="24" Grid.Column="1"/>
                                     <Label Content="辅梯队 :" HorizontalAlignment="Left" Margin="87,51,0,0" VerticalAlignment="Top" FontSize="24" Grid.Column="1"/>
@@ -303,7 +303,7 @@
                                     <TextBox x:Name="Task1TeamE_S" HorizontalAlignment="Left" Height="40" Margin="255,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="106" TextAlignment="Center" FontSize="24" BorderThickness="0" Background="{x:Null}" Grid.Column="1"/>
                                     <Label Grid.ColumnSpan="2" Content="说明: 7-6BOSS 主梯队建议5HG，副梯队（1W5左右效能）需一战守家。" HorizontalAlignment="Left" Height="71" Margin="29,247,0,0" VerticalAlignment="Top" Width="836"/>
                                     <Label Content="循环次数:" Grid.Column="1" HorizontalAlignment="Left" Margin="356,45,0,0" VerticalAlignment="Top"/>
-                                    <TextBox x:Name="BattleMaxLoopTime" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="422,47,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="54" Foreground="{x:Null}" Background="#FFE5E5E5"/>
+                                    <TextBox x:Name="BattleMaxLoopTime" HorizontalAlignment="Left" Height="17" Margin="414,47,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextAlignment="Center" FontSize="10" BorderThickness="0" Background="{x:Null}" Grid.Column="1"/>
                                 </Grid>
                             </Grid>
                         </TabItem>
