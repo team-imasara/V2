@@ -57,7 +57,7 @@ namespace GFHelper.Programe.Auto
                     {
                         int r1 = random.Next(150, 180);
                         record tempRecod1 = new record(r1, ubti.List_withdrawGUN_ID[0], 1, 0, false);
-                        record tempRecod2 = new record(r1 + random.Next(20, 50), ubti.List_withdrawGUN_ID[1], 1, 0, false);
+                        record tempRecod2 = new record(r1 + random.Next(20,50), ubti.List_withdrawGUN_ID[1], 1, 0, false);
                         this.user_rec.listRecord.Add(tempRecod1);
                         this.user_rec.listRecord.Add(tempRecod2);
                         break;
