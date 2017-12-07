@@ -20,6 +20,8 @@ namespace GFHelper.Programe.Auto
 
         public void BattleLOOP_normal(User_Normal_BattleTaskInfo ubti)
         {
+            if (im.userdatasummery.CheckResources()) { ubti.Used = false; return; }
+
             switch (ubti.TaskMap)
             {
                 case 0:
@@ -106,6 +108,13 @@ namespace GFHelper.Programe.Auto
                 case 6:
                     {
                         im.battleloop_a.E1_4BOSS(ubti);
+                        break;
+                    }
+
+                case 7:
+                    {
+
+                        im.battleloop_a.E1_3_TYPE2(ubti);
                         break;
                     }
                 default:
@@ -238,7 +247,7 @@ namespace GFHelper.Programe.Auto
             //检查是否需要重新登陆
             if (ubti.BattleLoopTime % ProgrameData.BL_ReLogin_num == 0)
             {
-                ProgrameData.TaskList.Add(TaskList.Login);
+                ProgrameData.TaskList.Add(TaskList.GetuserInfo);
             }
 
 
@@ -250,7 +259,10 @@ namespace GFHelper.Programe.Auto
             {
                 if (Check_Activity_Battle_Loop_Need(2) == 0) return;
             }
-            if (ubti.BattleLoopTime <= ubti.BattleMaxLoopTime || ubti.BattleMaxLoopTime == 0)
+
+            if (ubti.Used == false) return;
+
+            if (ubti.BattleLoopTime < ubti.BattleMaxLoopTime || ubti.BattleMaxLoopTime == 0)
             {
 
                 //继续循环
@@ -302,7 +314,7 @@ namespace GFHelper.Programe.Auto
                     if (im.action.EatGunHandle()) return;
                 }
 
-                im.action.Gun_retire(2);
+                if (!im.action.Gun_retire(2)) im.action.Gun_retire(3);
 
 
                 //装备满了 需要升级或者拆解
@@ -500,7 +512,15 @@ namespace GFHelper.Programe.Auto
 
             }
 
-
+        public static int E1_3_type2_pro(string result)
+        {
+            if (result.Contains("5009")) return 1;
+            else
+            {
+                return 2; ;
+            }
+            return 0;
+        }
 
 
 

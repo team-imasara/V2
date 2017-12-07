@@ -71,12 +71,14 @@ namespace GFHelper.Programe
 
         public static int Eat_Gun_rank2_num = 24;
 
+        public static bool NewGun_Report_Stop = true;
         public static int Error_Num_Stop = 10;
 
-        public static int BL_ReLogin_num = 20;
+        public static int BL_ReLogin_num = 10;
 
         public static bool AutoStrengthen;
         public static bool AutoDummyLink;
+        public static bool AutoGetMail=false;
         //post返回error 如果累计大于3则 返回false
         public static int BL_Error_num = 3;
 
@@ -102,14 +104,14 @@ namespace GFHelper.Programe
 
                     if (count >= 3)
                     {
-                        if (ProgrameData.TaskList.Contains(Programe.TaskList.Login))
+                        if (ProgrameData.TaskList.Contains(Programe.TaskList.GetuserInfo))
                         {
                             return;
                         }
 
                         Programe.ProgramePro.WriteLog.Log(String.Format(" error错误达到3个 "),"debug");
                         dic_Error_Result.Clear();
-                        TaskList.Add(Programe.TaskList.Login);
+                        TaskList.Add(Programe.TaskList.GetuserInfo);
                         return;
                     }
 

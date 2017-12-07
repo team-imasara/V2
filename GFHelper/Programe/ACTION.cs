@@ -108,6 +108,7 @@ namespace GFHelper.Programe
                 //根据是否有邮件签到
                 //type 5 可能是签到
                 int x = 0;
+                if (!ProgrameData.AutoGetMail) return;
                 while (im.userdatasummery.maillist.Count > 0)
                 {
 
@@ -128,21 +129,7 @@ namespace GFHelper.Programe
 
 
 
-                //while(im.userdatasummery.NeedDailyAttendance() != -1)//不等于-1表示需要签到并且返回mailwith_user_id type = 5是 签到
-                //{
-                //    int mailwith_user_id = im.userdatasummery.maillist[im.userdatasummery.NeedDailyAttendance()].id;
-                //    im.post.GetOneMail_Type1(mailwith_user_id);
-                //    if (im.post.GetMailResource_Type1(mailwith_user_id) == "[null]")
-                //    {
-                //        im.userdatasummery.maillist.Remove(im.userdatasummery.NeedDailyAttendance());
-                //    }
-                //}
 
-                //if (im.userdatasummery.NeedDailyGift_Kalina() != -1)//不等于-1表示需要签到并且返回mailwith_user_id type =1 是格琳娜
-                //{
-                //    im.post.GetOneMail_Type2(im.userdatasummery.NeedDailyGift_Kalina());
-                //    im.post.GetMailResource_Type2(im.userdatasummery.NeedDailyGift_Kalina());
-                //}
 
             }
 
@@ -194,6 +181,7 @@ namespace GFHelper.Programe
             var jsonobj = DynamicJson.Parse(result); //讲道理，我真不想写了
             im.userdatasummery.ReadUserData(jsonobj);
             im.uihelp.setUserInfo();
+            Abort_Mission_loginIN();
         }
 
         public string Get_UserInfo_post()
@@ -925,9 +913,10 @@ namespace GFHelper.Programe
         /// <returns></returns>
         public bool Gun_retire(int type)
         {
-
+            im.userdatasummery.Get_Gun_Retire();
             //if (im.userdatasummery.Check_Equip_GUN_FULL()==false) return false;
             //if (im.userdatasummery.Get_Gun_Retire() == false) return false;
+
 
             StringBuilder sb = new StringBuilder();
             JsonWriter jsonWriter = new JsonWriter(sb);
@@ -936,6 +925,7 @@ namespace GFHelper.Programe
             {
                 case 2:
                     {
+                        if (UserDataSummery.Gun_Retire_Rank2.Count == 0) return false;
                         im.uihelp.setStatusBarText_InThread(String.Format(" 拆解2星人形"));
                         foreach (var item in UserDataSummery.Gun_Retire_Rank2)
                         {
@@ -945,6 +935,7 @@ namespace GFHelper.Programe
                     }
                 case 3:
                     {
+                        if (UserDataSummery.Gun_Retire_Rank3.Count == 0) return false;
                         im.uihelp.setStatusBarText_InThread(String.Format(" 拆解3星人形"));
                         foreach (var item in UserDataSummery.Gun_Retire_Rank3)
                         {
@@ -1320,7 +1311,7 @@ namespace GFHelper.Programe
             }
         }
 
-        public bool endTurn()
+        public string endTurn()
         {
             Thread.Sleep(2000);
             int count = 0;
@@ -1334,24 +1325,9 @@ namespace GFHelper.Programe
                     
                     case 1:
                         {
-                            if (result.Contains("gun_with_user_id"))
-                            {
-                                var jsonobj = DynamicJson.Parse(result);
-                                Gun_With_User_Info gwui = new Gun_With_User_Info(im);
-                                gwui.id = Convert.ToInt32(jsonobj.mission_win_result.reward_gun.gun_with_user_id);
-                                gwui.gun_id = Convert.ToInt32(jsonobj.mission_win_result.reward_gun.gun_id);
-                                int i = 0;
-                                while (true)
-                                {
-                                    if (!im.userdatasummery.gun_with_user_info.ContainsKey(i))
-                                    {
-                                        im.userdatasummery.gun_with_user_info.Add(i, gwui);
-                                        break;
-                                    }
-                                    i++;
-                                }
-                            }
-                            return true;
+                            var jsonobj = DynamicJson.Parse(result);
+                            im.userdatasummery.Add_Get_Gun_Equip_Battle(jsonobj);
+                            return result;
                         }
                     case 0:
                         {
@@ -1359,7 +1335,7 @@ namespace GFHelper.Programe
                         }
                     case -1:
                         {
-                            if (count >= ProgrameData.BL_Error_num) { return false; }
+                            if (count >= ProgrameData.BL_Error_num) { return result; }
                             result_error_PRO(result, count++); break;
                         }
                     default:

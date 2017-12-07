@@ -368,6 +368,8 @@ namespace GFHelper.UserData
             }
             catch (Exception e)
             {
+
+
                 im.mainWindow.Dispatcher.Invoke(() =>
                 {
                     MessageBox.Show("读取UserData_gun_with_user_info遇到错误");
@@ -749,6 +751,8 @@ namespace GFHelper.UserData
 
         public void Add_Get_battle_get_prize(dynamic jsonobj,int key)
         {
+            if (!battle_get_prize_NUM.ContainsKey(key)) battle_get_prize_NUM.Add(key, 0);
+
             if (jsonobj.ToString().Contains("battle_get_prize") == true)
             {
                 try
@@ -816,8 +820,8 @@ namespace GFHelper.UserData
                     return false;
                 }
             }
-            
-            if(jsonobj.ToString().Contains("battle_get_gun") == true)
+
+            if (jsonobj.ToString().Contains("battle_get_gun") == true)
             {
                 try
                 {
@@ -846,6 +850,35 @@ namespace GFHelper.UserData
                     return false;
                 }
             }
+            if (jsonobj.ToString().Contains("reward_gun") == true)
+            {
+                try
+                {
+                    Gun_With_User_Info gwui = new Gun_With_User_Info(im);
+
+                    gwui.id = Convert.ToInt32(jsonobj.mission_win_result.reward_gun.gun_with_user_id);
+                    gwui.gun_id = Convert.ToInt32(jsonobj.mission_win_result.reward_gun.gun_id);
+                    Check_NewGun(gwui.id, gwui.gun_id);
+                    gwui.UpdateData();
+                    int i = 0;
+                    while (true)
+                    {
+                        if (!gun_with_user_info.ContainsKey(i))
+                        {
+                            gun_with_user_info[i] = gwui;
+                            //gun_with_user_info.Add(i, gwui);
+                            return true;
+                        }
+                        i++;
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(" 添加人形掉落遇到错误");
+                    MessageBox.Show(e.ToString());
+                    return false;
+                }
+            }
             return true;
         }
 
@@ -853,6 +886,7 @@ namespace GFHelper.UserData
         {
             if (!user_info.gun_collect.Contains(gun_id))
             {
+                if (ProgrameData.NewGun_Report_Stop) MessageBox.Show(string.Format("获取新人形 : {0} ,意不意外 惊不惊喜", Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(gun_id))));
                 WriteLog.Log(string.Format("获取新人形 : {0} ,意不意外 惊不惊喜", Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(gun_id))),"log");
                 List<int> listLockid = new List<int>();
                 listLockid.Add(gun_with_user_id);
@@ -956,11 +990,11 @@ namespace GFHelper.UserData
         /// <returns></returns>
         public bool Check_Equip_GUN_FULL()
         {
-            if (im.userdatasummery.gun_with_user_info.Count+10 >= im.userdatasummery.user_info.maxgun)
+            if (im.userdatasummery.gun_with_user_info.Count+2 >= im.userdatasummery.user_info.maxgun)
             {
                 return true;
             }
-            if (im.userdatasummery.equip_with_user_info.Count+10 >= im.userdatasummery.user_info.maxequip)
+            if (im.userdatasummery.equip_with_user_info.Count+2 >= im.userdatasummery.user_info.maxequip)
             {
                 return true;
             }
@@ -1754,6 +1788,17 @@ namespace GFHelper.UserData
             return false;
 
 
+        }
+
+        public bool CheckResources()
+        {
+            if(user_info.mp<=1000 || user_info.mre<=1000 || user_info.ammo <= 1000)
+            {
+                WriteLog.Log("资源少于 1000 终止作战","log");
+                return true;
+            }
+
+            return false;
         }
 
 

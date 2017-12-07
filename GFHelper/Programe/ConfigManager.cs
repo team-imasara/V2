@@ -200,10 +200,12 @@ namespace GFHelper
                         break;
                 }
 
-
-
-
                 ProgrameData.channelid = this.im.configManager.getConfigString("channelid").ToUpper();
+                if(ProgrameData.channelid=="TX") ProgrameData.GameAdd = "http://gf-adrtx-cn-zs-game-0001.ppgame.com/index.php/2000/";
+                if (ProgrameData.channelid == "BILI") ProgrameData.GameAdd = "http://gf-adrbili-cn-zs-game-0001.ppgame.com/index.php/5000/";
+
+
+
 
                 ProgrameData.accountid = this.im.configManager.getConfigString("accountid");
                 System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();

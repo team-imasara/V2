@@ -164,16 +164,11 @@ namespace GFHelper.Programe
 
         public string  GetDigitalUid(string data)
         {
-
-
-
             string result = "";
-
             while (string.IsNullOrEmpty(result) == true)
             {
                 result = DoPost(ProgrameData.GameAdd + RequestUrls.GetDigitalUid, data.ToString());
             }
-
             return result;
         }
 

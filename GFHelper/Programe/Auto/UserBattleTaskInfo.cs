@@ -13,15 +13,17 @@ namespace GFHelper.Programe.Auto
         public int TaskMap;
         public int TaskMianTeam_ID;
 
-        public int TaskSupportTeam1_ID;
-        public string TaskSupportTeam2_ID;
-        public string TaskSupportTeam3_ID;
-        public string TaskSupportTeam4_ID;
-        public string TaskSupportTeam5_ID;
-        public string TaskSupportTeam6_ID;
-        public string TaskSupportTeam7_ID;
-        public string TaskSupportTeam8_ID;
 
+        public int TaskSupportTeam1_ID;
+        public int TaskSupportTeam2_ID;
+        public int TaskSupportTeam3_ID;
+        public int TaskSupportTeam4_ID;
+        public int TaskSupportTeam5_ID;
+        public int TaskSupportTeam6_ID;
+        public int TaskSupportTeam7_ID;
+        public int TaskSupportTeam8_ID;
+
+        public bool Used=true;//整个挂机任务是否使用
 
         public int mvp;
 
@@ -113,7 +115,7 @@ namespace GFHelper.Programe.Auto
         public bool NeetToDismantleGunOrEquipment = false;//是否需要拆枪
         public int EquipmentType;//升级装备所选贼装备的类型
         public int EquipmentUpdatePostion;
-        public bool Used;//整个挂机任务是否使用
+
         public string TaskName;//地图名称如5-4E
         public int TaskNumber;
         public bool Team_Serror = false;

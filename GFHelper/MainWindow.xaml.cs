@@ -413,7 +413,7 @@ namespace GFHelper
         {
 
 
-            ProgrameData.TaskList.Add(TaskList.Friend_Praise);
+            ProgrameData.TaskList.Add(TaskList.Get_Battary_Friend);
         }
 
         private void Button_Click_7(object sender, RoutedEventArgs e)
@@ -492,7 +492,7 @@ namespace GFHelper
 
         private void Button_Click_9(object sender, RoutedEventArgs e)
         {
-            im.mainWindow.result_decoded.Text= CommonHelp.DecodeAndMapJson(im.mainWindow.result_decoded.Text);
+            result_decoded.Text = CommonHelp.DecodeAndMapJson(result_decoded.Text);
         }
 
         private void POST_Click(object sender, RoutedEventArgs e)
@@ -505,6 +505,11 @@ namespace GFHelper
         private void Button_Click_10(object sender, RoutedEventArgs e)
         {
             im.action.EatGunHandle();
+        }
+
+        private void Get_User_info_Click(object sender, RoutedEventArgs e)
+        {
+            ProgrameData.TaskList.Add(TaskList.GetuserInfo);
         }
 
         private void AutoOperationB_S4_Click(object sender, RoutedEventArgs e)

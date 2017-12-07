@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
+
 using System.Linq;
-using System.Reflection;
+
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
+
 using System.Windows;
 using System.IO;
 using System.Net;
@@ -154,14 +154,16 @@ namespace GFHelper.Programe
         }
         static void UnzipDataAndSave(string dataFilePath, string dataVersion, string saveFile = "catchdata.json")
         {
+            string text="";
             byte[] buffer = new byte[0x400];
             StringBuilder builder = new StringBuilder();
             using (Stream stream = new FileStream(dataFilePath, FileMode.Open))
             {
-                CryptoStream baseInputStream = new CryptoStream(stream, AC.EncryptTool.GetDecryptorServiceProvider(dataVersion), CryptoStreamMode.Read);
+                CryptoStream baseInputStream = new CryptoStream(stream, EncryptTool.GetDecryptorServiceProvider(dataVersion), CryptoStreamMode.Read);
                 using (Stream stream3 = new GZipStream(baseInputStream, CompressionMode.Decompress))
                 {
-                    //StreamReader reader = new StreamReader(stream3, Encoding.UTF8);
+                    StreamReader reader = new StreamReader(stream3, Encoding.UTF8);
+
                     FileStream fs = new FileStream(saveFile, FileMode.OpenOrCreate);
                     stream3.CopyTo(fs);
                     fs.Close();
@@ -287,10 +289,12 @@ namespace GFHelper.Programe
         {
             JsonData jsonData2 = null;
             GameData.realtimeSinceLogin = Convert.ToInt32((DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0)).TotalSeconds);
+
             AuthCode.Init(new AuthCode.IntDelegate(GameData.GetCurrentTimeStamp));
 
             GameData.loginTime = ConvertDateTime_China_Int(DateTime.Now);
-
+            try
+            {
             using (MemoryStream stream = new MemoryStream(AuthCode.DecodeWithGzip(result.Substring(1), "yundoudou")))
             {
                 using (Stream stream2 = new GZipInputStream(stream))
@@ -301,7 +305,12 @@ namespace GFHelper.Programe
                     }
                 }
             }
-
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                throw;
+            }
             ProgrameData.uid = jsonData2["uid"].String;
             ProgrameData.sign = jsonData2["sign"].String;
             return ProgrameData.sign;

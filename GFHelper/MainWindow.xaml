@@ -277,6 +277,7 @@
                                         <ComboBoxItem Content="2章超钻石"/>
                                         <ComboBoxItem Content="E2-3"/>
                                         <ComboBoxItem Content="E1-4"/>
+                                        <ComboBoxItem Content="E1_3_TYPE2"/>
                                     </ComboBox>
                                     <Label Content="主梯队 :" HorizontalAlignment="Left" Margin="87,10,0,0" VerticalAlignment="Top" FontSize="24" Grid.Column="1"/>
                                     <Label Content="辅梯队 :" HorizontalAlignment="Left" Margin="87,51,0,0" VerticalAlignment="Top" FontSize="24" Grid.Column="1"/>
@@ -462,9 +463,11 @@
                     <Button x:Name="POST" HorizontalAlignment="Left" Margin="135,96,0,0" VerticalAlignment="Top" Width="81" Height="19" Content="POST" Click="POST_Click"/>
                     <Button HorizontalAlignment="Left" Margin="301,6,0,0" VerticalAlignment="Top" Width="81" Click="Button_Click_9" Height="19" Content="1"/>
                     <Button HorizontalAlignment="Left" Margin="301,30,0,0" VerticalAlignment="Top" Width="81" Height="19" Content="2" Click="Button_Click_10"/>
+                    <Button x:Name="Get_User_info" HorizontalAlignment="Left" Margin="301,53,0,0" VerticalAlignment="Top" Width="81" Height="19" Content="Get_User_info" Click="Get_User_info_Click"/>
                 </Grid>
             </TabItem>
 
         </TabControl>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="-130,242,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
     </Grid>
 </Window>
