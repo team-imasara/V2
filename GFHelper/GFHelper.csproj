@@ -155,6 +155,7 @@
     <Compile Include="Programe\ProgramePro\APK\SubGunType.cs" />
     <Compile Include="Programe\TextRes\asset_textes.cs" />
     <Compile Include="UserData\Auto_Mission_Act_Info.cs" />
+    <Compile Include="UserData\BattleReport.cs" />
     <Compile Include="UserData\Func\Gun_With_User_Info_Func.cs" />
     <Compile Include="BackgroundThread.cs" />
     <Compile Include="CatchData\Auto_Mission_Info.cs" />
@@ -179,6 +180,7 @@
     <Compile Include="UserData\Dorm_With_User_Info.cs" />
     <Compile Include="UserData\Gun.cs" />
     <Compile Include="UserData\MailList.cs" />
+    <Compile Include="UserData\Outhouse_Establish_Info.cs" />
     <Compile Include="UserData\upgrade_act_info.cs" />
     <Compile Include="UserData\User_Record.cs" />
     <Compile Include="Ratio.cs" />
@@ -259,7 +261,7 @@
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
+      <Isolated>True</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>

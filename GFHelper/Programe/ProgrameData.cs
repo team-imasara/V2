@@ -85,6 +85,7 @@ namespace GFHelper.Programe
         public static Dictionary<int, string> dic_Error_Result = new Dictionary<int, string>();
         public static List<TaskListInfo> TaskList = new List<TaskListInfo>();
 
+        public static bool AutoWriteReport = false;
 
         public static void Add_dic_Error(string result)
         {

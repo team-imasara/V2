@@ -57,6 +57,7 @@ namespace GFHelper.Programe
         public static TaskListInfo TaskBattle_3 = new TaskListInfo("练级任务3", 43);
         public static TaskListInfo TaskBattle_4 = new TaskListInfo("练级任务4", 44);
 
-
+        public static TaskListInfo BattleReport_Write = new TaskListInfo("作战报告_开始", 51);
+        public static TaskListInfo BattleReport_Finish = new TaskListInfo("作战报告_结束", 52);
     }
 }

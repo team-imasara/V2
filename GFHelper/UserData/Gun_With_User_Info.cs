@@ -90,7 +90,7 @@ namespace GFHelper.UserData
 
         public Gun_Info info = new Gun_Info();
 
-        public int gunEffect=0;
+        public int gunEffect = 0;
 
         public float powbuffTemp = 1f;
 
@@ -125,7 +125,7 @@ namespace GFHelper.UserData
         {
             get
             {
-                if (this.teamId != 0 && im.userdatasummery.dictTeamFairy !=null && im.userdatasummery.dictTeamFairy.ContainsKey(this.teamId))
+                if (this.teamId != 0 && im.userdatasummery.dictTeamFairy != null && im.userdatasummery.dictTeamFairy.ContainsKey(this.teamId))
                 {
                     return im.userdatasummery.dictTeamFairy[this.teamId];
                 }
@@ -388,7 +388,7 @@ namespace GFHelper.UserData
         {
             foreach (var item in im.catchdatasummery.gun_info)
             {
-                if(gun_id == item.Value.id)
+                if (gun_id == item.Value.id)
                 {
                     info = item.Value;
                     break;

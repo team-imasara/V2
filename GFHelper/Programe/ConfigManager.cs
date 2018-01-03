@@ -235,6 +235,9 @@ namespace GFHelper
 
                 ProgrameData.friendUID = this.im.configManager.getConfigBool("friendUID");
 
+                ProgrameData.AutoWriteReport= this.im.configManager.getConfigBool("AutoWriteReport");
+
+
                 if (ProgrameData.StopTime_string.ToLower() == "null")
                 {
                     //ProgrameData.StopTime_datetime = "";

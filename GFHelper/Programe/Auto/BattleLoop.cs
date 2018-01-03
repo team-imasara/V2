@@ -113,8 +113,17 @@ namespace GFHelper.Programe.Auto
 
                 case 7:
                     {
-
                         im.battleloop_a.E1_3_TYPE2(ubti);
+                        break;
+                    }
+                case 8:
+                    {
+                        im.battleloop_n.text(ubti);
+                        break;
+                    }
+                case 9:
+                    {
+                        im.battleloop_n.Battle10_4E(ubti);
                         break;
                     }
                 default:
@@ -241,6 +250,8 @@ namespace GFHelper.Programe.Auto
             im.action.CombineGun();
             //检查是否需要拆解核心
             Gun_Retire_Core();
+            im.userdatasummery.WriteReport();
+
 
             //检查是否需要修复
             im.userdatasummery.Check_Gun_need_FIX(ubti.TaskMianTeam_ID, 0.2);

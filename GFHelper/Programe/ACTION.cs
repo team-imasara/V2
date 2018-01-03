@@ -859,6 +859,106 @@ namespace GFHelper.Programe
 
             }
         }
+        //Establish_Build
+        public string Establish_Build()
+        {
+
+            Thread.Sleep(10000);
+
+            //Gun_Retire
+            int count = 0;
+
+            StringBuilder sb = new StringBuilder();
+            JsonWriter jsonWriter = new JsonWriter(sb);
+
+            jsonWriter.WriteObjectStart();
+
+            jsonWriter.WritePropertyName("establish_type");
+            jsonWriter.Write(201);
+            jsonWriter.WritePropertyName("num");
+            jsonWriter.Write(UserDataSummery.Furniture_printer);
+            jsonWriter.WritePropertyName("payway");
+            jsonWriter.Write("build_coin");
+
+            jsonWriter.WriteObjectEnd();
+
+            while (true)
+            {
+                string result = POST.Establish_Build(sb.ToString());
+
+                switch (ResultPro.Result_Pro(ref result, "Establish_Build", true))
+                {
+                    case 1:
+                        {
+                            return result;
+                        }
+                    case 0:
+                        {
+                            result_error_PRO(result, count++); continue;
+                        }
+                    case -1:
+                        {
+                            result_error_PRO(result, count++); break;
+                        }
+                    default:
+                        break;
+                }
+
+            }
+        }
+
+        public string Establish_Build_Finish()
+        {
+
+            Thread.Sleep(5000);
+
+            //Gun_Retire
+            int count = 0;
+
+            StringBuilder sb = new StringBuilder();
+            JsonWriter jsonWriter = new JsonWriter(sb);
+
+            jsonWriter.WriteObjectStart();
+
+            jsonWriter.WritePropertyName("establish_type");
+            jsonWriter.Write(201);
+            jsonWriter.WritePropertyName("payway");
+            jsonWriter.Write("build_coin");
+
+            jsonWriter.WriteObjectEnd();
+
+            while (true)
+            {
+                string result = POST.Establish_Build_Finish(sb.ToString());
+
+                switch (ResultPro.Result_Pro(ref result, "Establish_Build_Finish", true))
+                {
+                    case 1:
+                        {
+                            return result;
+                        }
+                    case 0:
+                        {
+                            result_error_PRO(result, count++); continue;
+                        }
+                    case -1:
+                        {
+                            result_error_PRO(result, count++); break;
+                        }
+                    default:
+                        break;
+                }
+
+            }
+        }
+
+        public void WriteReportFinish()
+        {
+
+            im.action.Establish_Build_Finish();
+            im.BattleReport.isUsing = false;
+
+        }
 
         public bool EatGunHandle()
         {

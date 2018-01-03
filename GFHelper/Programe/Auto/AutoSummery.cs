@@ -289,6 +289,14 @@ namespace GFHelper.Programe.Auto
 
         }
 
+        public void WriteReportFinish()
+        {
+            if (im.BattleReport.isFinish && im.BattleReport.isUsing)
+            {
+                ProgrameData.TaskList.Add(TaskList.BattleReport_Finish);
+            }
+        }
+
         /// <summary>
         /// 每日零点刷新
         /// </summary>
@@ -364,6 +372,7 @@ namespace GFHelper.Programe.Auto
                 BP_Recover();
                 //每日零点刷新
                 DailyReFlash();
+                WriteReportFinish();
             }
         }
 

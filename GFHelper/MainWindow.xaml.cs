@@ -415,7 +415,12 @@ namespace GFHelper
 
             ProgrameData.TaskList.Add(TaskList.Get_Battary_Friend);
         }
+        private void Button_Click_61(object sender, RoutedEventArgs e)
+        {
 
+
+            ProgrameData.TaskList.Add(TaskList.Friend_Praise);
+        }
         private void Button_Click_7(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("请确保已勾选升级的装备,MVP,战斗效能和正确的梯队 重要的人形上锁");

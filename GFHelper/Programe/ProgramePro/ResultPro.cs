@@ -199,8 +199,14 @@ namespace GFHelper.Programe.ProgramePro
                     {
                         return result.Contains("enemy_team_id") && result.Contains("enemy_instance_id") ? 1 : 0;
                     }
-
-
+                case "Establish_Build":
+                    {
+                        return result.Contains("build_tmp_data") && result.Contains("build_coin") ? 1 : 0;
+                    }
+                case "Establish_Build_Finish":
+                    {
+                        return result.Contains("gift") ? 1 : 0;
+                    }
                 default:
                     break;
             }

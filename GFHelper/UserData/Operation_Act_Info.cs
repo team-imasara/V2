@@ -34,8 +34,6 @@ namespace GFHelper.UserData
                 MessageBox.Show("计算后勤剩余时间出错");
                 MessageBox.Show(e.ToString());
             }
-
-
         }
     }
 

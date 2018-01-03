@@ -271,29 +271,40 @@ namespace GFHelper
                                     //练级任务1
                                     im.battle_loop.BattleLOOP_normal(im.dic_userbattletaskinfo[3]);
 
-                                    ProgrameData.TaskList.RemoveAt(0);
-                                    break;
-                                }
+                                ProgrameData.TaskList.RemoveAt(0);
+                                break;
+                            }
 
-                                //case 2://readUserinfo
-                                //    {
-                                ////im.baseAction.GetUserinfo();
-                                //im.uiHelper.setStatusBarText_InThread(String.Format(" 获取userinfo"));
-                                //im.dataHelper.ReadUserInfo(im.apioperation.GetUserInfo());
+                        case 51:
+                            {
+                                
+                                break;
+                            }
+                        case 52:
+                            {
+                                im.action.WriteReportFinish();
+                                ProgrameData.TaskList.RemoveAt(0);
+                                break;
+                            }
+                            //case 2://readUserinfo
+                            //    {
+                            ////im.baseAction.GetUserinfo();
+                            //im.uiHelper.setStatusBarText_InThread(String.Format(" 获取userinfo"));
+                            //im.dataHelper.ReadUserInfo(im.apioperation.GetUserInfo());
 
-                                //im.uiHelper.setUserInfo();//ui
+                            //im.uiHelper.setUserInfo();//ui
 
-                                ////im.uiHelper.setUserOperation();
-                                ////im.uiHelper.setUserOperationteam();
+                            ////im.uiHelper.setUserOperation();
+                            ////im.uiHelper.setUserOperationteam();
 
 
-                                ////im.autoOperation.SetTeamInfo();
-                                ////im.autoOperation.SetOperationInfo();
-                                //ProgrameData.TaskList.taskremove();
-                                //im.uiHelper.setStatusBarText_InThread(String.Format(" 获取userinfo成功"));
-                                //break;
+                            ////im.autoOperation.SetTeamInfo();
+                            ////im.autoOperation.SetOperationInfo();
+                            //ProgrameData.TaskList.taskremove();
+                            //im.uiHelper.setStatusBarText_InThread(String.Format(" 获取userinfo成功"));
+                            //break;
 
-                        }
+                    }
 
 
                         //case 3://后勤任务1开始

@@ -34,9 +34,9 @@ namespace GFHelper
         //4个后勤任务
         public Dictionary<int, Operation_Act_Info> Dic_auto_operation_act = new Dictionary<int, Operation_Act_Info>();
         //程序任务队列如后勤练级
-
+        public BattleReport BattleReport = new BattleReport();
         //练级任务
-        public Dictionary<int, Programe.Auto.User_Normal_BattleTaskInfo> dic_userbattletaskinfo = new Dictionary<int, Programe.Auto.User_Normal_BattleTaskInfo>();
+        public Dictionary<int, User_Normal_BattleTaskInfo> dic_userbattletaskinfo = new Dictionary<int, Programe.Auto.User_Normal_BattleTaskInfo>();
 
 
         public BackgroundThread backgroundthread;

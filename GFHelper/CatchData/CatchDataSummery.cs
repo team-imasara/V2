@@ -9,6 +9,8 @@ using Codeplex.Data;
 using System.Windows;
 using GFHelper.Programe.ProgramePro.APK;
 
+using LitJson;
+
 namespace GFHelper.CatchData
 {
     class CatchDataSummery
@@ -39,6 +41,9 @@ namespace GFHelper.CatchData
         public static Dictionary<GunType, Dictionary<string, float>> dictGunBaseAttri = new Dictionary<GunType, Dictionary<string, float>>();
         // Token: 0x040011F7 RID: 4599
         public static Dictionary<Attri, float> dictMinAttribute = new Dictionary<Attri, float>();
+        public static Dictionary<int, int> Furniture_database = new Dictionary<int, int>();
+        public static Dictionary<int, int> Furniture_server = new Dictionary<int, int>();
+        public static Dictionary<int, int> Furniture_printer = new Dictionary<int, int>();
 
 
         public void ClearCatchData()
@@ -316,7 +321,7 @@ namespace GFHelper.CatchData
                     string type = item.type;
 
 
-                    gi.type =(GunType) Enum.Parse(typeof(GunType), type);
+                    gi.type = (GunType)Enum.Parse(typeof(GunType), type);
 
                     //int.TryParse(item.type, out gi.type);
                     int.TryParse(item.rank, out gi.rank);
@@ -694,6 +699,11 @@ namespace GFHelper.CatchData
                 ReadCatchData_kalina_favor_info(jsonobj);
                 ReadCatchData_operation_info(jsonobj);
                 ReadCatchData_game_config_info(jsonobj);
+                GetFurniture_database(jsonobj);
+                GetFurniture_server(jsonobj);
+                GetFurniture_printer(jsonobj);
+
+
             }
             catch (IOException e)
             {
@@ -723,6 +733,67 @@ namespace GFHelper.CatchData
             return true;
         }
 
+        private static bool GetFurniture_database(dynamic jsonobj)
+        {
+            try
+            {
+                foreach (var item in jsonobj.furniture_establish_info)
+                {
+                    if(Convert.ToInt32(item.establish_type)==204)
+                    {
+                        Furniture_database.Add(Convert.ToInt32(item.establish_lv), Convert.ToInt32(item.parameter_1));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("读取CatchData_Furniture_database遇到错误");
+                MessageBox.Show(e.ToString());
+                return false;
+            }
+            return true;
+        }
+        private static bool GetFurniture_server(dynamic jsonobj)
+        {
+            try
+            {
+                foreach (var item in jsonobj.furniture_establish_info)
+                {
+                    if (Convert.ToInt32(item.establish_type) == 205)
+                    {
+                        Furniture_server.Add(Convert.ToInt32(item.establish_lv), Convert.ToInt32(item.parameter_1));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("读取CatchData_Furniture_server遇到错误");
+                MessageBox.Show(e.ToString());
+                return false;
+            }
+            return true;
+        }
+
+        private static bool GetFurniture_printer(dynamic jsonobj)
+        {
+            try
+            {
+                foreach (var item in jsonobj.furniture_establish_info)
+                {
+                    if (Convert.ToInt32(item.establish_type) == 206)
+                    {
+                        Furniture_printer.Add(Convert.ToInt32(item.establish_lv), Convert.ToInt32(item.parameter_1));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("读取CatchData_Furniture_printer遇到错误");
+                MessageBox.Show(e.ToString());
+                return false;
+            }
+            return true;
+        }
         public enum Attri
         {
             // Token: 0x04001214 RID: 4628

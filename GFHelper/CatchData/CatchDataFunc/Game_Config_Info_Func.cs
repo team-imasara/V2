@@ -33,24 +33,6 @@ namespace GFHelper.CatchData.CatchDataFunc
             return CatchDataSummery.dictMinAttribute[attri_0];
 
 
-
-
-            //float result = 0;
-            //foreach (var item in CatchDataSummery.game_config_info)
-            //{
-            //    if(item.Value.parameter_name == "min_attribute")
-            //    {
-            //        foreach (var x in item.Value.parameter_value.Values)
-            //        {
-            //            if (x[0] == attri)
-            //            {
-            //                float.TryParse(x[1], out result);
-
-            //            }
-            //        }
-            //    }
-            //}
-            //return result;
         }
 
         public double GetDouble(string str)

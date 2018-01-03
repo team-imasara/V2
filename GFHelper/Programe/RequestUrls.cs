@@ -98,6 +98,8 @@ public class RequestUrls
     public const string eventDraw ="Mission/eventDraw";
 
     public const string FairyMissionSkill = "Mission/fairySkillPerform";
+    public const string Establish_Build = "Outhouse/establish_build";
+    public const string Establish_Build_Finish = "Outhouse/establish_build_finish";
 
 }
 

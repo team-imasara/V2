@@ -36,7 +36,7 @@ namespace GFHelper.UserData
         public Dictionary<int, Equip_With_User_Info> equip_with_user_info_Rank2 = new Dictionary<int, Equip_With_User_Info>();
         public Dictionary<int, Equip_With_User_Info> equip_with_user_info_Upgrade = new Dictionary<int, Equip_With_User_Info>();
 
-        public Dictionary<int, Item_With_User_Info> item_with_user_info = new Dictionary<int, Item_With_User_Info>();
+        public static Dictionary<int, Item_With_User_Info> item_with_user_info = new Dictionary<int, Item_With_User_Info>();
         public User_Record user_record = new User_Record();
         public Dictionary<int, MailList> maillist = new Dictionary<int, MailList>();
         public Dorm_With_User_Info dorm_with_user_info = new Dorm_With_User_Info();
@@ -59,10 +59,109 @@ namespace GFHelper.UserData
 
         public static Dictionary<int, int> battle_get_prize_NUM = new Dictionary<int, int>();
 
+        private static Dictionary<int,Outhouse_Establish_Info> outhouse_establish_info = new Dictionary <int,Outhouse_Establish_Info>();
+
+        public static int Furniture_database
+        {
+            get
+            {
+                return outhouse_establish_info[204].parameter_1;
+            }
+        }
+
+        public static int Furniture_printer
+        {
+            get
+            {
+                return outhouse_establish_info[206].parameter_1;
+            }
+        }
+        public static int Furniture_server
+        {
+            get
+            {
+                return outhouse_establish_info[205].parameter_1;
+            }
+        }
+        public static int globalFreeExp
+        {
+            get
+            {
+                foreach (var item in item_with_user_info)
+                {
+                    if(item.Value.item_id == 507)
+                    {
+                        return item.Value.number;
+                    }
+                }
+                return 0;
+            }
+            set
+            {
+                foreach (var item in item_with_user_info)
+                {
+                    if (item.Value.item_id == 507)
+                    {
+                        if(item.Value.number+value > Furniture_database)
+                        {
+                            item.Value.number = Furniture_database;
+                        }
+                        else
+                        {
+                            item.Value.number += value;
+                        }
+                        return;
+                    }
+                }
+                Item_With_User_Info iwui = new Item_With_User_Info();
+                iwui.item_id = 507;
+                iwui.number =value;
+                item_with_user_info.Add(item_with_user_info.Count, iwui);
+            }
+        }
+
+        public static int battery
+        {
+            get
+            {
+                foreach (var item in item_with_user_info)
+                {
+                    if (item.Value.item_id == 506)
+                    {
+                        return item.Value.number;
+                    }
+                }
+                return 0;
+            }
+            set
+            {
+                foreach (var item in item_with_user_info)
+                {
+                    if (item.Value.item_id == 506)
+                    {
+                        if (item.Value.number + value > 9999)
+                        {
+                            item.Value.number = 9999;
+                        }
+                        else
+                        {
+                            item.Value.number += value;
+                        }
+                        return;
+                    }
+                }
+                Item_With_User_Info iwui = new Item_With_User_Info();
+                iwui.item_id = 506;
+                iwui.number = value;
+                item_with_user_info.Add(item_with_user_info.Count, iwui);
+            }
+        }
+
+
         public int FriendLv;
         public bool Mission_S;
 
-        public void ClearUserData()
+        private void ClearUserData()
         {
             user_info = new User_Info();
             this.operation_act_info.Clear();
@@ -106,7 +205,7 @@ namespace GFHelper.UserData
         }
 
 
-        public bool ReadUserData_user_info(dynamic jsonobj)
+        private bool ReadUserData_user_info(dynamic jsonobj)
         {
             try
             {
@@ -201,7 +300,7 @@ namespace GFHelper.UserData
             return true;
         }
 
-        public bool ReadUserData_operation_act_info(dynamic jsonobj)
+        private bool ReadUserData_operation_act_info(dynamic jsonobj)
         {
 
             try
@@ -233,7 +332,7 @@ namespace GFHelper.UserData
             }
             return true;
         }
-        public void ReadUserData_upgrade_act_info(dynamic jsonobj)
+        private void ReadUserData_upgrade_act_info(dynamic jsonobj)
         {
             upgrade_act_info.Clear();
             try
@@ -266,7 +365,7 @@ namespace GFHelper.UserData
             return ;
         }
 
-        public bool ReadUserData_kalina_with_user_info(dynamic jsonobj)
+        private bool ReadUserData_kalina_with_user_info(dynamic jsonobj)
         {
             try
             {
@@ -294,7 +393,7 @@ namespace GFHelper.UserData
             return true;
         }
 
-        public bool ReadUserData_gun_with_user_info(dynamic jsonobj)
+        private bool ReadUserData_gun_with_user_info(dynamic jsonobj)
         {
             gun_with_user_info.Clear();
             try
@@ -385,7 +484,74 @@ namespace GFHelper.UserData
             return true;
         }
 
-        public bool ReadUserData_friend_with_user_info(dynamic jsonobj)
+
+        private bool ReadUserData_outhouse_establish_info(dynamic jsonobj)
+        {
+            outhouse_establish_info.Clear();
+            try
+            {
+                foreach (var item in jsonobj.outhouse_establish_info)
+                {
+                    Outhouse_Establish_Info oei = new Outhouse_Establish_Info();
+
+                    oei.id = Convert.ToInt32(item.id);
+                    oei.user_id = Convert.ToInt32(item.user_id);
+                    oei.room_id = Convert.ToInt32(item.room_id);
+                    oei.establish_id = Convert.ToInt32(item.establish_id);
+                    oei.establish_type = Convert.ToInt32(item.establish_type);
+                    oei.furniture_id = Convert.ToInt32(item.furniture_id);
+                    oei.upgrade_establish_id = Convert.ToInt32(item.upgrade_establish_id);
+                    oei.upgrade_starttime = Convert.ToInt32(item.upgrade_starttime);
+                    oei.build_starttime = Convert.ToInt32(item.build_starttime);
+                    oei.build_num = Convert.ToInt32(item.build_num);
+                    if (item.build_tmp_data != null)
+                    {
+                        oei.build_tmp_data = item.build_tmp_data.ToString();
+                    }
+
+                    oei.build_get_time = Convert.ToInt32(item.build_get_time);
+                    oei.update_furniture_id = Convert.ToInt32(item.update_furniture_id);
+                    //oei.furniture_postion = Convert.ToInt32(item.furniture_postion);
+                    oei.establish_lv = Convert.ToInt32(item.establish_lv);
+                    oei.upgrade_coin = Convert.ToInt32(item.upgrade_coin);
+                    oei.upgrade_time = Convert.ToInt32(item.upgrade_time);
+                    //oei.upgrade_condition = Convert.ToInt32(item.upgrade_condition);
+                    int.TryParse(item.parameter_1.ToString(), out oei.parameter_1);
+                    int.TryParse(item.parameter_2.ToString(), out oei.parameter_2);
+                    int.TryParse(item.parameter_3.ToString(), out oei.parameter_3);
+                    outhouse_establish_info.Add(oei.establish_type, oei);
+                }
+            }
+            catch (Exception e)
+            {
+                im.mainWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("读取UserData_Outhouse_Establish_Info遇到错误");
+                    MessageBox.Show(e.ToString());
+                });
+
+                return false;
+            }
+
+            setWriteReport();
+            return true;
+        }
+        private void setWriteReport()
+        {
+            im.BattleReport.continuedTime = Furniture_server;
+            if (outhouse_establish_info[201].build_tmp_data == null)
+            {
+                im.BattleReport.isUsing = false;
+            }
+            if (outhouse_establish_info[201].build_tmp_data != null)
+            {
+                im.BattleReport.isUsing = true;
+                im.BattleReport.StartTime =outhouse_establish_info[201].build_starttime;
+            }
+        }
+
+
+        private bool ReadUserData_friend_with_user_info(dynamic jsonobj)
         {
             friend_with_user_info.Clear();
             try
@@ -419,7 +585,7 @@ namespace GFHelper.UserData
             return true;
         }
 
-        public bool ReadUserData_equip_with_user_info(dynamic jsonobj)
+        private bool ReadUserData_equip_with_user_info(dynamic jsonobj)
         {
             equip_with_user_info.Clear();
             //string abc = jsonobj.equip_with_user_info.ToString();
@@ -474,7 +640,7 @@ namespace GFHelper.UserData
             return true;
         }
 
-        public bool ReadUserData_item_with_user_info(dynamic jsonobj)
+        private bool ReadUserData_item_with_user_info(dynamic jsonobj)
         {
             item_with_user_info.Clear();
             try
@@ -500,7 +666,7 @@ namespace GFHelper.UserData
             return true;
         }
 
-        public bool ReadUserData_user_record(dynamic jsonobj)
+        private bool ReadUserData_user_record(dynamic jsonobj)
         {
             try
             {
@@ -544,7 +710,7 @@ namespace GFHelper.UserData
 
         }
 
-        public void ReadAuto_Mission_Act_Info(dynamic jsonobj)
+        private void ReadAuto_Mission_Act_Info(dynamic jsonobj)
         {
             //amai
             try
@@ -573,7 +739,7 @@ namespace GFHelper.UserData
 
         }
 
-        public bool ReadUserData_maillist(dynamic jsonobj)
+        private bool ReadUserData_maillist(dynamic jsonobj)
         {
             maillist.Clear();
             try
@@ -624,7 +790,7 @@ namespace GFHelper.UserData
             return true;
         }
 
-        public void ReadUserData_mission_act_info(dynamic jsonobj)
+        private void ReadUserData_mission_act_info(dynamic jsonobj)
         {
             Mission_S = false;
             try
@@ -882,7 +1048,7 @@ namespace GFHelper.UserData
             return true;
         }
 
-        public void Check_NewGun(int gun_with_user_id,int gun_id)
+        private void Check_NewGun(int gun_with_user_id,int gun_id)
         {
             if (!user_info.gun_collect.Contains(gun_id))
             {
@@ -927,7 +1093,7 @@ namespace GFHelper.UserData
 
                 ReadAuto_Mission_Act_Info(jsonobj);
                 ReadUserData_upgrade_act_info(jsonobj);
-
+                ReadUserData_outhouse_establish_info(jsonobj);
 
                 //如果operation_act_info不为空 则需要更新 自动后勤
                 UpdateOperation_Act_Info();
@@ -1143,7 +1309,22 @@ namespace GFHelper.UserData
         }
 
 
+        public void WriteReport()
+        {
+            if (battery < 1000) return;
+            if (im.BattleReport.isUsing) return;
+            //检查是否需要写书
+            if (ProgrameData.AutoWriteReport && UserDataSummery.globalFreeExp >= UserDataSummery.Furniture_database)
+            {
+                im.action.Establish_Build();
+                battery -= Furniture_database * 3;
 
+                im.BattleReport.isUsing = true;
+                im.BattleReport.StartTime = CommonHelp.ConvertDateTime_China_Int(DateTime.Now);
+
+            }
+
+        }
 
 
 
@@ -1329,23 +1510,7 @@ namespace GFHelper.UserData
 
         }
 
-        public int GetBatteryNum()
-        {
-            try
-            {
-                foreach (var item in item_with_user_info)
-                {
-                    if (item.Value.item_id == 506) return item.Value.number;
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("解析电池数量出错");
-                MessageBox.Show(e.ToString());
 
-            }
-            return 0;
-        }
         public int GetFurniture_CoinNum()
         {
             try

@@ -99,7 +99,7 @@ namespace GFHelper.Programe
                     try
                     {
                         int findKey = -1;
-                        foreach (var item in im.userdatasummery.item_with_user_info)
+                        foreach (var item in UserDataSummery.item_with_user_info)
                         {
                             if (item.Value.item_id == 1)
                             {
@@ -107,14 +107,14 @@ namespace GFHelper.Programe
                                 break;
                             }
                         }
-                        im.mainWindow.textitem2.Text = Convert.ToString(im.userdatasummery.item_with_user_info[findKey].number);//人形制造契约:item_with_user_info
+                        im.mainWindow.textitem2.Text = Convert.ToString(UserDataSummery.item_with_user_info[findKey].number);//人形制造契约:item_with_user_info
                     }
                     catch (Exception) { im.mainWindow.textitem2.Text = "0"; }
 
                     try
                     {
                         int findKey = -1;
-                        foreach (var item in im.userdatasummery.item_with_user_info)
+                        foreach (var item in UserDataSummery.item_with_user_info)
                         {
                             if (item.Value.item_id == 3)
                             {
@@ -122,14 +122,14 @@ namespace GFHelper.Programe
                                 break;
                             }
                         }
-                        im.mainWindow.textitem3.Text = Convert.ToString(im.userdatasummery.item_with_user_info[findKey].number);//快速制造契约: 
+                        im.mainWindow.textitem3.Text = Convert.ToString(UserDataSummery.item_with_user_info[findKey].number);//快速制造契约: 
                     }
                     catch (Exception) { im.mainWindow.textitem3.Text = "0"; }
 
                     try
                     {
                         int findKey = -1;
-                        foreach (var item in im.userdatasummery.item_with_user_info)
+                        foreach (var item in UserDataSummery.item_with_user_info)
                         {
                             if (item.Value.item_id == 4)
                             {
@@ -137,13 +137,13 @@ namespace GFHelper.Programe
                                 break;
                             }
                         }
-                        im.mainWindow.textitem4.Text = Convert.ToString(im.userdatasummery.item_with_user_info[findKey].number);
+                        im.mainWindow.textitem4.Text = Convert.ToString(UserDataSummery.item_with_user_info[findKey].number);
                     }
                     catch (Exception) { im.mainWindow.textitem4.Text = "0"; }
                     try
                     {
                         int findKey = -1;
-                        foreach (var item in im.userdatasummery.item_with_user_info)
+                        foreach (var item in UserDataSummery.item_with_user_info)
                         {
                             if (item.Value.item_id == 8)
                             {
@@ -151,13 +151,13 @@ namespace GFHelper.Programe
                                 break;
                             }
                         }
-                        im.mainWindow.textitem8.Text = Convert.ToString(im.userdatasummery.item_with_user_info[findKey].number);
+                        im.mainWindow.textitem8.Text = Convert.ToString(UserDataSummery.item_with_user_info[findKey].number);
                     }
                     catch (Exception) { im.mainWindow.textitem8.Text = "0"; }
                     try
                     {
                         int findKey = -1;
-                        foreach (var item in im.userdatasummery.item_with_user_info)
+                        foreach (var item in UserDataSummery.item_with_user_info)
                         {
                             if (item.Value.item_id == 2)
                             {
@@ -165,7 +165,7 @@ namespace GFHelper.Programe
                                 break;
                             }
                         }
-                        im.mainWindow.textEquipBuiltNum.Text = Convert.ToString(im.userdatasummery.item_with_user_info[findKey].number);
+                        im.mainWindow.textEquipBuiltNum.Text = Convert.ToString(UserDataSummery.item_with_user_info[findKey].number);
                     }
                     catch (Exception) { im.mainWindow.textitem8.Text = "0"; }
 
@@ -202,7 +202,7 @@ namespace GFHelper.Programe
 
                     //钻石电池
                     im.mainWindow.textGemNum.Text = im.userdatasummery.user_info.gem.ToString();
-                    im.mainWindow.textBatteryNum.Text = im.userdatasummery.GetBatteryNum().ToString();
+                    im.mainWindow.textBatteryNum.Text = UserDataSummery.battery.ToString();
 
                     //基础动能超导动能
                     im.mainWindow.textBPnum.Text = im.userdatasummery.user_info.bp.ToString();
@@ -352,9 +352,16 @@ namespace GFHelper.Programe
 
             im.mainWindow.BP_RecoverTime.Content = CommonHelp.formatDuration((CommonHelp.ConvertDateTime_China_Int(DateTime.Now) - im.userdatasummery.user_info.last_bp_recover_time)).ToString();
 
-
         }
 
+        //设置BP回复点数的时间
+        public void SetBattleReportTime()
+        {
+            if (im.BattleReport.isUsing)
+            {
+                im.mainWindow.BattleReportTime.Content = CommonHelp.formatDuration(im.BattleReport.remaining_time);
+            }
+        }
         /// <summary>
         /// 后勤控件处理 梯队 任务 框 和按钮
         /// </summary>
@@ -371,7 +378,9 @@ namespace GFHelper.Programe
         im.mainWindow.textBP_PayNUM.Text = im.userdatasummery.user_info.bp_pay.ToString();
         //动能点数倒数时间
         SetBPTime_Recover();
-        for(int k = 0; k < 4; k++)
+        SetBattleReportTime();
+
+        for (int k = 0; k < 4; k++)
         {
             switch (k)
             {
