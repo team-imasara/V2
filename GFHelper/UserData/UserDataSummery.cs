@@ -539,11 +539,11 @@ namespace GFHelper.UserData
         private void setWriteReport()
         {
             im.BattleReport.continuedTime = Furniture_server;
-            if (outhouse_establish_info[201].build_tmp_data == null)
+            if (string.IsNullOrEmpty(outhouse_establish_info[201].build_tmp_data))
             {
                 im.BattleReport.isUsing = false;
             }
-            if (outhouse_establish_info[201].build_tmp_data != null)
+            if (!string.IsNullOrEmpty(outhouse_establish_info[201].build_tmp_data))
             {
                 im.BattleReport.isUsing = true;
                 im.BattleReport.StartTime =outhouse_establish_info[201].build_starttime;
@@ -1314,7 +1314,7 @@ namespace GFHelper.UserData
             if (battery < 1000) return;
             if (im.BattleReport.isUsing) return;
             //检查是否需要写书
-            if (ProgrameData.AutoWriteReport && UserDataSummery.globalFreeExp >= UserDataSummery.Furniture_database)
+            if (ProgrameData.AutoWriteReport && globalFreeExp >= Furniture_database)
             {
                 im.action.Establish_Build();
                 battery -= Furniture_database * 3;
