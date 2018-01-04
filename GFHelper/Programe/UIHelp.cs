@@ -204,6 +204,10 @@ namespace GFHelper.Programe
                     im.mainWindow.textGemNum.Text = im.userdatasummery.user_info.gem.ToString();
                     im.mainWindow.textBatteryNum.Text = UserDataSummery.battery.ToString();
 
+                    //资料室
+                    im.mainWindow.BatteryNum.Text = UserDataSummery.battery.ToString();
+                    im.mainWindow.GlobalEXP.Text = UserDataSummery.globalFreeExp.ToString();
+
                     //基础动能超导动能
                     im.mainWindow.textBPnum.Text = im.userdatasummery.user_info.bp.ToString();
                     im.mainWindow.textBP_PayNUM.Text = im.userdatasummery.user_info.bp_pay.ToString();

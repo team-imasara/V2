@@ -369,7 +369,7 @@ namespace GFHelper.Programe.Auto
             var jsonobj = Codeplex.Data.DynamicJson.Parse(result);
             im.userdatasummery.user_info.experience += Convert.ToInt16(jsonobj.user_exp);
             ubti.user_exp = im.userdatasummery.user_info.experience;
-
+            UserDataSummery.globalFreeExp += Convert.ToInt16(jsonobj.free_exp);
             //奖励
             im.userdatasummery.Add_Get_battle_get_prize(jsonobj, activityMissionKey);
 

@@ -102,13 +102,13 @@ namespace GFHelper.UserData
                 {
                     if (item.Value.item_id == 507)
                     {
-                        if(item.Value.number+value > Furniture_database)
+                        if(value > Furniture_database)
                         {
                             item.Value.number = Furniture_database;
                         }
                         else
                         {
-                            item.Value.number += value;
+                            item.Value.number = value;
                         }
                         return;
                     }
@@ -139,13 +139,13 @@ namespace GFHelper.UserData
                 {
                     if (item.Value.item_id == 506)
                     {
-                        if (item.Value.number + value > 9999)
+                        if (value > 9999)
                         {
                             item.Value.number = 9999;
                         }
                         else
                         {
-                            item.Value.number += value;
+                            item.Value.number = value;
                         }
                         return;
                     }
