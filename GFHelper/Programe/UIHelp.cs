@@ -361,9 +361,9 @@ namespace GFHelper.Programe
         //设置BP回复点数的时间
         public void SetBattleReportTime()
         {
-            if (im.BattleReport.isUsing)
+            if (im.BattleReport.time>0)
             {
-                im.mainWindow.BattleReportTime.Content = CommonHelp.formatDuration(im.BattleReport.remaining_time);
+                im.mainWindow.BattleReportTime.Content = CommonHelp.formatDuration(im.BattleReport.time);
             }
         }
         /// <summary>

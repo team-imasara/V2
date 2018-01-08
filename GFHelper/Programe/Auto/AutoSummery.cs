@@ -289,12 +289,33 @@ namespace GFHelper.Programe.Auto
 
         }
 
-        public void WriteReportFinish()
+        public void AutoWriteReport()
         {
-            if (im.BattleReport.isFinish && im.BattleReport.isUsing)
-            {
-                ProgrameData.TaskList.Add(TaskList.BattleReport_Finish);
-            }
+            if (ProgrameData.AutoWriteReport == false) return;
+
+            WriteReport_Start();
+            WriteReport_Finish();
+        }
+
+        private void WriteReport_Start()
+        {
+            if (UserData.UserDataSummery.battery < 1000) return;
+            if (UserData.UserDataSummery.globalFreeExp < UserData.UserDataSummery.Furniture_database) return;
+            if (im.BattleReport.Start_add == true) return;
+            if (im.BattleReport.time > 0) return;
+            ProgrameData.TaskList.Add(TaskList.BattleReport_Write);
+            im.BattleReport.Start_add = true;
+            im.BattleReport.Finish_add = false;
+            im.BattleReport.StartTime = CommonHelp.ConvertDateTime_China_Int(DateTime.Now);
+        }
+        private void WriteReport_Finish()
+        {
+            if (im.BattleReport.Finish_add == true) return;
+            if (im.BattleReport.time > 0) return;
+            ProgrameData.TaskList.Add(TaskList.BattleReport_Finish);
+            im.BattleReport.Finish_add = true;
+            im.BattleReport.Start_add = false;
+
         }
 
         /// <summary>
@@ -372,7 +393,7 @@ namespace GFHelper.Programe.Auto
                 BP_Recover();
                 //每日零点刷新
                 DailyReFlash();
-                WriteReportFinish();
+                AutoWriteReport();
             }
         }
 

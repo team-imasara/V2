@@ -952,14 +952,6 @@ namespace GFHelper.Programe
             }
         }
 
-        public void WriteReportFinish()
-        {
-
-            im.action.Establish_Build_Finish();
-            im.BattleReport.isUsing = false;
-
-        }
-
         public bool EatGunHandle()
         {
             Thread.Sleep(2000);

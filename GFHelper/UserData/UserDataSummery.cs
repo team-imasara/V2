@@ -541,11 +541,13 @@ namespace GFHelper.UserData
             im.BattleReport.continuedTime = Furniture_server;
             if (string.IsNullOrEmpty(outhouse_establish_info[201].build_tmp_data))
             {
-                im.BattleReport.isUsing = false;
+                im.BattleReport.Finish_add = true;
+                im.BattleReport.Start_add = false;
             }
             if (!string.IsNullOrEmpty(outhouse_establish_info[201].build_tmp_data))
             {
-                im.BattleReport.isUsing = true;
+                im.BattleReport.Finish_add = false;
+                im.BattleReport.Start_add = true;                    
                 im.BattleReport.StartTime =outhouse_establish_info[201].build_starttime;
             }
         }
@@ -1311,25 +1313,12 @@ namespace GFHelper.UserData
 
         public void WriteReport()
         {
-            if (battery < 1000) return;
-            if (im.BattleReport.isUsing) return;
-            //检查是否需要写书
-            if (ProgrameData.AutoWriteReport && globalFreeExp >= Furniture_database)
-            {
-                im.action.Establish_Build();
-                battery -= Furniture_database * 3;
-
-                im.BattleReport.isUsing = true;
-                im.BattleReport.StartTime = CommonHelp.ConvertDateTime_China_Int(DateTime.Now);
-
-            }
+            im.action.Establish_Build();
+            battery = battery - Furniture_printer * 3;
+            globalFreeExp = globalFreeExp - Furniture_printer * 3000;
+            im.BattleReport.StartTime = CommonHelp.ConvertDateTime_China_Int(DateTime.Now);
 
         }
-
-
-
-
-
         /// <summary>
         /// 更新装备的经验值 loc 是 装备总表的位置 exp是升级的经验
         /// 不允许传入10级装备

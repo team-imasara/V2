@@ -277,12 +277,13 @@ namespace GFHelper
 
                         case 51:
                             {
-                                
+                                im.userdatasummery.WriteReport();
+                                ProgrameData.TaskList.RemoveAt(0);
                                 break;
                             }
                         case 52:
                             {
-                                im.action.WriteReportFinish();
+                                im.action.Establish_Build_Finish();
                                 ProgrameData.TaskList.RemoveAt(0);
                                 break;
                             }
