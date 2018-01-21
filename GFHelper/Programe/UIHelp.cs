@@ -323,31 +323,6 @@ namespace GFHelper.Programe
         }
 
 
-        public void SetEquipType()//设置装备信息
-        {
-            im.mainWindow.Dispatcher.Invoke(() =>
-            {
-                im.mainWindow.UpgradeEquipType.Items.Clear();
-
-            });
-
-            im.mainWindow.Dispatcher.Invoke(() =>
-            {
-                string itemtext="";
-                for(int i = 1; i <= 20; i++)
-                {
-                    foreach (var item in CatchDataSummery.equip_info)
-                    {
-                        if (i == item.Value.type && item.Value.rank ==5)
-                        {
-                            itemtext = Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(item.Value.name);
-                            im.uihelp.addComboBoxText(im.mainWindow.UpgradeEquipType, itemtext);
-                            break;
-                        }
-                    }
-                }
-            });
-        }
 
         //设置BP回复点数的时间
         public void SetBPTime_Recover()

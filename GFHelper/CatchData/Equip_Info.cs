@@ -9,6 +9,7 @@ namespace GFHelper.CatchData
     public class Equip_Info
     {
         public int id;
+        public int user_id;
         public string name;
         public string description;
         public int rank;

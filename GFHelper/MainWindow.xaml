@@ -273,9 +273,7 @@
                                         <ColumnDefinition Width="146*"/>
                                         <ColumnDefinition Width="679*"/>
                                     </Grid.ColumnDefinitions>
-                                    <GroupBox Header="升级选项" HorizontalAlignment="Left" Height="81" Margin="564,10,0,0" VerticalAlignment="Top" Width="210" Grid.Column="1">
-                                        <ComboBox x:Name="UpgradeEquipType" HorizontalAlignment="Left" Height="24" Margin="98,25,0,0" VerticalAlignment="Top" Width="96"/>
-                                    </GroupBox>
+                                    <GroupBox Header="升级选项" HorizontalAlignment="Left" Height="81" Margin="564,10,0,0" VerticalAlignment="Top" Width="210" Grid.Column="1"/>
                                     <Label Content="地图 :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="24"/>
                                     <ComboBox x:Name="Task1Map" VerticalAlignment="Top" Width="164" Margin="86,14,0,0" Height="36" HorizontalAlignment="Left" FontSize="18" Grid.ColumnSpan="2">
                                         <ComboBoxItem Content="5-2N"/>
@@ -288,6 +286,7 @@
                                         <ComboBoxItem Content="E1_3_TYPE2"/>
                                         <ComboBoxItem Content="饼"/>
                                         <ComboBoxItem Content="10_4E"/>
+                                        <ComboBoxItem Content="3_4N"/>
                                     </ComboBox>
                                     <Label Content="主梯队 :" HorizontalAlignment="Left" Margin="87,10,0,0" VerticalAlignment="Top" FontSize="24" Grid.Column="1"/>
                                     <Label Content="辅梯队 :" HorizontalAlignment="Left" Margin="87,51,0,0" VerticalAlignment="Top" FontSize="24" Grid.Column="1"/>

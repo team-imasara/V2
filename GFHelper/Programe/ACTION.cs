@@ -1,4 +1,5 @@
 ﻿using Codeplex.Data;
+using GFHelper.UserData;
 using GFHelper.Programe.Auto;
 using GFHelper.Programe.ProgramePro;
 using GFHelper.UserData;
@@ -410,6 +411,172 @@ namespace GFHelper.Programe
 
 
         }
+        public string StartEquipmentDevelop(int buildslot)
+        {
+            StringBuilder sb = new StringBuilder();
+            JsonWriter writer = new JsonWriter(sb);
+            writer.WriteObjectStart();
+            writer.WritePropertyName("mp");
+            writer.Write("");
+            writer.WritePropertyName("ammo");
+            writer.Write("");
+            writer.WritePropertyName("mre");
+            writer.Write("");
+            writer.WritePropertyName("part");
+            writer.Write("");
+            writer.WritePropertyName("build_slot");
+            writer.Write(buildslot);
+            writer.WritePropertyName("input_level");
+            writer.Write(1);
+            writer.WriteObjectEnd();
+
+            int count = 0;
+            //发送请求
+            while (true)
+            {
+                string result = POST.StartEquipDevelop(sb.ToString());
+
+                switch (ResultPro.Result_Pro(ref result, "StartEquipmentDevelop", true))
+                {
+                    case 1:
+                        {
+                            setEquipmentDevelop_start(buildslot,result);
+                            return result;
+                        }
+                    case 0:
+                        {
+                            return result;
+                        }
+                    case -1:
+                        {
+                            if (count >= ProgrameData.BL_Error_num) { return ""; }
+                            result_error_PRO(result, count++); break;
+                        }
+                    default:
+                        break;
+                }
+
+            }
+
+        }
+
+        private void setEquipmentDevelop_start(int solt, string result)
+        {
+            im.list_equipBuilt[solt].StartTime = CommonHelp.ConvertDateTime_China_Int(DateTime.Now);
+
+            JsonData jsonData = new JsonData();
+            jsonData = JsonMapper.ToObject(result);
+            int time=0;
+            if (result.Contains("equip_id")){
+                time = CatchData.CatchDataSummery.getEquipDevTimeFromID(jsonData["equip_id"].Int);
+                im.list_equipBuilt[solt].continuedTime = time;
+
+            }
+            if (result.Contains("fairy_id")){
+                time = CatchData.CatchDataSummery.getEquipDevTimeFromID(jsonData["fairy_id"].Int);
+                im.list_equipBuilt[solt].continuedTime = time;
+            }
+
+
+        }
+        private void setEquipmentDevelop_finish(int solt, string result)
+        {
+            im.list_equipBuilt[solt].StartTime = CommonHelp.ConvertDateTime_China_Int(DateTime.Now);
+
+            JsonData jsonData = new JsonData();
+            jsonData = JsonMapper.ToObject(result);
+            int time = 0;
+            if (result.Contains("equip_id"))
+            {
+                Equip_With_User_Info ei = new Equip_With_User_Info();
+                ei.id = jsonData["id"].Int;
+                ei.user_id = jsonData["user_id"].Int;
+                ei.gun_with_user_id = jsonData["gun_with_user_id"].Int;
+                ei.equip_id = jsonData["equip_id"].Int;
+                ei.equip_exp = jsonData["equip_exp"].Int;
+                ei.equip_level = jsonData["equip_level"].Int;
+                ei.pow = jsonData["pow"].Int;
+                ei.hit = jsonData["hit"].Int;
+                ei.dodge = jsonData["dodge"].Int;
+                ei.speed = jsonData["speed"].Int;
+                ei.rate = jsonData["rate"].Int;
+                ei.critical_harm_rate = jsonData["critical_harm_rate"].Int;
+                ei.critical_percent = jsonData["critical_percent"].Int;
+                ei.armor_piercing = jsonData["armor_piercing"].Int;
+                ei.armor = jsonData["armor"].Int;
+                ei.shield = jsonData["shield"].Int;
+                ei.damage_amplify = jsonData["damage_amplify"].Int;
+                ei.damage_reduction = jsonData["damage_reduction"].Int;
+                ei.night_view_percent = jsonData["night_view_percent"].Int;
+                ei.bullet_number_up = jsonData["bullet_number_up"].Int;
+                ei.adjust_count = jsonData["adjust_count"].Int;
+                ei.is_locked = jsonData["is_locked"].Int;
+                ei.last_adjust = jsonData["last_adjust"].String;
+                im.userdatasummery.equip_with_user_info.Add(im.userdatasummery.equip_with_user_info.Last().Key, ei);
+
+            }
+            if (result.Contains("fairy_with_user"))
+            {
+                Fairy_With_User_info fwui = new Fairy_With_User_info();
+                UserDataSummery.fairy_with_user_info.Add(UserDataSummery.fairy_with_user_info.Count, fwui);
+            }
+
+
+        }
+
+        public string FinishEquipmentDevelop(int builtslot)
+        {
+            //{"build_slot":2}
+            StringBuilder sb = new StringBuilder();
+            JsonWriter writer = new JsonWriter(sb);
+            writer.WriteObjectStart();
+            writer.WritePropertyName("build_slot");
+            writer.Write(builtslot);
+            writer.WriteObjectEnd();
+
+            int count = 0;
+            //发送请求
+            while (true)
+            {
+                string result = POST.FinishDeveloEquip(sb.ToString());
+
+                switch (ResultPro.Result_Pro(ref result, "FinishEquipmentDevelop", true))
+                {
+                    case 1:
+                        {
+                            setEquipmentDevelop_finish(builtslot, result);
+                            return result;
+                        }
+                    case 0:
+                        {
+                            return result;
+                        }
+                    case -1:
+                        {
+                            if (count >= ProgrameData.BL_Error_num) { return ""; }
+                            result_error_PRO(result, count++); break;
+                        }
+                    default:
+                        break;
+                }
+
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         public void Receive_Favor_Girls_In_Dorm()
         {
@@ -1282,7 +1449,7 @@ namespace GFHelper.Programe
 
 
 
-        public bool Normal_battleFinish(string data,ref string result)
+        public bool Normal_battleFinish(string data,ref string result,bool errorSkip=false)
         {
             //WriteLog.Log(String.Format("data = {0}", data));
             Thread.Sleep(5000);
@@ -1307,6 +1474,7 @@ namespace GFHelper.Programe
                         }
                     case -1:
                         {
+                            if (errorSkip) return false;
                             if (count>= ProgrameData.BL_Error_num) { return false; }
                             result_error_PRO(result, count++); break;
 

@@ -101,5 +101,8 @@ public class RequestUrls
     public const string Establish_Build = "Outhouse/establish_build";
     public const string Establish_Build_Finish = "Outhouse/establish_build_finish";
 
+    public const string StartEquipDevelop = "Equip/develop";
+
+
 }
 

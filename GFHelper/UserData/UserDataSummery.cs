@@ -45,7 +45,7 @@ namespace GFHelper.UserData
         public Programe.Auto.User_Simulation_BattleTaskInfo usbti = new Programe.Auto.User_Simulation_BattleTaskInfo();
 
         // Token: 0x040016FF RID: 5887
-        public Dictionary<int, CatchData.Fairy> dictTeamFairy = new Dictionary<int, CatchData.Fairy>();
+        public Dictionary<int, Fairy> dictTeamFairy = new Dictionary<int, CatchData.Fairy>();
         /// <summary>
         /// team_info,int key 就是一个梯队
         /// </summary>
@@ -60,6 +60,9 @@ namespace GFHelper.UserData
         public static Dictionary<int, int> battle_get_prize_NUM = new Dictionary<int, int>();
 
         private static Dictionary<int,Outhouse_Establish_Info> outhouse_establish_info = new Dictionary <int,Outhouse_Establish_Info>();
+        public static Dictionary<int, Fairy_With_User_info> fairy_with_user_info = new Dictionary<int, Fairy_With_User_info>();
+
+        public static EquipBuilt equipbuilt = new EquipBuilt();
 
         public static int Furniture_database
         {
@@ -642,6 +645,45 @@ namespace GFHelper.UserData
             return true;
         }
 
+        private bool ReadUserData_develop_equip_act_info(dynamic jsonobj)
+        {
+            int count = 2;
+            int solt = 0;
+            try
+            {
+                foreach (var item in jsonobj.develop_equip_act_info)
+                {
+                    if (item.Value.build_slot == count && jsonobj.develop_equip_act_info.ToString().Contains("equip_id"))
+                    {
+                        im.list_equipBuilt[solt].StartTime = Convert.ToInt32(item.Value.start_time);
+                        int time = CatchDataSummery.getEquipDevTimeFromID(Convert.ToInt32(item.Value.equip_id));
+                        im.list_equipBuilt[solt].continuedTime = time;
+                        count += 2;
+                        solt++;
+                    }
+                    if (item.Value.build_slot == count && jsonobj.develop_equip_act_info.ToString().Contains("fairy_id"))
+                    {
+                        im.list_equipBuilt[solt].StartTime = Convert.ToInt32(item.Value.start_time);
+                        int time = CatchDataSummery.getFairyDevTimeFromID(Convert.ToInt32(item.Value.equip_id));
+                        im.list_equipBuilt[solt].continuedTime = time;
+                        count += 2;
+                        solt++;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                im.mainWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("读取UserData_equip_with_user_info遇到错误");
+                    MessageBox.Show(e.ToString());
+                });
+
+                return false;
+            }
+            return true;
+        }
+
         private bool ReadUserData_item_with_user_info(dynamic jsonobj)
         {
             item_with_user_info.Clear();
@@ -845,6 +887,51 @@ namespace GFHelper.UserData
             return true;
         }
 
+        private bool ReadFairy_with_user_info(dynamic jsonobj)
+        {
+            fairy_with_user_info.Clear();
+            string result = jsonobj.ToString();
+            JsonData jsonData = JsonMapper.ToObject(result);
+            jsonData = jsonData["fairy_with_user_info"];
+            try
+            {
+                for(int x = 0; x < jsonData.Count; x++)
+                {
+                    Fairy_With_User_info fwui = new Fairy_With_User_info();
+                    JsonData temp = jsonData[x];
+                    fwui.id = temp["id"].Int;
+                    fwui.user_id = temp["user_id"].Int;
+                    fwui.fairy_id = temp["fairy_id"].Int;
+                    fwui.team_id = temp["team_id"].Int;
+                    fwui.fairy_lv = temp["fairy_lv"].Int;
+                    fwui.fairy_exp = temp["fairy_exp"].Int;
+                    fwui.quality_lv = temp["quality_lv"].Int;
+                    fwui.quality_exp = temp["quality_exp"].Int;
+                    fwui.skill_lv = temp["skill_lv"].Int;
+                    fwui.passive_skill = temp["passive_skill"].Int;
+                    fwui.is_locked = temp["is_locked"].Int;
+                    fwui.equip_id = temp["equip_id"].Int;
+                    fwui.adjust_count = temp["adjust_count"].Int;
+                    fwui.last_adjust = temp["last_adjust"].Int;
+                    fwui.passive_skill_collect = temp["passive_skill_collect"].String;
+                    fairy_with_user_info.Add(fairy_with_user_info.Count, fwui);
+                }
+            }
+            catch (Exception e)
+            {
+                im.mainWindow.Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("读取UserData_fairy_with_user_info遇到错误");
+                    MessageBox.Show(e.ToString());
+                });
+
+                return false;
+            }
+
+
+            return true;
+        }
+
         /// <summary>
         /// 获取BP信息
         /// </summary>
@@ -979,6 +1066,9 @@ namespace GFHelper.UserData
                         }
                         i++;
                     }
+                    Check_equipRank5(ewui.equip_id);
+
+
                     return true;
                 }
                 catch (Exception e)
@@ -1075,6 +1165,17 @@ namespace GFHelper.UserData
 
         }
 
+        private void Check_equipRank5(int equip_id)
+        {
+            foreach (var item in CatchDataSummery.equip_info)
+            {
+                if(item.Value.id == equip_id && item.Value.rank==5)
+                {
+                    WriteLog.Log(string.Format("获取五星装备 ,意不意外 惊不惊喜"),"log");
+                }
+            }
+        }
+
         public bool ReadUserData(dynamic jsonobj)
         {
             ClearUserData();
@@ -1096,7 +1197,8 @@ namespace GFHelper.UserData
                 ReadAuto_Mission_Act_Info(jsonobj);
                 ReadUserData_upgrade_act_info(jsonobj);
                 ReadUserData_outhouse_establish_info(jsonobj);
-
+                ReadUserData_develop_equip_act_info(jsonobj);
+                ReadFairy_with_user_info(jsonobj);
                 //如果operation_act_info不为空 则需要更新 自动后勤
                 UpdateOperation_Act_Info();
                 SetTeamInfo();
@@ -1293,14 +1395,11 @@ namespace GFHelper.UserData
         public void Read_Equipment_Upgrade()
         {
             equip_with_user_info_Upgrade.Clear();
-            int type=0;
-            im.mainWindow.UpgradeEquipType.Dispatcher.Invoke(new Action(() => { type = im.mainWindow.UpgradeEquipType.SelectedIndex + 1; }));
-
 
             foreach (var item in equip_with_user_info_Rank5)
             {
                 //5级装备等级小于10 没有被人形装备
-                if(item.Value.equip_level<10 && CatchDataSummery.equip_info[item.Value.equip_id-1].type == type && item.Value.gun_with_user_id == 0)
+                if(item.Value.equip_level<10 && item.Value.gun_with_user_id == 0)
                 {
                     Equip_With_User_Info ewui_upgrade = new Equip_With_User_Info();
                     ewui_upgrade = item.Value;

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GFHelper.Programe.Auto;
 using GFHelper.Programe.ProgramePro;
+using System.Text.RegularExpressions;
 
 namespace GFHelper.Programe.Auto.BattleLoop_Normal
 {
@@ -16,6 +17,9 @@ namespace GFHelper.Programe.Auto.BattleLoop_Normal
         {
             this.im = im;
         }
+
+
+
 
         public void Battle5_2N(User_Normal_BattleTaskInfo ubti)
         {
@@ -296,7 +300,7 @@ namespace GFHelper.Programe.Auto.BattleLoop_Normal
             im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map7_6.dic_TeamMove[stepNum]));
             im.action.teamMove(Map_Sent.Map7_6.dic_TeamMove[stepNum++]);
 
-            im.battle_loop.BattleSent_Data_Built(ref bs, ubti, 1947, random.Next(10, 20), random.Next(6, 8), 6752, 5688);
+            im.battle_loop.BattleSent_Data_Built(ref bs, ubti, 1947, 0, random.Next(6, 8), 6752, 5688);
             im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
             if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
             {
@@ -308,7 +312,7 @@ namespace GFHelper.Programe.Auto.BattleLoop_Normal
             im.action.teamMove(Map_Sent.Map7_6.dic_TeamMove[stepNum++]);
 
             //战斗结算 经验，装备，指挥官经验
-            im.battle_loop.BattleSent_Data_Built(ref bs, ubti, 1949, random.Next(10, 20), random.Next(6, 8), 5475, 8890);
+            im.battle_loop.BattleSent_Data_Built(ref bs, ubti, 1949, 0, random.Next(6, 8), 5475, 8890);
             im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
 
             if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
@@ -323,7 +327,7 @@ namespace GFHelper.Programe.Auto.BattleLoop_Normal
             im.action.endTurn();
 
             //战斗结算 经验，装备，指挥官经验
-            im.battle_loop.BattleSent_Data_Built(ref bs, ubti, 1949, random.Next(10, 20), random.Next(6, 8), 6752, 5688);
+            im.battle_loop.BattleSent_Data_Built(ref bs, ubti, 1949, 0, random.Next(6, 8), 6752, 5688);
             im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
 
             if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
@@ -342,7 +346,7 @@ namespace GFHelper.Programe.Auto.BattleLoop_Normal
             im.action.teamMove(Map_Sent.Map7_6.dic_TeamMove[stepNum++]);
 
 
-            im.battle_loop.BattleSent_Data_Built(ref bs, ubti, 1947, random.Next(10, 20), random.Next(6, 8), 6752, 5688);
+            im.battle_loop.BattleSent_Data_Built(ref bs, ubti, 1947, 0, random.Next(6, 8), 6752, 5688);
             im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
             if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
             {
@@ -549,6 +553,307 @@ namespace GFHelper.Programe.Auto.BattleLoop_Normal
             im.action.endTurn();
 
         }
+
+        public void Battle3_4N(User_Normal_BattleTaskInfo ubti)
+        {
+
+            Random random = new Random();
+            int stepNum = 0; string result = "";
+            Normal_Battle_Sent bs = new Normal_Battle_Sent();
+            Map_Sent.Map3_4N.spots1.team_id = ubti.TaskMianTeam_ID;
+            Map_Sent.Map3_4N.dic_TeamMove[0].team_id = ubti.TaskMianTeam_ID;
+            Map_Sent.Map3_4N.dic_TeamMove[1].team_id = ubti.TaskMianTeam_ID;
+            Map_Sent.Map3_4N.dic_TeamMove[2].team_id = ubti.TaskMianTeam_ID;
+            Map_Sent.Map3_4N.dic_TeamMove[3].team_id = ubti.TaskMianTeam_ID;
+            Map_Sent.Map3_4N.dic_TeamMove[4].team_id = ubti.TaskMianTeam_ID;
+            Map_Sent.Map3_4N.dic_TeamMove[5].team_id = ubti.TaskMianTeam_ID;
+            Map_Sent.Map3_4N.dic_TeamMove[6].team_id = ubti.TaskMianTeam_ID;
+            Map_Sent.Map3_4N.dic_TeamMove[7].team_id = ubti.TaskMianTeam_ID;
+            Map_Sent.Map3_4N.dic_TeamMove[8].team_id = ubti.TaskMianTeam_ID;
+            Map_Sent.Map3_4N.dic_TeamMove[9].team_id = ubti.TaskMianTeam_ID;
+            Map_Sent.Map3_4N.dic_TeamMove[10].team_id = ubti.TaskMianTeam_ID;
+            Map_Sent.Map3_4N.dic_TeamMove[11].team_id = ubti.TaskMianTeam_ID;
+            Map_Sent.Map3_4N.dic_TeamMove[12].team_id = ubti.TaskMianTeam_ID;
+            Map_Sent.Map3_4N.dic_TeamMove[13].team_id = ubti.TaskMianTeam_ID;
+
+            List<int> list = new List<int>();
+            list.Add(18); list.Add(14);//
+            im.battle_loop.Set_Withdraw_INFO(ubti, list);
+
+
+            im.uihelp.setStatusBarText_InThread(String.Format(" 检查床位是否满额"));
+            im.battle_loop.Check_Equip_Gun_FULL();
+
+            //是否需要单独补给
+            im.uihelp.setStatusBarText_InThread(String.Format(" 检查是否需要单独补给"));
+            im.battle_loop.CheckGun_AMMO_MRC_NEED_SUPORT(ubti, 5);//补给问题
+
+            //部署梯队
+            //回合开始
+            im.uihelp.setStatusBarText_InThread(String.Format(" 回合开始"));
+            im.action.startMission(Map_Sent.Map3_4N.mission_id, Map_Sent.Map3_4N.Mission_Start_spots);
+
+
+
+
+            im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map3_4N.dic_TeamMove[stepNum]));
+            im.action.teamMove(Map_Sent.Map3_4N.dic_TeamMove[stepNum++]);
+
+            im.battle_loop.BattleSent_Data_Built(ref bs, ubti, 1347, 0, random.Next(7, 8), 6020, 10112);
+            im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+            if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
+            {
+                im.battle_loop.Battle_Result_PRO(ref ubti, ref result);
+            }
+
+            string endTurn1 = im.action.endTurn();//能否靠这个猜测第二个光头 如果记得被占则终止作战
+            im.action.endEnemyTurn();
+            im.action.startTurn();
+
+            var regex = new Regex("1485");
+            var matches = regex.Matches(endTurn1);
+            if (matches.Count == 2)
+            {
+                im.action.abortMission();
+                return;
+            }
+
+            im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map3_4N.dic_TeamMove[stepNum]));
+            im.action.teamMove(Map_Sent.Map3_4N.dic_TeamMove[stepNum++]);
+
+            im.battle_loop.BattleSent_Data_Built(ref bs, ubti, 1503, 0, random.Next(6, 7), 6044, 5056);
+            im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+            if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
+            {
+                im.battle_loop.Battle_Result_PRO(ref ubti, ref result);
+            }
+
+            im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map3_4N.dic_TeamMove[stepNum]));
+            im.action.teamMove(Map_Sent.Map3_4N.dic_TeamMove[stepNum++]);
+
+            //第二个光头在还不在?
+
+            im.battle_loop.BattleSent_Data_Built(ref bs, ubti, 1504, 0, random.Next(7, 8), 7775, 6505);
+            im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+            if (im.action.Normal_battleFinish(bs.BattleResult, ref result, true))
+            {
+                im.battle_loop.Battle_Result_PRO(ref ubti, ref result);
+            }
+            //else
+            //{
+            //    im.action.abortMission();
+            //    return;
+            //}
+
+            im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map3_4N.dic_TeamMove[stepNum]));
+            im.action.teamMove(Map_Sent.Map3_4N.dic_TeamMove[stepNum++]);
+
+
+            string endTurn2 = im.action.endTurn();//分支开始推测强无敌位置  站在机场 回合结束
+            int Bosscase = Map_Sent.Map3_4N.BossPos(endTurn2);
+            int rCase = Map_Sent.Map3_4N.rPos(endTurn2);
+
+            switch (rCase)
+            {
+                case 1:
+                    {
+                        im.battle_loop.BattleSent_Data_Built(ref bs, ubti, 1505, 0, random.Next(6, 7), 7775, 6505);
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+                        if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
+                        {
+                            im.battle_loop.Battle_Result_PRO(ref ubti, ref result);
+                        }
+                        break;
+                    }
+                default:
+                    break;
+            }
+
+
+            switch (Bosscase)
+            {
+                case 0:
+                    {
+                        im.action.endEnemyTurn();
+                        im.action.startTurn();
+                        //机场上方
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map3_4N.dic_TeamMove[stepNum]));
+                        im.action.teamMove(Map_Sent.Map3_4N.dic_TeamMove[4]);
+
+                        im.battle_loop.BattleSent_Data_Built(ref bs, ubti, 1489, 0, random.Next(10, 11), 9685, 21662);
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+                        if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
+                        {
+                            im.battle_loop.Battle_Result_PRO(ref ubti, ref result);
+                        }
+                        break;
+                    }
+                case 1:
+                    {
+                        im.battle_loop.BattleSent_Data_Built(ref bs, ubti, 1505, 0, random.Next(10, 11), 9685, 21662);
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+                        if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
+                        {
+                            im.battle_loop.Battle_Result_PRO(ref ubti, ref result);
+                        }
+                        im.action.endEnemyTurn();
+                        im.action.startTurn();
+                        break;
+
+                    }
+                case 2:
+                    {
+                        im.action.endEnemyTurn();
+                        im.action.startTurn();
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map3_4N.dic_TeamMove[stepNum]));
+                        im.action.teamMove(Map_Sent.Map3_4N.dic_TeamMove[7]);
+
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map3_4N.dic_TeamMove[stepNum]));
+                        im.action.teamMove(Map_Sent.Map3_4N.dic_TeamMove[8]);
+
+                        im.battle_loop.BattleSent_Data_Built(ref bs, ubti, 1506, 0, random.Next(10, 11), 9685, 21662);
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+                        if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
+                        {
+                            im.battle_loop.Battle_Result_PRO(ref ubti, ref result);
+                        }
+                        break;
+
+                    }
+
+                case 3:
+                    {
+                        im.action.endEnemyTurn();
+                        im.action.startTurn();
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map3_4N.dic_TeamMove[stepNum]));
+                        im.action.teamMove(Map_Sent.Map3_4N.dic_TeamMove[7]);
+
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map3_4N.dic_TeamMove[stepNum]));
+                        im.action.teamMove(Map_Sent.Map3_4N.dic_TeamMove[9]);
+
+                        im.battle_loop.BattleSent_Data_Built(ref bs, ubti, 1507, 0, random.Next(10, 11), 9685, 21662);
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+                        if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
+                        {
+                            im.battle_loop.Battle_Result_PRO(ref ubti, ref result);
+                        }
+                        break;
+
+                    }
+
+                case 4:
+                    {
+                        im.action.endEnemyTurn();
+                        im.action.startTurn();
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map3_4N.dic_TeamMove[stepNum]));
+                        im.action.teamMove(Map_Sent.Map3_4N.dic_TeamMove[7]);
+
+                        im.battle_loop.BattleSent_Data_Built(ref bs, ubti, 1509, 0, random.Next(10, 11), 9685, 21662);
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+                        if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
+                        {
+                            im.battle_loop.Battle_Result_PRO(ref ubti, ref result);
+                        }
+
+                        break;
+
+                    }
+
+                case 5:
+                    {
+                        im.action.endEnemyTurn();
+                        im.action.startTurn();
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map3_4N.dic_TeamMove[stepNum]));
+                        im.action.teamMove(Map_Sent.Map3_4N.dic_TeamMove[4]);
+
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map3_4N.dic_TeamMove[stepNum]));
+                        im.action.teamMove(Map_Sent.Map3_4N.dic_TeamMove[10]);
+
+                        im.battle_loop.BattleSent_Data_Built(ref bs, ubti, 1506, 0, random.Next(10, 11), 9685, 21662);
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+                        if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
+                        {
+                            im.battle_loop.Battle_Result_PRO(ref ubti, ref result);
+                        }
+
+                        break;
+                    }
+
+                case 6:
+                    {
+                        im.action.endEnemyTurn();
+                        im.action.startTurn();
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map3_4N.dic_TeamMove[stepNum]));
+                        im.action.teamMove(Map_Sent.Map3_4N.dic_TeamMove[4]);
+
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map3_4N.dic_TeamMove[stepNum]));
+                        im.action.teamMove(Map_Sent.Map3_4N.dic_TeamMove[11]);
+
+                        im.battle_loop.BattleSent_Data_Built(ref bs, ubti, 1490, 0, random.Next(10, 11), 9685, 21662);
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+                        if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
+                        {
+                            im.battle_loop.Battle_Result_PRO(ref ubti, ref result);
+                        }
+
+                        break;
+                    }
+
+                case 7:
+                    {
+                        im.action.endEnemyTurn();
+                        im.action.startTurn();
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map3_4N.dic_TeamMove[stepNum]));
+                        im.action.teamMove(Map_Sent.Map3_4N.dic_TeamMove[4]);
+
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map3_4N.dic_TeamMove[stepNum]));
+                        im.action.teamMove(Map_Sent.Map3_4N.dic_TeamMove[12]);
+
+                        im.battle_loop.BattleSent_Data_Built(ref bs, ubti, 1501, 0, random.Next(10, 11), 9685, 21662);
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+                        if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
+                        {
+                            im.battle_loop.Battle_Result_PRO(ref ubti, ref result);
+                        }
+
+                        break;
+                    }
+
+                case 8:
+                    {
+                        im.action.endEnemyTurn();
+                        im.action.startTurn();
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map3_4N.dic_TeamMove[stepNum]));
+                        im.action.teamMove(Map_Sent.Map3_4N.dic_TeamMove[4]);
+
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 移动 spot = {0}", Map_Sent.Map3_4N.dic_TeamMove[stepNum]));
+                        im.action.teamMove(Map_Sent.Map3_4N.dic_TeamMove[13]);
+
+                        im.battle_loop.BattleSent_Data_Built(ref bs, ubti, 1476, 0, random.Next(10, 11), 9685, 21662);
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+                        if (im.action.Normal_battleFinish(bs.BattleResult, ref result))
+                        {
+                            im.battle_loop.Battle_Result_PRO(ref ubti, ref result);
+                        }
+                        break;
+                    }
+
+                default:
+                    break;
+            }
+
+
+
+
+
+
+
+
+            im.action.abortMission();
+
+        }
+
+
 
         public void text(User_Normal_BattleTaskInfo ubti)
         {

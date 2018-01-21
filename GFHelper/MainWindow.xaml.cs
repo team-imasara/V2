@@ -42,7 +42,7 @@ namespace GFHelper
             InitializeComponent();
             try
             {
-                this.im = new InstanceManager(this);
+                im = new InstanceManager(this);
                 //加载配置文件
                 //检查catchdata
                 AppUpdate();
@@ -58,8 +58,8 @@ namespace GFHelper
             }
             catch (Exception e)
             {
-                //im.logger.Log(e);
-                //MessageBox.Show("GFHelper启动失败！错误原因: " + e.ToString());
+
+                MessageBox.Show("GFHelper启动失败！错误原因: " + e.ToString());
             }
             //倒计时线程
 
@@ -119,11 +119,6 @@ namespace GFHelper
 
             im.mainWindow.Login.IsEnabled = false;
             ProgrameData.TaskList.Add(TaskList.Login);
-            //im.action.AutoLogin();
-            //if (im.baseAction.AutoLogin() == true)
-
-            //if (im.baseAction.AutoLogin() == true)
-            //im.uiHelper.setStatusBarText_InThread(String.Format( " 好像登陆成功的样子 sign = {0}", Models.SimpleInfo.sign));
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
@@ -423,9 +418,9 @@ namespace GFHelper
         }
         private void Button_Click_7(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("请确保已勾选升级的装备,MVP,战斗效能和正确的梯队 重要的人形上锁");
-            MessageBox.Show("请确保已勾选升级的装备,MVP,战斗效能和正确的梯队 重要的人形上锁");
-            MessageBox.Show("请确保已勾选升级的装备,MVP,战斗效能和正确的梯队 重要的人形上锁");
+            MessageBox.Show("请确保已勾选MVP,战斗效能和正确的梯队 重要的人形上锁");
+            MessageBox.Show("请确保已勾选MVP,战斗效能和正确的梯队 重要的人形上锁");
+            MessageBox.Show("请确保已勾选MVP,战斗效能和正确的梯队 重要的人形上锁");
             int mvp=0;//mvp不用理
             
             Programe.Auto.User_Normal_BattleTaskInfo ubti = new Programe.Auto.User_Normal_BattleTaskInfo();

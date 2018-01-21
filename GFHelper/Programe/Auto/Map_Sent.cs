@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LitJson;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -53,6 +54,121 @@ namespace GFHelper.Programe.Auto.Map_Sent
         public static int withdrawSpot = 3033;//撤离
     }
 
+    static class Map3_4N
+    {
+        //要给spots1 2 赋值 梯队ID
+        //要给teammove 赋值 梯队ID
+        public static int mission_id = 90012;
+        //[{"spot_id":3033,"team_id":6},{"spot_id":3057,"team_id":7}]
+        public static Spots spots1 = new Spots(1485);//主力
+
+
+        public static Spots[] Mission_Start_spots = { spots1 };//部署梯队的信息
+
+        public static TeamMove teammove1 = new TeamMove(1485, 1347, 1);
+        public static TeamMove teammove2 = new TeamMove(1347, 1503, 1);
+        public static TeamMove teammove3 = new TeamMove(1503, 1504, 1);
+        public static TeamMove teammove4 = new TeamMove(1504, 1505, 1);//分支开始
+        public static TeamMove teammove5 = new TeamMove(1505, 1489, 1);//分支1向上
+        public static TeamMove teammove6 = new TeamMove(1947, 1949, 1);//分支2向左1
+        public static TeamMove teammove7 = new TeamMove(1949, 1947, 1);//分支2向左2
+        public static TeamMove teammove8 = new TeamMove(1505, 1509, 1);//分支3
+        public static TeamMove teammove9 = new TeamMove(1509, 1506, 1);//分支3
+        public static TeamMove teammove10 = new TeamMove(1509, 1507, 1);//分支3
+        public static TeamMove teammove11 = new TeamMove(1489, 1506, 1);
+        public static TeamMove teammove12 = new TeamMove(1489, 1490, 1);
+        public static TeamMove teammove13 = new TeamMove(1489, 1501, 1);
+        public static TeamMove teammove14 = new TeamMove(1489, 1476, 1);
+        public static Dictionary<int, TeamMove> _dic_TeamMove = new Dictionary<int, TeamMove>();
+        public static Dictionary<int, TeamMove> dic_TeamMove
+        {
+            get
+            {
+                if (_dic_TeamMove.Count == 0)
+                {
+                    _dic_TeamMove[0] = teammove1;
+                    _dic_TeamMove[1] = teammove2;
+                    _dic_TeamMove[2] = teammove3;
+                    _dic_TeamMove[3] = teammove4;
+                    _dic_TeamMove[4] = teammove5;
+                    _dic_TeamMove[5] = teammove6;
+                    _dic_TeamMove[6] = teammove7;
+                    _dic_TeamMove[7] = teammove8;
+                    _dic_TeamMove[8] = teammove9;
+                    _dic_TeamMove[9] = teammove10;
+                    _dic_TeamMove[10] = teammove11;
+                    _dic_TeamMove[11] = teammove12;
+                    _dic_TeamMove[12] = teammove13;
+                    _dic_TeamMove[13] = teammove14;
+                }
+
+                return _dic_TeamMove;
+            }
+            set
+            {
+                _dic_TeamMove = value;
+            }
+        }//梯队移动的顺序
+
+
+
+        public static int withdrawSpot = 3033;//撤离
+
+        public static int BossPos(string result)
+        {
+            JsonData jsonData = JsonMapper.ToObject(result);
+            jsonData = jsonData["night_enemy"];
+            foreach (JsonData item in jsonData)
+            {
+                if(item["enemy_team_id"].Int == 609)
+                {
+
+                    if (item["to_spot_id"].Int == 1489) return 0;//机场上方
+                    
+                    if (item["to_spot_id"].Int == 1505) return 1;//机场左测 到 机场
+
+                    if (item["from_spot_id"].Int ==1509 &&  item["to_spot_id"].Int == 1506) return 2;//机场左测 到 上一格 
+
+                    if (item["from_spot_id"].Int == 1509 && item["to_spot_id"].Int == 1507) return 3;//机场左测 到 机场左左侧
+
+                    if (item["to_spot_id"].Int == 1509) return 4;//机场左左侧
+
+                    if (item["from_spot_id"].Int == 1489 && item["to_spot_id"].Int == 1506) return 5;//机场上 到 左上机场
+
+                    if (item["from_spot_id"].Int == 1489 && item["to_spot_id"].Int == 1490) return 6;//机场上 到 左上机场
+
+                    if (item["from_spot_id"].Int == 1489 && item["to_spot_id"].Int == 1501) return 7;//机场上 到 左上机场
+
+                    if (item["from_spot_id"].Int == 1489 && item["to_spot_id"].Int == 1476) return 8;//机场上 到 左上机场
+                }
+            }
+            return -1;//need abaort
+        }
+        public static int rPos(string result)
+        {
+            JsonData jsonData = JsonMapper.ToObject(result);
+            jsonData = jsonData["night_enemy"];
+            foreach (JsonData item in jsonData)
+            {
+                if (item["enemy_team_id"].Int == 606)
+                {
+                    switch (item["to_spot_id"].Int)
+                    {
+                        case 1505:
+                            {
+                                return 1;//机场
+                            }
+                        default:
+                            break;
+                    }
+                }
+            }
+            return 0;//need abaort
+        }
+
+
+
+    }
 
 
 
@@ -984,6 +1100,12 @@ namespace GFHelper.Programe.Auto.Map_Sent
 
         public static int withdrawSpot = 5110;//撤离
     }
+
+
+
+
+
+
 
 }
 

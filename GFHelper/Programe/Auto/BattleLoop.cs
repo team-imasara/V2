@@ -126,6 +126,11 @@ namespace GFHelper.Programe.Auto
                         im.battleloop_n.Battle10_4E(ubti);
                         break;
                     }
+                case 10:
+                    {
+                        im.battleloop_n.Battle3_4N(ubti);
+                        break;
+                    }
                 default:
                     break;
             }

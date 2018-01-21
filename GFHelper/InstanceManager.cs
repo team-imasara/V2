@@ -35,6 +35,7 @@ namespace GFHelper
         public Dictionary<int, Operation_Act_Info> Dic_auto_operation_act = new Dictionary<int, Operation_Act_Info>();
         //程序任务队列如后勤练级
         public BattleReport BattleReport = new BattleReport();
+        public List<EquipBuilt> list_equipBuilt=new List<EquipBuilt>(); 
         //练级任务
         public Dictionary<int, User_Normal_BattleTaskInfo> dic_userbattletaskinfo = new Dictionary<int, Programe.Auto.User_Normal_BattleTaskInfo>();
 
@@ -76,10 +77,14 @@ namespace GFHelper
                 dic_userbattletaskinfo.Add(dic_userbattletaskinfo.Count, userbattletaskinfo);
             }
 
+            for(int x = 0; x < 2; x++)
+            {
+                EquipBuilt eb = new EquipBuilt();
+                this.list_equipBuilt.Add(eb);
+            }
 
-
-            this.auto_summery = new Programe.Auto.Auto_Summery(this);
-            this.battle_loop = new Programe.Auto.BattleLoop(this);
+            this.auto_summery = new Auto_Summery(this);
+            this.battle_loop = new BattleLoop(this);
         }
     }
 }

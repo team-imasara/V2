@@ -155,7 +155,9 @@
     <Compile Include="Programe\ProgramePro\APK\SubGunType.cs" />
     <Compile Include="Programe\TextRes\asset_textes.cs" />
     <Compile Include="UserData\Auto_Mission_Act_Info.cs" />
+    <Compile Include="UserData\EquipBulit.cs" />
     <Compile Include="UserData\BattleReport.cs" />
+    <Compile Include="UserData\Fairy_With_User_info.cs" />
     <Compile Include="UserData\Func\Gun_With_User_Info_Func.cs" />
     <Compile Include="BackgroundThread.cs" />
     <Compile Include="CatchData\Auto_Mission_Info.cs" />

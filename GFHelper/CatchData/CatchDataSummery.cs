@@ -26,7 +26,7 @@ namespace GFHelper.CatchData
 
         public Dictionary<int, Auto_Mission_Info> auto_mission_info = new Dictionary<int, Auto_Mission_Info>();
         public Dictionary<int, Fairy_Type_Info> fairy_type_info = new Dictionary<int, Fairy_Type_Info>();
-        public Dictionary<int, Fairy_Info> fairy_info = new Dictionary<int, CatchData.Fairy_Info>();
+        public static Dictionary<int, Fairy_Info> fairy_info = new Dictionary<int, Fairy_Info>();
         public static Dictionary<int, int> equip_exp_info = new Dictionary<int, int>();
         public static Dictionary<int, float> equip_exp_Rate_info = new Dictionary<int, float>();
         public static Dictionary<int, Equip_Info> equip_info = new Dictionary<int, Equip_Info>();
@@ -50,7 +50,7 @@ namespace GFHelper.CatchData
         {
             this.auto_mission_info.Clear();
             this.fairy_type_info.Clear();
-            this.fairy_info.Clear();
+            fairy_info.Clear();
             equip_exp_info.Clear();
             equip_info.Clear();
             this.gun_info.Clear();
@@ -720,7 +720,6 @@ namespace GFHelper.CatchData
             try
             {
                 im.uihelp.SetOperationInfo();
-                im.uihelp.SetEquipType();
             }
             catch (Exception e )
             {
@@ -815,8 +814,29 @@ namespace GFHelper.CatchData
             // Token: 0x0400121C RID: 4636
             armor
         }
+        public static int getEquipDevTimeFromID(int id)
+        {
+            foreach (var item in equip_info)
+            {
+                if (item.Value.id == id)
+                {
+                    return item.Value.develop_duration;
+                }
+            }
+            return 999999999;
+        }
+        public static int getFairyDevTimeFromID(int id)
+        {
+            foreach (var item in fairy_info)
+            {
+                if (item.Value.id == id)
+                {
+                    return item.Value.develop_duration;
+                }
+            }
+            return 999999999;
+        }
     }
-
 
 
 

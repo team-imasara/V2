@@ -875,7 +875,19 @@ namespace GFHelper.Programe
             string result = DoPost(ProgrameData.GameAdd + RequestUrls.Establish_Build_Finish, requeststring);
             return result;
         }
-
-
+        public static string StartEquipDevelop(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.StartEquipDevelop, requeststring);
+            return result;
+        }
+        public static string FinishDeveloEquip(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.FinishDeveloEquip, requeststring);
+            return result;
+        }
     }
 }

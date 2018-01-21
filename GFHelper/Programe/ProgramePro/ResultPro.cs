@@ -207,6 +207,16 @@ namespace GFHelper.Programe.ProgramePro
                     {
                         return result.Contains("gift") ? 1 : 0;
                     }
+                case "StartEquipmentDevelop":
+                    {
+                        return result.Contains("equip_id") || result.Contains("fairy_id") ? 1 : 0;
+                    }
+                case "FinishEquipmentDevelop":
+                    {
+                        return result.Contains("equip_id") || result.Contains("fairy_id") ? 1 : 0;
+                    }
+
+
                 default:
                     break;
             }
