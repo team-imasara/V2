@@ -449,7 +449,7 @@ namespace GFHelper
             //ubti.Effect5 = Convert.ToInt32(GUN_5E.Text);
 
             ubti.teaminfo0 = im.userdatasummery.im.userdatasummery.team_info[Task1MT.SelectedIndex + 1];//需要
-            ubti.teaminfo1 = im.userdatasummery.im.userdatasummery.team_info[Task1ST1.SelectedIndex + 1];
+            ubti.teaminfo1 = im.userdatasummery.im.userdatasummery.team_info[0];
 
 
 
@@ -472,7 +472,7 @@ namespace GFHelper
             ubti.user_exp = im.userdatasummery.user_info.experience;//需要
 
 
-            ubti.Build_info(Task1Map.SelectedIndex,Task1MT.SelectedIndex+1,Task1ST1.SelectedIndex+1, mvp);
+            ubti.Build_info(Task1Map.SelectedIndex,Task1MT.SelectedIndex+1,0, mvp);
             ubti.Key = 0;
             im.dic_userbattletaskinfo[0]=ubti;
             ProgrameData.TaskList.Add(Programe.TaskList.TaskBattle_1);
@@ -510,6 +510,27 @@ namespace GFHelper
         private void Get_User_info_Click(object sender, RoutedEventArgs e)
         {
             ProgrameData.TaskList.Add(TaskList.GetuserInfo);
+        }
+
+        private void Button_Click_11(object sender, RoutedEventArgs e)
+        {
+            BattleTask_team_info bti = new BattleTask_team_info();
+            bti.TeamEffect =Convert.ToInt16(Task1TeamE.Text);
+            bti.TeamID = Task1MT.SelectedIndex + 1;
+            bti.teaminfo = im.userdatasummery.team_info[bti.TeamID];
+            if (GUN1_MVP.IsChecked == true) bti.MVP = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][1].id;
+            if (GUN2_MVP.IsChecked == true) bti.MVP = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][2].id;
+            if (GUN3_MVP.IsChecked == true) bti.MVP = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][3].id;
+            if (GUN4_MVP.IsChecked == true) bti.MVP = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][4].id;
+            if (GUN5_MVP.IsChecked == true) bti.MVP = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][5].id;
+            im.Teams.Add(bti);
+            BattleTeamsLabel.Content += string.Format("第 {0} 梯队\r\n", bti.TeamID);
+        }
+
+        private void Button_Click_12(object sender, RoutedEventArgs e)
+        {
+            im.Teams.Clear();
+            BattleTeamsLabel.Content = "";
         }
 
         private void AutoOperationB_S4_Click(object sender, RoutedEventArgs e)

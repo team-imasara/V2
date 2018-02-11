@@ -449,7 +449,7 @@ namespace GFHelper.Programe.Auto
             {
                 case 0:
                     {
-                        ProgrameData.TaskList.Add(Programe.TaskList.TaskBattle_1);
+                        ProgrameData.TaskList.Add(TaskList.TaskBattle_1);
                         break;
                     }
                 default:

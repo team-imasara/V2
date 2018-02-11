@@ -239,7 +239,7 @@ namespace GFHelper.Programe
                 if (im.mainWindow.Task1MT.AlternationCount < 1)
                 {
                     im.mainWindow.Task1MT.Items.Clear();
-                    im.mainWindow.Task1ST1.Items.Clear();
+
                 }
 
             });
@@ -274,7 +274,7 @@ namespace GFHelper.Programe
                         im.uihelp.addComboBoxText(im.mainWindow.comboBoxOperationTeam3, itemtext);
                         im.uihelp.addComboBoxText(im.mainWindow.comboBoxOperationTeam4, itemtext);
                         im.uihelp.addComboBoxText(im.mainWindow.Task1MT, itemtext);
-                        im.uihelp.addComboBoxText(im.mainWindow.Task1ST1, itemtext);
+
                     }
                 });
 

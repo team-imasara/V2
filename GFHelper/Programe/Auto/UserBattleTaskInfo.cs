@@ -106,40 +106,39 @@ namespace GFHelper.Programe.Auto
 
 
 
-        public bool BattleStart = false;//可以开始新的一轮或者等待修复
-        public bool ChangeGunBattleTask;//换枪任务
-        public int DismantlementGunCount = 24;//拆枪数量
-        public int EquipmentUpdateCount = 24;
-        public bool DismantleGunOrEquipment;//这个变量决定枪满装备满是否拆除或者停止脚本
-        public int DismantleType;//=0表示拆的是枪，1是装备升级
-        public bool NeetToDismantleGunOrEquipment = false;//是否需要拆枪
-        public int EquipmentType;//升级装备所选贼装备的类型
-        public int EquipmentUpdatePostion;
 
-        public string TaskName;//地图名称如5-4E
-        public int TaskNumber;
-        public bool Team_Serror = false;
-        public int Team_SerrorTime = 0;
-        public int TaskType = 2;
-        public bool ChoiceToFix;//总设定是否修复
-        public bool NeedToFix;
-        public bool ChoiceToSupply;
-        public int FixType = 2;
-        public int FixMaxTime;
-        public int FixMintime;
-        public int FixMaxPercentage = 0;
-        public int FixMinPercentage = 0;
-        public int RoundInterval;
-        public int LoopMaxTime = -1;//循环最大次数达到这个数目则停止循环战斗 -1为无限次
-        public bool BattleLoopUnLockWindows;
-        public bool ChangeGun;
-        public bool SetMap = false;
-        public bool BattleSupport_plus = true;//是否拖尸 总开关
-        public bool NeedSupport_plus = false;//当前拖尸是否要补给 小开关
-        public List<int> BattleGunPostionMove = new List<int>();
-        public int BattleSupportRound = 0;//回合数补给间隔
-        public bool GunNeedWithDraw = false;//战斗中人形撤退
-        public double GunWithDrawTimedelay = 0;//撤退延迟
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         public void Build_info(int taskmap, int mtID,int stID,int mvp)
         {
@@ -151,6 +150,48 @@ namespace GFHelper.Programe.Auto
             
         }
     }
+
+    public class BattleTask_team_info
+    {
+        public int TeamID;
+        public int TeamEffect;
+        public int MVP;
+        public int getSeed(int user_exp)
+        {
+            int seed = 0;
+            foreach (var item in teaminfo)
+            {
+                seed += item.Value.gun_exp;
+                seed += item.Value.life;
+                seed += item.Value.teamId;
+            }
+            seed += user_exp;
+            return seed;
+        }
+        internal Dictionary<int,Gun_With_User_Info> teaminfo = new Dictionary<int,Gun_With_User_Info>();
+    }
+    public class new_User_Normal_MissionInfo
+    {
+        List<BattleTask_team_info> Teams = new List<BattleTask_team_info>();
+        public int TaskMap;
+        public Dictionary<int,int> List_withdrawPOS = new Dictionary<int, int>();
+        public Dictionary<int,int> List_lifeReduce = new Dictionary<int,int>();
+        public int user_exp;
+        public bool TaskList_ADD = false;
+        public int LoopTime=0;
+        public int MaxLoopTime=0;
+        new_User_Normal_MissionInfo(List<BattleTask_team_info> Teams,int TaskMap)
+        {
+            this.Teams = Teams;
+            this.TaskMap = TaskMap;
+        }
+
+
+
+
+
+    }
+
 
     public class User_Simulation_BattleTaskInfo
     {

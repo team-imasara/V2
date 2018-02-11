@@ -47,7 +47,7 @@ namespace GFHelper
 
         public BattleLoop_Normal battleloop_n;
         public BattleLoop_Activity battleloop_a;
-
+        public List<BattleTask_team_info> Teams = new List<BattleTask_team_info>();
         public InstanceManager(MainWindow mainWindow)
         {
             this.userlogin = new UserLogin(this);

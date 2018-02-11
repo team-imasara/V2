@@ -15,8 +15,7 @@ namespace GFHelper.Programe.Auto
         {
             Random random = new Random();
 
-            //this.mvp = ubti.mvp;
-            //this.gun = ubti.gun;
+
             switch (ubti.teamId_used)
             {
                 case 0:
@@ -163,6 +162,8 @@ namespace GFHelper.Programe.Auto
             Random random = new Random();
             writer.WritePropertyName("1000");
             writer.WriteObjectStart();
+            writer.WritePropertyName("10");
+            writer.Write(skill_cd);
             writer.WritePropertyName("11");
             writer.Write(skill_cd-life_reduce);
             writer.WritePropertyName("12");
@@ -171,8 +172,19 @@ namespace GFHelper.Programe.Auto
             writer.Write(skill_cd);
             writer.WritePropertyName("15");
             writer.Write(battle_info.enemy_effect_client);
+
+            writer.WritePropertyName("16");
+            writer.Write(0);
+
             writer.WritePropertyName("17");
             writer.Write(battle_info.true_time);//要 4场战斗 不同的时间 总帧数
+
+            writer.WritePropertyName("33");
+            writer.Write(0);//改
+
+            writer.WritePropertyName("40");
+            writer.Write(128);//我也不知道是什么
+
             writer.WritePropertyName("18");
             writer.Write(life_reduce);
             writer.WritePropertyName("19");
@@ -202,12 +214,27 @@ namespace GFHelper.Programe.Auto
             writer.Write(battle_info.life_enemy);//要 life_enemy 4场战斗不同的数据
             writer.WritePropertyName("27");
             writer.Write(battle_info.client_time);// 要 实际时间 4场战斗不同的数据
+
+            writer.WritePropertyName("34");//  min_damage_armor = "34";
+            writer.Write(0);
+            writer.WritePropertyName("35");//  min_damage_no_armor = "35";
+            writer.Write(0);
+            writer.WritePropertyName("41"); //max_damage;
+            writer.Write(0);
+            writer.WritePropertyName("42");
+            writer.Write(0);
+            writer.WritePropertyName("43");
+            writer.Write(0);
+            writer.WritePropertyName("44");
+            writer.Write(0);
             writer.WriteObjectEnd();
+
             writer.WritePropertyName("1001");
             writer.WriteObjectStart();
             writer.WriteObjectEnd();
             writer.WritePropertyName("1002");
             writer.WriteObjectStart();
+            
             writer.WriteObjectEnd();
             writer.WritePropertyName("1003");
             writer.WriteObjectStart();
@@ -215,7 +242,273 @@ namespace GFHelper.Programe.Auto
         }
     }
 
+    public static class newBattleData
+    {
+        public static int spot_id;
+        public static bool if_enemy_die;
+        public static int current_time;
+        public static int boss_hp;
+        public static int mvp;
+        public static string last_battle_info;
+        public static List<BattleTask_team_info> Teams = new List<BattleTask_team_info>();
+        public static int teamID;
+        public static string user_rec;
+        public static int truetime;
+        public static int life_reduce;
+        public static int enemy_effect_client;
+        public static int life_enemy;
+        public static int user_exp;
+        public static void setData(int spotid,int teamNum,int lrd,int tt,int eec,int le,int userexp)
+        {
+            spot_id = spotid;
+            teamID = teamNum;
+            enemy_effect_client = eec;
+            life_enemy = le;
+            truetime = tt;
+            life_reduce = lrd;
+            user_exp = userexp;
+            WriteData();
+        }
+        public static StringBuilder stringBuilder;
+        public static JsonWriter writer;
 
+
+
+        public static void WriteData()
+        {
+            stringBuilder = new StringBuilder();
+            writer = new JsonWriter(stringBuilder);
+            writer.WriteObjectStart();
+
+            writer.WritePropertyName("spot_id");
+            writer.Write(spot_id);
+            writer.WritePropertyName("if_enemy_die");
+            writer.Write(if_enemy_die);
+            writer.WritePropertyName("current_time");
+            writer.Write(GameData.GetCurrentTimeStamp());
+            writer.WritePropertyName("boss_hp");
+            writer.Write(boss_hp);
+            writer.WritePropertyName("mvp");
+            writer.Write(mvp);
+            writer.WritePropertyName("last_battle_info");
+            writer.Write("");
+
+            writer.WriteArrayStart();
+            foreach (var item in Teams[teamID].teaminfo)
+            {
+                writer.WriteObjectStart();
+                writer.WritePropertyName("id");
+                writer.Write(item.Value.id);
+                writer.WritePropertyName("life");
+                writer.Write(item.Value.life);
+                writer.WriteObjectEnd();
+            }
+            writer.WriteArrayEnd();
+
+            writer.WritePropertyName("user_rec");
+            StringBuilder stringBuilder1 = new StringBuilder();
+            JsonWriter jsonWriter1 = new JsonWriter(stringBuilder1);
+            jsonWriter1.WriteObjectStart();
+            jsonWriter1.WritePropertyName("seed");
+            jsonWriter1.Write(Teams[teamID].getSeed(user_exp));
+            jsonWriter1.WritePropertyName("record");
+            jsonWriter1.WriteArrayStart();
+            //foreach (var current in user_rec.listRecord)
+            //{
+            //    jsonWriter1.Write(current.ToString());
+            //}
+            jsonWriter1.WriteArrayEnd();
+            jsonWriter1.WriteObjectEnd();
+            writer.Write(stringBuilder1.ToString());
+
+
+            Random random = new Random();
+            writer.WritePropertyName("1000");
+            writer.WriteObjectStart();
+            writer.WritePropertyName("10");
+            writer.Write(Teams[teamID].TeamEffect);
+            writer.WritePropertyName("11");
+            writer.Write(Teams[teamID].TeamEffect - life_reduce);
+            writer.WritePropertyName("12");
+            writer.Write(Teams[teamID].TeamEffect);
+            writer.WritePropertyName("13");
+            writer.Write(Teams[teamID].TeamEffect);
+            writer.WritePropertyName("15");
+            writer.Write(enemy_effect_client);
+
+            writer.WritePropertyName("16");
+            writer.Write(0);
+
+            writer.WritePropertyName("17");
+            writer.Write(truetime*29.7);//要 4场战斗 不同的时间 总帧数
+
+            writer.WritePropertyName("33");
+            writer.Write(0);//改
+
+            writer.WritePropertyName("40");
+            writer.Write(128);//我也不知道是什么
+
+            writer.WritePropertyName("18");
+            writer.Write(life_reduce);
+            writer.WritePropertyName("19");
+            writer.Write((int)(life_reduce * (double)random.Next(10, 20) / 10));
+
+
+            writer.WritePropertyName("20");
+            writer.Write(0);
+            writer.WritePropertyName("21");
+            writer.Write(0);
+            writer.WritePropertyName("22");
+            writer.Write(0);
+            writer.WritePropertyName("23");
+            writer.Write(0);
+            writer.WritePropertyName("24");
+            writer.Write(life_enemy);//要 damage_enemy 4场战斗不同的数据
+            writer.WritePropertyName("25");
+            writer.Write(0);
+            writer.WritePropertyName("26");
+            writer.Write(life_enemy);//要 life_enemy 4场战斗不同的数据
+            writer.WritePropertyName("27");
+            writer.Write(truetime);// 要 实际时间 4场战斗不同的数据
+
+            writer.WritePropertyName("34");//  min_damage_armor = "34";
+            writer.Write(0);
+            writer.WritePropertyName("35");//  min_damage_no_armor = "35";
+            writer.Write(0);
+            writer.WritePropertyName("41"); //max_damage;
+            writer.Write(0);
+            writer.WritePropertyName("42");
+            writer.Write(0);
+            writer.WritePropertyName("43");
+            writer.Write(0);
+            writer.WritePropertyName("44");
+            writer.Write(0);
+            writer.WriteObjectEnd();
+
+            writer.WritePropertyName("1001");
+            writer.WriteObjectStart();
+            writer.WriteObjectEnd();
+            writer.WritePropertyName("1002");
+            writer.WriteObjectStart();
+
+            foreach (var item in Teams[teamID].teaminfo)
+            {
+                writer.WritePropertyName(item.Value.id.ToString());
+                writer.WriteObjectStart();
+                writer.WritePropertyName("47");
+                writer.Write(2);
+                writer.WriteObjectEnd();
+            }
+            writer.WriteObjectEnd();
+            writer.WritePropertyName("1003");
+            writer.WriteObjectStart();
+            writer.WriteObjectEnd();
+
+            writer.WritePropertyName("battle_damage");
+            writer.WriteObjectStart();
+            writer.WriteObjectEnd();
+        }
+
+        //internal const string team_effect = "10";
+
+
+        //internal const string afterbattle_team_effect = "11";
+
+        //internal const string team_effect_60 = "12";
+
+        //internal const string team_effect_30 = "13";
+
+        //internal const string enemy_effect = "14";//NO
+
+        //internal const string enemy_effect_client = "15";
+
+        //internal const string true_damage = "16";
+
+        //internal const string true_time = "17";
+
+        //// Token: 0x04001608 RID: 5640
+        //internal const string damage_team = "18";
+
+        //// Token: 0x04001609 RID: 5641
+        //internal const string damage_team_no_miss = "19";
+
+        //// Token: 0x0400160A RID: 5642
+        //internal const string damage_drone = "20";
+
+        //// Token: 0x0400160B RID: 5643
+        //internal const string damage_shield = "21";
+
+        //// Token: 0x0400160C RID: 5644
+        //internal const string max_shield = "22";
+
+        //// Token: 0x0400160D RID: 5645
+        //internal const string total_shield = "23";
+
+        //// Token: 0x0400160E RID: 5646
+        //internal const string damage_enemy = "24";
+
+        //// Token: 0x0400160F RID: 5647
+        //internal const string damage_enemy_own = "25";
+
+        //// Token: 0x04001610 RID: 5648
+        //internal const string life_enemy = "26";
+
+        //// Token: 0x04001611 RID: 5649
+        //internal const string client_time = "27";
+
+        //// Token: 0x04001612 RID: 5650
+        //internal const string enemy_character_type_id = "33";
+
+        //// Token: 0x04001613 RID: 5651
+        //internal const string min_damage_armor = "34";
+
+        //// Token: 0x04001614 RID: 5652
+        //internal const string min_damage_no_armor = "35";
+
+        //// Token: 0x04001615 RID: 5653
+        //internal const string max_damage = "41";
+
+        //// Token: 0x04001616 RID: 5654
+        //internal const string max_skill_damage = "42";
+
+        //// Token: 0x04001617 RID: 5655
+        //internal const string damage = "43";
+
+        //// Token: 0x04001618 RID: 5656
+        //internal const string damage_no_skill = "44";
+
+        //// Token: 0x04001619 RID: 5657
+        //internal const string cd_time_client = "45";
+
+        //// Token: 0x0400161A RID: 5658
+        //internal const string start_cd_time_client = "46";
+
+        //// Token: 0x0400161B RID: 5659
+        //internal const string skill_num = "47";
+
+        //// Token: 0x0400161C RID: 5660
+        //internal const string fairy_id = "67";
+
+        //// Token: 0x0400161D RID: 5661
+        //internal const string use_fairy_skill = "68";
+
+        //// Token: 0x0400161E RID: 5662
+        //internal const string use_fairy_passive_skill = "9";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
 
 
 
