@@ -279,16 +279,10 @@
                                     <Label Content="地图 :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="24"/>
                                     <ComboBox x:Name="Task1Map" VerticalAlignment="Top" Width="164" Margin="86,14,0,0" Height="36" HorizontalAlignment="Left" FontSize="18" Grid.ColumnSpan="2">
                                         <ComboBoxItem Content="5-2N"/>
-                                        <ComboBoxItem Content="7-6"/>
-                                        <ComboBoxItem Content="7-6BOSS"/>
-                                        <ComboBoxItem Content="1章超钻石"/>
-                                        <ComboBoxItem Content="2章超钻石"/>
-                                        <ComboBoxItem Content="E2-3"/>
-                                        <ComboBoxItem Content="E1-4"/>
-                                        <ComboBoxItem Content="E1_3_TYPE2"/>
-                                        <ComboBoxItem Content="饼"/>
                                         <ComboBoxItem Content="10_4E"/>
-                                        <ComboBoxItem Content="3_4N"/>
+                                        <ComboBoxItem Content="EQUIP_UMP"/>
+                                        <ComboBoxItem Content="雷电"/>
+                                        <ComboBoxItem Content="pm7"/>
                                     </ComboBox>
                                     <Label Content="梯队 :" HorizontalAlignment="Left" Margin="87,10,0,0" VerticalAlignment="Top" FontSize="24" Grid.Column="1"/>
                                     <ComboBox x:Name="Task1MT" VerticalAlignment="Top" Width="164" Margin="187,14,0,0" Height="36" HorizontalAlignment="Left" FontSize="18" Grid.Column="1" SelectionChanged="Task1MT_SelectionChanged"/>
@@ -301,7 +295,8 @@
                                         <Label x:Name="GUN_5_name" Content="GUN_5" HorizontalAlignment="Left" Margin="574,50,0,0" VerticalAlignment="Top" Height="48" Width="100" FontSize="24"/>
                                         <Label Content="梯队效能：" HorizontalAlignment="Left" Margin="6,-8,0,0" VerticalAlignment="Top" FontSize="24"/>
                                         <TextBox x:Name="Task1TeamE" HorizontalAlignment="Left" Height="40" Margin="125,-8,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="106" TextAlignment="Center" FontSize="24" BorderThickness="0" Background="{x:Null}"/>
-                                        <Button Content="选" Margin="689,90,0,0" VerticalAlignment="Top" Height="30" Click="Button_Click_11" HorizontalAlignment="Left" Width="30"/>
+                                        <Button Content="主力" Margin="689,90,0,0" VerticalAlignment="Top" Height="30" Click="Button_Click_11"/>
+                                        <Button Content="辅助" HorizontalAlignment="Left" Margin="659,90,0,0" Width="30" Click="Button_Click_13"/>
                                     </Grid>
                                     <RadioButton x:Name="GUN1_MVP" Content="MVP" HorizontalAlignment="Left" Margin="125,107,0,0" VerticalAlignment="Top" FontSize="10"/>
                                     <RadioButton x:Name="GUN2_MVP" Content="MVP" HorizontalAlignment="Left" Margin="99,107,0,0" VerticalAlignment="Top" FontSize="10" Grid.Column="1"/>

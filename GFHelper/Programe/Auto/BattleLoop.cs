@@ -18,107 +18,60 @@ namespace GFHelper.Programe.Auto
             this.im = im;
         }
 
-        public void BattleLOOP_normal(User_Normal_BattleTaskInfo ubti)
+        public void BattleLOOP_normal(new_User_Normal_MissionInfo ubti)
         {
-            if (im.userdatasummery.CheckResources()) { ubti.Used = false; return; }
+            if (im.userdatasummery.CheckResources()) { return; }
 
             switch (ubti.TaskMap)
             {
                 case 0:
                     {
-                        im.battleloop_n.Battle5_2N(ubti);
+
                         break;
                     }
                 case 1:
                     {
-                        im.battleloop_n.Battle7_6(ubti);
+                        //im.battleloop_n.Battle5_2N(ubti);
+
                         break;
                     }
                 case 2:
                     {
-                        im.battleloop_n.Battle7_6BOSS(ubti);
+                        im.battleloop_n.Battle10_4E(ubti);
+
                         break;
                     }
                 case 3:
                     {
-                        switch (Check_Activity_Battle_Loop_Need(1))
-                        {
-                            case 1:
-                                {
-                                    im.battleloop_a.E1_1(ubti);
-                                    break;
-                                }
-                            case 2:
-                                {
-                                    im.battleloop_a.E1_2(ubti);
-                                    break;
-                                }
-                            case 3:
-                                {
-                                    im.battleloop_a.E1_3(ubti);
-                                    break;
-                                }
-                            case 4:
-                                {
-                                    im.battleloop_a.E1_4(ubti);
-                                    break;
-                                }
-                            default:
-                                break;
-                        }
+                        im.battleloop_a.Battle_Equip_UMPUX(ubti);
                         break;
                     }
 
                 case 4:
                     {
-                        switch (Check_Activity_Battle_Loop_Need(2))
-                        {
-                            case 5:
-                                {
-                                    im.battleloop_a.E2_1(ubti);
-                                    break;
-                                }
-                            case 6:
-                                {
-                                    im.battleloop_a.E2_2(ubti);
-                                    break;
-                                }
-                            case 7:
-                                {
-                                    im.battleloop_a.E2_3(ubti);
-                                    break;
-                                }
-                            case 8:
-                                {
-                                    im.battleloop_a.E2_4(ubti);
-                                    break;
-                                }
-
-                            default:
-                                break;
-                        }
+                        im.battleloop_a.Battle_Gun_Light(ubti);
                         break;
                     }
 
                 case 5:
                     {
-                        im.battleloop_a.E2_3(ubti);
+                        im.battleloop_a.Battle_Gun_PM7(ubti);
                         break;
                     }
                 case 6:
                     {
-                        im.battleloop_a.E1_4BOSS(ubti);
+
                         break;
                     }
 
                 case 7:
                     {
-                        im.battleloop_a.E1_3_TYPE2(ubti);
+
                         break;
                     }
                 case 8:
                     {
-                        im.battleloop_n.text(ubti);
+
                         break;
                     }
                 case 9:
@@ -128,7 +81,7 @@ namespace GFHelper.Programe.Auto
                     }
                 case 10:
                     {
-                        im.battleloop_n.Battle3_4N(ubti);
+
                         break;
                     }
                 default:
@@ -140,104 +93,7 @@ namespace GFHelper.Programe.Auto
         {
             im.action.eventDraw();
 
-            if (key == 1)
-            {
-                foreach (var item in UserDataSummery.battle_get_prize_NUM)
-                {
-                    switch (item.Key)
-                    {
-                        case 62:
-                            {
-                                if (item.Value <= 8)
-                                    return 1;
-                                else
-                                {
-                                    break;
-                                }
-                            }
-                        case 63:
-                            {
-                                if (item.Value <= 8)
-                                    return 2;
-                                else
-                                {
-                                    break;
-                                }
-                            }
-                        case 64:
-                            {
-                                if (item.Value <= 8)
-                                    return 3;
-                                else
-                                {
-                                    break;
-                                }
-                            }
-                        case 65:
-                            {
-                                if (item.Value <= 8)
-                                    return 4;
-                                else
-                                {
-                                    break;
-                                }
-                            }
 
-                        default:
-                            break;
-                    }
-                }
-            }
-
-            if(key == 2)
-            {
-                foreach (var item in UserDataSummery.battle_get_prize_NUM)
-                {
-                    switch (item.Key)
-                    {
-                        case 66:
-                            {
-                                if (item.Value <= 6)
-                                    return 5;
-                                else
-                                {
-                                    break;
-                                }
-                            }
-                        case 67:
-                            {
-                                if (item.Value <= 6)
-                                    return 6;
-                                else
-                                {
-                                    break;
-                                }
-                            }
-                        case 68:
-                            {
-                                if (item.Value <= 6)
-                                    return 7;
-                                else
-                                {
-                                    break;
-                                }
-                            }
-                        case 69:
-                            {
-                                if (item.Value <= 6)
-                                    return 8;
-                                else
-                                {
-                                    break;
-                                }
-                            }
-
-                        default:
-                            break;
-                    }
-                }
-
-            }
             return 0;
 
 
@@ -246,10 +102,10 @@ namespace GFHelper.Programe.Auto
         }
 
 
-        public void End_At_Battle(User_Normal_BattleTaskInfo ubti)
+        public void End_At_Battle(new_User_Normal_MissionInfo ubti)
         {
             //                    if(this.BattleLoopTime % this.BattleSupportRound == 0)
-            ubti.BattleLoopTime++;
+            ubti.LoopTime++;
 
             //检查是否需要扩编
             im.action.CombineGun();
@@ -257,26 +113,14 @@ namespace GFHelper.Programe.Auto
             Gun_Retire_Core();
 
             //检查是否需要修复
-            im.userdatasummery.Check_Gun_need_FIX(ubti.TaskMianTeam_ID, 0.2);
+            im.userdatasummery.Check_Gun_need_FIX(ubti.Teams, 0.2);
             //检查是否需要重新登陆
-            if (ubti.BattleLoopTime % ProgrameData.BL_ReLogin_num == 0)
+            if (ubti.LoopTime % ProgrameData.BL_ReLogin_num == 0)
             {
                 ProgrameData.TaskList.Add(TaskList.GetuserInfo);
             }
 
-
-            if (ubti.TaskMap == 3)
-            {
-                if (Check_Activity_Battle_Loop_Need(1) == 0) return;
-            }
-            if (ubti.TaskMap == 4)
-            {
-                if (Check_Activity_Battle_Loop_Need(2) == 0) return;
-            }
-
-            if (ubti.Used == false) return;
-
-            if (ubti.BattleLoopTime < ubti.BattleMaxLoopTime || ubti.BattleMaxLoopTime == 0)
+            if (ubti.LoopTime < ubti.MaxLoopTime || ubti.MaxLoopTime == 0)
             {
 
                 //继续循环
@@ -320,50 +164,58 @@ namespace GFHelper.Programe.Auto
 
         public void Check_Equip_Gun_FULL()
         {
+            im.uihelp.setStatusBarText_InThread(String.Format(" 检查床位是否满额"));
             if (im.userdatasummery.Check_Equip_GUN_FULL())
             {
-                im.action.Eat_Equip();//升级
-                if (ProgrameData.AutoStrengthen)
+                if (im.userdatasummery.gun_with_user_info.Count + 2 >= im.userdatasummery.user_info.maxgun)
                 {
-                    if (im.action.EatGunHandle()) return;
-                }
+                    if (ProgrameData.AutoStrengthen)
+                    {
+                        if (im.action.EatGunHandle()) return;
+                    }
+                    if (!im.action.Gun_retire(2)) im.action.Gun_retire(3);
 
-                if (!im.action.Gun_retire(2)) im.action.Gun_retire(3);
+                }
+                if (im.userdatasummery.equip_with_user_info.Count + 2 >= im.userdatasummery.user_info.maxequip)
+                {
+                    im.action.Eat_Equip();//升级
+                }
 
 
                 //装备满了 需要升级或者拆解
             }
         }
 
-        public void CheckGun_AMMO_MRC_NEED_SUPORT(User_Normal_BattleTaskInfo ubti,int num)
+        public void CheckGun_AMMO_MRC_NEED_SUPORT(new_User_Normal_MissionInfo ubti, int teamLoc, int num)
         {
-            Map_Sent.Map3_6.spots1.team_id = ubti.TaskMianTeam_ID;
-            Map_Sent.Map3_6.spots2.team_id = ubti.TaskSupportTeam1_ID;
+            im.uihelp.setStatusBarText_InThread(String.Format(" 检查是否需要单独补给"));
+            Map_Sent.Map3_6.spots1.team_id = ubti.Teams[teamLoc].TeamID;
+            Map_Sent.Map3_6.spots2.team_id = ubti.getSupportTeamID;
 
 
             Check_Equip_Gun_FULL();
 
-            if (im.userdatasummery.CheckGun_AMMO_MRC_NEED_SUPORT(ubti.mvp, num))
+            if (im.userdatasummery.CheckGun_AMMO_MRC_NEED_SUPORT(ubti.Teams[teamLoc].MVP, num))
             {
                 im.uihelp.setStatusBarText_InThread(String.Format(" 正在单独补给 (移出队伍)"));
-                im.action.GUN_OUT_Team(ubti.mvp, ubti.teaminfo0);
+                im.action.GUN_OUT_Team(ubti.Teams[teamLoc].MVP, ubti.Teams[teamLoc].teaminfo);
 
                 im.uihelp.setStatusBarText_InThread(String.Format(" 正在单独补给 (开始作战)"));
                 im.action.startMission(Map_Sent.Map3_6.mission_id, Map_Sent.Map3_6.Mission_Start_spots);
 
                 im.uihelp.setStatusBarText_InThread(String.Format(" 正在单独补给 (单独补给)"));
-                im.action.SupplyTeam(ubti.TaskMianTeam_ID);
+                im.action.SupplyTeam(ubti.Teams[teamLoc].TeamID);
                 im.uihelp.setStatusBarText_InThread(String.Format(" 正在单独补给 (梯队撤离)"));
                 im.action.withdrawTeam(Map_Sent.Map3_6.withdrawSpot);
                 im.uihelp.setStatusBarText_InThread(String.Format(" 正在单独补给 (作战终止)"));
                 im.action.abortMission();
                 im.uihelp.setStatusBarText_InThread(String.Format(" 正在单独补给 (移入队伍)"));
-                im.action.GUN_IN_Team(ubti.mvp, ubti.teaminfo0);
-                im.userdatasummery.Gun_mre_ammo_REFILL(ubti.mvp);
+                im.action.GUN_IN_Team(ubti.Teams[teamLoc].MVP, ubti.Teams[teamLoc].teaminfo);
+                im.userdatasummery.Gun_mre_ammo_REFILL(ubti.Teams[teamLoc].MVP);
             }
         }
 
-        public void Battle_Result_PRO(ref User_Normal_BattleTaskInfo ubti,ref string result,int activityMissionKey=0)
+        public void Battle_Result_PRO(ref new_User_Normal_MissionInfo ubti,int teamLoc,ref string result,int activityMissionKey=0)
         {
             if (ProgrameData.debugmode)
             {
@@ -381,82 +233,17 @@ namespace GFHelper.Programe.Auto
             //人形经验
             int numE = 0;
             im.userdatasummery.UpdateGun_Exp(jsonobj, ref numE);
-            ubti.TeamEffect += numE;
+
             //效能更新 升级后 hp的差额加入效能 是否重新入字典
-            switch (ubti.teamId_used)
-            {
-                case 0:
-                    {
-                        ubti.teaminfo0 = im.userdatasummery.im.userdatasummery.team_info[ubti.TaskMianTeam_ID];//需要
-                        break;
-                    }
-                case 1:
-                    {
-                        ubti.teaminfo1 = im.userdatasummery.im.userdatasummery.team_info[ubti.TaskSupportTeam1_ID];//需要
-                        break;
-                    }
-                default:
-                    break;
-            }
-            im.userdatasummery.BattleFinish_ammo_mrc(ubti.TaskMianTeam_ID);
+
+            im.userdatasummery.BattleFinish_ammo_mrc(ubti.Teams[teamLoc].TeamID);
         }
 
 
-        public void BattleSent_Data_Built(ref Normal_Battle_Sent bs, User_Normal_BattleTaskInfo ubti,int spot_id,int life_reduce,int time, int enemy_effect_client,int life_enemy,int teamID_used=0,int damage_team_no_miss
-=0)
+
+        public void ContinueLoopBattle(new_User_Normal_MissionInfo ubti)
         {
-            Random random = new Random();
-
-            //战斗结算 经验，装备，指挥官经验
-            bs.spot_id = spot_id;
-
-            switch (teamID_used)
-            {
-                case 0:
-                    {
-                        ubti.teamId_used = teamID_used;
-                        bs.teamID_used = teamID_used;
-                        bs.mvp = ubti.mvp;
-                        break;
-                    }
-                case 1:
-                    {
-                        ubti.teamId_used = teamID_used;
-                        bs.teamID_used = teamID_used;
-                        bs.mvp = ubti.teaminfo1[1].id;
-                        break;
-                    }
-                default:
-                    break;
-            }
-            //bs.mvp = ubti.mvp;
-            bs.user_rec.seed = ubti.seed;
-
-
-
-            //血量计算
-            ubti.Set_LifeReduce(life_reduce);
-            im.userdatasummery.GUN_Life_reduce(ubti.TaskMianTeam_ID, ubti.List_withdrawPOS, ubti.List_lifeReduce);
-
-            bs.set_data(ubti);
-
-            bs.battle_info.data_set(enemy_effect_client,/*浮动*/CommonHelp.GetTotalFPS_((double)time), life_enemy,/*浮动*/time, damage_team_no_miss);
-        }
-
-        public void ContinueLoopBattle(User_Normal_BattleTaskInfo ubti)
-        {
-            switch (ubti.Key)
-            {
-                case 0:
-                    {
-                        ProgrameData.TaskList.Add(TaskList.TaskBattle_1);
-                        break;
-                    }
-                default:
-                    break;
-            }
-
-
+            ProgrameData.TaskList.Add(TaskList.TaskBattle_1);
         }
 
 

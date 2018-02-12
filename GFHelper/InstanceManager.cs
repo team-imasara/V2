@@ -37,7 +37,7 @@ namespace GFHelper
         public BattleReport BattleReport = new BattleReport();
         public List<EquipBuilt> list_equipBuilt=new List<EquipBuilt>(); 
         //练级任务
-        public Dictionary<int, User_Normal_BattleTaskInfo> dic_userbattletaskinfo = new Dictionary<int, Programe.Auto.User_Normal_BattleTaskInfo>();
+        public Dictionary<int, new_User_Normal_MissionInfo> dic_userbattletaskinfo = new Dictionary<int, new_User_Normal_MissionInfo>();
 
 
         public BackgroundThread backgroundthread;
@@ -71,13 +71,10 @@ namespace GFHelper
                 Dic_auto_operation_act.Add(Dic_auto_operation_act.Count, auto_operation_act);
             }
             //练级任务
-            for (int x = 0; x < 4; x++)
-            {
-                Programe.Auto.User_Normal_BattleTaskInfo userbattletaskinfo = new Programe.Auto.User_Normal_BattleTaskInfo();
-                dic_userbattletaskinfo.Add(dic_userbattletaskinfo.Count, userbattletaskinfo);
-            }
+            new_User_Normal_MissionInfo nunm = new new_User_Normal_MissionInfo(Teams, 0, 0);
+            dic_userbattletaskinfo.Add(dic_userbattletaskinfo.Count, nunm);
 
-            for(int x = 0; x < 2; x++)
+            for (int x = 0; x < 2; x++)
             {
                 EquipBuilt eb = new EquipBuilt();
                 this.list_equipBuilt.Add(eb);

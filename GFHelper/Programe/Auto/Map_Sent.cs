@@ -578,7 +578,7 @@ namespace GFHelper.Programe.Auto.Map_Sent
         public static Spots spots1 = new Spots(5494);//主力
         public static Spots spots2 = new Spots(5480);//辅助
 
-        public static Spots[] Mission_Start_spots = { spots2,spots1 };//部署梯队的信息
+        public static Spots[] Mission_Start_spots = { spots2, spots1 };//部署梯队的信息
 
         public static TeamMove teammove1 = new TeamMove(5494, 5495, 1);
         public static TeamMove teammove2 = new TeamMove(5495, 5492, 1);
@@ -608,7 +608,148 @@ namespace GFHelper.Programe.Auto.Map_Sent
         public static int withdrawSpot = 5494;//撤离
     }
 
+    static class MapGun_Light
+    {
+        //要给spots1 2 赋值 梯队ID
+        //要给teammove 赋值 梯队ID
+        public static int mission_id = 10054;
+        //[{"spot_id":3033,"team_id":6},{"spot_id":3057,"team_id":7}]
+        public static Spots spots1 = new Spots(5561);//主力
+        public static Spots spots2 = new Spots(5561);//辅助
 
+        public static Spots[] Mission_Start_spots = { spots1 };//部署梯队的信息
+
+        public static TeamMove teammove1 = new TeamMove(5561, 5570, 1);
+        public static TeamMove teammove2 = new TeamMove(5570, 5573, 1);
+        public static TeamMove teammove3 = new TeamMove(5573, 5576, 1);
+        public static TeamMove teammove4 = new TeamMove(5576, 5578, 1);
+        public static TeamMove teammove5 = new TeamMove(5578, 5575, 1);
+
+        public static TeamMove teammove6 = new TeamMove(5575, 5577, 1);
+        public static TeamMove teammove7 = new TeamMove(5577, 5575, 1);
+        public static TeamMove teammove8 = new TeamMove(5575, 5577, 1);
+
+        public static Dictionary<int, TeamMove> _dic_TeamMove = new Dictionary<int, TeamMove>();
+        public static Dictionary<int, TeamMove> dic_TeamMove
+        {
+            get
+            {
+                if (_dic_TeamMove.Count == 0)
+                {
+                    _dic_TeamMove[0] = teammove1;
+                    _dic_TeamMove[1] = teammove2;
+                    _dic_TeamMove[2] = teammove3;
+                    _dic_TeamMove[3] = teammove4;
+                    _dic_TeamMove[4] = teammove5;
+                    _dic_TeamMove[5] = teammove6;
+                    _dic_TeamMove[6] = teammove7;
+                    _dic_TeamMove[7] = teammove8;
+                }
+
+                return _dic_TeamMove;
+            }
+            set
+            {
+                _dic_TeamMove = value;
+            }
+        }//梯队移动的顺序
+        public static int withdrawSpot = 5577;//撤离
+    }
+
+    static class MapGun_PM7
+    {
+        //要给spots1 2 赋值 梯队ID
+        //要给teammove 赋值 梯队ID
+        public static int mission_id = 10064;
+        //[{"spot_id":3033,"team_id":6},{"spot_id":3057,"team_id":7}]
+        public static Spots spots1 = new Spots(5774);//主力
+        public static Spots spots2 = new Spots(5774);
+        public static Spots spots3 = new Spots(5774);
+
+        public static Spots[] Mission_Start_spots = { spots1 };//部署梯队的信息
+
+        public static TeamMove teammove1 = new TeamMove(5774, 5776, 1);
+        public static TeamMove teammove2 = new TeamMove(5774, 5775, 1);
+        public static TeamMove teammove3 = new TeamMove(5774, 5775, 2);
+        public static TeamMove teammove4 = new TeamMove(5775, 5774, 1);
+        public static TeamMove teammove5 = new TeamMove(5776, 5774, 2);
+
+
+
+        public static Dictionary<int, TeamMove> _dic_TeamMove = new Dictionary<int, TeamMove>();
+        public static Dictionary<int, TeamMove> dic_TeamMove
+        {
+            get
+            {
+                if (_dic_TeamMove.Count == 0)
+                {
+                    _dic_TeamMove[0] = teammove1;
+                    _dic_TeamMove[1] = teammove2;
+                    _dic_TeamMove[2] = teammove3;
+                    _dic_TeamMove[3] = teammove4;
+                    _dic_TeamMove[4] = teammove5;
+
+                }
+
+                return _dic_TeamMove;
+            }
+            set
+            {
+                _dic_TeamMove = value;
+            }
+        }//梯队移动的顺序
+        public static int withdrawSpot = 5774;//撤离
+    }
+
+    static class MapEquip_UMPUX
+    {
+        //要给spots1 2 赋值 梯队ID
+        //要给teammove 赋值 梯队ID
+        public static int mission_id = 10040;
+        //[{"spot_id":3033,"team_id":6},{"spot_id":3057,"team_id":7}]
+        public static Spots spots1 = new Spots(4574);//主力
+        public static Spots spots2 = new Spots(4559);//辅助
+        public static Spots spots3 = new Spots(4567);//辅助
+
+        public static Spots[] Mission_Start_spots = { spots1 , spots2 , spots3};//部署梯队的信息
+
+        public static TeamMove teammove1 = new TeamMove(4574, 4572, 1);
+        public static TeamMove teammove2 = new TeamMove(4572, 4582, 1);
+        public static TeamMove teammove3 = new TeamMove(4582, 4573, 1);
+        public static TeamMove teammove4 = new TeamMove(4573, 4583, 1);
+        public static TeamMove teammove5 = new TeamMove(4583, 4555, 1);
+
+        public static TeamMove teammove6 = new TeamMove(4555, 4568, 1);
+        public static TeamMove teammove7 = new TeamMove(4568, 4603, 1);
+        public static TeamMove teammove8 = new TeamMove(4603, 4568, 1);
+
+        public static Dictionary<int, TeamMove> _dic_TeamMove = new Dictionary<int, TeamMove>();
+        public static Dictionary<int, TeamMove> dic_TeamMove
+        {
+            get
+            {
+                if (_dic_TeamMove.Count == 0)
+                {
+                    _dic_TeamMove[0] = teammove1;
+                    _dic_TeamMove[1] = teammove2;
+                    _dic_TeamMove[2] = teammove3;
+                    _dic_TeamMove[3] = teammove4;
+                    _dic_TeamMove[4] = teammove5;
+                    _dic_TeamMove[5] = teammove6;
+                    _dic_TeamMove[6] = teammove7;
+                    _dic_TeamMove[7] = teammove8;
+                }
+
+                return _dic_TeamMove;
+            }
+            set
+            {
+                _dic_TeamMove = value;
+            }
+        }//梯队移动的顺序
+        public static int withdrawSpot1 = 4559;//撤离
+        public static int withdrawSpot2 = 4568;//撤离
+    }
     static class MapE1_1
     {
         //要给spots1 2 赋值 梯队ID
@@ -617,7 +758,7 @@ namespace GFHelper.Programe.Auto.Map_Sent
         //[{"spot_id":3033,"team_id":6},{"spot_id":3057,"team_id":7}]
         public static Spots spots1 = new Spots(4971);//主力
         public static Spots spots2 = new Spots(4971);//主力
-        public static Spots[] Mission_Start_spots = { spots1};//部署梯队的信息
+        public static Spots[] Mission_Start_spots = { spots1 };//部署梯队的信息
 
         public static TeamMove teammove1 = new TeamMove(4971, 4978, 1);
         public static TeamMove teammove2 = new TeamMove(4978, 4971, 2);

@@ -103,6 +103,10 @@ public class RequestUrls
 
     public const string StartEquipDevelop = "Equip/develop";
 
+    public const string allyMySideMove = "Mission/allyMySideMove";
+    public const string startOtherSideTurn = "Mission/startOtherSideTurn";
+    public const string endOtherSideTurn = "Mission/endOtherSideTurn";
+
 
 }
 

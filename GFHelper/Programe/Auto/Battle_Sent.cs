@@ -245,28 +245,43 @@ namespace GFHelper.Programe.Auto
     public static class newBattleData
     {
         public static int spot_id;
-        public static bool if_enemy_die;
+        public static bool if_enemy_die=true;
         public static int current_time;
-        public static int boss_hp;
+        public static int boss_hp=0;
         public static int mvp;
         public static string last_battle_info;
         public static List<BattleTask_team_info> Teams = new List<BattleTask_team_info>();
-        public static int teamID;
+        public static int teamLoc;
         public static string user_rec;
         public static int truetime;
         public static int life_reduce;
         public static int enemy_effect_client;
+        public static int enemy_character_type_id;
         public static int life_enemy;
         public static int user_exp;
-        public static void setData(int spotid,int teamNum,int lrd,int tt,int eec,int le,int userexp)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="spotid"></param>
+        /// <param name="teamLoc"></param>
+        /// <param name="lrd">life_reduce</param>
+        /// <param name="tt">truetime</param>
+        /// <param name="eec">enemy_effect_client</param>
+        /// <param name="le">life_enemy</param>
+        /// <param name="userexp"></param>
+        /// <param name="ecti">enemy_character_type_id</param>
+        public static void setData(int spotid, int teamLoc, int lrd, int tt, int eec, int le,int ecti, int userexp, bool if_enemy_die =true)
         {
+            newBattleData.if_enemy_die = if_enemy_die;
             spot_id = spotid;
-            teamID = teamNum;
+            newBattleData.teamLoc = teamLoc;
+            mvp = Teams[newBattleData.teamLoc].MVP;
             enemy_effect_client = eec;
             life_enemy = le;
             truetime = tt;
             life_reduce = lrd;
             user_exp = userexp;
+            enemy_character_type_id = ecti;
             WriteData();
         }
         public static StringBuilder stringBuilder;
@@ -293,8 +308,9 @@ namespace GFHelper.Programe.Auto
             writer.WritePropertyName("last_battle_info");
             writer.Write("");
 
+            writer.WritePropertyName("guns");
             writer.WriteArrayStart();
-            foreach (var item in Teams[teamID].teaminfo)
+            foreach (var item in Teams[teamLoc].teaminfo)
             {
                 writer.WriteObjectStart();
                 writer.WritePropertyName("id");
@@ -310,7 +326,7 @@ namespace GFHelper.Programe.Auto
             JsonWriter jsonWriter1 = new JsonWriter(stringBuilder1);
             jsonWriter1.WriteObjectStart();
             jsonWriter1.WritePropertyName("seed");
-            jsonWriter1.Write(Teams[teamID].getSeed(user_exp));
+            jsonWriter1.Write(Teams[teamLoc].getSeed(user_exp));
             jsonWriter1.WritePropertyName("record");
             jsonWriter1.WriteArrayStart();
             //foreach (var current in user_rec.listRecord)
@@ -326,13 +342,13 @@ namespace GFHelper.Programe.Auto
             writer.WritePropertyName("1000");
             writer.WriteObjectStart();
             writer.WritePropertyName("10");
-            writer.Write(Teams[teamID].TeamEffect);
+            writer.Write(Teams[teamLoc].TeamEffect);
             writer.WritePropertyName("11");
-            writer.Write(Teams[teamID].TeamEffect - life_reduce);
+            writer.Write(Teams[teamLoc].TeamEffect - life_reduce);
             writer.WritePropertyName("12");
-            writer.Write(Teams[teamID].TeamEffect);
+            writer.Write(Teams[teamLoc].TeamEffect);
             writer.WritePropertyName("13");
-            writer.Write(Teams[teamID].TeamEffect);
+            writer.Write(Teams[teamLoc].TeamEffect);
             writer.WritePropertyName("15");
             writer.Write(enemy_effect_client);
 
@@ -343,7 +359,7 @@ namespace GFHelper.Programe.Auto
             writer.Write(truetime*29.7);//要 4场战斗 不同的时间 总帧数
 
             writer.WritePropertyName("33");
-            writer.Write(0);//改
+            writer.Write(enemy_character_type_id);//改
 
             writer.WritePropertyName("40");
             writer.Write(128);//我也不知道是什么
@@ -391,7 +407,7 @@ namespace GFHelper.Programe.Auto
             writer.WritePropertyName("1002");
             writer.WriteObjectStart();
 
-            foreach (var item in Teams[teamID].teaminfo)
+            foreach (var item in Teams[teamLoc].teaminfo)
             {
                 writer.WritePropertyName(item.Value.id.ToString());
                 writer.WriteObjectStart();
@@ -406,6 +422,7 @@ namespace GFHelper.Programe.Auto
 
             writer.WritePropertyName("battle_damage");
             writer.WriteObjectStart();
+            writer.WriteObjectEnd();
             writer.WriteObjectEnd();
         }
 

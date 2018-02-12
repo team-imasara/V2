@@ -154,6 +154,8 @@ namespace GFHelper.Programe.Auto
     public class BattleTask_team_info
     {
         public int TeamID;
+        public bool isMainTeam;
+        public bool isSupportTeam { get { return !isMainTeam; } }
         public int TeamEffect;
         public int MVP;
         public int getSeed(int user_exp)
@@ -172,7 +174,7 @@ namespace GFHelper.Programe.Auto
     }
     public class new_User_Normal_MissionInfo
     {
-        List<BattleTask_team_info> Teams = new List<BattleTask_team_info>();
+        public List<BattleTask_team_info> Teams = new List<BattleTask_team_info>();
         public int TaskMap;
         public Dictionary<int,int> List_withdrawPOS = new Dictionary<int, int>();
         public Dictionary<int,int> List_lifeReduce = new Dictionary<int,int>();
@@ -180,12 +182,24 @@ namespace GFHelper.Programe.Auto
         public bool TaskList_ADD = false;
         public int LoopTime=0;
         public int MaxLoopTime=0;
-        new_User_Normal_MissionInfo(List<BattleTask_team_info> Teams,int TaskMap)
+        public int reStart_WaitTime = 1;
+        public new_User_Normal_MissionInfo(List<BattleTask_team_info> Teams,int TaskMap,int user_exp)
         {
             this.Teams = Teams;
             this.TaskMap = TaskMap;
+            this.user_exp = user_exp;
         }
-
+        public int getSupportTeamID
+        {
+            get
+            {
+                foreach (var item in Teams)
+                {
+                    if (item.isSupportTeam) return item.TeamID;
+                }
+                return 0;
+            }
+        }
 
 
 

@@ -421,61 +421,11 @@ namespace GFHelper
             MessageBox.Show("请确保已勾选MVP,战斗效能和正确的梯队 重要的人形上锁");
             MessageBox.Show("请确保已勾选MVP,战斗效能和正确的梯队 重要的人形上锁");
             MessageBox.Show("请确保已勾选MVP,战斗效能和正确的梯队 重要的人形上锁");
-            int mvp=0;//mvp不用理
-            
-            Programe.Auto.User_Normal_BattleTaskInfo ubti = new Programe.Auto.User_Normal_BattleTaskInfo();
-            if (GUN1_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][1].id;
-            if (GUN2_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][2].id;
-            if (GUN3_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][3].id;
-            if (GUN4_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][4].id;
-            if (GUN5_MVP.IsChecked == true) mvp = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][5].id;
 
-            try
-            {
-                ubti.BattleMaxLoopTime = Convert.ToInt16(im.mainWindow.BattleMaxLoopTime.Text);
-            }
-            catch (Exception)
-            {
+            new_User_Normal_MissionInfo nunm = new new_User_Normal_MissionInfo(im.Teams, Task1Map.SelectedIndex + 1, im.userdatasummery.user_info.experience);
 
-            }
-
-            ubti.TeamEffect0 = Convert.ToInt32(Task1TeamE.Text);
-            //ubti.TeamEffect1 = Convert.ToInt32(Task1TeamE_S.Text);
-            Int32.TryParse(Task1TeamE_S.Text, out ubti.TeamEffect1);
-            //ubti.Effect1 = Convert.ToInt32(GUN_1E.Text);
-            //ubti.Effect2 = Convert.ToInt32(GUN_2E.Text);
-            //ubti.Effect3 = Convert.ToInt32(GUN_3E.Text);
-            //ubti.Effect4 = Convert.ToInt32(GUN_4E.Text);
-            //ubti.Effect5 = Convert.ToInt32(GUN_5E.Text);
-
-            ubti.teaminfo0 = im.userdatasummery.im.userdatasummery.team_info[Task1MT.SelectedIndex + 1];//需要
-            ubti.teaminfo1 = im.userdatasummery.im.userdatasummery.team_info[0];
-
-
-
-            //Programe.Auto.Battle_Gun_Info[] gun = new Programe.Auto.Battle_Gun_Info[5];
-            ////枪的效能 总效能
-
-            //for (int i = 1; i <= 5; i++)
-            //{
-            //    if(im.userdatasummery.team_info[Task1MT.SelectedIndex + 1].ContainsKey(i) == true)
-            //    {
-            //        Programe.Auto.Battle_Gun_Info temp = new Programe.Auto.Battle_Gun_Info();
-            //        temp.id = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][i].id;
-            //        temp.life = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][i].life;
-            //        gun[i-1] = temp;
-            //    }
-            //}
-            //ubti.gun = gun.OrderBy(p => p.id).ToArray();
-
-
-            ubti.user_exp = im.userdatasummery.user_info.experience;//需要
-
-
-            ubti.Build_info(Task1Map.SelectedIndex,Task1MT.SelectedIndex+1,0, mvp);
-            ubti.Key = 0;
-            im.dic_userbattletaskinfo[0]=ubti;
-            ProgrameData.TaskList.Add(Programe.TaskList.TaskBattle_1);
+            im.dic_userbattletaskinfo[0]= nunm;
+            ProgrameData.TaskList.Add(TaskList.TaskBattle_1);
         }
 
         private void Task1MT_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -515,22 +465,33 @@ namespace GFHelper
         private void Button_Click_11(object sender, RoutedEventArgs e)
         {
             BattleTask_team_info bti = new BattleTask_team_info();
-            bti.TeamEffect =Convert.ToInt16(Task1TeamE.Text);
+            bti.TeamEffect =Convert.ToInt32(Task1TeamE.Text);
+            bti.isMainTeam = true;
             bti.TeamID = Task1MT.SelectedIndex + 1;
-            bti.teaminfo = im.userdatasummery.team_info[bti.TeamID];
+            bti.teaminfo = im.userdatasummery.team_info[Task1MT.SelectedIndex+1];
             if (GUN1_MVP.IsChecked == true) bti.MVP = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][1].id;
             if (GUN2_MVP.IsChecked == true) bti.MVP = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][2].id;
             if (GUN3_MVP.IsChecked == true) bti.MVP = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][3].id;
             if (GUN4_MVP.IsChecked == true) bti.MVP = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][4].id;
             if (GUN5_MVP.IsChecked == true) bti.MVP = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][5].id;
             im.Teams.Add(bti);
-            BattleTeamsLabel.Content += string.Format("第 {0} 梯队\r\n", bti.TeamID);
+            BattleTeamsLabel.Content += string.Format("第 {0} 梯队(主力)\r\n", bti.TeamID);
         }
 
         private void Button_Click_12(object sender, RoutedEventArgs e)
         {
             im.Teams.Clear();
             BattleTeamsLabel.Content = "";
+        }
+
+        private void Button_Click_13(object sender, RoutedEventArgs e)
+        {
+            BattleTask_team_info bti = new BattleTask_team_info();
+            bti.isMainTeam = false;
+            bti.TeamID = Task1MT.SelectedIndex + 1;
+            bti.teaminfo = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1];
+            im.Teams.Add(bti);
+            BattleTeamsLabel.Content += string.Format("第 {0} 梯队(辅助)\r\n", bti.TeamID);
         }
 
         private void AutoOperationB_S4_Click(object sender, RoutedEventArgs e)

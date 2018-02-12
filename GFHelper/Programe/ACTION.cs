@@ -1303,7 +1303,8 @@ namespace GFHelper.Programe
         //战斗相关
         public bool startMission(int mission_id,Auto.Spots[] spots)
         {
-            Thread.Sleep(8000);
+            im.uihelp.setStatusBarText_InThread(String.Format(" 回合开始"));
+            Thread.Sleep(3000);
             int count = 0;
             dynamic newjson = new DynamicJson();
             newjson.mission_id /*这是节点*/ = mission_id;/* 这是值*/
@@ -1333,8 +1334,9 @@ namespace GFHelper.Programe
             }
         }
 
-        public bool reinforceTeam(Auto.Spots spots,bool night=false)
+        public bool reinforceTeam(Spots spots,bool night=false)
         {
+            im.uihelp.setStatusBarText_InThread(String.Format(" 部署梯队"));
             //{"spot_id":1948,"team_id":7}
             Thread.Sleep(2000);
             int count = 0;
@@ -1371,10 +1373,30 @@ namespace GFHelper.Programe
             }
         }
 
-        public bool teamMove(Auto.TeamMove teammove)
+        public void allyMySideMove()
         {
+            Thread.Sleep(500);
+            POST.allyMySideMove();
+        }
+        public void startOtherSideTurn()
+        {
+            Thread.Sleep(500);
+            POST.allyMySideMove();
+        }
+
+        public void endOtherSideTurn()
+        {
+            Thread.Sleep(500);
+            POST.allyMySideMove();
+        }
+
+
+
+        public bool teamMove(TeamMove teammove)
+        {
+            im.uihelp.setStatusBarText_InThread(String.Format(" 移动"));
             //{"team_id":6,"from_spot_id":3033,"to_spot_id":3038,"move_type":1}
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             dynamic newjson = new DynamicJson();
             newjson.team_id /*这是节点*/ = teammove.team_id;/* 这是值*/
             newjson.from_spot_id /*这是节点*/ = teammove.from_spot_id;/* 这是值*/
@@ -1412,7 +1434,7 @@ namespace GFHelper.Programe
         public bool teamMove_Random(Auto.TeamMove teammove)
         {
             //{"team_id":6,"from_spot_id":3033,"to_spot_id":3038,"move_type":1}
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             dynamic newjson = new DynamicJson();
             newjson.team_id /*这是节点*/ = teammove.team_id;/* 这是值*/
             newjson.from_spot_id /*这是节点*/ = teammove.from_spot_id;/* 这是值*/
@@ -1452,7 +1474,7 @@ namespace GFHelper.Programe
         public bool Normal_battleFinish(string data,ref string result,bool errorSkip=false)
         {
             //WriteLog.Log(String.Format("data = {0}", data));
-            Thread.Sleep(5000);
+            Thread.Sleep(3000);
             int count = 0;
             if (ProgrameData.debugmode)
             {
@@ -1537,6 +1559,7 @@ namespace GFHelper.Programe
         }
         public bool withdrawTeam(int spot_id)
         {
+            im.uihelp.setStatusBarText_InThread(String.Format(" 撤离"));
             Thread.Sleep(2000);
             //{"spot_id":3033}
             var obj = new
@@ -1573,7 +1596,7 @@ namespace GFHelper.Programe
 
         public string endTurn()
         {
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             int count = 0;
 
             while (true)
@@ -1605,7 +1628,7 @@ namespace GFHelper.Programe
         }
         public bool startTurn()
         {
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             int count = 0;
 
             while (true)
@@ -1673,7 +1696,7 @@ namespace GFHelper.Programe
             while (true)
             {
                 string result = POST.endEnemyTurn();
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
 
                 switch (ResultPro.Result_Pro(ref result, "endEnemyTurn_PRO", true))
                 {
@@ -1707,7 +1730,7 @@ namespace GFHelper.Programe
             while (true)
             {
                 string result = im.post.SupplyTeam(newjson.ToString());
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
 
                 switch (ResultPro.Result_Pro(ref result, "GUN_OUTandIN_Team_PRO", false))
                 {
@@ -1733,12 +1756,13 @@ namespace GFHelper.Programe
 
         public bool abortMission()
         {
+            im.uihelp.setStatusBarText_InThread(String.Format(" 终止作战"));
             //caa6f92d234e04c034f88c9eb445fd45(sign)
             int count = 0;
             while (true)
             {
                 string result = im.post.abortMission();
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
 
                 switch (ResultPro.Result_Pro(ref result, "Abort_Mission_Pro", true))
                 {

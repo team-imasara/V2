@@ -2,6 +2,7 @@
 using GFHelper.CatchData;
 using GFHelper.CatchData.CatchDataFunc;
 using GFHelper.Programe;
+using GFHelper.Programe.Auto;
 using GFHelper.Programe.ProgramePro;
 using LitJson;
 using System;
@@ -653,7 +654,7 @@ namespace GFHelper.UserData
             {
                 foreach (var item in jsonobj.develop_equip_act_info)
                 {
-                    if (item.Value.build_slot == count && jsonobj.develop_equip_act_info.ToString().Contains("equip_id"))
+                    if (item.Value.build_slot == count && item.Value.ToString().Contains("equip_id"))
                     {
                         im.list_equipBuilt[solt].StartTime = Convert.ToInt32(item.Value.start_time);
                         int time = CatchDataSummery.getEquipDevTimeFromID(Convert.ToInt32(item.Value.equip_id));
@@ -661,10 +662,10 @@ namespace GFHelper.UserData
                         count += 2;
                         solt++;
                     }
-                    if (item.Value.build_slot == count && jsonobj.develop_equip_act_info.ToString().Contains("fairy_id"))
+                    if (item.Value.build_slot == count && item.Value.ToString().Contains("fairy_id"))
                     {
                         im.list_equipBuilt[solt].StartTime = Convert.ToInt32(item.Value.start_time);
-                        int time = CatchDataSummery.getFairyDevTimeFromID(Convert.ToInt32(item.Value.equip_id));
+                        int time = CatchDataSummery.getFairyDevTimeFromID(Convert.ToInt32(item.Value.fairy_id));
                         im.list_equipBuilt[solt].continuedTime = time;
                         count += 2;
                         solt++;
@@ -675,8 +676,8 @@ namespace GFHelper.UserData
             {
                 im.mainWindow.Dispatcher.Invoke(() =>
                 {
-                    MessageBox.Show("读取UserData_equip_with_user_info遇到错误");
-                    MessageBox.Show(e.ToString());
+                    //MessageBox.Show("读取UserData_equip_with_user_info遇到错误");
+                    //MessageBox.Show(e.ToString());
                 });
 
                 return false;
@@ -1810,6 +1811,7 @@ namespace GFHelper.UserData
         /// <param name="mvp"></param>
         public bool Update_GUN_Pos(int teamid,int mvpid)
         {
+            im.uihelp.setStatusBarText_InThread(String.Format(" 检查阵型"));
             //mvp位置是8
             //其他 7 9 13 14
             bool mvpPOSeEdited=false;
@@ -2004,22 +2006,28 @@ namespace GFHelper.UserData
             }
         }
 
-        public void Check_Gun_need_FIX(int teamID, double num)
+        public void Check_Gun_need_FIX(List<BattleTask_team_info> teams, double num)
         {
             im.uihelp.setStatusBarText_InThread(String.Format(" 检查人形是否需要修复"));
-            System.Threading.Thread.Sleep(1000);
-            for (int i = 1; i <= team_info[teamID].Count; i++)
+            Thread.Sleep(1000);
+
+
+            for (int y = 0; y < teams.Count; y++)
             {
-                double k =(double)team_info[teamID][i].life / team_info[teamID][i].maxLife;
-                if (k <= num)
+                for (int i = 1; i <= team_info[teams[y].TeamID].Count; i++)
                 {
-                    System.Threading.Thread.Sleep(2000);
-                    if (im.action.Fix_Gun(team_info[teamID][i].id, true))
+                    double k = (double)team_info[teams[y].TeamID][i].life / team_info[teams[y].TeamID][i].maxLife;
+                    if (k <= num)
                     {
-                        team_info[teamID][i].life = team_info[teamID][i].maxLife;
+                        System.Threading.Thread.Sleep(2000);
+                        if (im.action.Fix_Gun(team_info[teams[y].TeamID][i].id, true))
+                        {
+                            team_info[teams[y].TeamID][i].life = team_info[teams[y].TeamID][i].maxLife;
+                        }
                     }
                 }
             }
+
 
         }
 
