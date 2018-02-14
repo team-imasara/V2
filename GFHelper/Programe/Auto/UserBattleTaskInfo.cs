@@ -183,6 +183,7 @@ namespace GFHelper.Programe.Auto
         public int LoopTime=0;
         public int MaxLoopTime=0;
         public int reStart_WaitTime = 1;
+        public bool Loop = true;
         public new_User_Normal_MissionInfo(List<BattleTask_team_info> Teams,int TaskMap,int user_exp)
         {
             this.Teams = Teams;

@@ -43,7 +43,7 @@ namespace GFHelper.Programe.Auto
                     }
                 case 3:
                     {
-                        im.battleloop_a.Battle_Equip_UMPUX(ubti);
+                        im.battleloop_a.Battle_Equip_UMP(ubti);
                         break;
                     }
 
@@ -60,13 +60,13 @@ namespace GFHelper.Programe.Auto
                     }
                 case 6:
                     {
-
+                        im.battleloop_a.Battle_Equip_HK416(ubti);
                         break;
                     }
 
                 case 7:
                     {
-
+                        im.battleloop_a.Box_in_2018_winter(ubti);
                         break;
                     }
                 case 8:
@@ -120,9 +120,12 @@ namespace GFHelper.Programe.Auto
                 ProgrameData.TaskList.Add(TaskList.GetuserInfo);
             }
 
+            if (ubti.Loop == false)
+            {
+                return;
+            }
             if (ubti.LoopTime < ubti.MaxLoopTime || ubti.MaxLoopTime == 0)
             {
-
                 //继续循环
                 ContinueLoopBattle(ubti);
             }

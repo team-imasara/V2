@@ -911,7 +911,23 @@ namespace GFHelper.Programe
             string result = DoPost(ProgrameData.GameAdd + RequestUrls.endOtherSideTurn, requeststring);
             return result;
         }
-        
+
+        public static string missionGroupReset(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.missionGroupReset, requeststring);
+            return result;
+        }
+
+        //public static string gameSetting(string outdatacode)
+        //{
+        //    outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+        //    string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+        //    string result = DoPost(ProgrameData.GameAdd + RequestUrls.gameSetting, requeststring);
+        //    return result;
+        //}
+
 
 
     }

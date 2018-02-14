@@ -701,7 +701,7 @@ namespace GFHelper.Programe.Auto.Map_Sent
         public static int withdrawSpot = 5774;//撤离
     }
 
-    static class MapEquip_UMPUX
+    static class MapEquip_UMP
     {
         //要给spots1 2 赋值 梯队ID
         //要给teammove 赋值 梯队ID
@@ -750,6 +750,322 @@ namespace GFHelper.Programe.Auto.Map_Sent
         public static int withdrawSpot1 = 4559;//撤离
         public static int withdrawSpot2 = 4568;//撤离
     }
+
+    /// <summary>
+    /// 底层升变4
+    /// </summary>
+    static class MapEquip_HK416
+    {
+        //要给spots1 2 赋值 梯队ID
+        //要给teammove 赋值 梯队ID
+        public static int mission_id = 10077;
+        //[{"spot_id":3033,"team_id":6},{"spot_id":3057,"team_id":7}]
+        public static Spots spots1 = new Spots(6049);//主力
+        public static Spots spots2 = new Spots(6067);//辅助
+
+
+        public static Spots[] Mission_Start_spots = { spots1, spots2 };//部署梯队的信息
+
+        public static TeamMove teammove1 = new TeamMove(6049, 6048, 1);
+        public static TeamMove teammove2 = new TeamMove(6048, 6047, 1);
+        public static TeamMove teammove3 = new TeamMove(6047, 6042, 1);
+
+        public static TeamMove teammove4 = new TeamMove(6042, 6047, 1);
+
+        public static TeamMove teammove5 = new TeamMove(6047, 6046, 1);
+
+        public static TeamMove teammove6 = new TeamMove(6046, 6045, 1);
+
+        public static TeamMove teammove7 = new TeamMove(6045, 6044, 1);
+        public static TeamMove teammove8 = new TeamMove(6044, 6045, 1);
+
+        public static TeamMove teammove9 = new TeamMove(6045, 6053, 1);
+        public static TeamMove teammove10 = new TeamMove(6053, 6054, 1);
+        public static TeamMove teammove11 = new TeamMove(6054, 6055, 1);
+
+        public static TeamMove teammove12 = new TeamMove(6055, 6033, 1);
+        public static TeamMove teammove13 = new TeamMove(6033, 6055, 1);
+        public static TeamMove teammove14 = new TeamMove(6055, 6063, 1);
+
+        public static TeamMove teammove15 = new TeamMove(6063, 6067, 2);
+
+        public static Dictionary<int, TeamMove> _dic_TeamMove = new Dictionary<int, TeamMove>();
+        public static Dictionary<int, TeamMove> dic_TeamMove
+        {
+            get
+            {
+                if (_dic_TeamMove.Count == 0)
+                {
+                    _dic_TeamMove[0] = teammove1;
+                    _dic_TeamMove[1] = teammove2;
+                    _dic_TeamMove[2] = teammove3;
+                    _dic_TeamMove[3] = teammove4;
+                    _dic_TeamMove[4] = teammove5;
+                    _dic_TeamMove[5] = teammove6;
+                    _dic_TeamMove[6] = teammove7;
+                    _dic_TeamMove[7] = teammove8;
+
+                    _dic_TeamMove[8] = teammove9;
+                    _dic_TeamMove[9] = teammove10;
+                    _dic_TeamMove[10] = teammove11;
+                    _dic_TeamMove[11] = teammove12;
+                    _dic_TeamMove[12] = teammove13;
+                    _dic_TeamMove[13] = teammove14;
+                    _dic_TeamMove[14] = teammove15;
+
+                }
+
+                return _dic_TeamMove;
+            }
+            set
+            {
+                _dic_TeamMove = value;
+            }
+        }//梯队移动的顺序
+        public static int withdrawSpot = 6067;//撤离
+
+    }
+
+    /// <summary>
+    /// 2018冬活 第二轮月亮 分歧点
+    /// </summary>
+    static class MapE2_A_0_in_2018_winter
+    {
+        //要给spots1 2 赋值 梯队ID
+        //要给teammove 赋值 梯队ID
+        public static int mission_id = 10065;
+        //[{"spot_id":3033,"team_id":6},{"spot_id":3057,"team_id":7}]
+        public static Spots spots1 = new Spots(5818);//主力
+        public static Spots spots2 = new Spots(5818);//辅助
+
+
+        public static Spots[] Mission_Start_spots = { spots1 };//部署梯队的信息
+
+        public static TeamMove teammove1 = new TeamMove(5818, 5811, 1);
+        public static TeamMove teammove2 = new TeamMove(5811, 5816, 1);
+        public static TeamMove teammove3 = new TeamMove(5816, 5817, 1);
+
+        public static TeamMove teammove4 = new TeamMove(5817, 5822, 1);
+
+        public static TeamMove teammove5 = new TeamMove(5822, 5814, 1);
+
+        
+
+        public static Dictionary<int, TeamMove> _dic_TeamMove = new Dictionary<int, TeamMove>();
+        public static Dictionary<int, TeamMove> dic_TeamMove
+        {
+            get
+            {
+                if (_dic_TeamMove.Count == 0)
+                {
+                    _dic_TeamMove[0] = teammove1;
+                    _dic_TeamMove[1] = teammove2;
+                    _dic_TeamMove[2] = teammove3;
+                    _dic_TeamMove[3] = teammove4;
+                    _dic_TeamMove[4] = teammove5;
+                }
+
+                return _dic_TeamMove;
+            }
+            set
+            {
+                _dic_TeamMove = value;
+            }
+        }//梯队移动的顺序
+        public static int withdrawSpot = 6067;//撤离
+
+    }
+
+    static class MapE2_A_1_in_2018_winter
+    {
+        //要给spots1 2 赋值 梯队ID
+        //要给teammove 赋值 梯队ID
+        public static int mission_id = 10066;
+        //[{"spot_id":3033,"team_id":6},{"spot_id":3057,"team_id":7}]
+        public static Spots spots1 = new Spots(5825);//主力
+
+        public static Spots[] Mission_Start_spots = { spots1 };//部署梯队的信息
+
+        public static TeamMove teammove1 = new TeamMove(5825, 5829, 1);
+        public static TeamMove teammove2 = new TeamMove(5829, 5835, 1);
+        public static TeamMove teammove3 = new TeamMove(5835, 5834, 1);
+
+        public static TeamMove teammove4 = new TeamMove(5834, 5836, 1);
+
+        public static TeamMove teammove5 = new TeamMove(5836, 5840, 1);
+
+        public static TeamMove teammove6 = new TeamMove(5840,5828, 1);
+
+
+        public static Dictionary<int, TeamMove> _dic_TeamMove = new Dictionary<int, TeamMove>();
+        public static Dictionary<int, TeamMove> dic_TeamMove
+        {
+            get
+            {
+                if (_dic_TeamMove.Count == 0)
+                {
+                    _dic_TeamMove[0] = teammove1;
+                    _dic_TeamMove[1] = teammove2;
+                    _dic_TeamMove[2] = teammove3;
+                    _dic_TeamMove[3] = teammove4;
+                    _dic_TeamMove[4] = teammove5;
+                    _dic_TeamMove[5] = teammove6;
+                }
+
+                return _dic_TeamMove;
+            }
+            set
+            {
+                _dic_TeamMove = value;
+            }
+        }//梯队移动的顺序
+        public static int withdrawSpot = 6067;//撤离
+
+    }
+
+    static class MapE2_A_2_in_2018_winter
+    {
+        //要给spots1 2 赋值 梯队ID
+        //要给teammove 赋值 梯队ID
+        public static int mission_id = 10067;
+        //[{"spot_id":3033,"team_id":6},{"spot_id":3057,"team_id":7}]
+        public static Spots spots1 = new Spots(5845);//主力
+
+        public static Spots[] Mission_Start_spots = { spots1 };//部署梯队的信息
+
+        public static TeamMove teammove1 = new TeamMove(5845, 5847, 1);
+        public static TeamMove teammove2 = new TeamMove(5847, 5850, 1);
+        public static TeamMove teammove3 = new TeamMove(5850, 5852, 1);
+
+        public static TeamMove teammove4 = new TeamMove(5852, 5856, 1);
+
+
+
+
+        public static Dictionary<int, TeamMove> _dic_TeamMove = new Dictionary<int, TeamMove>();
+        public static Dictionary<int, TeamMove> dic_TeamMove
+        {
+            get
+            {
+                if (_dic_TeamMove.Count == 0)
+                {
+                    _dic_TeamMove[0] = teammove1;
+                    _dic_TeamMove[1] = teammove2;
+                    _dic_TeamMove[2] = teammove3;
+                    _dic_TeamMove[3] = teammove4;
+                }
+
+                return _dic_TeamMove;
+            }
+            set
+            {
+                _dic_TeamMove = value;
+            }
+        }//梯队移动的顺序
+        public static int withdrawSpot = 6067;//撤离
+
+    }
+
+    static class MapE2_A_3_in_2018_winter
+    {
+        //要给spots1 2 赋值 梯队ID
+        //要给teammove 赋值 梯队ID
+        public static int mission_id = 10068;
+        //[{"spot_id":3033,"team_id":6},{"spot_id":3057,"team_id":7}]
+        public static Spots spots1 = new Spots(5864);//主力
+
+        public static Spots[] Mission_Start_spots = { spots1 };//部署梯队的信息
+
+        public static TeamMove teammove1 = new TeamMove(5864, 5861, 1);
+        public static TeamMove teammove2 = new TeamMove(5861, 5862, 1);
+        public static TeamMove teammove3 = new TeamMove(5862, 5863, 1);
+
+        public static TeamMove teammove4 = new TeamMove(5863, 5858, 1);
+
+
+
+
+        public static Dictionary<int, TeamMove> _dic_TeamMove = new Dictionary<int, TeamMove>();
+        public static Dictionary<int, TeamMove> dic_TeamMove
+        {
+            get
+            {
+                if (_dic_TeamMove.Count == 0)
+                {
+                    _dic_TeamMove[0] = teammove1;
+                    _dic_TeamMove[1] = teammove2;
+                    _dic_TeamMove[2] = teammove3;
+                    _dic_TeamMove[3] = teammove4;
+                }
+
+                return _dic_TeamMove;
+            }
+            set
+            {
+                _dic_TeamMove = value;
+            }
+        }//梯队移动的顺序
+        public static int withdrawSpot = 6067;//撤离
+
+    }
+
+    static class MapE2_A_4_in_2018_winter
+    {
+        //要给spots1 2 赋值 梯队ID
+        //要给teammove 赋值 梯队ID
+        public static int mission_id = 10069;
+        //[{"spot_id":3033,"team_id":6},{"spot_id":3057,"team_id":7}]
+        public static Spots spots1 = new Spots(5877);//主力
+        public static Spots spots2 = new Spots(5876);//主力
+
+        public static Spots[] Mission_Start_spots = { spots1, spots2 };//部署梯队的信息
+
+        public static TeamMove teammove1 = new TeamMove(5877, 5891, 1);
+        public static TeamMove teammove2 = new TeamMove(5891, 5890, 1);
+
+        public static TeamMove teammove3 = new TeamMove(5876, 5871, 1);
+        public static TeamMove teammove4 = new TeamMove(5871, 5878, 1);
+
+        public static TeamMove teammove5 = new TeamMove(5890, 5874, 1);
+        public static TeamMove teammove6 = new TeamMove(5874, 5875, 1);
+        public static TeamMove teammove7 = new TeamMove(5875, 5872, 1);
+
+        public static TeamMove teammove8 = new TeamMove(5878, 5871, 1);
+        public static TeamMove teammove9 = new TeamMove(5871, 5876, 1);
+
+
+
+        public static Dictionary<int, TeamMove> _dic_TeamMove = new Dictionary<int, TeamMove>();
+        public static Dictionary<int, TeamMove> dic_TeamMove
+        {
+            get
+            {
+                if (_dic_TeamMove.Count == 0)
+                {
+                    _dic_TeamMove[0] = teammove1;
+                    _dic_TeamMove[1] = teammove2;
+                    _dic_TeamMove[2] = teammove3;
+                    _dic_TeamMove[3] = teammove4;
+                    _dic_TeamMove[4] = teammove5;
+                    _dic_TeamMove[5] = teammove6;
+                    _dic_TeamMove[6] = teammove7;
+                    _dic_TeamMove[7] = teammove8;
+                    _dic_TeamMove[8] = teammove9;
+                }
+
+                return _dic_TeamMove;
+            }
+            set
+            {
+                _dic_TeamMove = value;
+            }
+        }//梯队移动的顺序
+        public static int withdrawSpot = 6067;//撤离
+
+    }
+
+
+
     static class MapE1_1
     {
         //要给spots1 2 赋值 梯队ID

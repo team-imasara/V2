@@ -1065,7 +1065,7 @@ namespace GFHelper.Programe
                         }
                     case -1:
                         {
-                            result_error_PRO(result, count++); break;
+                            return result;
                         }
                     default:
                         break;
@@ -1248,6 +1248,7 @@ namespace GFHelper.Programe
                 return true;
             }
 
+            im.userdatasummery.Read_Equipment_Rank();
             im.userdatasummery.Read_Equipment_Upgrade();
 
             string[] equipFood = new string[11];
@@ -1375,19 +1376,22 @@ namespace GFHelper.Programe
 
         public void allyMySideMove()
         {
+            im.uihelp.setStatusBarText_InThread(String.Format(" allyMySideMove"));
             Thread.Sleep(500);
             POST.allyMySideMove();
         }
         public void startOtherSideTurn()
         {
+            im.uihelp.setStatusBarText_InThread(String.Format(" startOtherSideTurn"));
             Thread.Sleep(500);
-            POST.allyMySideMove();
+            POST.startOtherSideTurn();
         }
 
         public void endOtherSideTurn()
         {
+            im.uihelp.setStatusBarText_InThread(String.Format(" endOtherSideTurn"));
             Thread.Sleep(500);
-            POST.allyMySideMove();
+            POST.endOtherSideTurn();
         }
 
 
@@ -1473,6 +1477,7 @@ namespace GFHelper.Programe
 
         public bool Normal_battleFinish(string data,ref string result,bool errorSkip=false)
         {
+            im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
             //WriteLog.Log(String.Format("data = {0}", data));
             Thread.Sleep(3000);
             int count = 0;
@@ -1596,6 +1601,7 @@ namespace GFHelper.Programe
 
         public string endTurn()
         {
+            im.uihelp.setStatusBarText_InThread(String.Format(" endTurn"));
             Thread.Sleep(1000);
             int count = 0;
 
@@ -1628,6 +1634,7 @@ namespace GFHelper.Programe
         }
         public bool startTurn()
         {
+            im.uihelp.setStatusBarText_InThread(String.Format(" startTurn"));
             Thread.Sleep(1000);
             int count = 0;
 
@@ -1692,6 +1699,7 @@ namespace GFHelper.Programe
 
         public void endEnemyTurn()
         {
+            im.uihelp.setStatusBarText_InThread(String.Format(" endEnemyTurn"));
             int count = 0;
             while (true)
             {
@@ -1970,6 +1978,52 @@ namespace GFHelper.Programe
 
             }
         }
+
+        public bool missionGroupReset()
+        {
+            Thread.Sleep(1000);
+            StringBuilder stringBuilder = new StringBuilder();
+            JsonWriter jsonWriter = new JsonWriter(stringBuilder);
+            jsonWriter.WriteObjectStart();
+            jsonWriter.WritePropertyName("mission_group_id");
+            jsonWriter.Write(2);
+            jsonWriter.WriteObjectEnd();
+            int count = 0;
+
+            while (true)
+            {
+                string result = POST.missionGroupReset(stringBuilder.ToString());
+
+                switch (ResultPro.Result_Pro(ref result, "missionGroupReset", true))
+                {
+                    case 1:
+                        {
+                            return true;
+                        }
+                    case 0:
+                        {
+                            result_error_PRO(result, count++); continue;
+                        }
+                    case -1:
+                        {
+                            if (count >= ProgrameData.BL_Error_num) { return false; }
+                            result_error_PRO(result, count++); continue;
+                        }
+                    default:
+                        break;
+                }
+
+
+            }
+
+
+
+
+
+
+
+        }
+
 
     }
 

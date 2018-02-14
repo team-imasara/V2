@@ -148,7 +148,7 @@ namespace GFHelper.Programe.ProgramePro
                     }
                 case "startTurn":
                     {
-                        return result.Contains("mission_lose_result") && result.Contains("mission_win_result") && result.Contains("fairy_skill_return") ? 1 : 0;
+                        return result.Contains("mission_lose_result") || result.Contains("mission_win_result") || result.Contains("fairy_skill_return") ? 1 : 0;
                     }
 
                 case "EatGun":
@@ -214,6 +214,10 @@ namespace GFHelper.Programe.ProgramePro
                 case "FinishEquipmentDevelop":
                     {
                         return result.Contains("equip_id") || result.Contains("fairy_id") ? 1 : 0;
+                    }
+                case "missionGroupReset":
+                    {
+                        return result.Contains("mission_group_today_reset_num") ? 1 : 0;
                     }
 
 

@@ -1400,7 +1400,7 @@ namespace GFHelper.UserData
             foreach (var item in equip_with_user_info_Rank5)
             {
                 //5级装备等级小于10 没有被人形装备
-                if(item.Value.equip_level<10 && item.Value.gun_with_user_id == 0)
+                if (item.Value.equip_level < 10 && item.Value.gun_with_user_id == 0 && item.Value.equip_id != 16)
                 {
                     Equip_With_User_Info ewui_upgrade = new Equip_With_User_Info();
                     ewui_upgrade = item.Value;

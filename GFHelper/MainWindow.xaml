@@ -283,6 +283,8 @@
                                         <ComboBoxItem Content="EQUIP_UMP"/>
                                         <ComboBoxItem Content="雷电"/>
                                         <ComboBoxItem Content="pm7"/>
+                                        <ComboBoxItem Content="Equip_HK416"/>
+                                        <ComboBoxItem Content="BOX"/>
                                     </ComboBox>
                                     <Label Content="梯队 :" HorizontalAlignment="Left" Margin="87,10,0,0" VerticalAlignment="Top" FontSize="24" Grid.Column="1"/>
                                     <ComboBox x:Name="Task1MT" VerticalAlignment="Top" Width="164" Margin="187,14,0,0" Height="36" HorizontalAlignment="Left" FontSize="18" Grid.Column="1" SelectionChanged="Task1MT_SelectionChanged"/>

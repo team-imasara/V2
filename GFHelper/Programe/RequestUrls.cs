@@ -106,6 +106,7 @@ public class RequestUrls
     public const string allyMySideMove = "Mission/allyMySideMove";
     public const string startOtherSideTurn = "Mission/startOtherSideTurn";
     public const string endOtherSideTurn = "Mission/endOtherSideTurn";
+    public const string missionGroupReset = "Mission/missionGroupReset";
 
 
 }
