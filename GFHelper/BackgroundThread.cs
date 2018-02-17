@@ -73,9 +73,9 @@ namespace GFHelper
 
                             case 2://任务开始
                                 {
-                                    //Get_user_info 读取用户信息刷新数据
-                                    im.action.Get_Set_UserInfo();
-                                    ProgrameData.TaskList.RemoveAt(0);
+                                //Get_user_info 读取用户信息刷新数据
+                                im.action.Get_Set_UserInfo();
+                                ProgrameData.TaskList.RemoveAt(0);
                                     break;
                                 }
 

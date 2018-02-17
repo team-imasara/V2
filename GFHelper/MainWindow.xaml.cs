@@ -191,6 +191,7 @@ namespace GFHelper
                 im.catchdatasummery.ReadCatchData();
                 MessageBox.Show("catchdata文件下载成功", "提示");
             });
+
             im.uihelp.setStatusBarText_InThread(String.Format(" 开始初始化"));
             getIndex_version.Start();
             CheckT.Start();

@@ -323,6 +323,7 @@ namespace GFHelper.Programe.Auto
         /// </summary>
         public void DailyReFlash()
         {
+            if (ProgrameData.tomorrow_zero == 0) return;
             if (CommonHelp.ConvertDateTime_China_Int(DateTime.Now) > ProgrameData.tomorrow_zero+600)//600是延迟10分钟
             {
                 ProgrameData.tomorrow_zero = 2101948800;

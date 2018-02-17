@@ -285,6 +285,10 @@
                                         <ComboBoxItem Content="pm7"/>
                                         <ComboBoxItem Content="Equip_HK416"/>
                                         <ComboBoxItem Content="BOX"/>
+                                        <ComboBoxItem Content="GUN_DSR_50"/>
+                                        <ComboBoxItem Content="GUN_M1887"/>
+                                        <ComboBoxItem Content="GUN_57"/>
+                                        <ComboBoxItem Content="GUN_ART556"/>
                                     </ComboBox>
                                     <Label Content="梯队 :" HorizontalAlignment="Left" Margin="87,10,0,0" VerticalAlignment="Top" FontSize="24" Grid.Column="1"/>
                                     <ComboBox x:Name="Task1MT" VerticalAlignment="Top" Width="164" Margin="187,14,0,0" Height="36" HorizontalAlignment="Left" FontSize="18" Grid.Column="1" SelectionChanged="Task1MT_SelectionChanged"/>

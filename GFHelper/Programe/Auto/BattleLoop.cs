@@ -71,17 +71,22 @@ namespace GFHelper.Programe.Auto
                     }
                 case 8:
                     {
-
+                        im.battleloop_a.Battle_Gun_DSR_50(ubti);
                         break;
                     }
                 case 9:
                     {
-                        im.battleloop_n.Battle10_4E(ubti);
+                        im.battleloop_a.Battle_Gun_M1887(ubti);
                         break;
                     }
                 case 10:
                     {
-
+                        im.battleloop_a.Battle_Gun_57(ubti);
+                        break;
+                    }
+                case 11:
+                    {
+                        im.battleloop_a.Battle_Gun_ART556(ubti);
                         break;
                     }
                 default:
@@ -176,11 +181,21 @@ namespace GFHelper.Programe.Auto
                     {
                         if (im.action.EatGunHandle()) return;
                     }
-                    if (!im.action.Gun_retire(2)) im.action.Gun_retire(3);
+                    if (!ProgrameData.AutoStrengthen)
+                    {
+                        im.action.Gun_retire(2);
+                        im.action.Gun_retire(3);
+                    }
+
 
                 }
                 if (im.userdatasummery.equip_with_user_info.Count + 2 >= im.userdatasummery.user_info.maxequip)
                 {
+
+
+
+
+
                     im.action.Eat_Equip();//升级
                 }
 

@@ -1225,6 +1225,8 @@ namespace GFHelper.Programe
                         }
                     case -1:
                         {
+                            if (count >= ProgrameData.BL_Error_num) { im.userdatasummery.Del_Gun_IN_Dict(type); return false; }
+
                             result_error_PRO(result, count++); break;
                         }
                     default:
@@ -1292,6 +1294,10 @@ namespace GFHelper.Programe
                         }
                     case -1:
                         {
+                            if (count >= ProgrameData.BL_Error_num)
+                            {
+                                im.userdatasummery.Del_Equip_IN_Dict(equipFood);
+                                im.userdatasummery.Read_Equipment_Rank(); return false; }
                             result_error_PRO(result, count++); break;
                         }
                     default:
@@ -1487,6 +1493,7 @@ namespace GFHelper.Programe
             }
             while (true)
             {
+                result = "";
                 result = im.post.battleFinish(data);
 
                 switch (ResultPro.Result_Pro(ref result, "Battle_Finish_Pro", true))
@@ -1752,6 +1759,7 @@ namespace GFHelper.Programe
                         }
                     case -1:
                         {
+                            if (count >= ProgrameData.BL_Error_num) { return false; }
                             result_error_PRO(result, count++); break;
                         }
                     default:

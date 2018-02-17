@@ -37,7 +37,7 @@ namespace GFHelper.Programe
         public static int OperationDelay;
 
         public static string CatchDataVersion;
-        public static int tomorrow_zero;//用于零时刷新 北京时间0点
+        public static int tomorrow_zero=0;//用于零时刷新 北京时间0点
         public static int weekday;//会用于模拟战
 
 
@@ -74,7 +74,7 @@ namespace GFHelper.Programe
         public static bool NewGun_Report_Stop = true;
         public static int Error_Num_Stop = 10;
 
-        public static int BL_ReLogin_num = 10;
+        public static int BL_ReLogin_num = 3;
 
         public static bool AutoStrengthen;
         public static bool AutoDummyLink;
@@ -112,7 +112,7 @@ namespace GFHelper.Programe
 
                         Programe.ProgramePro.WriteLog.Log(String.Format(" error错误达到3个 "),"debug");
                         dic_Error_Result.Clear();
-                        TaskList.Add(Programe.TaskList.GetuserInfo);
+                        //TaskList.Add(Programe.TaskList.GetuserInfo);
                         return;
                     }
 
