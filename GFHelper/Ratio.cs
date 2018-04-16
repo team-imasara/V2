@@ -11,8 +11,7 @@ namespace GFHelper
         public static readonly int[] arrExpectingEnhanceRatio;
         public static readonly float[][] arrFixRatio;
         public static readonly int[] arrLevelLimitNumber;
-        internal static int maxGun;
-        internal static int maxTeam;
+
         public static readonly int[] numberNeedRate;
         public static readonly int[] rankNeedCore;
         public static readonly int[] retireGetCore;

@@ -28,6 +28,7 @@ namespace GFHelper.CatchData
         public Dictionary<int, Fairy_Type_Info> fairy_type_info = new Dictionary<int, Fairy_Type_Info>();
         public static Dictionary<int, Fairy_Info> fairy_info = new Dictionary<int, Fairy_Info>();
         public static Dictionary<int, int> equip_exp_info = new Dictionary<int, int>();
+        public static Dictionary<int, int> gun_exp_info = new Dictionary<int, int>();
         public static Dictionary<int, float> equip_exp_Rate_info = new Dictionary<int, float>();
         public static Dictionary<int, Equip_Info> equip_info = new Dictionary<int, Equip_Info>();
         public Dictionary<int, Gun_Info> gun_info = new Dictionary<int, Gun_Info>();
@@ -52,6 +53,7 @@ namespace GFHelper.CatchData
             this.fairy_type_info.Clear();
             fairy_info.Clear();
             equip_exp_info.Clear();
+            gun_exp_info.Clear();
             equip_info.Clear();
             this.gun_info.Clear();
             //this.gun_type_info.Clear();
@@ -221,6 +223,24 @@ namespace GFHelper.CatchData
             catch (Exception e )
             {
                 MessageBox.Show("读取CatchData_equip_exp_info遇到错误");
+                MessageBox.Show(e.ToString());
+                return false;
+            }
+            return true;
+        }
+
+        public bool ReadCatchData_gun_exp_info(dynamic jsonobj)
+        {
+            try
+            {
+                foreach (var item in jsonobj.gun_exp_info)
+                {
+                    gun_exp_info.Add(Convert.ToInt32(item.lv), Convert.ToInt32(item.exp));
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("读取CatchData_gun_exp_info遇到错误");
                 MessageBox.Show(e.ToString());
                 return false;
             }
@@ -702,7 +722,7 @@ namespace GFHelper.CatchData
                 GetFurniture_database(jsonobj);
                 GetFurniture_server(jsonobj);
                 GetFurniture_printer(jsonobj);
-
+                ReadCatchData_gun_exp_info(jsonobj);
 
             }
             catch (IOException e)

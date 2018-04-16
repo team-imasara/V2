@@ -278,17 +278,9 @@
                                     </GroupBox>
                                     <Label Content="地图 :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="24"/>
                                     <ComboBox x:Name="Task1Map" VerticalAlignment="Top" Width="164" Margin="86,14,0,0" Height="36" HorizontalAlignment="Left" FontSize="18" Grid.ColumnSpan="2">
-                                        <ComboBoxItem Content="5-2N"/>
+                                        <ComboBoxItem Content="5_2N"/>
                                         <ComboBoxItem Content="10_4E"/>
-                                        <ComboBoxItem Content="EQUIP_UMP"/>
-                                        <ComboBoxItem Content="雷电"/>
-                                        <ComboBoxItem Content="pm7"/>
-                                        <ComboBoxItem Content="Equip_HK416"/>
-                                        <ComboBoxItem Content="BOX"/>
-                                        <ComboBoxItem Content="GUN_DSR_50"/>
-                                        <ComboBoxItem Content="GUN_M1887"/>
-                                        <ComboBoxItem Content="GUN_57"/>
-                                        <ComboBoxItem Content="GUN_ART556"/>
+                                        <ComboBoxItem Content="0_2"/>
                                     </ComboBox>
                                     <Label Content="梯队 :" HorizontalAlignment="Left" Margin="87,10,0,0" VerticalAlignment="Top" FontSize="24" Grid.Column="1"/>
                                     <ComboBox x:Name="Task1MT" VerticalAlignment="Top" Width="164" Margin="187,14,0,0" Height="36" HorizontalAlignment="Left" FontSize="18" Grid.Column="1" SelectionChanged="Task1MT_SelectionChanged"/>
@@ -313,10 +305,12 @@
                                     <Label x:Name="Battle_Task1_LOOPTIME" Content="0" Grid.Column="1" HorizontalAlignment="Left" Margin="422,22,0,0" VerticalAlignment="Top" Width="54" RenderTransformOrigin="-0.481,0.72"/>
                                     <Label Content="副梯队效能：" HorizontalAlignment="Left" Margin="113,158,0,0" VerticalAlignment="Top" FontSize="24" Grid.Column="1" Visibility="Hidden"/>
                                     <TextBox x:Name="Task1TeamE_S" HorizontalAlignment="Left" Height="40" Margin="255,158,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="106" TextAlignment="Center" FontSize="24" BorderThickness="0" Background="{x:Null}" Grid.Column="1" Visibility="Hidden"/>
-                                    <Label Grid.ColumnSpan="2" Content="捞饼的主力梯队需要有空降需要有空降需要有空降。捞饼有很大几率卡死BUG。具体看log记录。10_4E推荐配置IWS加绿毛" HorizontalAlignment="Left" Height="71" Margin="29,247,0,0" VerticalAlignment="Top" Width="836"/>
+                                    <Label Grid.ColumnSpan="2" Content="捞饼的主力梯队需要有空降需要有空降需要有空降。捞饼有很大几率卡死BUG。具体看log记录。10_4E推荐配置IWS加绿毛" HorizontalAlignment="Left" Height="71" Margin="29,320,0,-10" VerticalAlignment="Top" Width="836"/>
                                     <Label Content="循环次数:" Grid.Column="1" HorizontalAlignment="Left" Margin="356,45,0,0" VerticalAlignment="Top"/>
                                     <TextBox x:Name="BattleMaxLoopTime" HorizontalAlignment="Left" Height="17" Margin="414,47,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" TextAlignment="Center" FontSize="10" BorderThickness="0" Background="{x:Null}" Grid.Column="1"/>
                                     <Button Content="清" Grid.Column="1" HorizontalAlignment="Left" Margin="739,163,0,0" VerticalAlignment="Top" Width="30" Height="30" Click="Button_Click_12"/>
+                                    <TextBox x:Name="TaskO" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="46" Margin="27,242,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="619" Background="Transparent"/>
+                                    <Label Content="参数" HorizontalAlignment="Left" Margin="29,211,0,0" VerticalAlignment="Top"/>
                                 </Grid>
                             </Grid>
                         </TabItem>
@@ -464,19 +458,21 @@
                 </Grid>
             </TabItem>
             <TabItem Margin="37,4,-41,-6" Header="解密调试">
-                <Grid HorizontalAlignment="Left" Height="207" Margin="36,74,0,0" VerticalAlignment="Top" Width="425">
+                <Grid HorizontalAlignment="Left" Height="207" Margin="36,74,0,0" VerticalAlignment="Top" Width="803">
                     <Button Content="yundoudou" HorizontalAlignment="Left" Margin="135,6,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_8"/>
                     <TextBox x:Name="textbox3" HorizontalAlignment="Left" Height="23" Margin="10,6,0,0" TextWrapping="Wrap" Text="sign" VerticalAlignment="Top" Width="120"/>
-                    <Button HorizontalAlignment="Left" Margin="215,6,0,0" VerticalAlignment="Top" Width="81" Click="Button_Click_9" Height="19" Content="解密"/>
+                    <Button HorizontalAlignment="Left" Margin="135,38,0,0" VerticalAlignment="Top" Width="81" Click="Button_Click_9" Height="19" Content="decrypt"/>
                     <TextBox x:Name="result_decoded" HorizontalAlignment="Left" Height="23" Margin="10,34,0,0" TextWrapping="Wrap" Text="密文" VerticalAlignment="Top" Width="120"/>
                     <Label x:Name="label_sign" Content="sign" HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top" Width="268"/>
                     <Label x:Name="BP_RecoverTime" Content="BP_RecoverTime" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,174,0,0"/>
                     <TextBox x:Name="TEXTBOX_outdatacode" HorizontalAlignment="Left" Height="23" Margin="10,92,0,0" TextWrapping="Wrap" Text="outdatacode" VerticalAlignment="Top" Width="120"/>
                     <Button x:Name="POST" HorizontalAlignment="Left" Margin="135,96,0,0" VerticalAlignment="Top" Width="81" Height="19" Content="POST" Click="POST_Click"/>
-                    <Button HorizontalAlignment="Left" Margin="301,6,0,0" VerticalAlignment="Top" Width="81" Click="Button_Click_9" Height="19" Content="1"/>
-                    <Button HorizontalAlignment="Left" Margin="301,30,0,0" VerticalAlignment="Top" Width="81" Height="19" Content="2" Click="Button_Click_10"/>
-                    <Button x:Name="Get_User_info" HorizontalAlignment="Left" Margin="301,53,0,0" VerticalAlignment="Top" Width="81" Height="19" Content="Get_User_info" Click="Get_User_info_Click"/>
+                    <Button HorizontalAlignment="Left" Margin="712,6,0,0" VerticalAlignment="Top" Width="81" Click="Button_Click_9" Height="19" Content="1"/>
+                    <Button HorizontalAlignment="Left" Margin="712,30,0,0" VerticalAlignment="Top" Width="81" Height="19" Content="2" Click="Button_Click_10"/>
+                    <Button x:Name="Get_User_info" HorizontalAlignment="Left" Margin="712,53,0,0" VerticalAlignment="Top" Width="81" Height="19" Content="Get_User_info" Click="Get_User_info_Click"/>
                     <Label x:Name="BattleReportTime" Content="BattleReport" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="111,174,0,0"/>
+                    <Button x:Name="button_encrypt" HorizontalAlignment="Left" Margin="352,38,0,0" VerticalAlignment="Top" Width="81" Height="19" Content="encrypt" Click="button_encrypt_Click"/>
+                    <TextBox x:Name="result_encrypt" HorizontalAlignment="Left" Height="23" Margin="227,34,0,0" TextWrapping="Wrap" Text="数据" VerticalAlignment="Top" Width="120"/>
                 </Grid>
             </TabItem>
 

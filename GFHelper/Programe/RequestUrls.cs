@@ -91,7 +91,7 @@ public class RequestUrls
     public const string Get_Friend_Build_Coin = "Dorm/get_build_coin";
 
     public const string Get_Battaries = "Dorm/get_build_coin";
-
+    public const string Equip_retire = "Equip/retire";
     public const string Eat_Equip = "Equip/eatEquip";
 
     public const string endEnemyTurn = "Mission/endEnemyTurn";
@@ -107,7 +107,7 @@ public class RequestUrls
     public const string startOtherSideTurn = "Mission/startOtherSideTurn";
     public const string endOtherSideTurn = "Mission/endOtherSideTurn";
     public const string missionGroupReset = "Mission/missionGroupReset";
-
-
+    public const string allyTeamAi = "Mission/allyTeamAi";
+    public const string saveHostage = "Mission/saveHostage";
 }
 

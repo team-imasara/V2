@@ -324,11 +324,15 @@ namespace GFHelper.Programe.Auto
         public void DailyReFlash()
         {
             if (ProgrameData.tomorrow_zero == 0) return;
-            if (CommonHelp.ConvertDateTime_China_Int(DateTime.Now) > ProgrameData.tomorrow_zero+600)//600是延迟10分钟
+
+            if(ProgrameData.AutoRelogin && DateTime.Now.Minute==35 && DateTime.Now.Second==1)
             {
                 ProgrameData.tomorrow_zero = 2101948800;
+                ProgrameData.AutoRelogin = false;
                 ProgrameData.TaskList.Add(TaskList.Login);
             }
+
+
             return;
         }
 

@@ -20,77 +20,76 @@ namespace GFHelper.Programe.Auto
 
         public void BattleLOOP_normal(new_User_Normal_MissionInfo ubti)
         {
-            if (im.userdatasummery.CheckResources()) { return; }
+            //if (im.userdatasummery.CheckResources(ubti)) { return; }
 
             switch (ubti.TaskMap)
             {
-                case 0:
+                case "5_2N":
                     {
-
+                        im.battleloop_n.Battle5_2N(ubti);
                         break;
                     }
-                case 1:
-                    {
-                        //im.battleloop_n.Battle5_2N(ubti);
-
-                        break;
-                    }
-                case 2:
+                case "10_4E":
                     {
                         im.battleloop_n.Battle10_4E(ubti);
 
                         break;
                     }
-                case 3:
+                case "0_2":
                     {
-                        im.battleloop_a.Battle_Equip_UMP(ubti);
+                        im.battleloop_n.Battle0_2(ubti);
+
+                        break;
+                    }
+                case "2_4n":
+                    {
+                        im.battleloop_n.Battle2_4N(ubti);
+
+                        break;
+                    }
+                case "3_4n":
+                    {
+                        im.battleloop_n.Battle3_4N(ubti);
+
+                        break;
+                    }
+                case "1_2":
+                    {
+                        im.battleloop_n.Battle1_2(ubti);
+
+                        break;
+                    }
+                case "normal_boss":
+                    {
+                        im.battleloop_n.Battle1_6(ubti);
+                        im.battleloop_n.Battle2_6(ubti);
+                        im.battleloop_n.Battle3_6(ubti);
+                        im.battleloop_n.Battle4_6(ubti);
+                        im.battleloop_n.Battle5_6(ubti);
+                        im.battleloop_n.Battle6_6(ubti);
+                        im.battleloop_n.Battle7_6BOSS(ubti);
+                        im.battleloop_n.Battle8_6(ubti);
+                        ubti.Loop = false;
+                        break;
+                    }
+                case "8_6":
+                    {
+                        im.battleloop_n.Battle8_6(ubti);
+                        ubti.Loop = false;
+                        break;
+                    }
+                case "2_6":
+                    {
+                        im.battleloop_n.Battle2_6(ubti);
+                        ubti.Loop = false;
+                        break;
+                    }
+                case "pzb38":
+                    {
+                        im.battleloop_a.Battle_Gun_PZB38(ubti);
                         break;
                     }
 
-                case 4:
-                    {
-                        im.battleloop_a.Battle_Gun_Light(ubti);
-                        break;
-                    }
-
-                case 5:
-                    {
-                        im.battleloop_a.Battle_Gun_PM7(ubti);
-                        break;
-                    }
-                case 6:
-                    {
-                        im.battleloop_a.Battle_Equip_HK416(ubti);
-                        break;
-                    }
-
-                case 7:
-                    {
-                        im.battleloop_a.Box_in_2018_winter(ubti);
-                        break;
-                    }
-                case 8:
-                    {
-                        im.battleloop_a.Battle_Gun_DSR_50(ubti);
-                        break;
-                    }
-                case 9:
-                    {
-                        im.battleloop_a.Battle_Gun_M1887(ubti);
-                        break;
-                    }
-                case 10:
-                    {
-                        im.battleloop_a.Battle_Gun_57(ubti);
-                        break;
-                    }
-                case 11:
-                    {
-                        im.battleloop_a.Battle_Gun_ART556(ubti);
-                        break;
-                    }
-                default:
-                    break;
             }
         }
 
@@ -173,13 +172,21 @@ namespace GFHelper.Programe.Auto
         public void Check_Equip_Gun_FULL()
         {
             im.uihelp.setStatusBarText_InThread(String.Format(" 检查床位是否满额"));
-            if (im.userdatasummery.Check_Equip_GUN_FULL())
+
+
+            if(im.userdatasummery.Check_Equip_GUN_FULL())
             {
                 if (im.userdatasummery.gun_with_user_info.Count + 2 >= im.userdatasummery.user_info.maxgun)
                 {
                     if (ProgrameData.AutoStrengthen)
                     {
-                        if (im.action.EatGunHandle()) return;
+                        im.action.EatGunHandle();
+                        if (im.userdatasummery.Check_Equip_GUN_FULL())
+                        {
+                            im.action.Gun_retire(2);
+                            im.action.Gun_retire(3);
+                        }
+                        return;
                     }
                     if (!ProgrameData.AutoStrengthen)
                     {
@@ -191,19 +198,36 @@ namespace GFHelper.Programe.Auto
                 }
                 if (im.userdatasummery.equip_with_user_info.Count + 2 >= im.userdatasummery.user_info.maxequip)
                 {
+                    if (ProgrameData.AutoStrengthen)
+                    {
+                        im.action.Eat_Equip();//升级
+                        if (im.userdatasummery.Check_Equip_GUN_FULL())
+                        {
+                            im.action.Equip_retire();
+                        }
+                        return;
+                    }
+                    if (!ProgrameData.AutoStrengthen)
+                    {
+                        im.action.Equip_retire();
+                    }
 
 
 
 
 
-                    im.action.Eat_Equip();//升级
                 }
 
 
-                //装备满了 需要升级或者拆解
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ubti"></param>
+        /// <param name="teamLoc">是指哪个梯队</param>
+        /// <param name="num"></param>
         public void CheckGun_AMMO_MRC_NEED_SUPORT(new_User_Normal_MissionInfo ubti, int teamLoc, int num)
         {
             im.uihelp.setStatusBarText_InThread(String.Format(" 检查是否需要单独补给"));
@@ -212,7 +236,7 @@ namespace GFHelper.Programe.Auto
 
 
             Check_Equip_Gun_FULL();
-
+            if (ubti.needSupply == false) return;
             if (im.userdatasummery.CheckGun_AMMO_MRC_NEED_SUPORT(ubti.Teams[teamLoc].MVP, num))
             {
                 im.uihelp.setStatusBarText_InThread(String.Format(" 正在单独补给 (移出队伍)"));
@@ -233,21 +257,17 @@ namespace GFHelper.Programe.Auto
             }
         }
 
-        public void Battle_Result_PRO(ref new_User_Normal_MissionInfo ubti,int teamLoc,ref string result,int activityMissionKey=0)
+        public void Battle_Result_PRO(ref new_User_Normal_MissionInfo ubti,int teamLoc,ref string result,int gun_id=0)
         {
-            if (ProgrameData.debugmode)
-            {
-                WriteLog.Log(string.Format(" battle_result = {0} ", result), "debug");
-            }
+
             var jsonobj = Codeplex.Data.DynamicJson.Parse(result);
             im.userdatasummery.user_info.experience += Convert.ToInt16(jsonobj.user_exp);
             ubti.user_exp = im.userdatasummery.user_info.experience;
             UserDataSummery.globalFreeExp += Convert.ToInt16(jsonobj.free_exp);
-            //奖励
-            im.userdatasummery.Add_Get_battle_get_prize(jsonobj, activityMissionKey);
+
 
             //装备
-            im.userdatasummery.Add_Get_Gun_Equip_Battle(jsonobj);
+            im.userdatasummery.Add_Get_Gun_Equip_Battle(jsonobj, gun_id);
             //人形经验
             int numE = 0;
             im.userdatasummery.UpdateGun_Exp(jsonobj, ref numE);

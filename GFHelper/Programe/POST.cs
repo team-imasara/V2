@@ -89,7 +89,8 @@ namespace GFHelper.Programe
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.ToString());
+                    WriteLog.Log(e.ToString(), "debug");
+                    
                 }
             }
         }
@@ -121,7 +122,7 @@ namespace GFHelper.Programe
                     ProgrameData.openid = jsonobj.openid.ToString();
                     return true;
                 }
-                if (ResultPro.Result_Pro(ref result, "LoginFirstUrl", false) == 0) {continue; }
+                if (ResultPro.Result_Pro(ref result, "LoginFirstUrl", false) == 0) { MessageBox.Show(result.ToString()); continue; }
                 if (ResultPro.Result_Pro(ref result, "LoginFirstUrl", false) == -1) {continue; /*特殊处理我还没想好*/; }
             }
         }
@@ -352,7 +353,7 @@ namespace GFHelper.Programe
 
         public string GetMailResource_Type1(int mailwith_user_id)
         {
-            System.Threading.Thread.Sleep(2500);
+            System.Threading.Thread.Sleep(100);
             string outdatacode = "{\"mail_with_user_id\":" + mailwith_user_id.ToString() + "}";
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);//用自身作为密匙把自身加密
             string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
@@ -917,6 +918,29 @@ namespace GFHelper.Programe
             outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
             string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
             string result = DoPost(ProgrameData.GameAdd + RequestUrls.missionGroupReset, requeststring);
+            return result;
+        }
+
+        public static string allyTeamAi(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.allyTeamAi, requeststring);
+            return result;
+        }
+        
+        public static string Equip_retire(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.Equip_retire, requeststring);
+            return result;
+        }
+        public static string saveHostage(string outdatacode)
+        {
+            outdatacode = AuthCode.Encode(outdatacode, ProgrameData.sign);
+            string requeststring = String.Format("uid={0}&outdatacode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
+            string result = DoPost(ProgrameData.GameAdd + RequestUrls.saveHostage, requeststring);
             return result;
         }
 

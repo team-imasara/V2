@@ -20,7 +20,7 @@ namespace GFHelper.UserData
                 return StartTime + continuedTime - (int)second;
             }
         }
-        public bool Finish_add;
+        public bool Finish_add=true;
         public bool Start_add;
 
 

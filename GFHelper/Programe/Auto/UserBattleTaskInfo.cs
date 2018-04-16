@@ -175,7 +175,7 @@ namespace GFHelper.Programe.Auto
     public class new_User_Normal_MissionInfo
     {
         public List<BattleTask_team_info> Teams = new List<BattleTask_team_info>();
-        public int TaskMap;
+        public string TaskMap;
         public Dictionary<int,int> List_withdrawPOS = new Dictionary<int, int>();
         public Dictionary<int,int> List_lifeReduce = new Dictionary<int,int>();
         public int user_exp;
@@ -184,7 +184,8 @@ namespace GFHelper.Programe.Auto
         public int MaxLoopTime=0;
         public int reStart_WaitTime = 1;
         public bool Loop = true;
-        public new_User_Normal_MissionInfo(List<BattleTask_team_info> Teams,int TaskMap,int user_exp)
+        public bool needSupply = true;
+        public new_User_Normal_MissionInfo(List<BattleTask_team_info> Teams,string TaskMap,int user_exp)
         {
             this.Teams = Teams;
             this.TaskMap = TaskMap;

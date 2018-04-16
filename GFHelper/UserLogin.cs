@@ -34,7 +34,11 @@ namespace GFHelper
                 int ret0 = im.eyLogin.UserLogin(ProgrameData.UserMcCode, "a123456789", "v1.0.0", im.eyLogin.GetMachineCode());
                 if (ret0 == 1)//登陆成功
                 {
-                    im.eyLogin.OpenUserCheck();
+                    if (ProgrameData.UserClient == true)
+                    {
+                        im.eyLogin.OpenUserCheck();
+                    }
+
                     return true;
                 }
                 else

@@ -118,6 +118,7 @@ namespace GFHelper
         {
 
             im.mainWindow.Login.IsEnabled = false;
+            ProgrameData.AutoRelogin = true;
             ProgrameData.TaskList.Add(TaskList.Login);
         }
 
@@ -181,8 +182,8 @@ namespace GFHelper
             CheckT.ContinueWith(p =>
             {
                 im.uihelp.setStatusBarText_InThread(String.Format(" 验证授权完成"));
-                //testcheck(CheckT.Result);
-                testcheck(true);
+                testcheck(CheckT.Result);
+                //testcheck(true);
             });
 
             CCD.ContinueWith(p =>
@@ -204,15 +205,13 @@ namespace GFHelper
             if (result)
             {
                 this.im.uihelp.setStatusBarText_InThread(" 验证通过允许使用");
-                //线程开放
-                countdown = new Thread((new ThreadStart(() => im.backgroundthread.CountDown())));//倒计时线程
-                countdown.SetApartmentState(ApartmentState.STA);
-                countdown.IsBackground = true;
-                countdown.Start();
-                CompleteMisson = new Thread((new ThreadStart(() => im.backgroundthread.CompleteMisson())));//倒计时线程
-                CompleteMisson.SetApartmentState(ApartmentState.STA);
-                CompleteMisson.IsBackground = true;
+
+
+                var CountDown = new Task(im.backgroundthread.CountDown);//倒计时线程
+                CountDown.Start();
+                var CompleteMisson = new Task(im.backgroundthread.CompleteMisson);//CompleteMisson
                 CompleteMisson.Start();
+
             }
             //验证失败代码
             else
@@ -423,9 +422,31 @@ namespace GFHelper
             MessageBox.Show("请确保已勾选MVP,战斗效能和正确的梯队 重要的人形上锁");
             MessageBox.Show("请确保已勾选MVP,战斗效能和正确的梯队 重要的人形上锁");
 
-            new_User_Normal_MissionInfo nunm = new new_User_Normal_MissionInfo(im.Teams, Task1Map.SelectedIndex + 1, im.userdatasummery.user_info.experience);
 
+            List<string> t = TaskO.Text.ToLower().Split(' ').ToList();
+            
+
+            var Comboxtaskmap = this.Task1Map.SelectedItem as ComboBoxItem;
+            string TaskMap = Comboxtaskmap.Content.ToString();
+            foreach (var item in t)
+            {
+                if (item.Contains("-map"))
+                {
+                    TaskMap = item.Remove(0,4);
+                }
+                if (item.Contains("-loginnum"))
+                {
+                    Int32.TryParse(item.Remove(0, 9), out ProgrameData.BL_ReLogin_num);
+                }
+
+
+            }
+
+            new_User_Normal_MissionInfo nunm = new new_User_Normal_MissionInfo(im.Teams, TaskMap, im.userdatasummery.user_info.experience);
+            if (t.Contains("-ns")) nunm.needSupply = false;
+            int.TryParse(BattleMaxLoopTime.Text, out nunm.MaxLoopTime);
             im.dic_userbattletaskinfo[0]= nunm;
+            
             ProgrameData.TaskList.Add(TaskList.TaskBattle_1);
         }
 
@@ -493,6 +514,12 @@ namespace GFHelper
             bti.teaminfo = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1];
             im.Teams.Add(bti);
             BattleTeamsLabel.Content += string.Format("第 {0} 梯队(辅助)\r\n", bti.TeamID);
+        }
+
+        private void button_encrypt_Click(object sender, RoutedEventArgs e)
+        {
+
+            result_encrypt.Text = AuthCode.Encode(result_encrypt.Text, ProgrameData.sign);
         }
 
         private void AutoOperationB_S4_Click(object sender, RoutedEventArgs e)

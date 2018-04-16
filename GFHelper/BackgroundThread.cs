@@ -44,7 +44,6 @@ namespace GFHelper
 
                 im.uihelp.setUI_User_info();
                 Thread.Sleep(1000);
-
             }
         }
 
@@ -1438,7 +1437,6 @@ namespace GFHelper
 
                     }
                 }
-
         }
     }
 

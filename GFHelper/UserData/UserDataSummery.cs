@@ -975,7 +975,7 @@ namespace GFHelper.UserData
                     {
                         if (gun_with_user_info.ContainsKey(i) == false) continue;
 
-                        if (gun_with_user_info[i].level != 100 && gun_with_user_info[i].id== id)
+                        if (gun_with_user_info[i].level <120 && gun_with_user_info[i].id== id)
                         {
                             if(Update_GUN_exp_level(exp, gun_with_user_info[i].gun_exp, gun_with_user_info[i].gun_level) > 0)
                             {
@@ -1025,7 +1025,7 @@ namespace GFHelper.UserData
         }
 
 
-        public bool Add_Get_Gun_Equip_Battle(dynamic jsonobj)
+        public bool Add_Get_Gun_Equip_Battle(dynamic jsonobj,int Want_gun_id=0)
         {
             //battle_get_equip
             if (jsonobj.ToString().Contains("battle_get_equip") == true)
@@ -1068,9 +1068,6 @@ namespace GFHelper.UserData
                         i++;
                     }
                     Check_equipRank5(ewui.equip_id);
-
-
-                    return true;
                 }
                 catch (Exception e)
                 {
@@ -1096,8 +1093,7 @@ namespace GFHelper.UserData
                         if (!gun_with_user_info.ContainsKey(i))
                         {
                             gun_with_user_info[i] = gwui;
-                            //gun_with_user_info.Add(i, gwui);
-                            return true;
+                            break;
                         }
                         i++;
                     }
@@ -1125,8 +1121,7 @@ namespace GFHelper.UserData
                         if (!gun_with_user_info.ContainsKey(i))
                         {
                             gun_with_user_info[i] = gwui;
-                            //gun_with_user_info.Add(i, gwui);
-                            return true;
+                            break;
                         }
                         i++;
                     }
@@ -1141,10 +1136,17 @@ namespace GFHelper.UserData
             return true;
         }
 
-        private void Check_NewGun(int gun_with_user_id,int gun_id)
+        private void Check_NewGun(int gun_with_user_id,int gun_id,int want_gun_id=0)
         {
             if (!user_info.gun_collect.Contains(gun_id))
             {
+                if (want_gun_id != 0)
+                {
+                    if (gun_id == want_gun_id)
+                    {
+                        if (ProgrameData.NewGun_Report_Stop) MessageBox.Show(string.Format("获取新人形 : {0} ,意不意外 惊不惊喜", Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(gun_id))));
+                    }
+                }   
                 if (ProgrameData.NewGun_Report_Stop) MessageBox.Show(string.Format("获取新人形 : {0} ,意不意外 惊不惊喜", Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(gun_id))));
                 WriteLog.Log(string.Format("获取新人形 : {0} ,意不意外 惊不惊喜", Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(gun_id))),"log");
                 List<int> listLockid = new List<int>();
@@ -1353,40 +1355,38 @@ namespace GFHelper.UserData
             return false;
         }
 
-        public string[] Get_Equipment_Food()
+        public List<int> Get_Equipment_Food()
         {
-            string[] strFood =new string[12];
-            int count = 0;
+            //string[] strFood =new string[24];
+            List<int> list = new List<int>();
+
             foreach (var item in equip_with_user_info_Rank2)
             {
-                if (count == 12) return strFood;
+                if (list.Count == 24) return list;
                 if(item.Value.gun_with_user_id == 0)
                 {
-                    strFood[count] = item.Value.id.ToString();
-                    count++;
+                    list.Add(int.Parse(item.Value.id.ToString()));
                 }
             }
 
             foreach (var item in equip_with_user_info_Rank3)
             {
-                if (count == 12) return strFood;
+                if (list.Count == 24) return list;
                 if (item.Value.gun_with_user_id == 0)
                 {
-                    strFood[count] = item.Value.id.ToString();
-                    count++;
+                    list.Add(int.Parse(item.Value.id.ToString()));
                 }
             }
 
             foreach (var item in equip_with_user_info_Rank4)
             {
-                if (count == 12) return strFood;
+                if (list.Count == 24) return list;
                 if (item.Value.gun_with_user_id == 0)
                 {
-                    strFood[count] = item.Value.id.ToString();
-                    count++;
+                    list.Add(int.Parse(item.Value.id.ToString()));
                 }
             }
-            return strFood;
+            return list;
 
         }
 
@@ -1400,7 +1400,9 @@ namespace GFHelper.UserData
             foreach (var item in equip_with_user_info_Rank5)
             {
                 //5级装备等级小于10 没有被人形装备
-                if (item.Value.equip_level < 10 && item.Value.gun_with_user_id == 0 && item.Value.equip_id != 16)
+                if (item.Value.equip_id == 16) continue;
+                if (item.Value.equip_id == 59) continue;
+                if (item.Value.equip_level < 10 && item.Value.gun_with_user_id == 0)
                 {
                     Equip_With_User_Info ewui_upgrade = new Equip_With_User_Info();
                     ewui_upgrade = item.Value;
@@ -1520,7 +1522,7 @@ namespace GFHelper.UserData
         /// 升级装备后删除对应的表
         /// </summary>
         /// <param name="res"></param>
-        public void Del_Equip_IN_Dict(string[] res)
+        public void Del_Equip_IN_Dict(List<int> res)
         {
             foreach (var item0 in res)
             {
@@ -1532,39 +1534,6 @@ namespace GFHelper.UserData
                         if (Convert.ToInt32(item0) == equip_with_user_info[i].id)
                         {
                             equip_with_user_info.Remove(i);
-                        }
-                    }
-                }
-
-                for (int i = 0; i < equip_with_user_info_Rank2.Last().Key; i++)
-                {
-                    if (equip_with_user_info_Rank2.ContainsKey(i))
-                    {
-                        if (Convert.ToInt32(item0) == equip_with_user_info_Rank2[i].id)
-                        {
-                            equip_with_user_info_Rank2.Remove(i);
-                        }
-                    }
-
-
-                }
-                for (int i = 0; i < equip_with_user_info_Rank3.Last().Key; i++)
-                {
-                    if (equip_with_user_info_Rank3.ContainsKey(i))
-                    {
-                        if (Convert.ToInt32(item0) == equip_with_user_info_Rank3[i].id)
-                        {
-                            equip_with_user_info_Rank3.Remove(i);
-                        }
-                    }
-                }
-                for (int i = 0; i < equip_with_user_info_Rank4.Last().Key; i++)
-                {
-                    if (equip_with_user_info_Rank4.ContainsKey(i))
-                    { 
-                        if (Convert.ToInt32(item0) == equip_with_user_info_Rank4[i].id)
-                        {
-                            equip_with_user_info_Rank4.Remove(i);
                         }
                     }
                 }
@@ -1726,7 +1695,7 @@ namespace GFHelper.UserData
         public static int Update_GUN_exp_level(int addexp,int current_exp, int current_level)
         {
             int num = 0;//将会升级的数目
-            if (current_level == 100)
+            if (current_level == 120)
             {
                 return 0;
             }
@@ -1744,6 +1713,7 @@ namespace GFHelper.UserData
 
             return num;//返回升了多少次级和ref addexp 所剩下的
         }
+
         /// <summary>
         /// 返回的是所有经验对应的等级
         /// </summary>
@@ -1785,23 +1755,12 @@ namespace GFHelper.UserData
             }
             else
             {
-                if (level <= 25)
+                foreach (var item in CatchDataSummery.gun_exp_info)
                 {
-                    return level * 100;
+                    if (level == item.Key)
+                        return item.Value;
                 }
-                if (level <= 29)
-                {
-                    return 100 * Mathf.FloorToInt(Mathf.Pow((float)level * 0.15f, 2.4f));
-                }
-                if (level <= 69)
-                {
-                    return 100 * Mathf.FloorToInt(Mathf.Pow((float)level * 0.15f, 2.5f));
-                }
-                if (level <= 89)
-                {
-                    return 100 * Mathf.FloorToInt(Mathf.Pow((float)level * 0.15f, 2.6f));
-                }
-                return 100 * Mathf.FloorToInt(Mathf.Pow((float)level * 0.15f, 2.7f));
+                return 0;
             }
         }
         /// <summary>
@@ -2040,6 +1999,7 @@ namespace GFHelper.UserData
                 {
                     return true;
                 }
+
             }
             if (UserDataSummery.amai.team_ids.Contains(gwui.team_id)) return true;
             foreach (var y in UserDataSummery.upgrade_act_info)
@@ -2051,8 +2011,9 @@ namespace GFHelper.UserData
 
         }
 
-        public bool CheckResources()
+        public bool CheckResources(new_User_Normal_MissionInfo ubti)
         {
+            if (ubti.needSupply == true) return false;
             if(user_info.mp<=1000 || user_info.mre<=1000 || user_info.ammo <= 1000)
             {
                 WriteLog.Log("资源少于 1000 终止作战","log");

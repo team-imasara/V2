@@ -67,26 +67,26 @@ namespace GFHelper.Programe
 
         public static bool show_result_error = true;
 
-        public static bool debugmode = false;
+        public static bool UserClient = true;
 
         public static int Eat_Gun_rank2_num = 24;
 
         public static bool NewGun_Report_Stop = true;
         public static int Error_Num_Stop = 10;
 
-        public static int BL_ReLogin_num = 3;
+        public static int BL_ReLogin_num = 20;
 
         public static bool AutoStrengthen;
         public static bool AutoDummyLink;
-        public static bool AutoGetMail=false;
+        public static bool AutoGetMail=true;
         //post返回error 如果累计大于3则 返回false
-        public static int BL_Error_num = 3;
+        public static int BL_Error_num = 5;
 
         public static Dictionary<int, string> dic_Error_Result = new Dictionary<int, string>();
         public static List<TaskListInfo> TaskList = new List<TaskListInfo>();
 
         public static bool AutoWriteReport = false;
-
+        public static bool AutoRelogin = false;// 是否每小时自动登陆拿token
         public static void Add_dic_Error(string result)
         {
             if (dic_Error_Result.Count >= 100) dic_Error_Result.Clear();
@@ -103,16 +103,17 @@ namespace GFHelper.Programe
                     count++;
 
 
-                    if (count >= 3)
+                    if (count >= 50)
                     {
                         if (ProgrameData.TaskList.Contains(Programe.TaskList.GetuserInfo))
                         {
                             return;
                         }
 
-                        Programe.ProgramePro.WriteLog.Log(String.Format(" error错误达到3个 "),"debug");
+                        ProgramePro.WriteLog.Log(String.Format(" error错误达到3个 "),"debug");
                         dic_Error_Result.Clear();
                         //TaskList.Add(Programe.TaskList.GetuserInfo);
+                        
                         return;
                     }
 

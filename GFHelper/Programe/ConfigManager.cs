@@ -105,7 +105,12 @@ namespace GFHelper
 
             throw new KeyNotFoundException();
         }
-
+        public bool FindConfig(string key)
+        {
+            foreach (var i in config)
+                if (i.Value.key == key) return true;
+            return false;
+        }
         public void SetConfig(string key, object value)
         {
             //try
@@ -202,6 +207,7 @@ namespace GFHelper
 
                 ProgrameData.channelid = this.im.configManager.getConfigString("channelid").ToUpper();
                 if(ProgrameData.channelid=="TX") ProgrameData.GameAdd = "http://gf-adrtx-cn-zs-game-0001.ppgame.com/index.php/2000/";
+                if (ProgrameData.channelid == "VIVO") ProgrameData.GameAdd = "http://58.87.102.150/index.php/4000/";
                 if (ProgrameData.channelid == "BILI") ProgrameData.GameAdd = "http://gf-adrbili-cn-zs-game-0001.ppgame.com/index.php/5000/";
 
 
@@ -237,6 +243,7 @@ namespace GFHelper
 
                 ProgrameData.AutoWriteReport= this.im.configManager.getConfigBool("AutoWriteReport");
 
+                if (this.im.configManager.FindConfig("debug")) ProgrameData.UserClient = false;
 
                 if (ProgrameData.StopTime_string.ToLower() == "null")
                 {

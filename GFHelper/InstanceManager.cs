@@ -23,6 +23,7 @@ namespace GFHelper
         public ConfigManager configManager;
 
 
+
         public EyLoginSoft eyLogin = new EyLoginSoft();
         public UserLogin userlogin;
         //data
@@ -71,7 +72,7 @@ namespace GFHelper
                 Dic_auto_operation_act.Add(Dic_auto_operation_act.Count, auto_operation_act);
             }
             //练级任务
-            new_User_Normal_MissionInfo nunm = new new_User_Normal_MissionInfo(Teams, 0, 0);
+            new_User_Normal_MissionInfo nunm = new new_User_Normal_MissionInfo(Teams, "", 0);
             dic_userbattletaskinfo.Add(dic_userbattletaskinfo.Count, nunm);
 
             for (int x = 0; x < 2; x++)
@@ -82,6 +83,8 @@ namespace GFHelper
 
             this.auto_summery = new Auto_Summery(this);
             this.battle_loop = new BattleLoop(this);
+
+
         }
     }
 }

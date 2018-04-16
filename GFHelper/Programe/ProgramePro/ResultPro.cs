@@ -219,7 +219,11 @@ namespace GFHelper.Programe.ProgramePro
                     {
                         return result.Contains("mission_group_today_reset_num") ? 1 : 0;
                     }
-
+                case "saveHostage":
+                    {
+                        return result.Contains("mission_win_result") ? 1 : 0;
+                    }
+                    
 
                 default:
                     break;

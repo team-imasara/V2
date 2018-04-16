@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace GFHelper.CatchData
 {
-    public class Equip_Exp_Info
+    class Gun_Exp_Info
     {
-        public int level;
+        public int lv;
         public int exp;
+        public Dictionary<int, int> gun_exp_info = new Dictionary<int, int>();
     }
 }
