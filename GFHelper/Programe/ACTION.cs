@@ -665,86 +665,7 @@ namespace GFHelper.Programe
         {
             if (ProgrameData.AutoSimulationBattleF == false) return;
             im.uihelp.setStatusBarText_InThread(String.Format(" 开始资料采样"));
-            im.battle_loop.Simulation_DATA(im.userdatasummery.usbti);
-        }
-
-        public bool Auto_Start_Trial()
-        {
-            //开始模拟作战无线防御
-            //uid 
-            //outdatacode = {"team_ids":"7","battle_team":7}
-            //req_id
-            //url = Mission/startTrial
-            if (ProgrameData.AutoSimulationBattleF == false) return true;
-
-
-            im.uihelp.setStatusBarText_InThread(String.Format(" BP点数 高于5 开始无限防御模式"));
-
-            int count = 0;
-            while (true)
-            {
-                string result = im.post.StartTrial(ProgrameData.AutoDefenseTrialBattleT.ToString());
-
-                switch (ResultPro.Result_Pro(ref result, "StartTrial_Pro", true))
-                {
-                    case 1:
-                        {
-                            goto a;
-                        }
-                    case 0:
-                        {
-                            result_error_PRO(result, count++); continue;
-                        }
-                    case -1:
-                        {
-                            if (count >= ProgrameData.BL_Error_num) { return false; }
-                            result_error_PRO(result, count++); continue;
-                        }
-                    default:
-                        break;
-                }
-
-            }
-
-            a: im.uihelp.setStatusBarText_InThread(String.Format(" 结束防御模式"));
-            Thread.Sleep(5000);
-
-            //序列化
-            Random random = new Random();
-
-
-
-            TrialExercise_Battle_Sent tbs = new TrialExercise_Battle_Sent(im.userdatasummery.team_info[ProgrameData.AutoDefenseTrialBattleT]);
-
-            string outdatacode = tbs.BattleResult;
-
-
-
-
-            count = 0;
-            while (true)
-            {
-                string result = im.post.EndTrial(outdatacode);
-
-                switch (ResultPro.Result_Pro(ref result, "EndTrial_Pro", true))
-                {
-                    case 1:
-                        {
-                            return true;
-                        }
-                    case 0:
-                        {
-                            result_error_PRO(result, count++); continue;
-                        }
-                    case -1:
-                        {
-                            if (count >= ProgrameData.BL_Error_num) { return false; }
-                            result_error_PRO(result, count++); continue;
-                        }
-                    default:
-                        break;
-                }
-            }
+            im.battleloop_s.Simulation_DATA(im.userdatasummery.usbti);
         }
 
         public bool GetRecoverBP()
@@ -1332,12 +1253,15 @@ namespace GFHelper.Programe
 
                 Thread.Sleep(2000);
                 im.uihelp.setStatusBarText_InThread(String.Format(" 准备装备拆解"));
-                if (im.userdatasummery.equip_with_user_info.Count < im.userdatasummery.user_info.maxequip)
+                if (im.userdatasummery.equip_with_user_info.Count + 5 < im.userdatasummery.user_info.maxequip)
                 {
                     return true;
                 }
 
                 im.userdatasummery.Read_Equipment_Rank();
+
+                List<int> equipFood = new List<int>();
+                equipFood = im.userdatasummery.Get_Equipment_Food();
 
                 if (im.userdatasummery.equip_with_user_info_Rank2.Count == 0 && im.userdatasummery.equip_with_user_info_Rank3.Count == 0)
                 {
@@ -1350,19 +1274,14 @@ namespace GFHelper.Programe
                 jsonWriter.WriteArrayStart();
 
                 int i = 1;
-                foreach (var equip2 in im.userdatasummery.equip_with_user_info_Rank2)
+                foreach (var equip in equipFood)
                 {
                     if (i > 24) break;
-                    jsonWriter.Write(equip2.Value.id.ToString());
+                    jsonWriter.Write(equip.ToString());
                     i++;
 
                 }
-                foreach (var equip3 in im.userdatasummery.equip_with_user_info_Rank3)
-                {
-                    if (i > 24) break;
-                    jsonWriter.Write(equip3.Value.id.ToString());
-                    i++;
-                }
+
                 jsonWriter.WriteArrayEnd();
 
                 jsonWriter.WriteObjectEnd();
@@ -1374,8 +1293,7 @@ namespace GFHelper.Programe
                 {
                     case 1:
                         {
-                            var jsonobj = DynamicJson.Parse(result);
-                            im.userdatasummery.Add_Get_Gun_Equip_Battle(jsonobj);
+                            im.userdatasummery.Del_Equip_IN_Dict(equipFood);
                             return true;
                         }
                     case 0:
@@ -1435,7 +1353,7 @@ namespace GFHelper.Programe
                     case -1:
                         {
 
-                            if (count >= ProgrameData.BL_Error_num) { MessageBox.Show("无法开始作战任务，请登陆游戏检查"); }
+                            if (count >= ProgrameData.BL_Error_num) { MessageBox.Show("无法开始作战任务，请登陆游戏检查", im.userdatasummery.user_info.name); }
                             result_error_PRO(result, count++); continue;
                         }
                     default:

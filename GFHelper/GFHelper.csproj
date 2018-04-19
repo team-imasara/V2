@@ -138,13 +138,14 @@
     <Compile Include="CatchData\Gun_Exp_Info.cs" />
     <Compile Include="CatchData\Skill.cs" />
     <Compile Include="Programe\Auto\BattleLoop.cs" />
-    <Compile Include="Programe\Auto\BattleLoop_Activity.cs" />
-    <Compile Include="Programe\Auto\BattleLoop_Normal.cs" />
+    <Compile Include="Programe\Auto\BattleLoop\BattleLoop_Activity.cs" />
+    <Compile Include="Programe\Auto\BattleLoop\BattleLoop_Normal.cs" />
     <Compile Include="Programe\Auto\BattleMapInfo.cs" />
     <Compile Include="Programe\Auto\Battle_Sent.cs" />
     <Compile Include="Programe\Auto\Friend.cs" />
     <Compile Include="Programe\Auto\Map_Sent.cs" />
     <Compile Include="Programe\Auto\UserBattleTaskInfo.cs" />
+    <Compile Include="Programe\Auto\BattleLoop\BattleLoop_Simulation.cs" />
     <Compile Include="Programe\GameData.cs" />
     <Compile Include="Programe\Gun_IN_OUT.cs" />
     <Compile Include="Programe\ProgramePro\APK\BattleSkillCfg.cs" />

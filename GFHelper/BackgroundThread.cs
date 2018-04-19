@@ -219,32 +219,38 @@ namespace GFHelper
                                 }
                             case 31:
                                 {
-                                    im.action.Auto_Start_Trial();
+                                    im.battleloop_s.Auto_Start_Trial();
                                     ProgrameData.TaskList.RemoveAt(0);
                                     //处理结尾 BP的回复时间
                                     //getuserinfo 不能用太卡了只能手动处理
                                     break;
                                 }
                             case 32:
-                                {
-                                    im.action.GetRecoverBP();
-                                    ProgrameData.TaskList.RemoveAt(0);
-                                    //处理结尾 BP的回复时间
-                                    //getuserinfo 不能用太卡了只能手动处理
-                                    break;
-                                }
-                            case 33:
-                                {
-                                    im.action.Auto_Start_Simulation_Data();
-                                    ProgrameData.TaskList.RemoveAt(0);
-                                    //处理结尾 BP的回复时间
-                                    //getuserinfo 不能用太卡了只能手动处理
-                                    break;
-                                }
-                            case 41:
-                                {
-                                    //练级任务1
-                                    im.battle_loop.BattleLOOP_normal(im.dic_userbattletaskinfo[0]);
+                            {
+                                im.action.GetRecoverBP();
+                                ProgrameData.TaskList.RemoveAt(0);
+                                //处理结尾 BP的回复时间
+                                //getuserinfo 不能用太卡了只能手动处理
+                                break;
+                            }
+                        case 33:
+                            {
+                                im.action.Auto_Start_Simulation_Data();
+                                ProgrameData.TaskList.RemoveAt(0);
+                                //处理结尾 BP的回复时间
+                                //getuserinfo 不能用太卡了只能手动处理
+                                break;
+                            }
+                        case 34:
+                            {
+                                im.battleloop_s.BattleCorridor();
+                                ProgrameData.TaskList.RemoveAt(0);
+                                break;
+                            }
+                        case 41:
+                            {
+                                //练级任务1
+                                im.battle_loop.BattleLOOP_normal(im.dic_userbattletaskinfo[0]);
                                     ProgrameData.TaskList.RemoveAt(0);
                                     im.battle_loop.End_At_Battle(im.dic_userbattletaskinfo[0]);
                                     break;

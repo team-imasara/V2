@@ -224,7 +224,7 @@ namespace GFHelper.Programe.Auto
             if (ProgrameData.AutoSimulationBattleF == false) return;
             //决定哪种模式
             int day = (int)CommonHelp.LocalDateTimeConvertToChina(DateTime.Now).DayOfWeek;
-            if (day==1 || day== 3 || day == 4 || day == 6)
+            if (day == 3 || day == 4 )
             {
                 if (im.userdatasummery.user_info.bp >= 5)
                 {
@@ -232,7 +232,18 @@ namespace GFHelper.Programe.Auto
                     im.userdatasummery.user_info.bp -= 5;
                 }
             }
-            if(day == 2 || day == 5 || day == 0)
+
+            if (day == 1 || day == 6)
+            {
+                if (im.userdatasummery.user_info.bp >= 5)
+                {
+                    ProgrameData.TaskList.Add(TaskList.Simulation_Corridor);
+                    im.userdatasummery.user_info.bp -= 3;
+                }
+            }
+
+
+            if (day == 2 || day == 5 || day == 0)
             {
                 switch (im.userdatasummery.usbti.Type)
                 {

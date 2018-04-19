@@ -69,7 +69,7 @@ namespace GFHelper.Programe
 
         public static bool UserClient = true;
 
-        public static int Eat_Gun_rank2_num = 24;
+
 
         public static bool NewGun_Report_Stop = true;
         public static int Error_Num_Stop = 10;

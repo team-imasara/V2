@@ -48,7 +48,9 @@ namespace GFHelper
 
         public BattleLoop_Normal battleloop_n;
         public BattleLoop_Activity battleloop_a;
-        public List<BattleTask_team_info> Teams = new List<BattleTask_team_info>();
+        public BattleLoop_Simulation battleloop_s;
+        public List<BattleTask_team_info> BattleLoop_AN_Teams = new List<BattleTask_team_info>();
+        public List<BattleTask_team_info> BattleLoop_S_Teams = new List<BattleTask_team_info>();
         public InstanceManager(MainWindow mainWindow)
         {
             this.userlogin = new UserLogin(this);
@@ -65,6 +67,7 @@ namespace GFHelper
 
             this.battleloop_n = new BattleLoop_Normal(this);
             this.battleloop_a = new BattleLoop_Activity(this);
+            this.battleloop_s = new BattleLoop_Simulation(this);
             //4个后勤任务
             for (int x=0; x < 4;x++)
             {
@@ -72,7 +75,7 @@ namespace GFHelper
                 Dic_auto_operation_act.Add(Dic_auto_operation_act.Count, auto_operation_act);
             }
             //练级任务
-            new_User_Normal_MissionInfo nunm = new new_User_Normal_MissionInfo(Teams, "", 0);
+            new_User_Normal_MissionInfo nunm = new new_User_Normal_MissionInfo(BattleLoop_AN_Teams, "", 0);
             dic_userbattletaskinfo.Add(dic_userbattletaskinfo.Count, nunm);
 
             for (int x = 0; x < 2; x++)

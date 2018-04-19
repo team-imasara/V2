@@ -467,7 +467,7 @@
                     <Label x:Name="BP_RecoverTime" Content="BP_RecoverTime" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,174,0,0"/>
                     <TextBox x:Name="TEXTBOX_outdatacode" HorizontalAlignment="Left" Height="23" Margin="10,92,0,0" TextWrapping="Wrap" Text="outdatacode" VerticalAlignment="Top" Width="120"/>
                     <Button x:Name="POST" HorizontalAlignment="Left" Margin="135,96,0,0" VerticalAlignment="Top" Width="81" Height="19" Content="POST" Click="POST_Click"/>
-                    <Button HorizontalAlignment="Left" Margin="712,6,0,0" VerticalAlignment="Top" Width="81" Click="Button_Click_9" Height="19" Content="1"/>
+                    <Button HorizontalAlignment="Left" Margin="712,6,0,0" VerticalAlignment="Top" Width="81" Height="19" Content="1" Click="Button_Click_14"/>
                     <Button HorizontalAlignment="Left" Margin="712,30,0,0" VerticalAlignment="Top" Width="81" Height="19" Content="2" Click="Button_Click_10"/>
                     <Button x:Name="Get_User_info" HorizontalAlignment="Left" Margin="712,53,0,0" VerticalAlignment="Top" Width="81" Height="19" Content="Get_User_info" Click="Get_User_info_Click"/>
                     <Label x:Name="BattleReportTime" Content="BattleReport" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="111,174,0,0"/>

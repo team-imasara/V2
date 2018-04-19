@@ -30,11 +30,11 @@ namespace GFHelper.Programe
             {
                 if (ProgrameData.TaskList.Any())
                 {
-                    im.mainWindow.Title = string.Format(" 少女前线-暗 当前任务 " + ProgrameData.TaskList[0].TaskName.ToString());
+                    im.mainWindow.Title = string.Format(" {0} 当前任务 {1}",im.userdatasummery.user_info.name, ProgrameData.TaskList[0].TaskName.ToString());
                 }
                 else
                 {
-                    im.mainWindow.Title = string.Format(" 少女前线-暗 当前任务 空闲");
+                    im.mainWindow.Title = string.Format(" {0} 当前任务 空闲",im.userdatasummery.user_info.name);
                 }
             }
             catch (Exception e)

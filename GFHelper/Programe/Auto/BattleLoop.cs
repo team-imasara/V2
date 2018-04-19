@@ -53,6 +53,11 @@ namespace GFHelper.Programe.Auto
 
                         break;
                     }
+                case "6_4n":
+                    {
+                        im.battleloop_n.Battle6_4N(ubti);
+                        break;
+                    }
                 case "1_2":
                     {
                         im.battleloop_n.Battle1_2(ubti);
@@ -176,7 +181,7 @@ namespace GFHelper.Programe.Auto
 
             if(im.userdatasummery.Check_Equip_GUN_FULL())
             {
-                if (im.userdatasummery.gun_with_user_info.Count + 2 >= im.userdatasummery.user_info.maxgun)
+                if (im.userdatasummery.gun_with_user_info.Count + 5 >= im.userdatasummery.user_info.maxgun)
                 {
                     if (ProgrameData.AutoStrengthen)
                     {
@@ -285,81 +290,7 @@ namespace GFHelper.Programe.Auto
         }
 
 
-        public void Simulation_DATA(User_Simulation_BattleTaskInfo usbt)
-        {
-            string result = "";
-            Simulation_Battle_Sent sbs = new Simulation_Battle_Sent();
-            switch (usbt.Type)
-            {
-                case 1:
-                    {
-                        sbs.set_Data(usbt.mission_id1, usbt.duration, usbt.skill_cd, usbt.enemy_effect_client1,usbt.enemy_life1);
-                        if (usbt.duration < usbt.L_duration1)
-                        {
-                            return;
-                        }
-                        break;
-                    }
-                case 2:
-                    {
-                        sbs.set_Data(usbt.mission_id2, usbt.duration, usbt.skill_cd, usbt.enemy_effect_client2,usbt.enemy_life2);
-                        if (usbt.duration < usbt.L_duration2)
-                        {
-                            return;
-                        }
-                        break;
-                    }
-                case 3:
-                    {
-                        sbs.set_Data(usbt.mission_id3, usbt.duration, usbt.skill_cd, usbt.enemy_effect_client3,usbt.enemy_life3);
-                        if (usbt.duration < usbt.L_duration3) { return; }
-                        break;
-                    }
-                default:
-                    return;
-            }
 
-            if (im.action.Simulation_battleFinish(sbs.BattleResult, ref result) == true)
-            {
-                var jsonobj = Codeplex.Data.DynamicJson.Parse(result);
-
-                int coin_num = Convert.ToInt32(jsonobj.coin_num);
-                switch (usbt.Type)
-                {
-                    case 1:
-                        {
-                            im.userdatasummery.user_info.coin1 += coin_num;
-                            break;
-                        }
-                    case 2:
-                        {
-                            im.userdatasummery.user_info.coin2 += coin_num;
-                            break;
-                        }
-                    case 3:
-                        {
-                            im.userdatasummery.user_info.coin3 += coin_num;
-                            break;
-                        }
-                    default:
-                        break;
-                }
-            }
-
-
-
-
-            }
-
-        public static int E1_3_type2_pro(string result)
-        {
-            if (result.Contains("5009")) return 1;
-            else
-            {
-                return 2; ;
-            }
-            return 0;
-        }
 
 
 

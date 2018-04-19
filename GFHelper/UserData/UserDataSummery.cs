@@ -1263,11 +1263,11 @@ namespace GFHelper.UserData
         /// <returns></returns>
         public bool Check_Equip_GUN_FULL()
         {
-            if (im.userdatasummery.gun_with_user_info.Count+2 >= im.userdatasummery.user_info.maxgun)
+            if (im.userdatasummery.gun_with_user_info.Count+5 >= im.userdatasummery.user_info.maxgun)
             {
                 return true;
             }
-            if (im.userdatasummery.equip_with_user_info.Count+2 >= im.userdatasummery.user_info.maxequip)
+            if (im.userdatasummery.equip_with_user_info.Count+5 >= im.userdatasummery.user_info.maxequip)
             {
                 return true;
             }
@@ -1338,7 +1338,7 @@ namespace GFHelper.UserData
                 if (item.Value.info.rank == 2 && item.Value.is_locked == 0 && item.Value.teamId==0)
                 {
                     Gun_Retire_Rank2.Add(item.Value.id);
-                    if (Gun_Retire_Rank2.Count == ProgrameData.Eat_Gun_rank2_num) break;
+                    if (Gun_Retire_Rank2.Count >= 24) break;
                 }
             }
             foreach (var item in gun_with_user_info)
@@ -1346,7 +1346,7 @@ namespace GFHelper.UserData
                 if (item.Value.info.rank == 3 && item.Value.is_locked == 0 && item.Value.teamId == 0)
                 {
                     Gun_Retire_Rank3.Add(item.Value.id);
-                    if (Gun_Retire_Rank3.Count == 24) break;
+                    if (Gun_Retire_Rank3.Count >= 24) break;
                 }
             }
 
@@ -1362,7 +1362,7 @@ namespace GFHelper.UserData
 
             foreach (var item in equip_with_user_info_Rank2)
             {
-                if (list.Count == 24) return list;
+                if (list.Count >= 24) return list;
                 if(item.Value.gun_with_user_id == 0)
                 {
                     list.Add(int.Parse(item.Value.id.ToString()));
@@ -1371,7 +1371,7 @@ namespace GFHelper.UserData
 
             foreach (var item in equip_with_user_info_Rank3)
             {
-                if (list.Count == 24) return list;
+                if (list.Count >= 24) return list;
                 if (item.Value.gun_with_user_id == 0)
                 {
                     list.Add(int.Parse(item.Value.id.ToString()));
@@ -1380,7 +1380,7 @@ namespace GFHelper.UserData
 
             foreach (var item in equip_with_user_info_Rank4)
             {
-                if (list.Count == 24) return list;
+                if (list.Count >= 24) return list;
                 if (item.Value.gun_with_user_id == 0)
                 {
                     list.Add(int.Parse(item.Value.id.ToString()));

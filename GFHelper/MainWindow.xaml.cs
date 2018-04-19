@@ -422,7 +422,7 @@ namespace GFHelper
             MessageBox.Show("请确保已勾选MVP,战斗效能和正确的梯队 重要的人形上锁");
             MessageBox.Show("请确保已勾选MVP,战斗效能和正确的梯队 重要的人形上锁");
 
-
+            
             List<string> t = TaskO.Text.ToLower().Split(' ').ToList();
             
 
@@ -442,7 +442,7 @@ namespace GFHelper
 
             }
 
-            new_User_Normal_MissionInfo nunm = new new_User_Normal_MissionInfo(im.Teams, TaskMap, im.userdatasummery.user_info.experience);
+            new_User_Normal_MissionInfo nunm = new new_User_Normal_MissionInfo(im.BattleLoop_AN_Teams, TaskMap, im.userdatasummery.user_info.experience);
             if (t.Contains("-ns")) nunm.needSupply = false;
             int.TryParse(BattleMaxLoopTime.Text, out nunm.MaxLoopTime);
             im.dic_userbattletaskinfo[0]= nunm;
@@ -496,13 +496,13 @@ namespace GFHelper
             if (GUN3_MVP.IsChecked == true) bti.MVP = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][3].id;
             if (GUN4_MVP.IsChecked == true) bti.MVP = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][4].id;
             if (GUN5_MVP.IsChecked == true) bti.MVP = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][5].id;
-            im.Teams.Add(bti);
+            im.BattleLoop_AN_Teams.Add(bti);
             BattleTeamsLabel.Content += string.Format("第 {0} 梯队(主力)\r\n", bti.TeamID);
         }
 
         private void Button_Click_12(object sender, RoutedEventArgs e)
         {
-            im.Teams.Clear();
+            im.BattleLoop_AN_Teams.Clear();
             BattleTeamsLabel.Content = "";
         }
 
@@ -512,7 +512,7 @@ namespace GFHelper
             bti.isMainTeam = false;
             bti.TeamID = Task1MT.SelectedIndex + 1;
             bti.teaminfo = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1];
-            im.Teams.Add(bti);
+            im.BattleLoop_AN_Teams.Add(bti);
             BattleTeamsLabel.Content += string.Format("第 {0} 梯队(辅助)\r\n", bti.TeamID);
         }
 
@@ -520,6 +520,11 @@ namespace GFHelper
         {
 
             result_encrypt.Text = AuthCode.Encode(result_encrypt.Text, ProgrameData.sign);
+        }
+
+        private void Button_Click_14(object sender, RoutedEventArgs e)
+        {
+            im.battleloop_s.BattleCorridor();
         }
 
         private void AutoOperationB_S4_Click(object sender, RoutedEventArgs e)

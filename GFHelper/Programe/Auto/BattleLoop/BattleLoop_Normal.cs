@@ -742,7 +742,87 @@ namespace GFHelper.Programe.Auto.BattleLoop_Normal
 
         }
 
+        public void Battle6_4N(new_User_Normal_MissionInfo ubti)
+        {
+            Random random = new Random();
+            int stepNum = 0; string result = "";
+            Normal_Battle_Sent bs = new Normal_Battle_Sent();
+            Map_Sent.Map6_4N.spots1.team_id = ubti.Teams[0].TeamID;
+            Map_Sent.Map6_4N.spots2.team_id = ubti.Teams[1].TeamID;
+            Map_Sent.Map6_4N.dic_TeamMove[0].team_id = ubti.Teams[0].TeamID;
+            Map_Sent.Map6_4N.dic_TeamMove[1].team_id = ubti.Teams[0].TeamID;
+            Map_Sent.Map6_4N.dic_TeamMove[2].team_id = ubti.Teams[0].TeamID;
+            Map_Sent.Map6_4N.dic_TeamMove[3].team_id = ubti.Teams[0].TeamID;
+            Map_Sent.Map6_4N.dic_TeamMove[4].team_id = ubti.Teams[0].TeamID;
+            Map_Sent.Map6_4N.dic_TeamMove[5].team_id = ubti.Teams[0].TeamID;
+            Map_Sent.Map6_4N.dic_TeamMove[6].team_id = ubti.Teams[0].TeamID;
+            Map_Sent.Map6_4N.dic_TeamMove[7].team_id = ubti.Teams[0].TeamID;
 
+            im.battle_loop.Check_Equip_Gun_FULL();
+            im.battle_loop.CheckGun_AMMO_MRC_NEED_SUPORT(ubti, 0, 5);//补给问题
+            im.action.startMission(Map_Sent.Map6_4N.mission_id, Map_Sent.Map6_4N.Mission_Start_spots);
+
+
+            im.action.teamMove(Map_Sent.Map6_4N.dic_TeamMove[stepNum++]);
+            im.action.teamMove(Map_Sent.Map6_4N.dic_TeamMove[stepNum++]);
+            im.action.teamMove(Map_Sent.Map6_4N.dic_TeamMove[stepNum++]);
+
+
+            newBattleData.Teams = ubti.Teams;
+            newBattleData.setData(4078, 0, 0, random.Next(8, 10), 15024, 27914, 10016, im.userdatasummery.user_info.experience);
+            if (im.action.Normal_battleFinish(newBattleData.stringBuilder.ToString(), ref result))
+            {
+                im.battle_loop.Battle_Result_PRO(ref ubti, 0, ref result);
+            }
+
+            im.action.teamMove(Map_Sent.Map6_4N.dic_TeamMove[stepNum++]);
+
+
+            newBattleData.Teams = ubti.Teams;
+            newBattleData.setData(4082, 0, 0, random.Next(8, 10), 9934, 20116, 10009, im.userdatasummery.user_info.experience);
+            if (im.action.Normal_battleFinish(newBattleData.stringBuilder.ToString(), ref result))
+            {
+                im.battle_loop.Battle_Result_PRO(ref ubti, 0, ref result);
+            }
+
+            string endTurn1 = im.action.endTurn();//能否靠这个猜测第二个光头 如果记得被占则终止作战
+
+
+            if (Map_Sent.Function.Night_PosCheck_type1(endTurn1, 4082) == 1)
+            {
+                newBattleData.Teams = ubti.Teams;
+                newBattleData.setData(4082, 0, 0, random.Next(10, 18), 16354, 52503, 10012, im.userdatasummery.user_info.experience);
+                if (im.action.Normal_battleFinish(newBattleData.stringBuilder.ToString(), ref result))
+                {
+                    im.battle_loop.Battle_Result_PRO(ref ubti, 0, ref result);
+                }
+            }
+
+            im.action.endEnemyTurn();
+            im.action.startTurn();
+
+
+            im.action.teamMove(Map_Sent.Map6_4N.dic_TeamMove[stepNum++]);
+            im.action.teamMove(Map_Sent.Map6_4N.dic_TeamMove[stepNum++]);
+            newBattleData.Teams = ubti.Teams;
+            newBattleData.setData(4068, 0, 0, random.Next(10, 18), 28741, 61209, 900060, im.userdatasummery.user_info.experience);
+            if (im.action.Normal_battleFinish(newBattleData.stringBuilder.ToString(), ref result))
+            {
+                im.battle_loop.Battle_Result_PRO(ref ubti, 0, ref result);
+            }
+
+            im.action.teamMove(Map_Sent.Map6_4N.dic_TeamMove[stepNum++]);
+            im.action.teamMove(Map_Sent.Map6_4N.dic_TeamMove[stepNum++]);
+            im.action.withdrawTeam(Map_Sent.Map6_4N.withdrawSpot);
+            im.action.abortMission();
+
+
+
+
+
+
+
+        }
 
         //public void text(new_User_Normal_MissionInfo ubti)
         //{

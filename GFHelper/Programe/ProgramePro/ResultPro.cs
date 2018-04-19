@@ -104,7 +104,7 @@ namespace GFHelper.Programe.ProgramePro
                     }
                 case "Battle_Finish_Pro":
                     {
-                        return result.Contains("user_exp") &&result.Contains("battle_rank") && result.Contains("free_exp") ? 1 : 0;
+                        return result.Contains("user_exp") &&result.Contains("battle_rank") ? 1 : 0;
                     }
                 case "Team_Move_Pro":
                     {
@@ -197,7 +197,7 @@ namespace GFHelper.Programe.ProgramePro
                     }
                 case "Team_MoveRandom_Pro":
                     {
-                        return result.Contains("enemy_team_id") && result.Contains("enemy_instance_id") ? 1 : 0;
+                        return result.Contains("fairy_skill_return") || result.Contains("enemy_instance_id") ? 1 : 0;
                     }
                 case "Establish_Build":
                     {
