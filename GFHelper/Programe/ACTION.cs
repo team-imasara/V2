@@ -109,7 +109,7 @@ namespace GFHelper.Programe
                 im.userdatasummery.ReadMailList(im.post.GetMailList());
                 //根据是否有邮件签到
                 //type 5 可能是签到
-                int x = 0;
+                int x = 0; string gun_id = "";
                 if (!ProgrameData.AutoGetMail) return;
                 while (im.userdatasummery.maillist.Count > 0)
                 {
@@ -118,10 +118,28 @@ namespace GFHelper.Programe
                     im.uihelp.setStatusBarText_InThread(String.Format(" 开始接收邮件 邮件ID: {0} ,邮件剩余数量 : {1} ",im.userdatasummery.maillist[x].id,im.userdatasummery.maillist.Count));
                     result = im.post.GetOneMail_Type1(mailwith_user_id);
                     result = ResultPro.Get_Mail_Content(result);
-                    WriteLog.Log(string.Format("邮件记录 : {0}", result), "log");
-                    im.uihelp.setStatusBarText_InThread(String.Format(" 邮件ID: {0} 接收成功 ,邮件剩余数量 : {1} ", im.userdatasummery.maillist[x].id, im.userdatasummery.maillist.Count));
 
-                    im.post.GetMailResource_Type1(mailwith_user_id);
+                    //这里检查新枪
+                    jsonobj = DynamicJson.Parse(result);
+                    if (result.Contains("gun_id") || result.Contains("equip_ids"))
+                    {
+                        gun_id = jsonobj.gun_id.ToString();
+                    }
+
+
+                    result = im.post.GetMailResource_Type1(mailwith_user_id);
+                    if (result.Contains("gun_with_user_id") || result.Contains("equip_with_user_id"))
+                    {
+                        im.userdatasummery.Add_Get_Gun_Equip_Battle(int.Parse(gun_id), result);
+                    }   
+
+
+
+
+
+
+
+
                     im.userdatasummery.maillist.Remove(x);
                     x++;
 

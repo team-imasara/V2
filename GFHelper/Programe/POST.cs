@@ -61,6 +61,7 @@ namespace GFHelper.Programe
         /// <returns></returns>
         public string GetLocalAddress()
         {
+            return "45.78.2.254";
             while (true)
             {
                 try

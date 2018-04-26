@@ -235,7 +235,7 @@ namespace GFHelper.Programe.Auto
 
             if (day == 1 || day == 6)
             {
-                if (im.userdatasummery.user_info.bp >= 5)
+                if (im.userdatasummery.user_info.bp >= 3)
                 {
                     ProgrameData.TaskList.Add(TaskList.Simulation_Corridor);
                     im.userdatasummery.user_info.bp -= 3;

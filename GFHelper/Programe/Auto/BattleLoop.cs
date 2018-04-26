@@ -94,6 +94,56 @@ namespace GFHelper.Programe.Auto
                         im.battleloop_a.Battle_Gun_PZB38(ubti);
                         break;
                     }
+                case "2018spring":
+                    {
+                        im.battleloop_a.Battle_E1_1_2018_spring(ubti);
+                        im.battleloop_a.Battle_E1_2_2018_spring(ubti);
+                        im.battleloop_a.Battle_E1_3_2018_spring(ubti);
+                        im.battleloop_a.Battle_E2_1_2018_spring(ubti);
+                        im.battleloop_a.Battle_E2_2_2018_spring(ubti);
+                        im.battleloop_a.Battle_E2_3_2018_spring(ubti);
+                        ubti.Loop = false;
+                        break;
+                    }
+                case "e1_1":
+                    {
+                        im.battleloop_a.Battle_E1_1_2018_spring(ubti);
+                        ubti.Loop = false;
+                        break;
+                    }
+                case "e1_2":
+                    {
+                        im.battleloop_a.Battle_E1_2_2018_spring(ubti);
+                        ubti.Loop = false;
+                        break;
+                    }
+
+
+                case "e1_3":
+                    {
+                        im.battleloop_a.Battle_E1_3_2018_spring(ubti);
+                        ubti.Loop = false;
+                        break;
+                    }
+                case "e2_1":
+                    {
+                        im.battleloop_a.Battle_E2_1_2018_spring(ubti);
+                        ubti.Loop = false;
+                        break;
+                    }
+
+                case "e2_2":
+                    {
+                        im.battleloop_a.Battle_E2_2_2018_spring(ubti);
+                        ubti.Loop = false;
+                        break;
+                    }
+                case "e2_3":
+                    {
+                        im.battleloop_a.Battle_E2_3_2018_spring(ubti);
+                        ubti.Loop = false;
+                        break;
+                    }
 
             }
         }
@@ -268,10 +318,17 @@ namespace GFHelper.Programe.Auto
             var jsonobj = Codeplex.Data.DynamicJson.Parse(result);
             im.userdatasummery.user_info.experience += Convert.ToInt16(jsonobj.user_exp);
             ubti.user_exp = im.userdatasummery.user_info.experience;
-            UserDataSummery.globalFreeExp += Convert.ToInt16(jsonobj.free_exp);
+
 
 
             //装备
+
+            if (result.Contains("free_exp"))
+            {
+                UserDataSummery.globalFreeExp += Convert.ToInt16(jsonobj.free_exp);
+            }
+
+
             im.userdatasummery.Add_Get_Gun_Equip_Battle(jsonobj, gun_id);
             //人形经验
             int numE = 0;

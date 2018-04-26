@@ -1136,6 +1136,84 @@ namespace GFHelper.UserData
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type">1是枪 2是装备</param>
+        /// <param name="gun_id"></param>
+        /// <param name="gun_with_user_id"></param>
+        /// <returns></returns>
+        public bool Add_Get_Gun_Equip_Battle(int gun_equip_id, string with_user_id)
+        {
+            //battle_get_equip
+            if (with_user_id.Contains("gun"))
+            {
+                var jsonobj = DynamicJson.Parse(with_user_id);
+                int gun_with_user_id = int.Parse(jsonobj.gun_with_user_id.ToString());
+                try
+                {
+                    Gun_With_User_Info gwui = new Gun_With_User_Info(im);
+
+                    gwui.id = gun_with_user_id;
+                    gwui.gun_id = gun_equip_id;
+                    Check_NewGun(gwui.id, gwui.gun_id);
+                    gwui.UpdateData();
+                    int i = 0;
+                    while (true)
+                    {
+                        if (!gun_with_user_info.ContainsKey(i))
+                        {
+                            gun_with_user_info[i] = gwui;
+                            break;
+                        }
+                        i++;
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(" 添加人形掉落遇到错误");
+                    MessageBox.Show(e.ToString());
+                    return false;
+                }
+            }
+            if (with_user_id.Contains("equip"))
+            {
+                try
+                {
+                    var jsonobj = DynamicJson.Parse(with_user_id);
+                    int equip_with_user_id = int.Parse(jsonobj.equip_with_user_id.ToString());
+                    Equip_With_User_Info ewui = new Equip_With_User_Info();
+                    ewui.id = gun_equip_id;
+                    ewui.equip_id = equip_with_user_id;
+                    int i = 0;
+                    while (true)
+                    {
+                        if (!equip_with_user_info.ContainsKey(i))
+                        {
+                            equip_with_user_info.Add(i, ewui);
+                            break;
+                        }
+                        i++;
+                    }
+                    Check_equipRank5(ewui.equip_id);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(" 添加掉落装备遇到错误");
+                    MessageBox.Show(e.ToString());
+                    return false;
+                }
+
+
+
+
+
+
+            }
+           
+            return true;
+        }
+
         private void Check_NewGun(int gun_with_user_id,int gun_id,int want_gun_id=0)
         {
             if (!user_info.gun_collect.Contains(gun_id))

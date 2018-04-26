@@ -252,8 +252,7 @@ namespace GFHelper.Programe.ProgramePro
 
                 string title = Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(CommonHelp.UnicodeToString(jsonobj.title.ToString()));
                 string content = Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(CommonHelp.UnicodeToString(jsonobj.content.ToString()));
-
-                result ="标题 : " + title+" 内容 :" +content;
+                WriteLog.Log(string.Format("邮件记录  标题 : {0}  内容 : {1}", title,content), "log");
 
                 return result;
             }
