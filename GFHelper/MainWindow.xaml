@@ -17,6 +17,10 @@
         <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="427" VerticalAlignment="Top" Width="954" SelectionChanged="tabControl_SelectionChanged" Margin="3,-5,-3,0" Background="#FFE5E5E5" Grid.Column="1">
             <TabItem Header="信息一览" Margin="-5,4,1,-4">
                 <Grid Background="#FFE5E5E5" Margin="-6,0,-4,-2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="310*"/>
+                        <RowDefinition Height="91*"/>
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="25*"/>
                         <ColumnDefinition Width="367*"/>
@@ -82,8 +86,8 @@
                             <TextBlock x:Name="textFixSlot" HorizontalAlignment="Left" Height="14" Margin="80,37,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="110"/>
                         </Grid>
                     </GroupBox>
-                    <Button x:Name="Login" Content="登陆" HorizontalAlignment="Left" Margin="50,328,0,0" VerticalAlignment="Top" Width="50" Click="Button_Click_2" IsEnabled="False" Height="50" Grid.Column="1"/>
-                    <Button x:Name="CheckT" Content="初始化" HorizontalAlignment="Left" Margin="20,328,0,0" VerticalAlignment="Top" Width="50" Click="CheckT_Click" Height="50" Grid.ColumnSpan="2"/>
+                    <Button x:Name="Login" Content="登陆" HorizontalAlignment="Left" Margin="50,18,0,0" VerticalAlignment="Top" Width="50" Click="Button_Click_2" IsEnabled="False" Height="50" Grid.Column="1" Grid.Row="1"/>
+                    <Button x:Name="CheckT" Content="初始化" HorizontalAlignment="Left" Margin="20,18,0,0" VerticalAlignment="Top" Width="50" Click="CheckT_Click" Height="50" Grid.ColumnSpan="2" Grid.Row="1"/>
                     <GroupBox x:Name="groupBox5" Header="格琳娜信息" HorizontalAlignment="Left" Height="96" Margin="303,56,0,0" VerticalAlignment="Top" Width="113" Grid.ColumnSpan="2" Grid.Column="1">
                         <Grid HorizontalAlignment="Left" Height="86" Margin="9,-6,-45,-6" VerticalAlignment="Top" Width="137">
                             <TextBlock x:Name="textBlock4" HorizontalAlignment="Left" Height="16" Margin="0,16,0,0" TextWrapping="Wrap" Text="等级 " VerticalAlignment="Top" Width="40"/>
@@ -120,8 +124,8 @@
                             <TextBlock x:Name="textCoin3Num" HorizontalAlignment="Left" Height="14" Margin="40,52,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="60" RenderTransformOrigin="-1.054,0.571"/>
                         </Grid>
                     </GroupBox>
-                    <Button Content="好友&#xD;&#xA;电池" HorizontalAlignment="Left" Margin="105,328,0,0" VerticalAlignment="Top" Width="50" Height="50" Click="Button_Click_6" Grid.Column="1"/>
-                    <Button Content="好友&#xA;点赞" HorizontalAlignment="Left" Margin="160,328,0,0" VerticalAlignment="Top" Width="50" Height="50" Click="Button_Click_61" Grid.Column="1"/>
+                    <Button Content="好友&#xD;&#xA;电池" HorizontalAlignment="Left" Margin="105,18,0,0" VerticalAlignment="Top" Width="50" Height="50" Click="Button_Click_6" Grid.Column="1" Grid.Row="1"/>
+                    <Button Content="好友&#xA;点赞" HorizontalAlignment="Left" Margin="160,18,0,0" VerticalAlignment="Top" Width="50" Height="50" Click="Button_Click_61" Grid.Column="1" Grid.Row="1"/>
                     <GroupBox x:Name="groupBox_Copy" Header="资料室" HorizontalAlignment="Left" Height="96" Margin="21,159,0,0" VerticalAlignment="Top" Width="161" Grid.ColumnSpan="2">
                         <Grid HorizontalAlignment="Left" Height="164" Margin="-6,0,-6,-6" VerticalAlignment="Top" Width="237">
                             <TextBlock x:Name="textBlock2" HorizontalAlignment="Left" Height="16" Margin="10,11,0,0" TextWrapping="Wrap" Text="经验:" VerticalAlignment="Top" Width="30"/>
@@ -293,14 +297,8 @@
                                         <Label x:Name="GUN_5_name" Content="GUN_5" HorizontalAlignment="Left" Margin="574,50,0,0" VerticalAlignment="Top" Height="48" Width="100" FontSize="24"/>
                                         <Label Content="梯队效能：" HorizontalAlignment="Left" Margin="6,-8,0,0" VerticalAlignment="Top" FontSize="24"/>
                                         <TextBox x:Name="Task1TeamE" HorizontalAlignment="Left" Height="40" Margin="125,-8,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="106" TextAlignment="Center" FontSize="24" BorderThickness="0" Background="{x:Null}"/>
-                                        <Button Content="主力" Margin="689,90,0,0" VerticalAlignment="Top" Height="30" Click="Button_Click_11"/>
-                                        <Button Content="辅助" HorizontalAlignment="Left" Margin="659,90,0,0" Width="30" Click="Button_Click_13"/>
+                                        <Button Content="加入" Margin="689,90,0,0" VerticalAlignment="Top" Height="30" Click="Button_Click_11"/>
                                     </Grid>
-                                    <RadioButton x:Name="GUN1_MVP" Content="MVP" HorizontalAlignment="Left" Margin="125,107,0,0" VerticalAlignment="Top" FontSize="10"/>
-                                    <RadioButton x:Name="GUN2_MVP" Content="MVP" HorizontalAlignment="Left" Margin="99,107,0,0" VerticalAlignment="Top" FontSize="10" Grid.Column="1"/>
-                                    <RadioButton x:Name="GUN3_MVP" Content="MVP" HorizontalAlignment="Left" Margin="245,107,0,0" VerticalAlignment="Top" FontSize="10" Grid.Column="1"/>
-                                    <RadioButton x:Name="GUN4_MVP" Content="MVP" HorizontalAlignment="Left" Margin="380,107,0,0" VerticalAlignment="Top" FontSize="10" Grid.Column="1"/>
-                                    <RadioButton x:Name="GUN5_MVP" Content="MVP" HorizontalAlignment="Left" Margin="517,107,0,0" VerticalAlignment="Top" FontSize="10" Grid.Column="1"/>
                                     <Label Content="已执行次数:" Grid.Column="1" HorizontalAlignment="Left" Margin="356,22,0,0" VerticalAlignment="Top"/>
                                     <Label x:Name="Battle_Task1_LOOPTIME" Content="0" Grid.Column="1" HorizontalAlignment="Left" Margin="422,22,0,0" VerticalAlignment="Top" Width="54" RenderTransformOrigin="-0.481,0.72"/>
                                     <Label Content="副梯队效能：" HorizontalAlignment="Left" Margin="113,158,0,0" VerticalAlignment="Top" FontSize="24" Grid.Column="1" Visibility="Hidden"/>
@@ -311,6 +309,7 @@
                                     <Button Content="清" Grid.Column="1" HorizontalAlignment="Left" Margin="739,163,0,0" VerticalAlignment="Top" Width="30" Height="30" Click="Button_Click_12"/>
                                     <TextBox x:Name="TaskO" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="46" Margin="27,242,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="619" Background="Transparent"/>
                                     <Label Content="参数" HorizontalAlignment="Left" Margin="29,211,0,0" VerticalAlignment="Top"/>
+                                    <Button Content="开始" Grid.Column="1" HorizontalAlignment="Left" Margin="669,321,0,0" VerticalAlignment="Top" Width="50" Height="50" Click="Button_Click_15"/>
                                 </Grid>
                             </Grid>
                         </TabItem>
@@ -385,7 +384,7 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="后勤任务" Margin="34,4,-38,-6">
+            <TabItem Header="后勤任务" Margin="0,4,-38,-6" HorizontalAlignment="Right" Width="64">
                 <TabItem.Background>
                     <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                         <GradientStop Color="#FFF0F0F0" Offset="0"/>
@@ -473,6 +472,7 @@
                     <Label x:Name="BattleReportTime" Content="BattleReport" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="111,174,0,0"/>
                     <Button x:Name="button_encrypt" HorizontalAlignment="Left" Margin="352,38,0,0" VerticalAlignment="Top" Width="81" Height="19" Content="encrypt" Click="button_encrypt_Click"/>
                     <TextBox x:Name="result_encrypt" HorizontalAlignment="Left" Height="23" Margin="227,34,0,0" TextWrapping="Wrap" Text="数据" VerticalAlignment="Top" Width="120"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Margin="712,81,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_13"/>
                 </Grid>
             </TabItem>
 

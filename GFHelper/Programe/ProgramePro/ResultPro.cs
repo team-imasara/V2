@@ -46,8 +46,6 @@ namespace GFHelper.Programe.ProgramePro
                     return -1;
                 }
             }
-
-
             switch (type)
             {
                 case "GetDigitalUid_Pro":

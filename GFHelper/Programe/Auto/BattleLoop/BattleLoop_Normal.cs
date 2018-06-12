@@ -1059,6 +1059,62 @@ namespace GFHelper.Programe.Auto.BattleLoop_Normal
             WriteLog.Log("3_6BOSS 成功", "log");
         }
 
+        public void Battle4_1(new_User_Normal_MissionInfo ubti)
+        {
+
+            Random random = new Random();
+            int stepNum = 0; string result = "";
+
+            Map_Sent.Map4_1.spots1.team_id = ubti.Teams[0].TeamID;
+            Map_Sent.Map4_1.spots2.team_id = ubti.Teams[1].TeamID;
+            Map_Sent.Map4_1.dic_TeamMove[0].team_id = ubti.Teams[0].TeamID;
+            Map_Sent.Map4_1.dic_TeamMove[1].team_id = ubti.Teams[0].TeamID;
+            Map_Sent.Map4_1.dic_TeamMove[2].team_id = ubti.Teams[0].TeamID;
+            Map_Sent.Map4_1.dic_TeamMove[3].team_id = ubti.Teams[0].TeamID;
+            Map_Sent.Map4_1.dic_TeamMove[4].team_id = ubti.Teams[0].TeamID;
+
+            im.battle_loop.Check_Equip_Gun_FULL();
+            im.action.startMission(Map_Sent.Map4_1.mission_id, Map_Sent.Map4_1.Mission_Start_spots);
+
+            im.action.teamMove(Map_Sent.Map4_1.dic_TeamMove[stepNum++]);
+            newBattleData.Teams = ubti.Teams;
+            newBattleData.setData(512, 0, 0, random.Next(10, 12), 1680, 4341, 20006, im.userdatasummery.user_info.experience);
+            im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+            if (im.action.Normal_battleFinish(newBattleData.stringBuilder.ToString(), ref result))
+            {
+                im.battle_loop.Battle_Result_PRO(ref ubti, 0, ref result);
+            }
+
+            int i = im.action.teamMove_Random(Map_Sent.Map4_1.dic_TeamMove[stepNum++]);
+            if(i == 1)
+            {
+                newBattleData.setData(511, 0, 0, random.Next(10, 12), 2704, 8436, 20005, im.userdatasummery.user_info.experience);
+                if (im.action.Normal_battleFinish(newBattleData.stringBuilder.ToString(), ref result))
+                {
+                    im.battle_loop.Battle_Result_PRO(ref ubti, 0, ref result);
+                }
+            }
+
+
+            im.action.teamMove(Map_Sent.Map4_1.dic_TeamMove[stepNum++]);
+            newBattleData.setData(509, 0, 0, random.Next(10, 12), 2704, 8436, 20005, im.userdatasummery.user_info.experience);
+            if (im.action.Normal_battleFinish(newBattleData.stringBuilder.ToString(), ref result))
+            {
+                im.battle_loop.Battle_Result_PRO(ref ubti, 0, ref result);
+            }
+            im.action.teamMove(Map_Sent.Map4_1.dic_TeamMove[stepNum++]);
+            newBattleData.setData(508, 0, 0, random.Next(10, 12), 1409, 4563, 20006, im.userdatasummery.user_info.experience);
+            if (im.action.Normal_battleFinish(newBattleData.stringBuilder.ToString(), ref result))
+            {
+                im.battle_loop.Battle_Result_PRO(ref ubti, 0, ref result);
+            }
+            im.action.teamMove(Map_Sent.Map4_1.dic_TeamMove[stepNum++]);
+            im.action.endTurn();
+            
+        }
+
+
+
         public void Battle4_6(new_User_Normal_MissionInfo ubti)
         {
             Random random = new Random();
@@ -1395,6 +1451,10 @@ namespace GFHelper.Programe.Auto.BattleLoop_Normal
             Map_Sent.Map8_6.dic_TeamMove[9].team_id = ubti.Teams[0].TeamID;
             Map_Sent.Map8_6.dic_TeamMove[10].team_id = ubti.Teams[0].TeamID;
 
+            Map_Sent.Map8_6.dic_TeamMove[11].team_id = ubti.Teams[0].TeamID;
+            Map_Sent.Map8_6.dic_TeamMove[12].team_id = ubti.Teams[0].TeamID;
+            Map_Sent.Map8_6.dic_TeamMove[13].team_id = ubti.Teams[0].TeamID;
+            Map_Sent.Map8_6.dic_TeamMove[14].team_id = ubti.Teams[0].TeamID;
 
             im.battle_loop.Check_Equip_Gun_FULL();
 
@@ -1405,39 +1465,44 @@ namespace GFHelper.Programe.Auto.BattleLoop_Normal
             im.action.reinforceTeam(Map_Sent.Map8_6.spots2);
             im.action.SupplyTeam(ubti.Teams[1].TeamID, ubti.needSupply);
 
-            string homepos3 = im.action.endTurn();
+            string endTurn = im.action.endTurn();
+            int pos1 = Map_Sent.Function.Normal_PosCheck_type2(endTurn, 3789);
+            int pos2 = Map_Sent.Function.Normal_PosCheck_type2(endTurn, 3662);
+            int pos3 = Map_Sent.Function.Normal_PosCheck_type2(endTurn, 3679);
 
             im.action.endEnemyTurn();
             im.action.startTurn();
 
 
             im.action.teamMove(Map_Sent.Map8_6.dic_TeamMove[stepNum++]);
-
-            newBattleData.Teams = ubti.Teams;
-            newBattleData.setData(3789, 0, 0, random.Next(8, 10), 14216, 16880, 10005, im.userdatasummery.user_info.experience);
-            im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
-            if (im.action.Normal_battleFinish(newBattleData.stringBuilder.ToString(), ref result))
-            {
-                im.battle_loop.Battle_Result_PRO(ref ubti, 0, ref result);
-            }
-
-            im.action.teamMove(Map_Sent.Map8_6.dic_TeamMove[stepNum++]);
-
-            newBattleData.Teams = ubti.Teams;
-            newBattleData.setData(3662, 0, 0, random.Next(8, 10), 14216, 16880, 10005, im.userdatasummery.user_info.experience);
-            im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
-            if (im.action.Normal_battleFinish(newBattleData.stringBuilder.ToString(), ref result))
-            {
-                im.battle_loop.Battle_Result_PRO(ref ubti, 0, ref result);
-            }
-
-
-            im.action.teamMove(Map_Sent.Map8_6.dic_TeamMove[stepNum++]);
-
-            if (Map_Sent.Map8_6.HomePos3(homepos3) == 1)
+            if(pos1 == 1)
             {
                 newBattleData.Teams = ubti.Teams;
-                newBattleData.setData(3679, 1, 0, random.Next(8, 10), 14216, 15880, 10005, im.userdatasummery.user_info.experience);
+                newBattleData.setData(3789, 0, 0, random.Next(8, 10), 14216, 16880, 10005, im.userdatasummery.user_info.experience);
+                im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+                if (im.action.Normal_battleFinish(newBattleData.stringBuilder.ToString(), ref result))
+                {
+                    im.battle_loop.Battle_Result_PRO(ref ubti, 0, ref result);
+                }
+            }
+
+            im.action.teamMove(Map_Sent.Map8_6.dic_TeamMove[stepNum++]);
+            if(pos2 == 1)
+            {
+                newBattleData.Teams = ubti.Teams;
+                newBattleData.setData(3662, 0, 0, random.Next(8, 10), 14216, 16880, 10005, im.userdatasummery.user_info.experience);
+                im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+                if (im.action.Normal_battleFinish(newBattleData.stringBuilder.ToString(), ref result))
+                {
+                    im.battle_loop.Battle_Result_PRO(ref ubti, 0, ref result);
+                }
+            }
+
+            im.action.teamMove(Map_Sent.Map8_6.dic_TeamMove[stepNum++]);
+            if(pos3 == 1)
+            {
+                newBattleData.Teams = ubti.Teams;
+                newBattleData.setData(3679, 0, 0, random.Next(8, 10), 14216, 15880, 10005, im.userdatasummery.user_info.experience);
                 im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
                 if (im.action.Normal_battleFinish(newBattleData.stringBuilder.ToString(), ref result))
                 {
@@ -1447,8 +1512,14 @@ namespace GFHelper.Programe.Auto.BattleLoop_Normal
 
 
 
-            string HomePos = im.action.endTurn();
-            if (Map_Sent.Map8_6.HomePos1(HomePos) == 1)
+
+            endTurn = im.action.endTurn();
+
+            int airport = Map_Sent.Function.Normal_PosCheck_type2(endTurn, 3679);
+            int home = Map_Sent.Function.Normal_PosCheck_type2(endTurn, 3788);
+            pos1 = Map_Sent.Function.Normal_PosCheck_type2(endTurn, 3681);
+            pos2 = Map_Sent.Function.Normal_PosCheck_type2(endTurn, 3682);
+            if (home == 1)
             {
                 newBattleData.Teams = ubti.Teams;
                 newBattleData.setData(3788, 1, 0, random.Next(8, 10), 14184, 17816, 10005, im.userdatasummery.user_info.experience);
@@ -1458,7 +1529,7 @@ namespace GFHelper.Programe.Auto.BattleLoop_Normal
                     im.battle_loop.Battle_Result_PRO(ref ubti, 0, ref result);
                 }
             }
-            if (Map_Sent.Map8_6.HomePos2(HomePos) == 1)
+            if (airport == 1)
             {
                 newBattleData.Teams = ubti.Teams;
                 newBattleData.setData(3679, 0, 0, random.Next(8, 10), 14216, 16880, 10005, im.userdatasummery.user_info.experience);
@@ -1468,8 +1539,6 @@ namespace GFHelper.Programe.Auto.BattleLoop_Normal
                     im.battle_loop.Battle_Result_PRO(ref ubti, 0, ref result);
                 }
             }
-
-
 
             im.action.endEnemyTurn();
             im.action.startTurn();
@@ -1477,10 +1546,10 @@ namespace GFHelper.Programe.Auto.BattleLoop_Normal
 
             im.action.teamMove(Map_Sent.Map8_6.dic_TeamMove[stepNum++]);
 
-            if (Map_Sent.Map8_6.PosCheck2(HomePos) == 1)
+            if (pos1 == 1)
             {
                 newBattleData.Teams = ubti.Teams;
-                newBattleData.setData(3679, 0, 0, random.Next(8, 10), 14216, 16880, 10005, im.userdatasummery.user_info.experience);
+                newBattleData.setData(3681, 0, 0, random.Next(8, 10), 14216, 16880, 10005, im.userdatasummery.user_info.experience);
                 im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
                 if (im.action.Normal_battleFinish(newBattleData.stringBuilder.ToString(), ref result))
                 {
@@ -1488,11 +1557,8 @@ namespace GFHelper.Programe.Auto.BattleLoop_Normal
                 }
             }
 
-
-
-
             im.action.teamMove(Map_Sent.Map8_6.dic_TeamMove[stepNum++]);
-            if (Map_Sent.Map8_6.PosCheck1(HomePos) == 1)
+            if (pos2 == 1)
             {
                 newBattleData.Teams = ubti.Teams;
                 newBattleData.setData(3682, 0, 0, random.Next(8, 10), 14216, 16880, 10005, im.userdatasummery.user_info.experience);
@@ -1524,8 +1590,9 @@ namespace GFHelper.Programe.Auto.BattleLoop_Normal
             }
 
 
-            HomePos = im.action.endTurn();
-            if (Map_Sent.Map8_6.HomePos1(HomePos) == 1)
+            endTurn = im.action.endTurn();
+            home = Map_Sent.Function.Normal_PosCheck_type2(endTurn, 3788);
+            if (home == 1)
             {
                 newBattleData.Teams = ubti.Teams;
                 newBattleData.setData(3788, 1, 0, random.Next(8, 10), 14184, 17816, 10005, im.userdatasummery.user_info.experience);
@@ -1566,9 +1633,36 @@ namespace GFHelper.Programe.Auto.BattleLoop_Normal
                 im.battle_loop.Battle_Result_PRO(ref ubti, 0, ref result);
             }
 
+            im.action.teamMove(Map_Sent.Map8_6.dic_TeamMove[stepNum++]);
+
+            endTurn = im.action.endTurn();
+            home = Map_Sent.Function.Normal_PosCheck_type2(endTurn, 3788);
+            if (home == 1)
+            {
+                newBattleData.Teams = ubti.Teams;
+                newBattleData.setData(3788, 1, 0, random.Next(8, 10), 14184, 17816, 10005, im.userdatasummery.user_info.experience);
+                im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+                if (im.action.Normal_battleFinish(newBattleData.stringBuilder.ToString(), ref result))
+                {
+                    im.battle_loop.Battle_Result_PRO(ref ubti, 0, ref result);
+                }
+            }
+            im.action.endEnemyTurn();
+            im.action.startTurn();
+
+            im.action.teamMove(Map_Sent.Map8_6.dic_TeamMove[stepNum++]);
+            im.action.teamMove(Map_Sent.Map8_6.dic_TeamMove[stepNum++]);
+            im.action.teamMove(Map_Sent.Map8_6.dic_TeamMove[stepNum++]);
+            newBattleData.Teams = ubti.Teams;
+            newBattleData.setData(3668, 0, 0, random.Next(8, 10), 27549, 38000, 900071, im.userdatasummery.user_info.experience);
+            im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+            if (im.action.Normal_battleFinish(newBattleData.stringBuilder.ToString(), ref result))
+            {
+                im.battle_loop.Battle_Result_PRO(ref ubti, 0, ref result);
+            }
+
             if (result.Contains("rank"))
             {
-                im.action.abortMission();
                 WriteLog.Log("8_6BOSS 成功", "log");
             }
             else
@@ -1577,6 +1671,96 @@ namespace GFHelper.Programe.Auto.BattleLoop_Normal
                 Battle8_6(ubti);
             }
         }
+
+        public void Battle10_6(new_User_Normal_MissionInfo ubti)
+        {
+            Random random = new Random();
+            int stepNum = 0; string result = "";
+            Normal_Battle_Sent bs = new Normal_Battle_Sent();
+            Map_Sent.Map10_6.spots1.team_id = ubti.Teams[0].TeamID;
+            Map_Sent.Map10_6.spots2.team_id = ubti.Teams[1].TeamID;
+            Map_Sent.Map10_6.dic_TeamMove[0].team_id = ubti.Teams[0].TeamID;
+            Map_Sent.Map10_6.dic_TeamMove[1].team_id = ubti.Teams[0].TeamID;
+            Map_Sent.Map10_6.dic_TeamMove[2].team_id = ubti.Teams[0].TeamID;
+
+            im.battle_loop.Check_Equip_Gun_FULL();
+
+            im.action.startMission(Map_Sent.Map10_6.mission_id, Map_Sent.Map10_6.Mission_Start_spots);
+            im.action.SupplyTeam(ubti.Teams[0].TeamID);
+            im.action.teamMove(Map_Sent.Map10_6.dic_TeamMove[stepNum++]);
+            newBattleData.Teams = ubti.Teams;
+            newBattleData.setData(5360, 0, 0, random.Next(8, 10), 22672, 21562, 10017, im.userdatasummery.user_info.experience);
+            im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+            if (im.action.Normal_battleFinish(newBattleData.stringBuilder.ToString(), ref result))
+            {
+                im.battle_loop.Battle_Result_PRO(ref ubti, 0, ref result);
+            }
+            im.action.reinforceTeam(Map_Sent.Map10_6.spots2);
+
+            im.action.allyMySideMove();
+            string endTurn = im.action.endTurn();
+            int home = Map_Sent.Function.Normal_PosCheck_type2(endTurn, 5363);
+            int pos1 = Map_Sent.Function.Normal_PosCheck_type2(endTurn, 5360);
+            int pos2 = Map_Sent.Function.Normal_PosCheck_type2(endTurn, 5357);
+            int pos3 = Map_Sent.Function.Normal_PosCheck_type2(endTurn, 5346);
+            if (home == 1)
+            {
+                newBattleData.Teams = ubti.Teams;
+                newBattleData.setData(5363, 1, 0, random.Next(8, 10), 14216, 16880, 10005, im.userdatasummery.user_info.experience);
+                im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+                if (im.action.Normal_battleFinish(newBattleData.stringBuilder.ToString(), ref result))
+                {
+                    im.battle_loop.Battle_Result_PRO(ref ubti, 0, ref result);
+                }
+            }
+            if (pos1 == 1)
+            {
+                newBattleData.Teams = ubti.Teams;
+                newBattleData.setData(5360, 0, 0, random.Next(8, 10), 22672, 21562, 10017, im.userdatasummery.user_info.experience);
+                im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+                if (im.action.Normal_battleFinish(newBattleData.stringBuilder.ToString(), ref result))
+                {
+                    im.battle_loop.Battle_Result_PRO(ref ubti, 0, ref result);
+                }
+            }
+            im.action.endEnemyTurn();
+            im.action.startOtherSideTurn();
+            im.action.endOtherSideTurn();
+            im.action.startTurn();
+
+            im.action.teamMove(Map_Sent.Map10_6.dic_TeamMove[stepNum++]);
+            if (pos2 == 1)
+            {
+                newBattleData.Teams = ubti.Teams;
+                newBattleData.setData(5357, 0, 0, random.Next(8, 10), 22672, 21562, 10017, im.userdatasummery.user_info.experience);
+                im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+                if (im.action.Normal_battleFinish(newBattleData.stringBuilder.ToString(), ref result))
+                {
+                    im.battle_loop.Battle_Result_PRO(ref ubti, 0, ref result);
+                }
+            }
+
+            im.action.teamMove(Map_Sent.Map10_6.dic_TeamMove[stepNum++]);
+            if (pos3 == 1)
+            {
+                newBattleData.Teams = ubti.Teams;
+                newBattleData.setData(5346, 0, 0, random.Next(100, 160), 37053, 107083, 900087, im.userdatasummery.user_info.experience);
+                im.uihelp.setStatusBarText_InThread(String.Format(" 战斗结算"));
+                if (im.action.Normal_battleFinish(newBattleData.stringBuilder.ToString(), ref result))
+                {
+                    im.battle_loop.Battle_Result_PRO(ref ubti, 0, ref result);
+                }
+            }
+
+            if (result.Contains("rank"))
+            {
+                WriteLog.Log("10_6BOSS 成功", "log");
+            }
+            im.action.abortMission();
+        }
+
+
+
 
         public void Battle10_4E(new_User_Normal_MissionInfo ubti)
         {

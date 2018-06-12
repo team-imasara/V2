@@ -113,19 +113,11 @@ namespace GFHelper
         }
         public void SetConfig(string key, object value)
         {
-            //try
-            //{
-            //    var i = findConfig(key);
-            //    i.value = value.ToString();
-            //}
-            //catch (KeyNotFoundException)
-            //{
-                ConfigNode cn = new ConfigNode();
-                cn.key = key;
-                cn.value = value.ToString();
-                this.config.Add(maxline++, cn);
-            //}
 
+            ConfigNode cn = new ConfigNode();
+            cn.key = key;
+            cn.value = value.ToString();
+            this.config.Add(maxline++, cn);
             this.Save();
         }
 
@@ -209,15 +201,16 @@ namespace GFHelper
                 if(ProgrameData.channelid=="TX") ProgrameData.GameAdd = "http://gf-adrtx-cn-zs-game-0001.ppgame.com/index.php/2000/";
                 if (ProgrameData.channelid == "VIVO") ProgrameData.GameAdd = "http://58.87.102.150/index.php/4000/";
                 if (ProgrameData.channelid == "BILI") ProgrameData.GameAdd = "http://gf-adrbili-cn-zs-game-0001.ppgame.com/index.php/5000/";
+                if (ProgrameData.channelid == "360") ProgrameData.GameAdd = "http://58.87.102.150/index.php/4000/";
+                //if (ProgrameData.channelid == "BILI") ProgrameData.GameAdd = "http://s4.bili.gf.ppgame.com/index.php/5004/";
 
 
 
 
                 ProgrameData.accountid = this.im.configManager.getConfigString("accountid");
                 System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
-                ProgrameData.password = BitConverter.ToString(md5.ComputeHash(UTF8Encoding.Default.GetBytes(this.im.configManager.getConfigString("password"))));
-                ProgrameData.password = ProgrameData.password.Replace("-", "");
-                ProgrameData.password = ProgrameData.password.ToLower();
+                ProgrameData.password = im.configManager.getConfigString("password");
+
 
 
 

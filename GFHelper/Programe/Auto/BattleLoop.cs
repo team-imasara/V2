@@ -20,7 +20,6 @@ namespace GFHelper.Programe.Auto
 
         public void BattleLOOP_normal(new_User_Normal_MissionInfo ubti)
         {
-            //if (im.userdatasummery.CheckResources(ubti)) { return; }
 
             switch (ubti.TaskMap)
             {
@@ -58,6 +57,17 @@ namespace GFHelper.Programe.Auto
                         im.battleloop_n.Battle6_4N(ubti);
                         break;
                     }
+
+                case "4_1":
+                    {
+                        im.battleloop_n.Battle4_1(ubti);
+                        break;
+                    }
+                case "4_6":
+                    {
+                        im.battleloop_n.Battle4_6(ubti);
+                        break;
+                    }
                 case "1_2":
                     {
                         im.battleloop_n.Battle1_2(ubti);
@@ -80,18 +90,35 @@ namespace GFHelper.Programe.Auto
                 case "8_6":
                     {
                         im.battleloop_n.Battle8_6(ubti);
-                        ubti.Loop = false;
+                        break;
+                    }
+                case "10_6":
+                    {
+                        im.battleloop_n.Battle10_6(ubti);
                         break;
                     }
                 case "2_6":
                     {
                         im.battleloop_n.Battle2_6(ubti);
-                        ubti.Loop = false;
+                        break;
+                    }
+                case "3_6":
+                    {
+                        im.battleloop_n.Battle3_6(ubti);
                         break;
                     }
                 case "pzb38":
                     {
                         im.battleloop_a.Battle_Gun_PZB38(ubti);
+                        break;
+                    }
+                case "farm":
+                    {
+                        im.battleloop_a.Battle_E1_1_2018_spring(ubti);
+                        im.battleloop_a.Battle_E1_2_2018_spring(ubti);
+                        im.battleloop_a.Battle_E1_3_2018_spring(ubti);
+                        im.battleloop_a.Battle_E1_3_2018_spring(ubti);
+                        im.battleloop_a.Battle_E1_3_2018_spring(ubti);
                         break;
                     }
                 case "2018spring":
@@ -105,16 +132,33 @@ namespace GFHelper.Programe.Auto
                         ubti.Loop = false;
                         break;
                     }
+
+                case "2018springex":
+                    {
+                        im.battleloop_a.Battle_E3_1_2018_spring(ubti);
+                        im.battleloop_a.Battle_E3_2_2018_spring(ubti);
+                        im.battleloop_a.Battle_E3_3_2018_spring(ubti);
+                        im.battleloop_a.Battle_E4_1_2018_spring(ubti);
+                        im.battleloop_a.Battle_E4_2_2018_spring(ubti);
+                        im.battleloop_a.Battle_E4_3_2018_spring(ubti);
+                        im.battleloop_a.Battle_E4_3_2018_spring(ubti);
+                        im.battleloop_a.Battle_E4_3_2018_spring(ubti);
+                        im.battleloop_a.Battle_E4_3_2018_spring(ubti);
+                        im.battleloop_a.Battle_E4_3_2018_spring(ubti);
+                        im.battleloop_a.Battle_E4_3_2018_spring(ubti);
+                        ubti.Loop = false;
+                        break;
+                    }
                 case "e1_1":
                     {
                         im.battleloop_a.Battle_E1_1_2018_spring(ubti);
-                        ubti.Loop = false;
+
                         break;
                     }
                 case "e1_2":
                     {
                         im.battleloop_a.Battle_E1_2_2018_spring(ubti);
-                        ubti.Loop = false;
+
                         break;
                     }
 
@@ -122,26 +166,50 @@ namespace GFHelper.Programe.Auto
                 case "e1_3":
                     {
                         im.battleloop_a.Battle_E1_3_2018_spring(ubti);
-                        ubti.Loop = false;
+
                         break;
                     }
                 case "e2_1":
                     {
                         im.battleloop_a.Battle_E2_1_2018_spring(ubti);
-                        ubti.Loop = false;
+
                         break;
                     }
 
                 case "e2_2":
                     {
                         im.battleloop_a.Battle_E2_2_2018_spring(ubti);
-                        ubti.Loop = false;
                         break;
                     }
                 case "e2_3":
                     {
                         im.battleloop_a.Battle_E2_3_2018_spring(ubti);
-                        ubti.Loop = false;
+
+                        break;
+                    }
+                case "e4_2":
+                    {
+                        im.battleloop_a.Battle_E4_2_2018_spring(ubti);
+                        break;
+                    }
+                case "e4_3":
+                    {
+                        im.battleloop_a.Battle_E4_3_2018_spring(ubti);
+                        break;
+                    }
+                case "light":
+                    {
+                        im.battleloop_a.Battle_E2_1_Light_2018_spring(ubti);
+                        break;
+                    }
+                case "sass":
+                    {
+                        im.battleloop_a.Battle_sass_2017_winter(ubti);
+                        break;
+                    }
+                case "equip_ump":
+                    {
+                        im.battleloop_a.Battle_Equip_UMP(ubti);
                         break;
                     }
 
@@ -179,6 +247,13 @@ namespace GFHelper.Programe.Auto
                 ProgrameData.TaskList.Add(TaskList.GetuserInfo);
             }
 
+            //是否达到客服要求 多用于练级
+            if(ubti.requestLv !=0 && im.action.CheckTeamLeval(ubti.Teams[0].TeamID, ubti.requestLv))
+            {
+                ubti.Loop = false;
+            }
+
+
             if (ubti.Loop == false)
             {
                 return;
@@ -200,13 +275,13 @@ namespace GFHelper.Programe.Auto
                 ubti.List_withdrawPOS.Add(item);
             }
             
-            for(int i = 1; i <= im.userdatasummery.team_info[ubti.TaskMianTeam_ID].Count; i++)
+            for(int i = 1; i <= UserDataSummery.team_info[ubti.TaskMianTeam_ID].Count; i++)
             {
                 foreach (var item in withdrawinfo)
                 {
-                    if (im.userdatasummery.team_info[ubti.TaskMianTeam_ID][i].position == item)
+                    if (UserDataSummery.team_info[ubti.TaskMianTeam_ID][i].position == item)
                     {
-                        ubti.List_withdrawGUN_ID.Add(im.userdatasummery.team_info[ubti.TaskMianTeam_ID][i].id);
+                        ubti.List_withdrawGUN_ID.Add(UserDataSummery.team_info[ubti.TaskMianTeam_ID][i].id);
                     }
                 }
             }
@@ -231,7 +306,7 @@ namespace GFHelper.Programe.Auto
 
             if(im.userdatasummery.Check_Equip_GUN_FULL())
             {
-                if (im.userdatasummery.gun_with_user_info.Count + 5 >= im.userdatasummery.user_info.maxgun)
+                if (im.userdatasummery.gun_with_user_info.Count + 1 >= im.userdatasummery.user_info.maxgun)
                 {
                     if (ProgrameData.AutoStrengthen)
                     {
@@ -251,7 +326,7 @@ namespace GFHelper.Programe.Auto
 
 
                 }
-                if (im.userdatasummery.equip_with_user_info.Count + 2 >= im.userdatasummery.user_info.maxequip)
+                if (im.userdatasummery.equip_with_user_info.Count + 1 >= im.userdatasummery.user_info.maxequip)
                 {
                     if (ProgrameData.AutoStrengthen)
                     {

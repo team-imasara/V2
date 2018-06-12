@@ -393,6 +393,7 @@ namespace GFHelper.UserData
                     info = item.Value;
                     break;
                 }
+                info = item.Value;
             }
 
 

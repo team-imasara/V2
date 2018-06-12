@@ -30,7 +30,7 @@ namespace GFHelper
             while (true)
             {
                 //到点自动退出程序
-                Programe.CommonHelp.StopTime();
+                CommonHelp.StopTime();
 
                 //需要改 在auto那里新建auto_summery 里写入此方法
                 foreach (var item in im.Dic_auto_operation_act)
@@ -53,7 +53,6 @@ namespace GFHelper
                 while (true)
                 {
                     Thread.Sleep(500);
-                    DateTime Now = DateTime.Now;
                     if (ProgrameData.TaskList.Any())
                     {
                         switch (ProgrameData.TaskList.ElementAt(0).TaskNumber)
@@ -67,7 +66,6 @@ namespace GFHelper
 
                                     ProgrameData.TaskList.RemoveAt(0);
                                     break;
-
                                 }
 
                             case 2://任务开始

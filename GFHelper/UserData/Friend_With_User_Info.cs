@@ -14,7 +14,5 @@ namespace GFHelper.UserData
         public int lv;
         public int headpic_id;
         public int homepage_time;
-
-
     }
 }

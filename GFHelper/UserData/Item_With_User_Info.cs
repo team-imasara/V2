@@ -8,12 +8,7 @@ namespace GFHelper.UserData
 {
     public class Item_With_User_Info
     {
-
-
         public int item_id;
-
-
         public int number;
-
     }
 }

@@ -157,7 +157,19 @@ namespace GFHelper.Programe.Auto
         public bool isMainTeam;
         public bool isSupportTeam { get { return !isMainTeam; } }
         public int TeamEffect;
-        public int MVP;
+        public int MVP
+        {
+            get
+            {
+                Dictionary<int, int> mvp = new Dictionary<int, int>();
+                foreach (var item in UserDataSummery.team_info[TeamID])
+                {
+                    mvp.Add(item.Value.id, item.Value.gun_exp);
+                }
+                return mvp.Keys.Select(x => new { x, y = mvp[x] }).OrderBy(x => x.y).First().x;
+            }
+        }
+
         public int getSeed(int user_exp)
         {
             int seed = 0;
@@ -175,7 +187,7 @@ namespace GFHelper.Programe.Auto
     public class new_User_Normal_MissionInfo
     {
         public List<BattleTask_team_info> Teams = new List<BattleTask_team_info>();
-        public string TaskMap;
+        public string TaskMap="";
         public Dictionary<int,int> List_withdrawPOS = new Dictionary<int, int>();
         public Dictionary<int,int> List_lifeReduce = new Dictionary<int,int>();
         public int user_exp;
@@ -185,10 +197,11 @@ namespace GFHelper.Programe.Auto
         public int reStart_WaitTime = 1;
         public bool Loop = true;
         public bool needSupply = true;
-        public new_User_Normal_MissionInfo(List<BattleTask_team_info> Teams,string TaskMap,int user_exp)
+        public int requestLv = 0;
+        public new_User_Normal_MissionInfo(List<BattleTask_team_info> Teams,int user_exp)
         {
             this.Teams = Teams;
-            this.TaskMap = TaskMap;
+
             this.user_exp = user_exp;
         }
         public int getSupportTeamID

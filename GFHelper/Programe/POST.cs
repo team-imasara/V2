@@ -44,8 +44,25 @@ namespace GFHelper.Programe
             {
                 WebClient wc = new WebClient();
                 wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                //wc.Headers.Add("Accept-Encoding", "gzip， deflate");
                 wc.Encoding = Encoding.UTF8;
                 byte[] postData = wc.Encoding.GetBytes(data);
+                string result = Encoding.UTF8.GetString(wc.UploadData(url, "POST", postData));
+                return result;
+            }
+            catch (WebException e)
+            {
+                return "false " + e.ToString();
+            }
+        }
+
+        public static string DoPost(string url, byte[] postData)
+        {
+            try
+            {
+                WebClient wc = new WebClient();
+                wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                wc.Encoding = Encoding.UTF8;
                 string result = Encoding.UTF8.GetString(wc.UploadData(url, "POST", postData));
                 return result;
             }
@@ -98,24 +115,26 @@ namespace GFHelper.Programe
 
         public bool LoginFirstUrl()
         {
-            //---------LoginFirstUrl = LoginFirstUrl = "http://gf.ppgame.com/interfaces"; (获取access_token 和 openid） start------------------
-            IDictionary<string, string> parameters = new Dictionary<string, string>();
-            parameters.Add("method", "findByEn");
-            parameters.Add("ifs_en", "account_login");
-            parameters.Add("login_identify", ProgrameData.accountid);
-            parameters.Add("login_pwd", ProgrameData.password);
-            parameters.Add("app_id", "00020000100021001");
-            parameters.Add("encrypt_mode", "md5");
-            parameters.Add("sign", "");
-            parameters.Add("client_ip", ProgrameData.client_ip);
+            ////---------LoginFirstUrl = LoginFirstUrl = "http://gf.ppgame.com/interfaces"; (获取access_token 和 openid） start------------------
+            //IDictionary<string, string> parameters = new Dictionary<string, string>();
+            //parameters.Add("method", "findByEn");
+            //parameters.Add("ifs_en", "account_login");
+            //parameters.Add("login_identify", ProgrameData.accountid);
+            //parameters.Add("login_pwd", ProgrameData.password);
+            //parameters.Add("app_id", "00020000100021001");
+            //parameters.Add("encrypt_mode", "md5");
+            //parameters.Add("sign", "");
+            //parameters.Add("client_ip", ProgrameData.client_ip);
 
-            string data = StringBuilder_(parameters);
+            //string data = StringBuilder_(parameters);
 
             string result = "";
 
             while (true)
             {
-                result = DoPost(RequestUrls.LoginFirstUrl, data.ToString());
+
+                result = Login.Login.normalLogin(ProgrameData.accountid, Login.md5.EncryptWithMD5(ProgrameData.password));
+
                 if (ResultPro.Result_Pro(ref result, "LoginFirstUrl", false) == 1)
                 {
                     var jsonobj = DynamicJson.Parse(result); //讲道理，我真不想写了
@@ -173,7 +192,7 @@ namespace GFHelper.Programe
             }
             return result;
         }
-
+        
         public string GetUserInfo()//api = index/index
         {
 
@@ -585,8 +604,8 @@ namespace GFHelper.Programe
             }
             catch (Exception e)
             {
-                MessageBox.Show("查看好友电池出错");
-                MessageBox.Show(e.ToString());
+                //MessageBox.Show("查看好友电池出错");
+                //MessageBox.Show(e.ToString());
                 return -1;
             }
         }
@@ -656,7 +675,6 @@ namespace GFHelper.Programe
             string requeststring = String.Format("uid={0}&signcode={1}&req_id={2}", ProgrameData.uid, System.Web.HttpUtility.UrlEncode(outdatacode), ProgrameData.req_id++.ToString());
             string result = DoPost(ProgrameData.GameAdd + RequestUrls.Dorm_Info, requeststring);
             return result;
-
         }
 
         public string Get_Build_Coin(string v_user_id,string dorm_id)

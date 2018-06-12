@@ -40,7 +40,6 @@ namespace GFHelper.CatchData
 
 
         public static Dictionary<GunType, Dictionary<string, float>> dictGunBaseAttri = new Dictionary<GunType, Dictionary<string, float>>();
-        // Token: 0x040011F7 RID: 4599
         public static Dictionary<Attri, float> dictMinAttribute = new Dictionary<Attri, float>();
         public static Dictionary<int, int> Furniture_database = new Dictionary<int, int>();
         public static Dictionary<int, int> Furniture_server = new Dictionary<int, int>();

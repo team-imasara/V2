@@ -100,32 +100,36 @@ namespace GFHelper.Programe
         }
         public static bool CheckCatchData()
         {
-            try
-            {
-                //删除文件夹下的catchdata文件
-                //im.mainWindow.CheckT.IsEnabled = false;
-                DeleteFile("catchdata");
+            //try
+            //{
+            //    //删除文件夹下的catchdata文件
+            //    //im.mainWindow.CheckT.IsEnabled = false;
+            //    DeleteFile("catchdata");
 
-                //检查catchdata版本
+            //    //检查catchdata版本
 
-                string catchdataAdd = AC.EncryptTool.GetCryptoFileName(ProgrameData.CatchDataVersion.ToString());
+            //    string catchdataAdd = AC.EncryptTool.GetCryptoFileName(ProgrameData.CatchDataVersion.ToString());
 
-                string url = "http://rescnf.gf.ppgame.com/data/" + catchdataAdd.ToString();
+            //    string url = "http://rescnf.gf.ppgame.com/data/" + catchdataAdd.ToString();
 
-                //下载
-                using (WebClient client = new WebClient())
-                {
-                    client.DownloadFileAsync(new Uri(url), Path.GetFileName("catchdata.dat"));
+            //    //下载
+            //    using (WebClient client = new WebClient())
+            //    {
+            //        client.DownloadFileAsync(new Uri(url), Path.GetFileName("catchdata.dat"));
 
-                    client.DownloadProgressChanged += client_DownloadProgressChanged;
-                    client.DownloadFileCompleted += client_DownloadFileCompleted;
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString());
-                throw;
-            }
+            //        client.DownloadProgressChanged += client_DownloadProgressChanged;
+            //        client.DownloadFileCompleted += client_DownloadFileCompleted;
+            //    }
+            //}
+            //catch (Exception e)
+            //{
+            //    MessageBox.Show(e.ToString());
+            //    throw;
+            //}
+
+
+            //UnzipDataAndSave("catchdata.dat", ProgrameData.CatchDataVersion);
+            ProgrameData.catchdataF = true;
             return true;
 
 

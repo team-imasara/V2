@@ -28,11 +28,25 @@ namespace GFHelper.Programe
             this.im = im;
         }
 
+        public bool CheckTeamLeval(int teamid, int lv)
+        {
+            foreach (var item in UserDataSummery.team_info[teamid])
+            {
+                if (item.Value.level < lv)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
+
         public bool AutoLogin()
         {
 
             im.uihelp.setStatusBarText_InThread(String.Format(" 正在获取本机IP"));
-            ProgrameData.client_ip = im.post.GetLocalAddress();//done
+            //ProgrameData.client_ip = im.post.GetLocalAddress();//done
 
             im.uihelp.setStatusBarText_InThread(String.Format(" 数字天空登陆中"));
             im.post.LoginFirstUrl();
@@ -134,12 +148,6 @@ namespace GFHelper.Programe
                     }   
 
 
-
-
-
-
-
-
                     im.userdatasummery.maillist.Remove(x);
                     x++;
 
@@ -231,8 +239,6 @@ namespace GFHelper.Programe
                     default:
                         break;
                 }
-
-
             }
 
 
@@ -251,7 +257,7 @@ namespace GFHelper.Programe
             bool Out = false;
 
 
-            if (team_leader_min_level > im.userdatasummery.team_info[operation_act_info.team_id][1].gun_level)
+            if (team_leader_min_level > UserDataSummery.team_info[operation_act_info.team_id][1].gun_level)
             {
                 Out = true;
                 im.mainWindow.Dispatcher.Invoke(() =>
@@ -260,7 +266,7 @@ namespace GFHelper.Programe
                 });
             };
 
-            if(gun_min> im.userdatasummery.team_info[operation_act_info.team_id].Count)
+            if(gun_min> UserDataSummery.team_info[operation_act_info.team_id].Count)
             {
                 Out = true;
                 im.mainWindow.Dispatcher.Invoke(() =>
@@ -317,7 +323,7 @@ namespace GFHelper.Programe
             bool Out = false;
 
 
-            if (team_leader_min_level > im.userdatasummery.team_info[operation_act_info.team_id][1].gun_level)
+            if (team_leader_min_level > UserDataSummery.team_info[operation_act_info.team_id][1].gun_level)
             {
                 Out = true;
                 im.mainWindow.Dispatcher.Invoke(() =>
@@ -326,7 +332,7 @@ namespace GFHelper.Programe
                 });
             };
 
-            if (gun_min > im.userdatasummery.team_info[operation_act_info.team_id].Count)
+            if (gun_min > UserDataSummery.team_info[operation_act_info.team_id].Count)
             {
                 Out = true;
                 im.mainWindow.Dispatcher.Invoke(() =>
@@ -606,28 +612,28 @@ namespace GFHelper.Programe
             //梯队内人形can_click ==1 则发送post
             //根据result can_click +1;
 
-            for(int x = 1; x <= im.userdatasummery.team_info.Count; x++)
+            for(int x = 1; x <= UserDataSummery.team_info.Count; x++)
             {
-                if (im.userdatasummery.team_info[x].Count == 0) continue;
-                for(int y = 1; y <= im.userdatasummery.team_info[x].Count; y++)
+                if (UserDataSummery.team_info[x].Count == 0) continue;
+                for(int y = 1; y <= UserDataSummery.team_info[x].Count; y++)
                 {
                     try
                     {
-                        if (string.IsNullOrEmpty(im.userdatasummery.team_info[x][y].location.ToString())) continue;
+                        if (string.IsNullOrEmpty(UserDataSummery.team_info[x][y].location.ToString())) continue;
                     }
                     catch (Exception)
                     {
                         continue;
                     }
 
-                    if (im.userdatasummery.team_info[x][y].can_click == 1)
+                    if (UserDataSummery.team_info[x][y].can_click == 1)
                     {
-                        im.uihelp.setStatusBarText_InThread(String.Format(" 第 {0} 宿舍 少女 {1} 好感度提升 ",x, im.userdatasummery.team_info[x][y].gun_id));
-                        int result = Convert.ToInt32(im.post.Receive_Favor_Girls_IN_Dorm(x, im.userdatasummery.team_info[x][y].id));
+                        im.uihelp.setStatusBarText_InThread(String.Format(" 第 {0} 宿舍 少女 {1} 好感度提升 ",x, UserDataSummery.team_info[x][y].gun_id));
+                        int result = Convert.ToInt32(im.post.Receive_Favor_Girls_IN_Dorm(x, UserDataSummery.team_info[x][y].id));
                         if (result > 0)
                         {
-                            im.uihelp.setStatusBarText_InThread(String.Format(" 第 {0} 宿舍 少女 {1} 好感度提升 result = {2}", x, im.userdatasummery.team_info[x][y].gun_id.ToString(), result.ToString()));
-                            im.userdatasummery.team_info[x][y].can_click++;
+                            im.uihelp.setStatusBarText_InThread(String.Format(" 第 {0} 宿舍 少女 {1} 好感度提升 result = {2}", x, UserDataSummery.team_info[x][y].gun_id.ToString(), result.ToString()));
+                            UserDataSummery.team_info[x][y].can_click++;
                         }
                     }
                 }
@@ -652,31 +658,26 @@ namespace GFHelper.Programe
         {
             int BattaryNum = 10;
 
-            LogFriend_Dorm_info();
-            while (im.userdatasummery.Dorm_Rest_Friend_Build_Coin_Count != 0)
+            //LogFriend_Dorm_info();
+
+            int LoopTime = 1;
+            foreach (var item in im.userdatasummery.friend_with_user_info)
             {
-                int LoopTime = 1;
-                foreach (var item in im.userdatasummery.friend_with_user_info)
+                int Friend_BattaryNum = im.post.Get_Friend_BattaryNum(item.Value.f_userid);
+                im.uihelp.setStatusBarText_InThread(String.Format(" 好友 {0} 宿舍  拥有电池数 {1} 意不意外 惊不惊喜", item.Value.name.ToString(), Friend_BattaryNum));
+
+                if (Friend_BattaryNum == BattaryNum)
                 {
-                    //循环遍历 获取每一个好友宿舍的电池,从十开始
-                    //成功的话-1
-                    //im.uihelp.setStatusBarText_InThread(String.Format(" 正在拜访好友 {0} 宿舍  当前可获取电池次数 {1}", item.Value.name.ToString(), im.userdatasummery.Dorm_Rest_Friend_Build_Coin_Count));
-                    if (im.userdatasummery.Dorm_Rest_Friend_Build_Coin_Count == 0) continue;
-                    int Friend_BattaryNum = im.post.Get_Friend_BattaryNum(item.Value.f_userid);
-                    im.uihelp.setStatusBarText_InThread(String.Format(" 好友 {0} 宿舍  拥有电池数 {1} 意不意外 惊不惊喜", item.Value.name.ToString(), Friend_BattaryNum));
-
-                    if (Friend_BattaryNum == BattaryNum)
-                    {
-                        im.post.Get_Friend_Battary(item.Value.f_userid, 0, Friend_BattaryNum);
-                        im.userdatasummery.Dorm_Rest_Friend_Build_Coin_Count--;
-                        WriteLog.Log(String.Format(" 获取好友 {0} 宿舍的电池 数目: {1} ", item.Value.name.ToString(), Friend_BattaryNum),"log");
-                    }
-
-                    if (LoopTime == im.userdatasummery.friend_with_user_info.Count) BattaryNum--;
-                    if (item.Key == im.userdatasummery.friend_with_user_info.Last().Key) return;
-
+                    im.post.Get_Friend_Battary(item.Value.f_userid, 0, Friend_BattaryNum);
+                    im.userdatasummery.Dorm_Rest_Friend_Build_Coin_Count--;
+                    WriteLog.Log(String.Format(" 获取好友 {0} 宿舍的电池 数目: {1} ", item.Value.name.ToString(), Friend_BattaryNum), "log");
                 }
+                if (im.userdatasummery.Dorm_Rest_Friend_Build_Coin_Count == 0) return;
+                if (LoopTime == im.userdatasummery.friend_with_user_info.Count) return;
+                if (item.Key == im.userdatasummery.friend_with_user_info.Last().Key) return;
+
             }
+
         }
 
         public void Auto_Start_Simulation_Data()
@@ -807,6 +808,7 @@ namespace GFHelper.Programe
             {
                 if (item.Value.is_locked == 0) continue;
                 if (im.userdatasummery.CheckGunStatus(item.Value)) continue;
+                if (im.dic_userbattletaskinfo[0].Teams[0].TeamID != item.Value.team_id) continue;
                 //2扩
                 if (item.Value.level>=10 && item.Value.level < 30)
                 {
@@ -1099,9 +1101,9 @@ namespace GFHelper.Programe
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show("EatGunHandle_error");
-                    MessageBox.Show(string.Format("result = {0}", result));
-                    MessageBox.Show(e.ToString());
+                    //MessageBox.Show("EatGunHandle_error");
+                    //MessageBox.Show(string.Format("result = {0}", result));
+                    //MessageBox.Show(e.ToString());
                 }
 
                 int additionPow = Convert.ToInt32((int)jsonData["pow"]);
@@ -1353,7 +1355,7 @@ namespace GFHelper.Programe
             dynamic newjson = new DynamicJson();
             newjson.mission_id /*这是节点*/ = mission_id;/* 这是值*/
             newjson.spots = spots ;
-
+            //newjson.ally_id = CommonHelp.ConvertDateTime_China_Int(DateTime.Now);
             while (true)
             {
                 string result = im.post.startMission(newjson.ToString());
@@ -1371,7 +1373,7 @@ namespace GFHelper.Programe
                     case -1:
                         {
 
-                            if (count >= ProgrameData.BL_Error_num) { MessageBox.Show("无法开始作战任务，请登陆游戏检查", im.userdatasummery.user_info.name); }
+                            if (count >= ProgrameData.BL_Error_num) { MessageBox.Show("无法开始作战任务，请登陆游戏检查", im.userdatasummery.user_info.name);return false; }
                             result_error_PRO(result, count++); continue;
                         }
                     default:
@@ -1520,8 +1522,12 @@ namespace GFHelper.Programe
 
             }
         }
-
-        public bool teamMove_Random(Auto.TeamMove teammove)
+        /// <summary>
+        /// 返回 0 普通随机点 返回 1 遇敌随机点 返回 -1 error
+        /// </summary>
+        /// <param name="teammove"></param>
+        /// <returns>返回 0 普通随机点 返回 1 遇敌随机点 返回 -1 error</returns>
+        public int teamMove_Random(TeamMove teammove)
         {
             //{"team_id":6,"from_spot_id":3033,"to_spot_id":3038,"move_type":1}
             Thread.Sleep(1000);
@@ -1539,17 +1545,19 @@ namespace GFHelper.Programe
 
                 switch (ResultPro.Result_Pro(ref result, "Team_MoveRandom_Pro", true))
                 {
+
                     case 1:
                         {
-                            return true;
+                            if (result.Contains("enemy_team_id")) return 1;
+                                return 0;
                         }
                     case 0:
                         {
-                            return false;
+                            return -1;
                         }
                     case -1:
                         {
-                            if (count >= ProgrameData.BL_Error_num) { return false; }
+                            if (count >= ProgrameData.BL_Error_num) { return -1; }
                             result_error_PRO(result, count++); break;
                         }
                     default:
@@ -2149,6 +2157,15 @@ namespace GFHelper.Programe
 
 
         }
+
+        public bool CheckTeamIsEmpty(int teamid)
+        {
+            if (UserDataSummery.team_info[teamid].Count == 0) return true;
+
+
+            return false;
+        }
+
 
 
     }

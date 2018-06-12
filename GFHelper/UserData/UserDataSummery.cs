@@ -27,9 +27,25 @@ namespace GFHelper.UserData
         public User_Info user_info = new User_Info();
         public Dictionary<int, Operation_Act_Info> operation_act_info = new Dictionary<int, Operation_Act_Info>();
         public Kalina_With_User_Info kalina_with_user_info = new Kalina_With_User_Info();
-        public Dictionary<int, Gun_With_User_Info> gun_with_user_info = new Dictionary<int, Gun_With_User_Info>();//所有的枪
         public Dictionary<int, Friend_With_User_Info> friend_with_user_info = new Dictionary<int, Friend_With_User_Info>();
         public Dictionary<int, Equip_With_User_Info> equip_with_user_info = new Dictionary<int, Equip_With_User_Info>();
+        public User_Record user_record = new User_Record();
+        public Dictionary<int, MailList> maillist = new Dictionary<int, MailList>();
+        public static Auto_Mission_Act_Info amai = new Auto_Mission_Act_Info();
+        public static Dictionary<int, upgrade_act_info> upgrade_act_info = new Dictionary<int, upgrade_act_info>();
+        private static Dictionary<int, Outhouse_Establish_Info> outhouse_establish_info = new Dictionary<int, Outhouse_Establish_Info>();
+        public static Dictionary<int, Fairy_With_User_info> fairy_with_user_info = new Dictionary<int, Fairy_With_User_info>();
+        public static Dictionary<int, Item_With_User_Info> item_with_user_info = new Dictionary<int, Item_With_User_Info>();
+
+
+
+
+
+
+
+
+        public Dictionary<int, Gun_With_User_Info> gun_with_user_info = new Dictionary<int, Gun_With_User_Info>();//所有的枪
+
 
         public Dictionary<int, Equip_With_User_Info> equip_with_user_info_Rank5 = new Dictionary<int, Equip_With_User_Info>();
         public Dictionary<int, Equip_With_User_Info> equip_with_user_info_Rank4 = new Dictionary<int, Equip_With_User_Info>();
@@ -37,9 +53,9 @@ namespace GFHelper.UserData
         public Dictionary<int, Equip_With_User_Info> equip_with_user_info_Rank2 = new Dictionary<int, Equip_With_User_Info>();
         public Dictionary<int, Equip_With_User_Info> equip_with_user_info_Upgrade = new Dictionary<int, Equip_With_User_Info>();
 
-        public static Dictionary<int, Item_With_User_Info> item_with_user_info = new Dictionary<int, Item_With_User_Info>();
-        public User_Record user_record = new User_Record();
-        public Dictionary<int, MailList> maillist = new Dictionary<int, MailList>();
+
+        public static Dictionary<int, Gun_With_User_Info> dicGun_Combine = new Dictionary<int, Gun_With_User_Info>();
+
         public Dorm_With_User_Info dorm_with_user_info = new Dorm_With_User_Info();
         public int Dorm_Rest_Friend_Build_Coin_Count;
 
@@ -50,18 +66,16 @@ namespace GFHelper.UserData
         /// <summary>
         /// team_info,int key 就是一个梯队
         /// </summary>
-        public Dictionary<int, Dictionary<int,Gun_With_User_Info>> team_info = new Dictionary<int, Dictionary<int,Gun_With_User_Info>>();//没读一次user_info都需要刷新
+        public static Dictionary<int, Dictionary<int,Gun_With_User_Info>> team_info = new Dictionary<int, Dictionary<int,Gun_With_User_Info>>();//没读一次user_info都需要刷新
         public static List<int> Gun_Retire_Rank2 = new List<int>();
         public static List<int> Gun_Retire_Rank3 = new List<int>();
         public static Dictionary<int, Gun_With_User_Info> dicGun_PowerUP = new Dictionary<int,Gun_With_User_Info>();
-        public static Dictionary<int, Gun_With_User_Info> dicGun_Combine = new Dictionary<int, Gun_With_User_Info>();
-        public static Auto_Mission_Act_Info amai = new Auto_Mission_Act_Info();
-        public static Dictionary<int, upgrade_act_info> upgrade_act_info = new Dictionary<int, upgrade_act_info>();
+
+
 
         public static Dictionary<int, int> battle_get_prize_NUM = new Dictionary<int, int>();
 
-        private static Dictionary<int,Outhouse_Establish_Info> outhouse_establish_info = new Dictionary <int,Outhouse_Establish_Info>();
-        public static Dictionary<int, Fairy_With_User_info> fairy_with_user_info = new Dictionary<int, Fairy_With_User_info>();
+ 
 
         public static EquipBuilt equipbuilt = new EquipBuilt();
 
@@ -168,22 +182,31 @@ namespace GFHelper.UserData
         private void ClearUserData()
         {
             user_info = new User_Info();
+            this.user_record = new User_Record();
             this.operation_act_info.Clear();
+            this.equip_with_user_info.Clear();
             this.kalina_with_user_info = new Kalina_With_User_Info();
-            this.gun_with_user_info.Clear();
             this.friend_with_user_info.Clear();
+            this.maillist.Clear();
+
+
+
+
+
+
+            this.gun_with_user_info.Clear();
+
 
             //equip
-            this.equip_with_user_info.Clear();
+
             this.equip_with_user_info_Rank2.Clear();
             this.equip_with_user_info_Rank3.Clear();
             this.equip_with_user_info_Rank4.Clear();
             this.equip_with_user_info_Rank5.Clear();
 
-            this.user_record = new User_Record();
-            this.maillist.Clear();
-            EmptyOperation_Act_Info();
 
+
+            EmptyOperation_Act_Info();
         }
 
         public void Read_Activity_info(dynamic jsonobj)
@@ -404,8 +427,9 @@ namespace GFHelper.UserData
             {
                 foreach (var item in jsonobj.gun_with_user_info)
                 {
+                    try
+                    {
                     Gun_With_User_Info gwui = new Gun_With_User_Info(im);
-
                     gwui.id = Convert.ToInt32(item.id);
                     gwui.user_id = Convert.ToInt32(item.user_id);
                     gwui.gun_id = Convert.ToInt32(item.gun_id);
@@ -421,7 +445,6 @@ namespace GFHelper.UserData
                     gwui.life = Convert.ToInt32(item.life);
                     gwui.ammo = Convert.ToInt32(item.ammo);
                     gwui.mre = Convert.ToInt32(item.mre);
-
                     gwui.pow = Convert.ToInt32(item.pow);
                     gwui.hit = Convert.ToInt32(item.hit);
                     gwui.additionHit = gwui.hit;
@@ -466,6 +489,12 @@ namespace GFHelper.UserData
                         }
                         i++;
                     }
+                    }
+                    catch (Exception e)
+                    {
+                        continue;
+
+                    }
 
                 }
             }
@@ -478,7 +507,7 @@ namespace GFHelper.UserData
                     MessageBox.Show("读取UserData_gun_with_user_info遇到错误");
                     MessageBox.Show(e.ToString());
                 });
-
+                
                 return false;
             }
 
@@ -850,9 +879,6 @@ namespace GFHelper.UserData
             {
                 return;
             }
-
-
-
         }
 
         /// <summary>
@@ -1224,9 +1250,8 @@ namespace GFHelper.UserData
                     {
                         if (ProgrameData.NewGun_Report_Stop) MessageBox.Show(string.Format("获取新人形 : {0} ,意不意外 惊不惊喜", Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(gun_id))));
                     }
-                }   
-                if (ProgrameData.NewGun_Report_Stop) MessageBox.Show(string.Format("获取新人形 : {0} ,意不意外 惊不惊喜", Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(gun_id))));
-                WriteLog.Log(string.Format("获取新人形 : {0} ,意不意外 惊不惊喜", Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(gun_id))),"log");
+                }
+                WriteLog.Log(string.Format(" 获取新人形 : {0} ,意不意外 惊不惊喜", Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(gun_id))), "log");
                 List<int> listLockid = new List<int>();
                 listLockid.Add(gun_with_user_id);
                 List<int> listUnLockid = new List<int>();
@@ -1236,6 +1261,7 @@ namespace GFHelper.UserData
                 im.action.changeLock(listLockid, listUnLockid);
 
 
+                if (ProgrameData.NewGun_Report_Stop) MessageBox.Show(string.Format("{0} 获取新人形 : {1} ,意不意外 惊不惊喜", im.userdatasummery.user_info.name, Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(gun_id))));
 
             }
             else
@@ -1253,6 +1279,8 @@ namespace GFHelper.UserData
                 if(item.Value.id == equip_id && item.Value.rank==5)
                 {
                     WriteLog.Log(string.Format("获取五星装备 ,意不意外 惊不惊喜"),"log");
+                    MessageBox.Show(string.Format("{0} 获取五星装备 ,意不意外 惊不惊喜", im.userdatasummery.user_info.name));
+
                 }
             }
         }
@@ -1264,24 +1292,36 @@ namespace GFHelper.UserData
             try
             {
                 ReadUserData_user_info(jsonobj);
-                ReadUserData_operation_act_info(jsonobj);
-                ReadUserData_kalina_with_user_info(jsonobj);
-                ReadUserData_gun_with_user_info(jsonobj);
-                ReadUserData_friend_with_user_info(jsonobj);
-                ReadUserData_equip_with_user_info(jsonobj);
-                ReadUserData_item_with_user_info(jsonobj);
                 ReadUserData_user_record(jsonobj);
+                ReadUserData_equip_with_user_info(jsonobj);
+                ReadUserData_operation_act_info(jsonobj);
+                ReadUserData_friend_with_user_info(jsonobj);
+                ReadUserData_kalina_with_user_info(jsonobj);
                 Dorm_Rest_Friend_Build_Coin_Count = Convert.ToInt32(jsonobj.dorm_rest_friend_build_coin_count);
-
-                ReadUserData_mission_act_info(jsonobj);
-
-                ReadAuto_Mission_Act_Info(jsonobj);
-                ReadUserData_upgrade_act_info(jsonobj);
-                ReadUserData_outhouse_establish_info(jsonobj);
-                ReadUserData_develop_equip_act_info(jsonobj);
-                ReadFairy_with_user_info(jsonobj);
                 //如果operation_act_info不为空 则需要更新 自动后勤
                 UpdateOperation_Act_Info();
+                ReadAuto_Mission_Act_Info(jsonobj);
+                ReadUserData_mission_act_info(jsonobj);
+                ReadUserData_upgrade_act_info(jsonobj);
+                ReadUserData_outhouse_establish_info(jsonobj);
+                ReadFairy_with_user_info(jsonobj);
+                ReadUserData_item_with_user_info(jsonobj);
+
+
+
+
+
+
+
+
+
+
+
+
+                ReadUserData_gun_with_user_info(jsonobj);
+
+                ReadUserData_develop_equip_act_info(jsonobj);
+
                 SetTeamInfo();
 
                 //设置一些开关
@@ -1486,8 +1526,22 @@ namespace GFHelper.UserData
                     ewui_upgrade = item.Value;
                     equip_with_user_info_Upgrade.Add(equip_with_user_info_Upgrade.Count, ewui_upgrade);
                 }
-            }
 
+
+
+
+            }
+            foreach (var item in equip_with_user_info_Upgrade)
+            {
+                if (item.Value.id == 60)
+                {
+                    Equip_With_User_Info ewui_upgrade_1 = new Equip_With_User_Info();
+                    ewui_upgrade_1 = equip_with_user_info_Upgrade[0];
+                    equip_with_user_info_Upgrade[0] = item.Value;
+                    equip_with_user_info_Upgrade[item.Key] = ewui_upgrade_1;
+
+                }
+            }
         }
 
 
@@ -1861,15 +1915,15 @@ namespace GFHelper.UserData
             int mvpkey = 0;
             for(int i = 1; i <= 5; i++)
             {
-                if(im.userdatasummery.team_info[teamid][i].position!=8 && im.userdatasummery.team_info[teamid][i].id == mvpid)
+                if(UserDataSummery.team_info[teamid][i].position!=8 && UserDataSummery.team_info[teamid][i].id == mvpid)
                 {
                     //还要修改gun_with_user_info 内的值
-                    im.userdatasummery.team_info[teamid][i].position = 8;
+                    UserDataSummery.team_info[teamid][i].position = 8;
                     mvpkey = i;
                     mvpPOSeEdited = true;
                     continue;
                 }
-                if (im.userdatasummery.team_info[teamid][i].position == 8 && im.userdatasummery.team_info[teamid][i].id == mvpid)
+                if (UserDataSummery.team_info[teamid][i].position == 8 && UserDataSummery.team_info[teamid][i].id == mvpid)
                 {
                     continue;
                 }
@@ -1882,9 +1936,9 @@ namespace GFHelper.UserData
                 {
                     case 0:
                         {
-                            if (im.userdatasummery.team_info[teamid][i].position == 7) continue;
-                            im.userdatasummery.team_info[teamid][i].position = 7;
-                            int id = im.userdatasummery.team_info[teamid][i].id;
+                            if (UserDataSummery.team_info[teamid][i].position == 7) continue;
+                            UserDataSummery.team_info[teamid][i].position = 7;
+                            int id = UserDataSummery.team_info[teamid][i].id;
                             jsonWriter.WritePropertyName(id.ToString());
                             jsonWriter.Write(7);
 
@@ -1895,33 +1949,33 @@ namespace GFHelper.UserData
 
                             if (mvpPOSeEdited)
                             {
-                                int a = im.userdatasummery.team_info[teamid][mvpkey].id;
+                                int a = UserDataSummery.team_info[teamid][mvpkey].id;
                                 jsonWriter.WritePropertyName(a.ToString());
                                 jsonWriter.Write(8);
                             }
-                            if (im.userdatasummery.team_info[teamid][i].position == 9) continue;
-                            im.userdatasummery.team_info[teamid][i].position = 9;
-                            int id = im.userdatasummery.team_info[teamid][i].id;
+                            if (UserDataSummery.team_info[teamid][i].position == 9) continue;
+                            UserDataSummery.team_info[teamid][i].position = 9;
+                            int id = UserDataSummery.team_info[teamid][i].id;
                             jsonWriter.WritePropertyName(id.ToString());
                             jsonWriter.Write(9);
                             break;
                         }
                     case 2:
                         {
-                            if (im.userdatasummery.team_info[teamid][i].position == 13) continue;
-                            im.userdatasummery.team_info[teamid][i].position = 13;
+                            if (UserDataSummery.team_info[teamid][i].position == 13) continue;
+                            UserDataSummery.team_info[teamid][i].position = 13;
 
-                            int id = im.userdatasummery.team_info[teamid][i].id;
+                            int id = UserDataSummery.team_info[teamid][i].id;
                             jsonWriter.WritePropertyName(id.ToString());
                             jsonWriter.Write(13);
                             break;
                         }
                     case 3:
                         {
-                            if (im.userdatasummery.team_info[teamid][i].position == 14) continue;
-                            im.userdatasummery.team_info[teamid][i].position = 14;
+                            if (UserDataSummery.team_info[teamid][i].position == 14) continue;
+                            UserDataSummery.team_info[teamid][i].position = 14;
 
-                            int id = im.userdatasummery.team_info[teamid][i].id;
+                            int id = UserDataSummery.team_info[teamid][i].id;
                             jsonWriter.WritePropertyName(id.ToString());
                             jsonWriter.Write(14);
                             break;
@@ -2085,8 +2139,6 @@ namespace GFHelper.UserData
                 if (y.Value.gun_with_user_id == gwui.id) return true;
             }
             return false;
-
-
         }
 
         public bool CheckResources(new_User_Normal_MissionInfo ubti)

@@ -249,7 +249,7 @@ namespace GFHelper.Programe
                 {
                     //public Dictionary<int, Dictionary<int, Gun_With_User_Info>> team_info = new Dictionary<int, Dictionary<int, Gun_With_User_Info>>();//没读一次user_info都需要刷新
                     //需要表示当前梯队的队长的核心id
-                    foreach (var i in im.userdatasummery.team_info)
+                    foreach (var i in UserDataSummery.team_info)
                     {
                         var item = i.Value;//i.Value ==  Dictionary<int, Gun_With_User_Info>
                         if (item.Values.Count == 0) { continue; }
@@ -487,7 +487,7 @@ namespace GFHelper.Programe
             setTeamInOperation_In_Formation();
             Dictionary<int, Gun_With_User_Info> team_info = new Dictionary<int, Gun_With_User_Info>();
             //如果是空则退出
-            if(im.userdatasummery.team_info[ShowTeamID].Count == 0)
+            if(UserDataSummery.team_info[ShowTeamID].Count == 0)
             {
                 im.mainWindow.Gun1Name.Content = "人形";
                 im.mainWindow.Gun1Lv.Content = "N/A";
@@ -515,7 +515,7 @@ namespace GFHelper.Programe
                 im.mainWindow.Gun5Hp.Content = "N/A";
 
             }
-            team_info = im.userdatasummery.team_info[ShowTeamID];
+            team_info = UserDataSummery.team_info[ShowTeamID];
             im.mainWindow.Dispatcher.Invoke(() =>
             {
                 //public Dictionary<int, Dictionary<int, Gun_With_User_Info>> team_info = new Dictionary<int, Dictionary<int, Gun_With_User_Info>>();//没读一次user_info都需要刷新
@@ -581,43 +581,43 @@ namespace GFHelper.Programe
                 im.mainWindow.Dispatcher.Invoke(() =>
                 {
                     if (im.mainWindow.Task1MT.SelectedIndex == -1) return;
-                    if(im.userdatasummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1].ContainsKey(1))
+                    if(UserDataSummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1].ContainsKey(1))
                     {
-                        im.mainWindow.GUN_1_name.Content = TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(im.userdatasummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1][1].gun_id).ToString());
+                        im.mainWindow.GUN_1_name.Content = TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(UserDataSummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1][1].gun_id).ToString());
                     }
                     else
                     {
                         im.mainWindow.GUN_1_name.Content = "";
                     }
-                    if (im.userdatasummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1].ContainsKey(2))
+                    if (UserDataSummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1].ContainsKey(2))
                     {
-                        im.mainWindow.GUN_2_name.Content = Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(im.userdatasummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1][2].gun_id).ToString());
+                        im.mainWindow.GUN_2_name.Content = Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(UserDataSummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1][2].gun_id).ToString());
                     }
                     else
                     {
                         im.mainWindow.GUN_2_name.Content = "";
                     }
-                    if (im.userdatasummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1].ContainsKey(3))
+                    if (UserDataSummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1].ContainsKey(3))
                     {
-                        im.mainWindow.GUN_3_name.Content = Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(im.userdatasummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1][3].gun_id).ToString());
+                        im.mainWindow.GUN_3_name.Content = Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(UserDataSummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1][3].gun_id).ToString());
 
                     }
                     else
                     {
                         im.mainWindow.GUN_3_name.Content = "";
                     }
-                    if (im.userdatasummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1].ContainsKey(4))
+                    if (UserDataSummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1].ContainsKey(4))
                     {
-                        im.mainWindow.GUN_4_name.Content = Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(im.userdatasummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1][4].gun_id).ToString());
+                        im.mainWindow.GUN_4_name.Content = Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(UserDataSummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1][4].gun_id).ToString());
 
                     }
                     else
                     {
                         im.mainWindow.GUN_4_name.Content = "";
                     }
-                    if (im.userdatasummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1].ContainsKey(5))
+                    if (UserDataSummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1].ContainsKey(5))
                     {
-                        im.mainWindow.GUN_5_name.Content = Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(im.userdatasummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1][5].gun_id).ToString());
+                        im.mainWindow.GUN_5_name.Content = Programe.TextRes.Asset_Textes.ChangeCodeFromeCSV(im.userdatasummery.FindGunName_GunId(UserDataSummery.team_info[im.mainWindow.Task1MT.SelectedIndex + 1][5].gun_id).ToString());
                     }
                     else
                     {

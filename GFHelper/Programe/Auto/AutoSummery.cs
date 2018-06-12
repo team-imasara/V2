@@ -128,14 +128,15 @@ namespace GFHelper.Programe.Auto
         {
             if(im.userdatasummery.kalina_with_user_info.click_num < 5)
             {
-                ProgrameData.TaskList.Add(Programe.TaskList.Click_Kalina);
+                ProgrameData.TaskList.Add(TaskList.Click_Kalina);
                 im.userdatasummery.kalina_with_user_info.click_num++;
             }
         }
+
         public void Auto_Click_Girls_In_Dorm()
         {
             if (NeedAuto_Click_Girls_In_Dorm == false) return;
-            foreach (var k in im.userdatasummery.team_info)
+            foreach (var k in UserData.UserDataSummery.team_info)
             {
                 foreach (var x in k.Value)
                 {
@@ -400,6 +401,7 @@ namespace GFHelper.Programe.Auto
                 Auto_Loop_Start_Finish_Operation_Act();
                 //格琳娜
                 Auto_Click_Kalina();
+
                 Auto_Click_Girls_In_Dorm();
                 //好友电池
                 Auto_Get_Battary();

@@ -9,6 +9,8 @@ GNU General Public License(GPLv3)
 
 
 #更新日志
+v 0.0.5.20
+登陆使用的接口改为游戏的
 v 0.0.5.10
 云图回廊
 登陆改进

@@ -80,7 +80,7 @@ namespace GFHelper.Programe
         public static bool AutoDummyLink;
         public static bool AutoGetMail=true;
         //post返回error 如果累计大于3则 返回false
-        public static int BL_Error_num = 5;
+        public static int BL_Error_num = 2;
 
         public static Dictionary<int, string> dic_Error_Result = new Dictionary<int, string>();
         public static List<TaskListInfo> TaskList = new List<TaskListInfo>();

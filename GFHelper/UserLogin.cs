@@ -26,7 +26,7 @@ namespace GFHelper
                 im.eyLogin.SetAppKey("D5FA256E997E4E728DCEC4FB5111ACDF"); // 设置程序秘钥~一定要设置,否则无法正常使用控件
                 ProgrameData.UserMcCode = im.eyLogin.GetMachineCode();
                 MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-                ProgrameData.UserMcCode = BitConverter.ToString(md5.ComputeHash(UTF8Encoding.Default.GetBytes(ProgrameData.UserMcCode)), 4, 8);
+                ProgrameData.UserMcCode = BitConverter.ToString(md5.ComputeHash(Encoding.Default.GetBytes(ProgrameData.UserMcCode)), 4, 8);
                 ProgrameData.UserMcCode = ProgrameData.UserMcCode.Replace("-", "");
                 ProgrameData.UserMcCode = ProgrameData.UserMcCode.ToLower();
                 ProgrameData.UserMcCode = ProgrameData.UserMcCode.Remove(0, 1);

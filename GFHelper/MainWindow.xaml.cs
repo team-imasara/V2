@@ -257,7 +257,7 @@ namespace GFHelper
         {
             try
             {
-                im.Dic_auto_operation_act[0].team_id = im.userdatasummery.team_info[im.mainWindow.comboBoxOperationTeam1.SelectedIndex + 1][1].team_id;
+                im.Dic_auto_operation_act[0].team_id = UserDataSummery.team_info[im.mainWindow.comboBoxOperationTeam1.SelectedIndex + 1][1].team_id;
             }
             catch (Exception)
             {
@@ -270,7 +270,7 @@ namespace GFHelper
         {
             try
             {
-                im.Dic_auto_operation_act[1].team_id = im.userdatasummery.team_info[im.mainWindow.comboBoxOperationTeam2.SelectedIndex + 1][1].team_id;
+                im.Dic_auto_operation_act[1].team_id = UserDataSummery.team_info[im.mainWindow.comboBoxOperationTeam2.SelectedIndex + 1][1].team_id;
             }
             catch (Exception)
             {
@@ -283,7 +283,7 @@ namespace GFHelper
         {
             try
             {
-                im.Dic_auto_operation_act[2].team_id = im.userdatasummery.team_info[im.mainWindow.comboBoxOperationTeam3.SelectedIndex + 1][1].team_id;
+                im.Dic_auto_operation_act[2].team_id = UserDataSummery.team_info[im.mainWindow.comboBoxOperationTeam3.SelectedIndex + 1][1].team_id;
             }
             catch (Exception)
             {
@@ -296,7 +296,7 @@ namespace GFHelper
         {
             try
             {
-                im.Dic_auto_operation_act[3].team_id = im.userdatasummery.team_info[im.mainWindow.comboBoxOperationTeam4.SelectedIndex + 1][1].team_id;
+                im.Dic_auto_operation_act[3].team_id = UserDataSummery.team_info[im.mainWindow.comboBoxOperationTeam4.SelectedIndex + 1][1].team_id;
             }
             catch (Exception)
             {
@@ -352,7 +352,7 @@ namespace GFHelper
         {
             try
             {
-                if (UIHelp.ShowTeamID < im.userdatasummery.team_info.Count)
+                if (UIHelp.ShowTeamID < UserDataSummery.team_info.Count)
                 {
                     UIHelp.ShowTeamID++;
                     im.uihelp.setTeamInfo_In_Formation();
@@ -418,31 +418,49 @@ namespace GFHelper
         }
         private void Button_Click_7(object sender, RoutedEventArgs e)
         {
+
+            new_User_Normal_MissionInfo nunm = new new_User_Normal_MissionInfo(im.BattleLoop_AN_Teams, im.userdatasummery.user_info.experience);
             MessageBox.Show("请确保已勾选MVP,战斗效能和正确的梯队 重要的人形上锁");
             MessageBox.Show("请确保已勾选MVP,战斗效能和正确的梯队 重要的人形上锁");
             MessageBox.Show("请确保已勾选MVP,战斗效能和正确的梯队 重要的人形上锁");
+
+            if (string.IsNullOrEmpty(Task1TeamE.Text.ToString()))
+            {
+                MessageBox.Show("效能");
+                return;
+            }
+
 
             
             List<string> t = TaskO.Text.ToLower().Split(' ').ToList();
-            
+
 
             var Comboxtaskmap = this.Task1Map.SelectedItem as ComboBoxItem;
-            string TaskMap = Comboxtaskmap.Content.ToString();
+            if (!string.IsNullOrEmpty(Comboxtaskmap.Content.ToString()))
+            {
+                nunm.TaskMap = Comboxtaskmap.Content.ToString();
+            }
+
             foreach (var item in t)
             {
                 if (item.Contains("-map"))
                 {
-                    TaskMap = item.Remove(0,4);
+                    nunm.TaskMap = item.Remove(0,4);
                 }
                 if (item.Contains("-loginnum"))
                 {
                     Int32.TryParse(item.Remove(0, 9), out ProgrameData.BL_ReLogin_num);
                 }
-
+                if (item.Contains("-lv"))
+                {
+                    int requestlv;
+                    Int32.TryParse(item.Remove(0, 3), out requestlv);
+                    nunm.requestLv = requestlv;
+                }
 
             }
 
-            new_User_Normal_MissionInfo nunm = new new_User_Normal_MissionInfo(im.BattleLoop_AN_Teams, TaskMap, im.userdatasummery.user_info.experience);
+
             if (t.Contains("-ns")) nunm.needSupply = false;
             int.TryParse(BattleMaxLoopTime.Text, out nunm.MaxLoopTime);
             im.dic_userbattletaskinfo[0]= nunm;
@@ -490,14 +508,14 @@ namespace GFHelper
             bti.TeamEffect =Convert.ToInt32(Task1TeamE.Text);
             bti.isMainTeam = true;
             bti.TeamID = Task1MT.SelectedIndex + 1;
-            bti.teaminfo = im.userdatasummery.team_info[Task1MT.SelectedIndex+1];
-            if (GUN1_MVP.IsChecked == true) bti.MVP = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][1].id;
-            if (GUN2_MVP.IsChecked == true) bti.MVP = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][2].id;
-            if (GUN3_MVP.IsChecked == true) bti.MVP = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][3].id;
-            if (GUN4_MVP.IsChecked == true) bti.MVP = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][4].id;
-            if (GUN5_MVP.IsChecked == true) bti.MVP = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1][5].id;
+            bti.teaminfo = UserDataSummery.team_info[Task1MT.SelectedIndex+1];
+            //if (GUN1_MVP.IsChecked == true) bti.MVP = UserDataSummery.team_info[Task1MT.SelectedIndex + 1][1].id;
+            //if (GUN2_MVP.IsChecked == true) bti.MVP = UserDataSummery.team_info[Task1MT.SelectedIndex + 1][2].id;
+            //if (GUN3_MVP.IsChecked == true) bti.MVP = UserDataSummery.team_info[Task1MT.SelectedIndex + 1][3].id;
+            //if (GUN4_MVP.IsChecked == true) bti.MVP = UserDataSummery.team_info[Task1MT.SelectedIndex + 1][4].id;
+            //if (GUN5_MVP.IsChecked == true) bti.MVP = UserDataSummery.team_info[Task1MT.SelectedIndex + 1][5].id;
             im.BattleLoop_AN_Teams.Add(bti);
-            BattleTeamsLabel.Content += string.Format("第 {0} 梯队(主力)\r\n", bti.TeamID);
+            BattleTeamsLabel.Content += string.Format("第 {0} 梯队\r\n", bti.TeamID);
         }
 
         private void Button_Click_12(object sender, RoutedEventArgs e)
@@ -506,15 +524,7 @@ namespace GFHelper
             BattleTeamsLabel.Content = "";
         }
 
-        private void Button_Click_13(object sender, RoutedEventArgs e)
-        {
-            BattleTask_team_info bti = new BattleTask_team_info();
-            bti.isMainTeam = false;
-            bti.TeamID = Task1MT.SelectedIndex + 1;
-            bti.teaminfo = im.userdatasummery.team_info[Task1MT.SelectedIndex + 1];
-            im.BattleLoop_AN_Teams.Add(bti);
-            BattleTeamsLabel.Content += string.Format("第 {0} 梯队(辅助)\r\n", bti.TeamID);
-        }
+
 
         private void button_encrypt_Click(object sender, RoutedEventArgs e)
         {
@@ -525,6 +535,16 @@ namespace GFHelper
         private void Button_Click_14(object sender, RoutedEventArgs e)
         {
             im.battleloop_s.BattleCorridor();
+        }
+
+        private void Button_Click_15(object sender, RoutedEventArgs e)
+        {
+            im.dic_userbattletaskinfo[0].Loop = false;
+        }
+
+        private void Button_Click_13(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void AutoOperationB_S4_Click(object sender, RoutedEventArgs e)

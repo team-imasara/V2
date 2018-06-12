@@ -136,6 +136,7 @@
     <Compile Include="CatchData\Fairy_Type_Info.cs" />
     <Compile Include="CatchData\Game_Config_Info.cs" />
     <Compile Include="CatchData\Gun_Exp_Info.cs" />
+    <Compile Include="CatchData\SimpleEncryptStream.cs" />
     <Compile Include="CatchData\Skill.cs" />
     <Compile Include="Programe\Auto\BattleLoop.cs" />
     <Compile Include="Programe\Auto\BattleLoop\BattleLoop_Activity.cs" />
@@ -148,6 +149,9 @@
     <Compile Include="Programe\Auto\BattleLoop\BattleLoop_Simulation.cs" />
     <Compile Include="Programe\GameData.cs" />
     <Compile Include="Programe\Gun_IN_OUT.cs" />
+    <Compile Include="Programe\Login\Login.cs" />
+    <Compile Include="Programe\Login\md5.cs" />
+    <Compile Include="Programe\Login\XXTea.cs" />
     <Compile Include="Programe\ProgramePro\APK\BattleSkillCfg.cs" />
     <Compile Include="Programe\ProgramePro\APK\EffectGridType.cs" />
     <Compile Include="Programe\ProgramePro\APK\enumSkill.cs" />

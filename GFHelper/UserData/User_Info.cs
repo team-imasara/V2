@@ -60,15 +60,5 @@ namespace GFHelper.UserData
         public int material_available_num1;//这是电池
         public int material_available_num2;
         public int dorm_max_score;
-
-
-
-
-
-
-
-
-
-
     }
 }

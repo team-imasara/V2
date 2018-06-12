@@ -22,19 +22,22 @@ namespace GFHelper.Programe
         //Corridor
         public void BattleCorridor()
         {
+            if (im.action.CheckTeamIsEmpty(ProgrameData.AutoDefenseTrialBattleT)) return;
+
+
             BattleTask_team_info bti = new BattleTask_team_info();
             bti.TeamEffect = 25810;
             bti.isMainTeam = true;
             bti.TeamID = ProgrameData.AutoDefenseTrialBattleT;
-            bti.teaminfo = im.userdatasummery.team_info[ProgrameData.AutoDefenseTrialBattleT];
-            bti.MVP = im.userdatasummery.team_info[ProgrameData.AutoDefenseTrialBattleT][1].id;
+            bti.teaminfo = UserData.UserDataSummery.team_info[ProgrameData.AutoDefenseTrialBattleT];
+            //bti.MVP = UserData.UserDataSummery.team_info[ProgrameData.AutoDefenseTrialBattleT][1].id;
             im.BattleLoop_S_Teams.Add(bti);//另外弄个
 
 
 
 
 
-            new_User_Normal_MissionInfo ubti = new new_User_Normal_MissionInfo(im.BattleLoop_S_Teams, "", im.userdatasummery.user_info.experience);
+            new_User_Normal_MissionInfo ubti = new new_User_Normal_MissionInfo(im.BattleLoop_S_Teams, im.userdatasummery.user_info.experience);
 
             Random random = new Random();
             int stepNum = 0; string result = "";
@@ -65,7 +68,7 @@ namespace GFHelper.Programe
 
         public bool Auto_Start_Trial()
         {
-
+            if (im.action.CheckTeamIsEmpty(ProgrameData.AutoDefenseTrialBattleT)) return false;
             if (ProgrameData.AutoSimulationBattleF == false) return true;
             im.uihelp.setStatusBarText_InThread(String.Format(" BP点数 高于5 开始无限防御模式"));
 
@@ -73,6 +76,7 @@ namespace GFHelper.Programe
             while (true)
             {
                 string result = im.post.StartTrial(ProgrameData.AutoDefenseTrialBattleT.ToString());
+
 
                 switch (ResultPro.Result_Pro(ref result, "StartTrial_Pro", true))
                 {
@@ -103,7 +107,7 @@ namespace GFHelper.Programe
 
 
 
-            TrialExercise_Battle_Sent tbs = new TrialExercise_Battle_Sent(im.userdatasummery.team_info[ProgrameData.AutoDefenseTrialBattleT]);
+            TrialExercise_Battle_Sent tbs = new TrialExercise_Battle_Sent(UserData.UserDataSummery.team_info[ProgrameData.AutoDefenseTrialBattleT]);
 
             string outdatacode = tbs.BattleResult;
 

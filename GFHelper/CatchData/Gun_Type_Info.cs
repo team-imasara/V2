@@ -11,7 +11,5 @@ namespace GFHelper.CatchData
         public int id;
         public string name;
         public Dictionary<string, float> data = new Dictionary<string, float>();
-
-
     }
 }
